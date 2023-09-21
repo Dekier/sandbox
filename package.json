@@ -1,0 +1,34 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^0.8.4",
+    "@tweakpane/core": "^2.0.1",
+    "@tweakpane/plugin-essentials": "^0.2.0",
+    "@types/node": "^20.6.3",
+    "nuxt": "^3.7.3",
+    "typescript": "5.2.2"
+  },
+  "volta": {
+    "node": "19.7.0"
+  },
+  "dependencies": {
+    "@tresjs/cientos": "^3.3.0",
+    "@tresjs/core": "^3.2.2",
+    "@tresjs/leches": "^0.10.0",
+    "@tresjs/nuxt": "^1.1.7",
+    "@tresjs/post-processing": "^0.4.0",
+    "postprocessing": "^6.33.1",
+    "three": "^0.156.1",
+    "tweakpane": "^4.0.1",
+    "vite-plugin-glsl": "^1.1.2",
+    "vite-plugin-glslify": "^2.0.2"
+  }
+}
