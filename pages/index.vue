@@ -136,6 +136,9 @@ watch(perspectiveCamera, () => {
       <HauseBoxes />
     </Suspense>
     <Suspense>
+      <HauseName />
+    </Suspense>
+    <Suspense>
       <Telescope />
     </Suspense>
     <Suspense>
