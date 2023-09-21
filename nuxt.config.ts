@@ -6,7 +6,10 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
   modules: ["@tresjs/nuxt", "@hypernym/nuxt-gsap"],
-  css: ["@/assets/styles/main.scss"],
+  css: [
+    { src: "@/assets/styles/main.scss", lang: "sass" },
+    { src: "@tresjs/leches/dist/style.css", lang: "css" },
+  ],
   vite: {
     css: {
       preprocessorOptions: {

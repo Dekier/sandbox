@@ -1,14 +1,10 @@
 <script setup lang="ts">
 // import { Environment } from "@tresjs/cientos";
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
-const { pane } = useTweakPane();
+import { useControls, TresLeches } from "@tresjs/leches";
 const { $gsap } = useNuxtApp();
 
 const isActiveOrbitControl = ref(false);
-// pane.addBlade({
-//   view: "fpsgraph",
-//   label: "fps",
-// });
 
 const gl = {
   shadows: true,
@@ -18,6 +14,8 @@ const gl = {
   toneMappingExposure: 3,
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
 };
+
+useControls("fpsgraph");
 
 let cameraX = ref(20);
 // pane
@@ -96,6 +94,7 @@ watch(perspectiveCamera, () => {
 
 <template>
   <LoadingScreen />
+  <TresLeches />
   <TresCanvas
     clear-color="#DCD1B6"
     window-size
