@@ -59,8 +59,8 @@ if (directionalLight) {
     .addBlade({
       view: "slider",
       label: "directionalLight: x",
-      min: -100,
-      max: 100,
+      min: -25,
+      max: 32,
       value: directionalLight.position.x,
     })
     .on("change", (ev) => {
@@ -71,8 +71,8 @@ if (directionalLight) {
     .addBlade({
       view: "slider",
       label: "directionalLight: y",
-      min: -100,
-      max: 100,
+      min: 15,
+      max: 65,
       value: directionalLight.position.y,
     })
     .on("change", (ev) => {
@@ -83,8 +83,8 @@ if (directionalLight) {
     .addBlade({
       view: "slider",
       label: "directionalLight: z",
-      min: -100,
-      max: 100,
+      min: -25,
+      max: 13,
       value: directionalLight.position.z,
     })
     .on("change", (ev) => {

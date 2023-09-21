@@ -1,18 +1,6 @@
 <script setup lang="ts">
-import { Environment } from "@tresjs/cientos";
-import {
-  PCFSoftShadowMap,
-  CameraHelper,
-  SRGBColorSpace,
-  ACESFilmicToneMapping,
-} from "three";
-const blobRef: Ref<TresObject | null> = ref(null);
-// const sky = new Sky();
-// sky.scale.setScalar(10000);
-
-// scene.value.add(helper);
-// scene.add(sky);
-const { pane } = useTweakPane();
+// import { Environment } from "@tresjs/cientos";
+import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
 
 const gl = {
   shadows: true,
@@ -25,21 +13,6 @@ const gl = {
 </script>
 
 <template>
-  <!-- <TresPerspectiveCamera :position="[11, 11, 11]" />
-    <OrbitControls />
-    <TresMesh ref="blobRef" :position="[0, 4, 0]">
-      <TresSphereGeometry :args="[2, 32, 32]" />
-      <TresShaderMaterial
-        ref="materialRef"
-        :vertex-shader="vertexShader"
-        :fragment-shader="fragmentShader"
-        :uniforms="uniforms"
-      />
-    </TresMesh>
-    <TresMesh :rotation="[-Math.PI / 2, 0, 0]">
-      <TresPlaneGeometry :args="[10, 10, 10, 10]" />
-      <TresMeshBasicMaterial color="#444" />
-    </TresMesh> -->
   <TresCanvas
     clear-color="#dbccb4"
     window-size
@@ -55,14 +28,10 @@ const gl = {
       :near="0.1"
       :far="10000"
     />
-    <!-- <Stars /> -->
     <!-- <Suspense>
       <Environment files="hdrs/hdr2.hdr" :background="true" />
     </Suspense> -->
     <OrbitControls />
-    <!-- <Suspense>
-      <Seaa />
-    </Suspense> -->
     <Suspense>
       <Flag />
     </Suspense>
@@ -82,5 +51,6 @@ const gl = {
       <Ground />
     </Suspense>
     <Light />
+    <!-- <PostProcessing /> -->
   </TresCanvas>
 </template>
