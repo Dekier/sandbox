@@ -15,7 +15,6 @@ const {
 });
 const model = nodes.Plane028;
 const { actions, mixer } = useAnimations(animations, modelScene);
-console.log(actions);
 actions.KeyAction.play();
 
 for (let index = 0; index < model.children.length; index++) {

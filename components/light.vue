@@ -10,8 +10,8 @@ directionalLight.rotation.set(-0.8, -1.7, -0.7);
 directionalLight.intensity = 1;
 directionalLight.castShadow = true;
 directionalLight.shadow.bias = -0.002;
-directionalLight.shadow.mapSize.width = 16384;
-directionalLight.shadow.mapSize.height = 16384;
+directionalLight.shadow.mapSize.width = 2048;
+directionalLight.shadow.mapSize.height = 2048;
 directionalLight.shadow.camera.near = 0.1;
 directionalLight.shadow.camera.far = 80;
 directionalLight.shadow.camera.left = -50;
@@ -32,22 +32,24 @@ scene.value.add(directionalLight);
 //     directionalLight.shadow.bias = ev.value;
 //   });
 
-// pane
-//   .addBlade({
-//     view: "list",
-//     label: "scene",
-//     options: [
-//       { text: "1024", value: 1024 },
-//       { text: "f", value: "MNU" },
-//       { text: "16384", value: 16384 },
-//     ],
-//     value: directionalLight.shadow.mapSize.width,
-//   })
-//   .on("change", (ev) => {
-//     console.log(ev.value);
-//     directionalLight.shadow.mapSize.width = ev.value;
-//     directionalLight.shadow.mapSize.height = ev.value;
-//   });
+pane
+  .addBlade({
+    view: "list",
+    label: "Shadow size:",
+    options: [
+      { text: "512", value: 512 },
+      { text: "1024", value: 1024 },
+      { text: "2048", value: 2048 },
+      { text: "4096", value: 4096 },
+      { text: "8192", value: 8192 },
+      { text: "16384", value: 16384 },
+    ],
+    value: directionalLight.shadow.mapSize.width,
+  })
+  .on("change", (ev) => {
+    directionalLight.shadow.mapSize.set(ev.value, ev.value);
+    directionalLight.shadow.map.setSize(ev.value, ev.value);
+  });
 
 if (directionalLight) {
   // const helper = new DirectionalLightHelper(directionalLight, 5);
@@ -92,9 +94,6 @@ if (directionalLight) {
     });
 }
 const tresDirectionalLight: Ref<TresObject | null> = ref(null);
-watch(tresDirectionalLight, (model) => {
-  console.log(tresDirectionalLight.value);
-});
 </script>
 
 <template>
@@ -103,5 +102,5 @@ watch(tresDirectionalLight, (model) => {
     :position="[2, 4, 8]"
     ref="TresDirectionalLight"
   />
-  <TresHemisphereLight :intensity="0.4" />
+  <TresHemisphereLight :intensity="0.6" />
 </template>
