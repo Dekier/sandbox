@@ -30,7 +30,6 @@ const { renderer, scene, camera } = useTresContext();
 //     value: null,
 //   })
 //   .on("change", (ev) => {
-//     console.log(activePass, ev.value.fragmentShader);
 //     effectComposer?.removePass(activePass);
 
 //     activePass = new EffectPass(camera.value, new ev.value());

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { DirectionalLight, DirectionalLightHelper, CameraHelper } from "three";
 import { useLoader } from "@tresjs/core";
-const { pane } = useTweakPane();
+import { useControls } from "@tresjs/leches";
 
 const { scene, camera } = useTresContext();
 var directionalLight = new DirectionalLight(0xffffff, 2);
@@ -32,66 +32,80 @@ scene.value.add(directionalLight);
 //     directionalLight.shadow.bias = ev.value;
 //   });
 
-pane
-  .addBlade({
-    view: "list",
-    label: "Shadow size:",
+const { value: shadowSizeValue } = useControls({
+  shadow_size: {
+    value: 2048,
     options: [
-      { text: "512", value: 512 },
-      { text: "1024", value: 1024 },
-      { text: "2048", value: 2048 },
-      { text: "4096", value: 4096 },
-      { text: "8192", value: 8192 },
-      { text: "16384", value: 16384 },
+      {
+        text: "512",
+        value: 512,
+      },
+      {
+        text: "1024",
+        value: 1024,
+      },
+      {
+        text: "2048",
+        value: 2048,
+      },
+      {
+        text: "4096",
+        value: 4096,
+      },
+      {
+        text: "8192",
+        value: 8192,
+      },
+      {
+        text: "16384",
+        value: 16384,
+      },
     ],
-    value: directionalLight.shadow.mapSize.width,
-  })
-  .on("change", (ev) => {
-    directionalLight.shadow.mapSize.set(ev.value, ev.value);
-    directionalLight.shadow.map.setSize(ev.value, ev.value);
-  });
+  },
+});
+watch(shadowSizeValue, (value) => {
+  directionalLight.shadow.mapSize.set(value, value);
+  directionalLight.shadow.map.setSize(value, value);
+});
 
 if (directionalLight) {
   // const helper = new DirectionalLightHelper(directionalLight, 5);
   // scene.value.add(helper);
-
   // const helperShadow = new CameraHelper(directionalLight.shadow.camera);
   // scene.value.add(helperShadow);
-  pane
-    .addBlade({
-      view: "slider",
-      label: "directionalLight: x",
+
+  const { value: light_X } = useControls({
+    light_X: {
+      value: directionalLight.position.x,
       min: -25,
       max: 32,
-      value: directionalLight.position.x,
-    })
-    .on("change", (ev) => {
-      directionalLight.position.x = ev.value;
-    });
+    },
+  });
+  watch(light_X, (value) => {
+    directionalLight.position.x = value;
+  });
 
-  pane
-    .addBlade({
-      view: "slider",
-      label: "directionalLight: y",
+  const { value: light_Y } = useControls({
+    light_Y: {
+      value: directionalLight.position.y,
       min: 15,
       max: 65,
-      value: directionalLight.position.y,
-    })
-    .on("change", (ev) => {
-      directionalLight.position.y = ev.value;
-    });
+    },
+  });
+  watch(light_Y, (value) => {
+    directionalLight.position.y = value;
+  });
 
-  pane
-    .addBlade({
-      view: "slider",
-      label: "directionalLight: z",
+  const { value: light_Z } = useControls({
+    light_Z: {
+      value: directionalLight.position.z,
       min: -25,
       max: 13,
-      value: directionalLight.position.z,
-    })
-    .on("change", (ev) => {
-      directionalLight.position.z = ev.value;
-    });
+    },
+  });
+  watch(light_Z, (value) => {
+    directionalLight.position.z = value;
+  });
 }
 const tresDirectionalLight: Ref<TresObject | null> = ref(null);
 </script>
