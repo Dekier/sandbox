@@ -1,0 +1,32 @@
+.Loading {
+  &__main-container {
+    height: $full-height;
+    width: 100%;
+    position: absolute;
+    z-index: 1000;
+    background-color: $background;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__center-container {
+    margin: auto;
+    opacity: 1;
+    @include text(36px, center, $black, $weight: 600);
+
+    &--hide {
+      opacity: 0;
+    }
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  opacity: 1;
+  transition: all 2s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

@@ -2,7 +2,9 @@
 // import { Environment } from "@tresjs/cientos";
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
 const { pane } = useTweakPane();
+const { $gsap } = useNuxtApp();
 
+const isActiveOrbitControl = ref(false);
 // pane.addBlade({
 //   view: "fpsgraph",
 //   label: "fps",
@@ -17,7 +19,7 @@ const gl = {
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
 };
 
-const cameraX = ref(-6);
+let cameraX = ref(20);
 // pane
 //   .addBlade({
 //     view: "slider",
@@ -30,8 +32,8 @@ const cameraX = ref(-6);
 //   .on("change", (ev) => {
 //     cameraX.value = ev.value;
 //   });
-
-const cameraY = ref(9);
+//  $gsap.to(cameraX.value, { })
+let cameraY = ref(20);
 // pane
 //   .addBlade({
 //     view: "slider",
@@ -45,7 +47,7 @@ const cameraY = ref(9);
 //     cameraY.value = ev.value;
 //   });
 
-const cameraZ = ref(20);
+let cameraZ = ref(100);
 // pane
 //   .addBlade({
 //     view: "slider",
@@ -58,12 +60,44 @@ const cameraZ = ref(20);
 //   .on("change", (ev) => {
 //     cameraZ.value = ev.value;
 //   });
-const { onLoop } = useRenderLoop();
+
+const perspectiveCamera: Ref<TresObject | null> = ref(null);
+watch(perspectiveCamera, () => {
+  if (perspectiveCamera.value) {
+    $gsap.to(perspectiveCamera.value.position, {
+      x: -8,
+      y: 7,
+      z: 25,
+      duration: 4,
+      ease: "Power2.easeOut",
+      onComplete() {
+        isActiveOrbitControl.value = true;
+      },
+    });
+    const { onLoop } = useRenderLoop();
+    onLoop(({ _delta, elapsed }) => {
+      cameraX.value = -8;
+      cameraY.value = 7;
+      cameraZ.value = 25;
+    });
+    $gsap.to(perspectiveCamera.value.rotation, {
+      x: -0.17690704200258198,
+      y: -0.4026382120174583,
+      z: -0.06993854928506144,
+      duration: 4.5,
+      ease: "Power2.easeOut",
+      onComplete() {
+        isActiveOrbitControl.value = true;
+      },
+    });
+  }
+});
 </script>
 
 <template>
+  <LoadingScreen />
   <TresCanvas
-    clear-color="#dbccb4"
+    clear-color="#DCD1B6"
     window-size
     preset="realistic"
     ref="renderer"
@@ -77,6 +111,7 @@ const { onLoop } = useRenderLoop();
       :aspect="1"
       :near="0.1"
       :far="100"
+      ref="perspectiveCamera"
     />
     <!-- <Suspense>
       <Environment files="hdrs/hdr2.hdr" :background="true" />
@@ -86,6 +121,7 @@ const { onLoop } = useRenderLoop();
       :minDistance="17"
       :maxDistance="30"
       :maxPolarAngle="Math.PI / 2"
+      :enabled="isActiveOrbitControl"
     />
     <Suspense>
       <Flag />
