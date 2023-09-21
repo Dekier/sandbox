@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Vector2, Color, ShaderMaterial } from "three";
-import { useTweakPane } from "@tresjs/cientos";
 import vertexShader from "@/src/shaders/vertex.glsl";
 import fragmentShader from "@/src/shaders/fragment.glsl";
 
@@ -24,7 +23,6 @@ let uniforms = {
   uColorMultiplier: { value: 5 },
 };
 
-// const { pane } = useTweakPane();
 // pane
 //   .addBlade({
 //     view: "slider",
