@@ -3,6 +3,11 @@
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
 const { pane } = useTweakPane();
 
+// pane.addBlade({
+//   view: "fpsgraph",
+//   label: "fps",
+// });
+
 const gl = {
   shadows: true,
   physicallyCorrectLights: true,
@@ -99,6 +104,12 @@ const { onLoop } = useRenderLoop();
     </Suspense>
     <Suspense>
       <Ground />
+    </Suspense>
+    <Suspense>
+      <Baner />
+    </Suspense>
+    <Suspense>
+      <Lantern />
     </Suspense>
     <Light />
     <!-- <PostProcessing /> -->

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MeshBasicMaterial, TextureLoader } from "three";
+import { MeshBasicMaterial, TextureLoader, MeshToonMaterial } from "three";
 import { useGLTF } from "@tresjs/cientos";
 
 const { nodes } = await useGLTF("/models/hause-bottom.glb", { draco: true });
