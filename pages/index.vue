@@ -122,9 +122,9 @@ watch(perspectiveCamera, () => {
       :maxPolarAngle="Math.PI / 2"
       :enabled="isActiveOrbitControl"
     />
-    <Suspense>
+    <!-- <Suspense>
       <Flag />
-    </Suspense>
+    </Suspense> -->
     <!-- <Suspense>
       <Hause />
     </Suspense> -->
