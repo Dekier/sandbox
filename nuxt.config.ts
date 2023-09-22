@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     port: 4000,
   },
   devtools: { enabled: true },
-  modules: ["@tresjs/nuxt", "@hypernym/nuxt-gsap"],
+  modules: ["@tresjs/nuxt", "@hypernym/nuxt-gsap", "@nuxtjs/device"],
   css: [
     { src: "@/assets/styles/main.scss", lang: "sass" },
     { src: "@tresjs/leches/dist/style.css", lang: "css" },

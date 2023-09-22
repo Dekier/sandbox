@@ -4,14 +4,16 @@ import { useLoader } from "@tresjs/core";
 import { useControls } from "@tresjs/leches";
 
 const { scene, camera } = useTresContext();
+const { isMobile } = useDevice();
+
 var directionalLight = new DirectionalLight(0xffffff, 2);
 directionalLight.position.set(-26, 21, 13);
 directionalLight.rotation.set(-0.8, -1.7, -0.7);
-directionalLight.intensity = 1;
+directionalLight.intensity = 1.5;
 directionalLight.castShadow = true;
 directionalLight.shadow.bias = -0.002;
-directionalLight.shadow.mapSize.width = 2048;
-directionalLight.shadow.mapSize.height = 2048;
+directionalLight.shadow.mapSize.width = isMobile ? 1024 : 2048;
+directionalLight.shadow.mapSize.height = isMobile ? 1024 : 2048;
 directionalLight.shadow.camera.near = 0.1;
 directionalLight.shadow.camera.far = 80;
 directionalLight.shadow.camera.left = -50;
@@ -19,6 +21,7 @@ directionalLight.shadow.camera.right = 50;
 directionalLight.shadow.camera.top = 50;
 directionalLight.shadow.camera.bottom = -50;
 scene.value.add(directionalLight);
+
 // pane
 //   .addBlade({
 //     view: "slider",
@@ -33,31 +36,35 @@ scene.value.add(directionalLight);
 //   });
 
 const { value: shadowSizeValue } = useControls({
-  shadow_size: {
-    value: 2048,
+  Shadows: {
+    value: isMobile ? 1024 : 2048,
     options: [
       {
-        text: "512",
+        text: "XD",
+        value: 256,
+      },
+      {
+        text: "Very Low",
         value: 512,
       },
       {
-        text: "1024",
+        text: "Low",
         value: 1024,
       },
       {
-        text: "2048",
+        text: "Medium",
         value: 2048,
       },
       {
-        text: "4096",
+        text: "High",
         value: 4096,
       },
       {
-        text: "8192",
+        text: "Very High",
         value: 8192,
       },
       {
-        text: "16384",
+        text: "Ultra",
         value: 16384,
       },
     ],
@@ -66,6 +73,14 @@ const { value: shadowSizeValue } = useControls({
 watch(shadowSizeValue, (value) => {
   directionalLight.shadow.mapSize.set(value, value);
   directionalLight.shadow.map.setSize(value, value);
+});
+
+const { value: showShadow } = useControls({
+  Shadows_On: true,
+});
+
+watch(showShadow, (value) => {
+  directionalLight.castShadow = value;
 });
 
 if (directionalLight) {
@@ -112,9 +127,9 @@ const tresDirectionalLight: Ref<TresObject | null> = ref(null);
 
 <template>
   <TresDirectionalLight
-    :intensity="0.5"
+    :intensity="0.2"
     :position="[2, 4, 8]"
     ref="TresDirectionalLight"
   />
-  <TresHemisphereLight :intensity="0.6" />
+  <TresHemisphereLight :intensity="1" />
 </template>
