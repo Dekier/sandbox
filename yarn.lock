@@ -6703,6 +6703,11 @@ tuf-js@^2.1.0:
     debug "^4.3.4"
     make-fetch-happen "^13.0.0"
 
+tweakpane@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/tweakpane/-/tweakpane-4.0.1.tgz#36d8730fa1d44c07da278760e16562505657929a"
+  integrity sha512-1JmmGbF4h2zuFbpN1XfIWcV0kLbBUgSXpR1QtW19vJFx44asnCrufRSvd69OItOFMEWgbVtoiWM2uDPUEUKcMQ==
+
 type-check@~0.3.2:
   version "0.3.2"
   resolved "https://registry.npmjs.org/type-check/-/type-check-0.3.2.tgz"

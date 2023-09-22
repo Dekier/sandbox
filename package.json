@@ -27,6 +27,7 @@
     "postprocessing": "^6.33.1",
     "sass": "^1.68.0",
     "three": "^0.156.1",
+    "tweakpane": "^4.0.1",
     "vite-plugin-glsl": "^1.1.2",
     "vite-plugin-glslify": "^2.0.2"
   }
