@@ -7,31 +7,38 @@ const { $gsap } = useNuxtApp();
 const isActiveOrbitControl = ref(false);
 const { isMobile } = useDevice();
 const gl = {
-  // alfa: false,
+  alfa: false,
   shadows: true,
   physicallyCorrectLights: true,
   gammaFactor: 2.2,
-  antialias: isMobile ? false : true,
   outputColorSpace: SRGBColorSpace,
   toneMapping: ACESFilmicToneMapping,
   toneMappingExposure: 2.4,
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
-  // powerPreference: "high-performance",
+  powerPreference: "high-performance",
 };
+const isActiveAntialias = ref(false);
+isActiveAntialias.value = isMobile ? false : true;
 
 useControls("fpsgraph");
 </script>
 
 <template>
-  <!-- <LoadingScreen />
-  <TresLeches /> -->
-  <TresCanvas clear-color="#E0D6BE" window-size ref="renderer" v-bind="gl">
+  <LoadingScreen />
+  <TresLeches />
+  <TresCanvas
+    clear-color="#E0D6BE"
+    window-size
+    ref="renderer"
+    v-bind="gl"
+    :antialias="isActiveAntialias"
+  >
     <camera />
     <!-- <Suspense>
       <Environment files="hdrs/hdr2.hdr" :background="true" />
     </Suspense> -->
 
-    <!-- <Suspense>
+    <Suspense>
       <Flag />
     </Suspense>
     <Suspense>
@@ -54,7 +61,7 @@ useControls("fpsgraph");
     </Suspense>
     <Suspense>
       <Baner />
-    </Suspense> -->
+    </Suspense>
     <Suspense>
       <Lantern />
     </Suspense>
