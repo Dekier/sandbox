@@ -125,9 +125,9 @@ watch(perspectiveCamera, () => {
     <Suspense>
       <Flag />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <Hause />
-    </Suspense>
+    </Suspense> -->
     <!-- <Suspense>
       <HauseBottom />
     </Suspense> -->
