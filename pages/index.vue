@@ -131,9 +131,9 @@ watch(perspectiveCamera, () => {
     <!-- <Suspense>
       <HauseBottom />
     </Suspense> -->
-    <Suspense>
+    <!-- <Suspense>
       <HauseBoxes />
-    </Suspense>
+    </Suspense> -->
     <Suspense>
       <HauseName />
     </Suspense>
