@@ -34,46 +34,80 @@ scene.value.add(directionalLight);
 //   .on("change", (ev) => {
 //     directionalLight.shadow.bias = ev.value;
 //   });
-
-const { value: shadowSizeValue } = useControls({
-  Shadows: {
-    value: isMobile ? 1024 : 2048,
-    options: [
-      {
-        text: "XD",
-        value: 256,
-      },
-      {
-        text: "Very Low",
-        value: 512,
-      },
-      {
-        text: "Low",
-        value: 1024,
-      },
-      {
-        text: "Medium",
-        value: 2048,
-      },
-      {
-        text: "High",
-        value: 4096,
-      },
-      {
-        text: "Very High",
-        value: 8192,
-      },
-      {
-        text: "Ultra",
-        value: 16384,
-      },
-    ],
-  },
-});
-watch(shadowSizeValue, (value) => {
-  directionalLight.shadow.mapSize.set(value, value);
-  directionalLight.shadow.map.setSize(value, value);
-});
+const listOfSizes = ref();
+if (isMobile) {
+  const { value: shadowSizeValue } = useControls({
+    Shadows: {
+      value: 1024,
+      options: [
+        {
+          text: "XD",
+          value: 256,
+        },
+        {
+          text: "Very Low",
+          value: 512,
+        },
+        {
+          text: "Low",
+          value: 1024,
+        },
+        {
+          text: "Medium",
+          value: 2048,
+        },
+        {
+          text: "High",
+          value: 4096,
+        },
+      ],
+    },
+  });
+  watch(shadowSizeValue, (value) => {
+    directionalLight.shadow.mapSize.set(value, value);
+    directionalLight.shadow.map.setSize(value, value);
+  });
+} else {
+  const { value: shadowSizeValue } = useControls({
+    Shadows: {
+      value: 2048,
+      options: [
+        {
+          text: "XD",
+          value: 256,
+        },
+        {
+          text: "Very Low",
+          value: 512,
+        },
+        {
+          text: "Low",
+          value: 1024,
+        },
+        {
+          text: "Medium",
+          value: 2048,
+        },
+        {
+          text: "High",
+          value: 4096,
+        },
+        {
+          text: "Very High",
+          value: 8192,
+        },
+        {
+          text: "Ultra",
+          value: 16384,
+        },
+      ],
+    },
+  });
+  watch(shadowSizeValue, (value) => {
+    directionalLight.shadow.mapSize.set(value, value);
+    directionalLight.shadow.map.setSize(value, value);
+  });
+}
 
 const { value: showShadow } = useControls({
   Shadows_On: true,
