@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import {
-  AnimationMixer,
-  MeshStandardMaterial,
-  TextureLoader,
-  AnimationClip,
-} from "three";
 import { useLoader } from "@tresjs/core";
 const {
   scene: modelScene,

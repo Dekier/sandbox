@@ -6,7 +6,6 @@ import {
   MeshStandardMaterial,
 } from "three";
 import { useGLTF } from "@tresjs/cientos";
-const { renderer } = useTresContext();
 const { nodes } = await useGLTF("/models/hause.glb", { draco: true });
 const model = nodes.glass001;
 model.children[model.children.length - 1].material.dispose();
