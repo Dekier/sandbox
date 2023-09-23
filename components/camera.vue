@@ -88,7 +88,7 @@ watch(perspectiveCamera, () => {
   <OrbitControls
     :enablePan="false"
     :minDistance="17"
-    :maxDistance="30"
+    :maxDistance="80"
     :maxPolarAngle="Math.PI / 2"
     :enabled="isActiveOrbitControl"
   />

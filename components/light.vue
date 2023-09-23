@@ -7,15 +7,15 @@ const { scene, camera } = useTresContext();
 const { isMobile } = useDevice();
 
 var directionalLight = new DirectionalLight(0xffffff, 2);
-directionalLight.position.set(-26, 21, 13);
+directionalLight.position.set(-25, 15, 30);
 directionalLight.rotation.set(-0.8, -1.7, -0.7);
 directionalLight.intensity = 1.5;
 directionalLight.castShadow = true;
 directionalLight.shadow.bias = -0.002;
-directionalLight.shadow.mapSize.width = isMobile ? 1024 : 2048;
-directionalLight.shadow.mapSize.height = isMobile ? 1024 : 2048;
+directionalLight.shadow.mapSize.width = isMobile ? 1024 : 4096;
+directionalLight.shadow.mapSize.height = isMobile ? 1024 : 4096;
 directionalLight.shadow.camera.near = 0.1;
-directionalLight.shadow.camera.far = 80;
+directionalLight.shadow.camera.far = 90;
 directionalLight.shadow.camera.left = -50;
 directionalLight.shadow.camera.right = 50;
 directionalLight.shadow.camera.top = 50;
@@ -70,7 +70,7 @@ if (isMobile) {
 } else {
   const { value: shadowSizeValue } = useControls({
     Shadows: {
-      value: 2048,
+      value: 4096,
       options: [
         {
           text: "XD",
@@ -149,7 +149,7 @@ if (directionalLight) {
     light_Z: {
       value: directionalLight.position.z,
       min: -25,
-      max: 13,
+      max: 30,
     },
   });
   watch(light_Z, (value) => {

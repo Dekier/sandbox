@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import {
-  MeshBasicMaterial,
-  Mesh,
-  PlaneGeometry,
-  MeshStandardMaterial,
-} from "three";
+import { MeshBasicMaterial } from "three";
 import { useGLTF } from "@tresjs/cientos";
 const { nodes } = await useGLTF("/models/hause.glb", { draco: true });
-const model = nodes.glass001;
+const model = nodes.test001;
 model.children[model.children.length - 1].material.dispose();
 model.children[model.children.length - 1].material = new MeshBasicMaterial({
   color: 0x000000,

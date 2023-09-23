@@ -45,12 +45,6 @@ useControls("fpsgraph");
       <Hause />
     </Suspense>
     <Suspense>
-      <HauseBottom />
-    </Suspense>
-    <Suspense>
-      <HauseBoxes />
-    </Suspense>
-    <Suspense>
       <HauseName />
     </Suspense>
     <Suspense>
