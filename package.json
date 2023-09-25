@@ -20,8 +20,9 @@
     "node": "19.7.0"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.11",
     "@tresjs/cientos": "^3.3.0",
-    "@tresjs/core": "^3.2.2",
+    "@tresjs/core": "^3.2.3",
     "@tresjs/leches": "^0.10.0",
     "@tresjs/nuxt": "^1.1.7",
     "@tresjs/post-processing": "^0.4.0",
