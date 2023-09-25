@@ -13,7 +13,7 @@
   &__center-container {
     margin: auto;
     opacity: 1;
-    @include text(36px, center, $black, $weight: 600);
+    @include text(36px, center, $black, 600);
 
     &--hide {
       opacity: 0;

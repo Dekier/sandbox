@@ -1,0 +1,137 @@
+.Settings {
+  &__main-container {
+    position: fixed;
+    top: 70px;
+    right: 24px;
+    z-index: 1000;
+    width: 260px;
+    height: 0;
+    background-color: $background-white;
+    border: 0px solid $border;
+    border-radius: 24px;
+    transition: border 300ms, height 300ms, border-radius 300ms, padding 300ms;
+    padding: 0;
+    overflow-y: hidden;
+    &--active {
+      border: 2px solid $border;
+      height: 500px;
+      padding: 16px 0;
+    }
+  }
+
+  &__title {
+    letter-spacing: 1.2px;
+    @include text(24px, left, $black, 600);
+    border-bottom: 1px solid $border;
+    margin-bottom: 16px;
+    padding: 0 16px 16px;
+    font-family: "Inter", sans-serif;
+  }
+
+  &__subtitle {
+    letter-spacing: 1px;
+    @include text(18px, left, $black, 600);
+    padding: 12px 16px 12px;
+    font-family: "Inter", sans-serif;
+  }
+
+  &__label {
+    letter-spacing: 1px;
+    @include text(14px, left, $black, 500);
+    padding: 0 16px 8px;
+    font-family: "Inter", sans-serif;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    padding: 0 16px 16px;
+    position: relative;
+  }
+
+  &__button-turn-on-off {
+    border: 2px solid $border;
+    padding: 6px 12px;
+    margin-right: 8px;
+    border-radius: 12px;
+    @include text(14px, left, $black, 500);
+    font-family: "Inter", sans-serif;
+    background-color: $background-disabled;
+    cursor: pointer;
+
+    &--active {
+      opacity: 1;
+      background-color: $background-white;
+    }
+  }
+
+  &__select {
+    z-index: 2;
+    padding: 6px 12px;
+    border-radius: 12px;
+    @include text(14px, left, $black, 500);
+    font-family: "Inter", sans-serif;
+    background-color: transparent;
+    border: 2px solid $border;
+    width: 100%;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    option {
+      border: 2px solid $border;
+      padding: 30px;
+      @include text(16px, left, $black, 500);
+      font-family: "Inter", sans-serif;
+    }
+  }
+
+  &__arrow-select {
+    position: absolute;
+    width: 16px;
+    right: 24px;
+    top: 50%;
+    transform: translateY(calc(-50% - 7px));
+    z-index: 1;
+  }
+
+  &__slider {
+    margin: 0 16px 16px;
+    -webkit-appearance: none;
+    width: calc(100% - 32px);
+    height: 12px;
+    background-color: $background-disabled;
+    border-radius: 12px;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: $background-white;
+      border: 2px solid $border;
+      cursor: pointer;
+    }
+
+    &:hover {
+      opacity: 1;
+      &::-webkit-slider-thumb {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  &__line {
+    width: calc(100% - 32px);
+    background-color: $border;
+    height: 1px;
+    margin: 0 16px;
+    opacity: 0.1;
+  }
+}

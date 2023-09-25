@@ -1,0 +1,4 @@
+<template>
+  <HudButtons />
+  <HudSettings />
+</template>
