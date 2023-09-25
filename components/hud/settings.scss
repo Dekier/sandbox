@@ -9,13 +9,13 @@
     background-color: $background-white;
     border: 0px solid $border;
     border-radius: 24px;
-    transition: border 500ms, height 500ms, border-radius 500ms, padding 500ms;
+    transition: border 100ms, height 500ms, border-radius 500ms, padding 500ms;
     padding: 0;
     overflow-y: hidden;
     &--active {
       border: 2px solid $border;
-      height: 500px;
-      padding: 16px 0;
+      height: 470px;
+      padding: 16px 0 0;
     }
   }
 
@@ -96,6 +96,7 @@
   }
 
   &__slider {
+    cursor: pointer;
     margin: 0 16px 16px;
     -webkit-appearance: none;
     width: calc(100% - 32px);

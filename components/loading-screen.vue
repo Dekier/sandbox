@@ -9,7 +9,7 @@ const { hasFinishLoading, progress } = await useProgress();
     <div v-show="!hasFinishLoading" class="Loading__main-container">
       <div
         class="Loading__center-container"
-        :class="{ 'Loading__center-container--hide': !hasFinishLoading }"
+        :class="{ 'Loading__center-container--hide': hasFinishLoading }"
       >
         Loading... {{ progress }} %
       </div>
