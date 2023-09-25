@@ -6,6 +6,18 @@ const { isMobile } = useDevice();
 import { useHudStore } from "~/stores/hud";
 const hudStore = useHudStore();
 
+const title = ref("Marcin Dekier");
+const description = ref("Marcin Dekier Sandbox (Portfolio)");
+useHead({
+  title,
+  meta: [
+    {
+      name: "description",
+      content: description,
+    },
+  ],
+});
+
 const gl = {
   alfa: false,
   shadows: true,
@@ -26,9 +38,9 @@ useControls("fpsgraph");
 <template>
   <HudGeneral />
   <LoadingScreen />
-  <dev-only>
-    <!-- <TresLeches /> -->
-  </dev-only>
+  <!-- <dev-only> -->
+  <!-- <TresLeches /> -->
+  <!-- </dev-only> -->
   <client-only>
     <TresCanvas
       clear-color="#E0D6BE"
@@ -45,7 +57,7 @@ useControls("fpsgraph");
       <Suspense>
         <Flag />
       </Suspense>
-      <!-- <Suspense>
+      <Suspense>
         <Hause />
       </Suspense>
       <Suspense>
@@ -63,7 +75,7 @@ useControls("fpsgraph");
       <Suspense>
         <Lantern />
       </Suspense>
-      <Light /> -->
+      <Light />
       <!-- <PostProcessing /> -->
     </TresCanvas>
   </client-only>
