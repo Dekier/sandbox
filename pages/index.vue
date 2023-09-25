@@ -39,25 +39,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <HudGeneral />
+  <!-- <HudGeneral /> -->
   <!-- <LoadingScreen /> -->
   <!-- <dev-only> -->
   <!-- <TresLeches /> -->
   <!-- </dev-only> -->
-  <client-only>
-    <TresCanvas
-      clear-color="#E0D6BE"
-      window-size
-      ref="renderer"
-      v-bind="gl"
-      :antialias="isActiveAntialias"
-    >
-      <camera />
-      <!-- <Suspense>
+  <TresCanvas clear-color="#E0D6BE" window-size ref="renderer">
+    <camera />
+    <!-- <Suspense>
       <Environment files="hdrs/hdr2.hdr" :background="true" />
     </Suspense> -->
 
-      <!-- 
+    <!-- 
       <Suspense>
         <Hause />
       </Suspense>
@@ -77,13 +70,12 @@ onMounted(() => {
         <Lantern />
       </Suspense>
       <Light /> -->
-      <!-- <PostProcessing /> -->
-      <Suspense>
-        <Flag />
-      </Suspense>
-      <Suspense>
-        <Ground />
-      </Suspense>
-    </TresCanvas>
-  </client-only>
+    <!-- <PostProcessing /> -->
+    <Suspense>
+      <Flag />
+    </Suspense>
+    <Suspense>
+      <Ground />
+    </Suspense>
+  </TresCanvas>
 </template>

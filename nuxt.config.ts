@@ -12,12 +12,12 @@ export default defineNuxtConfig({
   modules: [
     "@tresjs/nuxt",
     "@hypernym/nuxt-gsap",
-    [
-      "@pinia/nuxt",
-      {
-        autoImports: ["defineStore", "definePiniaStore"],
-      },
-    ],
+    // [
+    //   "@pinia/nuxt",
+    //   {
+    //     autoImports: ["defineStore", "definePiniaStore"],
+    //   },
+    // ],
   ],
   css: [
     { src: "@/assets/styles/main.scss", lang: "sass" },
