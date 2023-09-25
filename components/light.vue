@@ -9,9 +9,10 @@ const { isActiveShadows, shadowSize, lightX, lightY, lightZ } =
 
 const { scene, camera } = useTresContext();
 
-import { useGeneralStore } from "~/stores/general";
-const generalStore = useGeneralStore();
-const { isMobile } = storeToRefs(generalStore);
+// import { useGeneralStore } from "~/stores/general";
+// const generalStore = useGeneralStore();
+// const { isMobile } = storeToRefs(generalStore);
+const isMobile = ref(false);
 var directionalLight = new DirectionalLight(0xffffff, 2);
 directionalLight.position.set(lightX.value, lightY.value, lightZ.value);
 directionalLight.rotation.set(-0.8, -1.7, -0.7);

@@ -2,21 +2,21 @@
 import { ref, onMounted } from "vue";
 // import { Environment } from "@tresjs/cientos";
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
-import { TresLeches, useControls } from "@tresjs/leches";
-import { useGeneralStore } from "~/stores/general";
-const generalStore = useGeneralStore();
+// import { TresLeches, useControls } from "@tresjs/leches";
+// import { useGeneralStore } from "~/stores/general";
+// const generalStore = useGeneralStore();
 
-const title = ref("Marcin Dekier");
-const description = ref("Marcin Dekier Sandbox (Portfolio)");
-useHead({
-  title,
-  meta: [
-    {
-      name: "description",
-      content: description,
-    },
-  ],
-});
+// const title = ref("Marcin Dekier");
+// const description = ref("Marcin Dekier Sandbox (Portfolio)");
+// useHead({
+//   title,
+//   meta: [
+//     {
+//       name: "description",
+//       content: description,
+//     },
+//   ],
+// });
 
 const gl = {
   alfa: false,
@@ -32,16 +32,15 @@ const gl = {
 const isActiveAntialias = ref(false);
 onMounted(() => {
   isActiveAntialias.value = !navigator.userAgentData.mobile;
-  generalStore.setIsMobile(navigator.userAgentData.mobile);
+  // generalStore.setIsMobile(navigator.userAgentData.mobile);
 });
-// isActiveAntialias.value = isMobile ? false : true;
 
-useControls("fpsgraph");
+// useControls("fpsgraph");
 </script>
 
 <template>
   <HudGeneral />
-  <LoadingScreen />
+  <!-- <LoadingScreen /> -->
   <!-- <dev-only> -->
   <!-- <TresLeches /> -->
   <!-- </dev-only> -->
@@ -58,9 +57,7 @@ useControls("fpsgraph");
       <Environment files="hdrs/hdr2.hdr" :background="true" />
     </Suspense> -->
 
-      <Suspense>
-        <Flag />
-      </Suspense>
+      <!-- 
       <Suspense>
         <Hause />
       </Suspense>
@@ -79,8 +76,14 @@ useControls("fpsgraph");
       <Suspense>
         <Lantern />
       </Suspense>
-      <Light />
+      <Light /> -->
       <!-- <PostProcessing /> -->
+      <Suspense>
+        <Flag />
+      </Suspense>
+      <Suspense>
+        <Ground />
+      </Suspense>
     </TresCanvas>
   </client-only>
 </template>

@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     dirs: ["store"],
   },
 
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: [
     "@tresjs/nuxt",
     "@hypernym/nuxt-gsap",
