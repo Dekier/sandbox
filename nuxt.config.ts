@@ -8,6 +8,12 @@ export default defineNuxtConfig({
     dirs: ["store"],
   },
 
+  head: {
+    htmlAttrs: {
+      lang: "en",
+    },
+  },
+
   devtools: { enabled: true },
   modules: [
     "@tresjs/nuxt",

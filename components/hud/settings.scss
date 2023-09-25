@@ -9,7 +9,7 @@
     background-color: $background-white;
     border: 0px solid $border;
     border-radius: 24px;
-    transition: border 300ms, height 300ms, border-radius 300ms, padding 300ms;
+    transition: border 500ms, height 500ms, border-radius 500ms, padding 500ms;
     padding: 0;
     overflow-y: hidden;
     &--active {
@@ -134,4 +134,15 @@
     margin: 0 16px;
     opacity: 0.1;
   }
+}
+
+.title-enter-active,
+.title-leave-active {
+  opacity: 1;
+  transition: all 2s;
+  transition-delay: 500ms;
+}
+.title-enter-from,
+.title-leave-to {
+  opacity: 0;
 }

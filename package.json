@@ -17,7 +17,7 @@
     "typescript": "5.2.2"
   },
   "volta": {
-    "node": "19.7.0"
+    "node": "20.7.0"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
