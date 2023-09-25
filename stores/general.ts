@@ -1,20 +1,16 @@
 interface State {
-  userToken: string | null;
+  isMobile: boolean;
 }
 export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
     return {
-      userToken: "",
+      isMobile: false,
     };
   },
   getters: {},
   actions: {
-    setUserToken(data: string | null) {
-      this.userToken = data;
+    setIsMobile(data: boolean) {
+      this.isMobile = data;
     },
   },
 });
-
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useGeneralStore, import.meta.hot));
-}

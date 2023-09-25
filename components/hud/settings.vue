@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useHudStore } from "~/stores/hud";
-const { isMobile } = useDevice();
+import { useGeneralStore } from "~/stores/general";
+const generalStore = useGeneralStore();
+const { isMobile } = storeToRefs(generalStore);
 const hudStore = useHudStore();
-const shadowSize = ref(isMobile ? 1024 : 4096);
+const shadowSize = ref(isMobile.value ? 1024 : 4096);
 const lightX = ref(-25);
 const lightY = ref(15);
 const lightZ = ref(30);
@@ -10,7 +13,7 @@ const openSettingsHud = () => {
   hudStore.setIsSettingsHud();
 };
 
-hudStore.setShadowSize(isMobile ? 1024 : 4096);
+hudStore.setShadowSize(isMobile.value ? 1024 : 4096);
 
 const switchShadows = (data: boolean) => {
   hudStore.setActiveShadows(data);

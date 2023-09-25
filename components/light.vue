@@ -8,16 +8,18 @@ const { isActiveShadows, shadowSize, lightX, lightY, lightZ } =
   storeToRefs(hudStore);
 
 const { scene, camera } = useTresContext();
-const { isMobile } = useDevice();
 
+import { useGeneralStore } from "~/stores/general";
+const generalStore = useGeneralStore();
+const { isMobile } = storeToRefs(generalStore);
 var directionalLight = new DirectionalLight(0xffffff, 2);
 directionalLight.position.set(lightX.value, lightY.value, lightZ.value);
 directionalLight.rotation.set(-0.8, -1.7, -0.7);
 directionalLight.intensity = 1.5;
 directionalLight.castShadow = true;
 directionalLight.shadow.bias = -0.002;
-directionalLight.shadow.mapSize.width = isMobile ? 1024 : 4096;
-directionalLight.shadow.mapSize.height = isMobile ? 1024 : 4096;
+directionalLight.shadow.mapSize.width = isMobile.value ? 1024 : 4096;
+directionalLight.shadow.mapSize.height = isMobile.value ? 1024 : 4096;
 directionalLight.shadow.camera.near = 0.1;
 directionalLight.shadow.camera.far = 90;
 directionalLight.shadow.camera.left = -50;

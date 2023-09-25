@@ -12,7 +12,6 @@ export default defineNuxtConfig({
   modules: [
     "@tresjs/nuxt",
     "@hypernym/nuxt-gsap",
-    "@nuxtjs/device",
     [
       "@pinia/nuxt",
       {
