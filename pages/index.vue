@@ -27,7 +27,7 @@ useControls("fpsgraph");
   <HudGeneral />
   <LoadingScreen />
   <dev-only>
-    <TresLeches />
+    <!-- <TresLeches /> -->
   </dev-only>
   <client-only>
     <TresCanvas

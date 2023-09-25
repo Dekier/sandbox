@@ -104,7 +104,7 @@ const changeLightZ = () => {
       class="Settings__slider"
       @input="changeLightX"
     />
-    <p class="Settings__label">Up / Down</p>
+    <p class="Settings__label">Down / Up</p>
     <input
       v-model="lightY"
       type="range"
@@ -113,7 +113,7 @@ const changeLightZ = () => {
       class="Settings__slider"
       @input="changeLightY"
     />
-    <p class="Settings__label">Forward / Backwards</p>
+    <p class="Settings__label">Backwards / Forward</p>
     <input
       v-model="lightZ"
       type="range"
