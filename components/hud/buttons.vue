@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useHudStore } from "~/stores/hud";
 const hudStore = useHudStore();
-
 const openSettingsHud = () => {
   hudStore.setIsSettingsHud();
 };
@@ -9,15 +8,10 @@ const openSettingsHud = () => {
 const { onLoop } = useRenderLoop();
 let frames = 0,
   prevTime = performance.now();
-onLoop(() => {
+onLoop(({ _delta, elapsed }) => {
   frames++;
   const time = performance.now();
-
-  console.log("lol1: ", time >= prevTime + 1000);
-  console.log("time: ", time);
-  console.log("prevTime: ", prevTime);
   if (time >= prevTime + 1000) {
-    console.log("lol");
     hudStore.setFps(Math.round((frames * 1000) / (time - prevTime)));
 
     frames = 0;

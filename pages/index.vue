@@ -26,7 +26,9 @@ useControls("fpsgraph");
 <template>
   <HudGeneral />
   <LoadingScreen />
-  <!-- <TresLeches /> -->
+  <dev-only>
+    <TresLeches />
+  </dev-only>
   <client-only>
     <TresCanvas
       clear-color="#E0D6BE"
