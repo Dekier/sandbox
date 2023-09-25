@@ -11,7 +11,6 @@
   "devDependencies": {
     "@hypernym/nuxt-gsap": "^2.4.1",
     "@nuxt/devtools": "^0.8.5",
-    "@nuxtjs/device": "^3.1.1",
     "@types/node": "^20.6.5",
     "nuxt": "^3.7.3",
     "typescript": "5.2.2"

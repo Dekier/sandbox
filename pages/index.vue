@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 // import { Environment } from "@tresjs/cientos";
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
 import { TresLeches, useControls } from "@tresjs/leches";
-const { isMobile } = useDevice();
-import { useHudStore } from "~/stores/hud";
-const hudStore = useHudStore();
+import { useGeneralStore } from "~/stores/general";
+const generalStore = useGeneralStore();
 
 const title = ref("Marcin Dekier");
 const description = ref("Marcin Dekier Sandbox (Portfolio)");
@@ -30,7 +30,11 @@ const gl = {
   powerPreference: "high-performance",
 };
 const isActiveAntialias = ref(false);
-isActiveAntialias.value = isMobile ? false : true;
+onMounted(() => {
+  isActiveAntialias.value = !navigator.userAgentData.mobile;
+  generalStore.setIsMobile(navigator.userAgentData.mobile);
+});
+// isActiveAntialias.value = isMobile ? false : true;
 
 useControls("fpsgraph");
 </script>
