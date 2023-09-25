@@ -45,7 +45,7 @@ useControls("fpsgraph");
       <Suspense>
         <Flag />
       </Suspense>
-      <Suspense>
+      <!-- <Suspense>
         <Hause />
       </Suspense>
       <Suspense>
@@ -63,7 +63,7 @@ useControls("fpsgraph");
       <Suspense>
         <Lantern />
       </Suspense>
-      <Light />
+      <Light /> -->
       <!-- <PostProcessing /> -->
     </TresCanvas>
   </client-only>
