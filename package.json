@@ -10,9 +10,8 @@
   },
   "devDependencies": {
     "@hypernym/nuxt-gsap": "^2.4.1",
-    "@nuxt/devtools": "^0.8.5",
-    "@types/node": "^20.6.5",
-    "nuxt": "^3.7.3",
+    "@types/node": "^20.7.0",
+    "nuxt": "^3.7.4",
     "typescript": "5.2.2"
   },
   "volta": {
@@ -22,10 +21,7 @@
     "@pinia/nuxt": "^0.4.11",
     "@tresjs/cientos": "^3.3.0",
     "@tresjs/core": "^3.2.3",
-    "@tresjs/leches": "^0.10.0",
     "@tresjs/nuxt": "^1.1.7",
-    "@tresjs/post-processing": "^0.4.0",
-    "postprocessing": "^6.33.1",
     "sass": "^1.68.0",
     "three": "^0.156.1",
     "tweakpane": "^4.0.1",

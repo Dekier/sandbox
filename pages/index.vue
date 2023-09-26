@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-// import { Environment } from "@tresjs/cientos";
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
-import { TresLeches, useControls } from "@tresjs/leches";
 import { useGeneralStore } from "~/stores/general";
 const generalStore = useGeneralStore();
 
@@ -34,9 +32,6 @@ onMounted(() => {
   isActiveAntialias.value = !navigator.userAgentData.mobile;
   generalStore.setIsMobile(navigator.userAgentData.mobile);
 });
-// isActiveAntialias.value = isMobile ? false : true;
-
-useControls("fpsgraph");
 </script>
 
 <template>

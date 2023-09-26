@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { DirectionalLight, DirectionalLightHelper, CameraHelper } from "three";
-import { useControls } from "@tresjs/leches";
 import { useHudStore } from "~/stores/hud";
 import { storeToRefs } from "pinia";
 const hudStore = useHudStore();
