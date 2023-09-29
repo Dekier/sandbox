@@ -5,7 +5,6 @@ import {
   PlaneGeometry,
   MeshStandardMaterial,
 } from "three";
-import { useGLTF } from "@tresjs/cientos";
 
 const { scene } = useTresContext();
 
@@ -14,7 +13,7 @@ const mesh = new Mesh(
   new MeshStandardMaterial({ color: 0xccb489 })
 );
 mesh.rotation.x = -Math.PI / 2;
-mesh.position.y = -1.5;
+mesh.position.y = -1.67;
 mesh.receiveShadow = true;
 scene.value.add(mesh);
 </script>

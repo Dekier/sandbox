@@ -38,21 +38,20 @@ const { renderer, scene, camera } = useTresContext();
 //     effectComposer?.addPass(activePass);
 //   });
 
-// const { value: shadowSizeValue } = useControls({
-//   post: {
-//     value: null,
-//     options: [
-//       { text: "DotScreen", value: DotScreenEffect },
-//       { text: "Bloom", value: BloomEffect },
-//       { text: "Glitch", value: GlitchEffect },
+const { value: shadowSizeValue } = useControls({
+  post: {
+    value: null,
+    options: [
+      { text: "DotScreen", value: DotScreenEffect },
+      { text: "Bloom", value: BloomEffect },
+      { text: "Glitch", value: GlitchEffect },
 
-//       { text: "ChromaticAberrationEffect", value: ChromaticAberrationEffect },
-//       { text: "None", value: null },
-//     ],
-//   },
-// });
+      { text: "ChromaticAberrationEffect", value: ChromaticAberrationEffect },
+      { text: "None", value: null },
+    ],
+  },
+});
 watch(shadowSizeValue, (value) => {
-  console.log(value);
   effectComposer?.removePass(activePass);
 
   activePass = new EffectPass(camera.value, new SMAAEffect());

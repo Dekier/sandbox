@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useHudStore } from "~/stores/hud";
-import { useGeneralStore } from "~/stores/general";
-const generalStore = useGeneralStore();
-const { isMobile } = storeToRefs(generalStore);
+const { isMobile } = useDevice();
 const hudStore = useHudStore();
-const shadowSize = ref(isMobile.value ? 1024 : 4096);
+const shadowSize = ref(isMobile ? 1024 : 4096);
 const lightX = ref(-25);
 const lightY = ref(15);
 const lightZ = ref(30);
-const openSettingsHud = () => {
-  hudStore.setIsSettingsHud();
-};
 
-hudStore.setShadowSize(isMobile.value ? 1024 : 4096);
+hudStore.setShadowSize(isMobile ? 1024 : 4096);
 
 const switchShadows = (data: boolean) => {
   hudStore.setActiveShadows(data);
@@ -33,6 +28,10 @@ const changeLightY = () => {
 
 const changeLightZ = () => {
   hudStore.setLightZ(lightZ.value);
+};
+
+const switchCamera = (data) => {
+  hudStore.setCharacterCameraIsActive(data);
 };
 </script>
 
@@ -125,6 +124,32 @@ const changeLightZ = () => {
       class="Settings__slider"
       @input="changeLightZ"
     />
+    <div class="Settings__line" />
+    <p class="Settings__subtitle" v-if="!isMobile">Camera</p>
+    <div v-if="!isMobile" class="Settings__row">
+      <button
+        type="button"
+        class="Settings__button-turn-on-off"
+        :class="{
+          'Settings__button-turn-on-off--active':
+            !hudStore.isActiveCharacterCamera,
+        }"
+        @click="switchCamera(false)"
+      >
+        House
+      </button>
+      <button
+        type="button"
+        class="Settings__button-turn-on-off"
+        :class="{
+          'Settings__button-turn-on-off--active':
+            hudStore.isActiveCharacterCamera,
+        }"
+        @click="switchCamera(true)"
+      >
+        Character
+      </button>
+    </div>
   </div>
 </template>
 <style lang="scss">

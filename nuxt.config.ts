@@ -7,7 +7,6 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["stores"],
   },
-
   modules: [
     "@tresjs/nuxt",
     "@hypernym/nuxt-gsap",
@@ -17,8 +16,10 @@ export default defineNuxtConfig({
         autoImports: ["defineStore", "definePiniaStore"],
       },
     ],
+    "@nuxtjs/device",
   ],
-  css: ["@/assets/styles/main.scss"],
+
+  css: ["@/assets/styles/main.scss", "@tresjs/leches/dist/style.css"],
   vite: {
     css: {
       preprocessorOptions: {

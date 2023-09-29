@@ -1,16 +1,10 @@
-interface State {
-  isMobile: boolean;
-}
+interface State {}
 export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
-    return {
-      isMobile: false,
-    };
+    return {};
   },
   getters: {},
   actions: {
-    setIsMobile(data: boolean) {
-      this.isMobile = data;
-    },
+    setIsMobile(data: boolean) {},
   },
 });

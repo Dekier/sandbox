@@ -1,0 +1,55 @@
+.Controls {
+  &__main-container {
+    position: fixed;
+    left: 24px;
+    bottom: 24px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  &__label {
+    width: 46px;
+    height: 46px;
+    border: 2px solid $border;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 4px;
+    opacity: 0.4;
+
+    @include text(32px, center, $border, 600);
+    transition: scale 100ms, opacity 100ms;
+    &--active {
+      opacity: 0.8;
+      scale: 1.1;
+    }
+  }
+
+  &__label-big {
+    width: 100px;
+    height: 46px;
+    border: 2px solid $border;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 12px 0 0;
+    opacity: 0.4;
+
+    @include text(32px, center, $border, 600);
+    letter-spacing: 2px;
+    transition: scale 100ms, opacity 100ms;
+    &--active {
+      opacity: 0.8;
+      scale: 1.1;
+    }
+  }
+}

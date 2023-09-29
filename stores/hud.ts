@@ -6,6 +6,7 @@ interface State {
   lightX: number;
   lightY: number;
   lightZ: number;
+  isActiveCharacterCamera: boolean;
 }
 export const useHudStore = defineStore("HudStore", {
   state: (): State => {
@@ -17,6 +18,7 @@ export const useHudStore = defineStore("HudStore", {
       lightX: -25,
       lightY: 15,
       lightZ: 30,
+      isActiveCharacterCamera: false,
     };
   },
   getters: {},
@@ -41,6 +43,9 @@ export const useHudStore = defineStore("HudStore", {
     },
     setLightZ(data: number) {
       this.lightZ = data;
+    },
+    setCharacterCameraIsActive(data: boolean) {
+      this.isActiveCharacterCamera = data;
     },
   },
 });

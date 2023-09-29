@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
-import { useGeneralStore } from "~/stores/general";
-const generalStore = useGeneralStore();
 
 const title = ref("Marcin Dekier");
 const description = ref("Marcin Dekier Sandbox (Portfolio)");
@@ -16,6 +13,7 @@ useHead({
   ],
 });
 
+const { isMobile } = useDevice();
 const gl = {
   alfa: false,
   shadows: true,
@@ -27,55 +25,58 @@ const gl = {
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
   powerPreference: "high-performance",
 };
+
 const isActiveAntialias = ref(false);
-onMounted(() => {
-  isActiveAntialias.value = !navigator.userAgentData.mobile;
-  generalStore.setIsMobile(navigator.userAgentData.mobile);
-});
+isActiveAntialias.value = isMobile ? false : true;
 </script>
 
 <template>
   <HudGeneral />
   <LoadingScreen />
-  <!-- <dev-only> -->
-  <!-- <TresLeches /> -->
-  <!-- </dev-only> -->
-  <client-only>
-    <TresCanvas
-      clear-color="#E0D6BE"
-      window-size
-      ref="renderer"
-      v-bind="gl"
-      :antialias="isActiveAntialias"
-    >
-      <camera />
-      <!-- <Suspense>
-      <Environment files="hdrs/hdr2.hdr" :background="true" />
+  <TresCanvas
+    clear-color="#E0D6BE"
+    window-size
+    ref="renderer"
+    v-bind="gl"
+    :antialias="isActiveAntialias"
+  >
+    <Camera />
+    <Light />
+    <Suspense>
+      <Hause />
+    </Suspense>
+    <Suspense>
+      <HauseName />
+    </Suspense>
+    <Suspense>
+      <Lantern />
+    </Suspense>
+    <Suspense>
+      <Flag />
+    </Suspense>
+    <Suspense>
+      <Ground />
+    </Suspense>
+    <Suspense>
+      <Telescope />
+    </Suspense>
+    <Suspense>
+      <Character />
+    </Suspense>
+    <!-- <Suspense>
+      <Tree />
     </Suspense> -->
-
-      <Suspense>
-        <Flag />
-      </Suspense>
-      <Suspense>
-        <Hause />
-      </Suspense>
-      <Suspense>
-        <HauseName />
-      </Suspense>
-      <Suspense>
-        <Telescope />
-      </Suspense>
-      <Suspense>
-        <Ground />
-      </Suspense>
-      <Suspense>
-        <Baner />
-      </Suspense>
-      <Suspense>
-        <Lantern />
-      </Suspense>
-      <Light />
-      <!-- <PostProcessing /> -->
-    </TresCanvas>
-  </client-only>
+    <Suspense>
+      <Baner />
+    </Suspense>
+    <Suspense>
+      <ModelsWardrobeAll />
+    </Suspense>
+    <Suspense>
+      <ModelsRocks />
+    </Suspense>
+    <Suspense>
+      <ModelsSmallTree />
+    </Suspense>
+  </TresCanvas>
 </template>
