@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { MeshBasicMaterial } from "three";
+import { MeshBasicMaterial, Vector3 } from "three";
 const { $gsap } = useNuxtApp();
 import { storeToRefs } from "pinia";
 import { useHudStore } from "~/stores/hud";
 const storeHud = useHudStore();
 import { useCharacterStore } from "~/stores/character";
 const characterStore = useCharacterStore();
-const { keys, angle } = storeToRefs(characterStore);
+const { keys, angle, jumpHeight, isJumping } = storeToRefs(characterStore);
 import { useGLTF } from "@tresjs/cientos";
 const { nodes } = await useGLTF("/models/character.glb", { draco: true });
 const speed = ref(0.0);
@@ -30,6 +30,7 @@ modelCharacter.traverse((child: any) => {
 });
 
 const { onLoop } = useRenderLoop();
+const moveDirection = new Vector3();
 onLoop(() => {
   if (modelCharacter && storeHud.isActiveCharacterCamera) {
     modelCharacter.rotation.y = angle.value;
@@ -58,8 +59,7 @@ onLoop(() => {
       }
     }
 
-    // velocity.value += (speed.value - velocity.value) * 0.6;
-    velocity.value += speed.value - velocity.value;
+    velocity.value += (speed.value - velocity.value) * 0.6;
     if (keys.value.w) {
       modelCharacter.position.z -= velocity.value;
       modelCamera.position.z -= velocity.value;
@@ -74,6 +74,7 @@ onLoop(() => {
       if (keys.value.s) {
         modelCharacter.position.x += velocity.value;
         modelCamera.position.x += velocity.value;
+        console.log(velocity.value);
       } else {
         modelCharacter.position.x -= velocity.value;
         modelCamera.position.x -= velocity.value;
@@ -89,14 +90,52 @@ onLoop(() => {
         modelCamera.position.x += velocity.value;
       }
     }
+    if (keys.value.space && !isJumping.value) {
+      characterStore.setIsJumping(true);
+      jump();
+    }
+  }
+
+  moveDirection.z = Number(keys.value.s) - Number(keys.value.w);
+  moveDirection.x = Number(keys.value.d) - Number(keys.value.a);
+  moveDirection.normalize(); // Normalizacja wektora
+  if (moveDirection.length() > 0) {
+    const angle = Math.atan2(moveDirection.x, moveDirection.z);
+    characterStore.setAngle(angle);
   }
 });
+
+const jump = () => {
+  $gsap.to(modelCharacter.position, {
+    y: modelCharacter.position.y + jumpHeight.value,
+    duration: 0.4,
+    ease: "power1.out",
+    onComplete: () => {
+      $gsap.to(modelCharacter.position, {
+        y: -1.5,
+        duration: 0.4,
+        ease: "power1.in",
+        onComplete: () => {
+          characterStore.setIsJumping(false);
+        },
+      });
+    },
+  });
+};
 const defaultKeys = {
   a: false,
   s: false,
   d: false,
   w: false,
   shiftleft: false,
+  space: false,
+} as {
+  a: boolean;
+  s: boolean;
+  d: boolean;
+  w: boolean;
+  shiftleft: boolean;
+  space: boolean;
 };
 document.body.addEventListener("keydown", function (e) {
   const key = e.code.replace("Key", "").toLowerCase();

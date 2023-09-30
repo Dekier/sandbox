@@ -8,10 +8,16 @@
     flex-direction: column;
   }
 
-  &__row {
+  &__row-center {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    max-width: 162px;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: row;
   }
 
   &__label {
@@ -51,5 +57,11 @@
       opacity: 0.8;
       scale: 1.1;
     }
+  }
+
+  &__text {
+    margin: auto 12px;
+    padding-top: 12px;
+    @include text(22px, center, $border, 600);
   }
 }
