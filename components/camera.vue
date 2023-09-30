@@ -96,8 +96,6 @@ const cameraSettings = () => {
           goal.position.addScaledVector(dir, dis);
           if (perspectiveCamera.value && positionCharacterLookAt.value) {
             perspectiveCamera.value.lookAt(positionCharacterLookAt.value);
-            const angle = Math.atan2(dir.x, dir.z);
-            characterStore.setAngle(angle);
           }
         }
       });

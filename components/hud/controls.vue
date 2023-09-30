@@ -8,7 +8,7 @@ const storeHud = useHudStore();
 
 <template>
   <div v-if="storeHud.isActiveCharacterCamera" class="Controls__main-container">
-    <div class="Controls__row">
+    <div class="Controls__row-center">
       <div
         class="Controls__label"
         :class="{ 'Controls__label--active': storeCharacter.keys.w }"
@@ -16,7 +16,7 @@ const storeHud = useHudStore();
         W
       </div>
     </div>
-    <div class="Controls__row">
+    <div class="Controls__row-center">
       <div
         class="Controls__label"
         :class="{ 'Controls__label--active': storeCharacter.keys.a }"
@@ -36,11 +36,25 @@ const storeHud = useHudStore();
         D
       </div>
     </div>
-    <div
-      class="Controls__label-big"
-      :class="{ 'Controls__label-big--active': storeCharacter.keys.shiftleft }"
-    >
-      SHIFT
+    <div class="Controls__row">
+      <div
+        class="Controls__label-big"
+        :class="{
+          'Controls__label-big--active': storeCharacter.keys.shiftleft,
+        }"
+      >
+        SHIFT
+      </div>
+      <p class="Controls__text">SPRINT</p>
+    </div>
+    <div class="Controls__row">
+      <div
+        class="Controls__label-big"
+        :class="{ 'Controls__label-big--active': storeCharacter.keys.space }"
+      >
+        SPACE
+      </div>
+      <p class="Controls__text">JUMP</p>
     </div>
   </div>
 </template>

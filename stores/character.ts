@@ -7,8 +7,11 @@ interface State {
     d: boolean;
     w: boolean;
     shiftleft: boolean;
+    space: boolean;
   };
   angle: number;
+  jumpHeight: number;
+  isJumping: boolean;
 }
 export const useCharacterStore = defineStore("CharacterStore", {
   state: (): State => {
@@ -21,8 +24,11 @@ export const useCharacterStore = defineStore("CharacterStore", {
         d: false,
         w: false,
         shiftleft: false,
+        space: false,
       },
       angle: 0,
+      jumpHeight: 2,
+      isJumping: false,
     };
   },
   getters: {},
@@ -42,6 +48,9 @@ export const useCharacterStore = defineStore("CharacterStore", {
     },
     setAngle(data: number) {
       this.angle = data;
+    },
+    setIsJumping(data: boolean) {
+      this.isJumping = data;
     },
   },
 });
