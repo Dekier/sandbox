@@ -86,18 +86,31 @@ const cameraSettings = () => {
       const coronaSafetyDistance = 0.3;
       goal.position.z = -coronaSafetyDistance;
       goal.add(perspectiveCamera.value);
-
-      onLoop(() => {
-        if (hudStore.isActiveCharacterCamera) {
-          a.lerp(positionCharacterLookAt.value, 0.4);
-          b.copy(goal.position);
-          dir.copy(a).sub(b).normalize();
-          const dis = a.distanceTo(b) - coronaSafetyDistance;
-          goal.position.addScaledVector(dir, dis);
+      $gsap.to(goal.position, {
+        x: positionCharacterLookAt.value.x,
+        y: positionCharacterLookAt.value.y,
+        z: positionCharacterLookAt.value.z - coronaSafetyDistance,
+        duration: 2,
+        onUpdate() {
           if (perspectiveCamera.value && positionCharacterLookAt.value) {
             perspectiveCamera.value.lookAt(positionCharacterLookAt.value);
           }
-        }
+        },
+        onComplete() {
+          perspectiveCamera.value.lookAt(positionCharacterLookAt.value);
+          onLoop(() => {
+            if (hudStore.isActiveCharacterCamera) {
+              a.lerp(positionCharacterLookAt.value, 0.5);
+              b.copy(goal.position);
+              dir.copy(a).sub(b).normalize();
+              const dis = a.distanceTo(b) - coronaSafetyDistance;
+              goal.position.addScaledVector(dir, dis);
+              if (perspectiveCamera.value && positionCharacterLookAt.value) {
+                perspectiveCamera.value.lookAt(positionCharacterLookAt.value);
+              }
+            }
+          });
+        },
       });
     }
   }

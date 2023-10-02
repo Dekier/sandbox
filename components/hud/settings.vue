@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { useHudStore } from "~/stores/hud";
 const { isMobile } = useDevice();
 const hudStore = useHudStore();
@@ -31,7 +30,13 @@ const changeLightZ = () => {
 };
 
 const switchCamera = (data) => {
-  hudStore.setCharacterCameraIsActive(data);
+  if (!hudStore.isSwitchCameraAnimation) {
+    hudStore.setCharacterCameraIsActive(data);
+    hudStore.setIsSwitchCameraAnimation(true);
+    setTimeout(() => {
+      hudStore.setIsSwitchCameraAnimation(false);
+    }, 2200);
+  }
 };
 </script>
 

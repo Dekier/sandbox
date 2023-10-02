@@ -3,10 +3,13 @@ import { MeshBasicMaterial, Vector3 } from "three";
 const { $gsap } = useNuxtApp();
 import { useGLTF } from "@tresjs/cientos";
 import { useCharacterStore } from "~/stores/character";
+import { useHudStore } from "~/stores/hud";
 import { storeToRefs } from "pinia";
 const characterStore = useCharacterStore();
+const hudStore = useHudStore();
 const { positionCharacter, angle, keys, jumpHeight } =
   storeToRefs(characterStore);
+const { isActiveCharacterCamera } = storeToRefs(hudStore);
 const { nodes } = await useGLTF("/models/hat.glb", { draco: true });
 const model = nodes.hat;
 model.children[model.children.length - 1].material.dispose();
@@ -23,6 +26,7 @@ const { onLoop } = useRenderLoop();
 const isJumping = ref(false);
 
 onLoop(() => {
+  if (!isActiveCharacterCamera.value) return;
   if (model.position) {
     if (angle) {
       $gsap.to(model.rotation, { y: -angle.value, duration: 0.5 });

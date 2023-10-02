@@ -59,7 +59,7 @@ onLoop(() => {
       }
     }
 
-    velocity.value += (speed.value - velocity.value) * 0.6;
+    velocity.value += speed.value - velocity.value;
     if (keys.value.w) {
       modelCharacter.position.z -= velocity.value;
       modelCamera.position.z -= velocity.value;
@@ -74,7 +74,6 @@ onLoop(() => {
       if (keys.value.s) {
         modelCharacter.position.x += velocity.value;
         modelCamera.position.x += velocity.value;
-        console.log(velocity.value);
       } else {
         modelCharacter.position.x -= velocity.value;
         modelCamera.position.x -= velocity.value;

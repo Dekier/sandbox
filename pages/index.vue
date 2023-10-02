@@ -34,7 +34,7 @@ isActiveAntialias.value = isMobile ? false : true;
   <HudGeneral />
   <LoadingScreen />
   <TresCanvas
-    clear-color="#E0D6BE"
+    clear-color="#D6C9AC"
     window-size
     ref="renderer"
     v-bind="gl"

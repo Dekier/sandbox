@@ -7,6 +7,7 @@ interface State {
   lightY: number;
   lightZ: number;
   isActiveCharacterCamera: boolean;
+  isSwitchCameraAnimation: boolean;
 }
 export const useHudStore = defineStore("HudStore", {
   state: (): State => {
@@ -19,6 +20,7 @@ export const useHudStore = defineStore("HudStore", {
       lightY: 15,
       lightZ: 30,
       isActiveCharacterCamera: false,
+      isSwitchCameraAnimation: false,
     };
   },
   getters: {},
@@ -46,6 +48,9 @@ export const useHudStore = defineStore("HudStore", {
     },
     setCharacterCameraIsActive(data: boolean) {
       this.isActiveCharacterCamera = data;
+    },
+    setIsSwitchCameraAnimation(data: boolean) {
+      this.isSwitchCameraAnimation = data;
     },
   },
 });
