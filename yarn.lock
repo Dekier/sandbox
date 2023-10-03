@@ -1064,10 +1064,18 @@
     stats.js "^0.17.0"
     three-stdlib "2.25.0"
 
-"@tresjs/core@3.2.3", "@tresjs/core@^3.2.3":
+"@tresjs/core@3.2.3":
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/@tresjs/core/-/core-3.2.3.tgz#646bbfdb97ec670a0772ddea63deb784a67b41c4"
   integrity sha512-3HSw152Hp0Xfjt/wE8gTMoOwvbQNppi8Sz3an3j9YXEEm7t66Eyf7L3EJXwWjRNqlhjv4F9Vof0FMqAuXifw1g==
+  dependencies:
+    "@alvarosabu/utils" "^3.1.1"
+    "@vueuse/core" "^10.3.0"
+
+"@tresjs/core@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@tresjs/core/-/core-3.3.0.tgz#4e1d7d78118f60f84367ae24dad41d9341cabdce"
+  integrity sha512-kG+tBCRUvBBtaSWQkTkEQkYOhgvMoOwperT2ZmeIIK0tGXITNq+GY7ys6v5d8eFcAh+npY9us461j66VDU7Y0w==
   dependencies:
     "@alvarosabu/utils" "^3.1.1"
     "@vueuse/core" "^10.3.0"
@@ -4623,6 +4631,11 @@ three@^0.156.1:
   version "0.156.1"
   resolved "https://registry.yarnpkg.com/three/-/three-0.156.1.tgz#bab4fec121a5b3975eb4f4d227d9c912171eb399"
   integrity sha512-kP7H0FK9d/k6t/XvQ9FO6i+QrePoDcNhwl0I02+wmUJRNSLCUIDMcfObnzQvxb37/0Uc9TDT0T1HgsRRrO6SYQ==
+
+three@^0.157.0:
+  version "0.157.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.157.0.tgz#5baac531941fc8c4ca62d45ee4265652e03318d0"
+  integrity sha512-CeAwQrf4x3z0/e+MC4F+nXLW5t0gh3pw+L6CCBqpHvOq3bGYIgRYub7Pv0j/9wR+d++OiEglyZzWyuSYbwWGOA==
 
 tiny-inflate@^1.0.3:
   version "1.0.3"

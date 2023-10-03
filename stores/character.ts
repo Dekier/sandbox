@@ -27,7 +27,7 @@ export const useCharacterStore = defineStore("CharacterStore", {
         space: false,
       },
       angle: 0,
-      jumpHeight: 2,
+      jumpHeight: 2.3,
       isJumping: false,
     };
   },
