@@ -2,22 +2,21 @@
 import { MeshBasicMaterial, Vector3, Object3D } from "three";
 import { storeToRefs } from "pinia";
 const { $gsap } = useNuxtApp();
-const { nodes } = await useGLTF("/models/small-tree.glb", {
+const { nodes } = await useGLTF("/models/grass.glb", {
   draco: true,
 });
 import { useCharacterStore } from "~/stores/character";
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
 const models: Object3D[] = [];
-
-if (nodes.smallTree) {
+if (nodes.grass) {
   const calculateDistance = (point1: Vector3, point2: Vector3) => {
     const dx = point2.x - point1.x;
     const dz = point2.z - point1.z;
     return Math.sqrt(dx * dx + dz * dz);
   };
   const createModelClone = () => {
-    const clone = nodes.smallTree.clone();
+    const clone = nodes.grass.clone();
     clone.children.forEach((child) => {
       child.receiveShadow = true;
       child.castShadow = true;
@@ -28,16 +27,17 @@ if (nodes.smallTree) {
       color: 0x000000,
     });
 
-    clone.position.x = Math.random() * 10 + 14 - Math.random();
+    clone.position.x = Math.random() * 10 + 30 - Math.random();
     clone.position.z = Math.random() * 10 + -11 - Math.random();
-    const randomScale = Math.random() * 1.3 + 1;
+    const randomScale = Math.random() * 0.7 + 1;
     clone.scale.set(randomScale, randomScale, randomScale);
-
     return clone;
   };
-  for (let index = 0; index < 15; index++) {
+  for (let index = 0; index < 400; index++) {
     models.push(createModelClone());
   }
+
+  models.forEach((model) => {});
 
   const maxRotation = 1;
   const maxDistance = 1.5;
@@ -56,7 +56,7 @@ if (nodes.smallTree) {
     const signY = direction.x > 0 ? 1 : -1;
 
     $gsap.to(model.rotation, {
-      duration: 0.7,
+      duration: 0.3,
       x: limitedAngleX * sign,
       z: limitedAngleY * signY,
       ease: "power4.easeOut",

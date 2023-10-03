@@ -10,8 +10,8 @@ const hudStore = useHudStore();
 const { positionCharacter, angle, keys, jumpHeight } =
   storeToRefs(characterStore);
 const { isActiveCharacterCamera } = storeToRefs(hudStore);
-const { nodes } = await useGLTF("/models/hat.glb", { draco: true });
-const model = nodes.hat;
+const { nodes } = await useGLTF("/models/arms.glb", { draco: true });
+const model = nodes.arms;
 model.children[model.children.length - 1].material.dispose();
 model.children[model.children.length - 1].material = new MeshBasicMaterial({
   color: 0x000000,
@@ -29,7 +29,7 @@ onLoop(() => {
   if (!isActiveCharacterCamera.value) return;
   if (model.position) {
     if (angle) {
-      $gsap.to(model.rotation, { y: -angle.value, duration: 0.5 });
+      $gsap.to(model.rotation, { y: angle.value, duration: 0.5 });
     }
     model.position.x = positionCharacter.value.x;
     model.position.z = positionCharacter.value.z;
@@ -39,6 +39,7 @@ onLoop(() => {
     }
   }
 });
+
 const jump = () => {
   $gsap.to(model.position, {
     y: model.position.y + jumpHeight.value,

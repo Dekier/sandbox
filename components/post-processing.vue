@@ -71,12 +71,9 @@ watchEffect(() => {
     renderer.value.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     effectComposer = new EffectComposer(renderer.value);
     effectComposer.addPass(new RenderPass(scene.value, camera.value));
-    console.log(renderer.value.capabilities.isWebGL2);
     if (renderer.value.getPixelRatio() === 1) {
       const smaaPass = new SMAAPass();
       effectComposer.addPass(smaaPass);
-
-      console.log("Using SMAA");
     }
 
     onLoop(() => {

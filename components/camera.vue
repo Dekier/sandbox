@@ -20,7 +20,6 @@ const perspectiveCamera: Ref<TresObject | null> = ref(null);
 const { onLoop } = useRenderLoop();
 
 watch(perspectiveCamera, () => {
-  console.log(perspectiveCamera.value);
   cameraX.value = 10;
   cameraY.value = 10;
   cameraZ.value = 50;

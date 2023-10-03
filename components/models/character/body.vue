@@ -8,7 +8,7 @@ import { useCharacterStore } from "~/stores/character";
 const characterStore = useCharacterStore();
 const { keys, angle, jumpHeight, isJumping } = storeToRefs(characterStore);
 import { useGLTF } from "@tresjs/cientos";
-const { nodes } = await useGLTF("/models/character.glb", { draco: true });
+const { nodes } = await useGLTF("/models/body.glb", { draco: true });
 const speed = ref(0.0);
 const velocity = ref(0.0);
 const modelCharacter = nodes.character;
@@ -28,9 +28,63 @@ modelCharacter.traverse((child: any) => {
     child.receiveShadow = true;
   }
 });
+x: 2.2;
+z: 4.1;
 
+x: 10.7;
+z: 4.1;
 const { onLoop } = useRenderLoop();
 const moveDirection = new Vector3();
+const blockW = () => {
+  return (
+    (modelCharacter.position.z <= 4.1 &&
+      modelCharacter.position.z >= 3 &&
+      modelCharacter.position.x >= 2.35 &&
+      modelCharacter.position.x <= 10.98) ||
+    (modelCharacter.position.z <= 4.1 &&
+      modelCharacter.position.x <= -2.3 &&
+      modelCharacter.position.x >= -9.95) ||
+    (modelCharacter.position.z <= 12 &&
+      modelCharacter.position.z >= 11 &&
+      modelCharacter.position.x >= -2.35 &&
+      modelCharacter.position.x <= 2.35)
+  );
+};
+
+const blockS = () => {
+  return (
+    modelCharacter.position.z >= -11 &&
+    modelCharacter.position.z <= -10 &&
+    modelCharacter.position.x <= 11 &&
+    modelCharacter.position.x >= -9.7
+  );
+};
+
+const blockA = () => {
+  return (
+    (modelCharacter.position.z <= 11.94 &&
+      modelCharacter.position.z >= 3 &&
+      modelCharacter.position.x <= 2.4 &&
+      modelCharacter.position.x >= 1) ||
+    (modelCharacter.position.x <= 11 &&
+      modelCharacter.position.x >= 10 &&
+      modelCharacter.position.z <= 4 &&
+      modelCharacter.position.z >= -11)
+  );
+};
+const blockD = () => {
+  return (
+    (modelCharacter.position.z >= 4 &&
+      modelCharacter.position.z <= 11.94 &&
+      modelCharacter.position.x >= -2.4 &&
+      modelCharacter.position.x <= -1.4) ||
+    (modelCharacter.position.z <= 4 &&
+      modelCharacter.position.z >= -10.6 &&
+      modelCharacter.position.x >= -10 &&
+      modelCharacter.position.x <= -9)
+  );
+};
+
 onLoop(() => {
   if (modelCharacter && storeHud.isActiveCharacterCamera) {
     modelCharacter.rotation.y = angle.value;
@@ -61,32 +115,40 @@ onLoop(() => {
 
     velocity.value += speed.value - velocity.value;
     if (keys.value.w) {
-      modelCharacter.position.z -= velocity.value;
-      modelCamera.position.z -= velocity.value;
+      if (!blockW()) {
+        modelCharacter.position.z -= velocity.value;
+        modelCamera.position.z -= velocity.value;
+      }
     }
 
     if (keys.value.s) {
-      modelCharacter.position.z -= velocity.value;
-      modelCamera.position.z -= velocity.value;
+      if (!blockS()) {
+        modelCharacter.position.z -= velocity.value;
+        modelCamera.position.z -= velocity.value;
+      }
     }
 
     if (keys.value.a) {
-      if (keys.value.s) {
-        modelCharacter.position.x += velocity.value;
-        modelCamera.position.x += velocity.value;
-      } else {
-        modelCharacter.position.x -= velocity.value;
-        modelCamera.position.x -= velocity.value;
+      if (!blockA()) {
+        if (keys.value.s) {
+          modelCharacter.position.x += velocity.value;
+          modelCamera.position.x += velocity.value;
+        } else {
+          modelCharacter.position.x -= velocity.value;
+          modelCamera.position.x -= velocity.value;
+        }
       }
     }
 
     if (keys.value.d) {
-      if (keys.value.s) {
-        modelCharacter.position.x -= velocity.value;
-        modelCamera.position.x -= velocity.value;
-      } else {
-        modelCharacter.position.x += velocity.value;
-        modelCamera.position.x += velocity.value;
+      if (!blockD()) {
+        if (keys.value.s) {
+          modelCharacter.position.x -= velocity.value;
+          modelCamera.position.x -= velocity.value;
+        } else {
+          modelCharacter.position.x += velocity.value;
+          modelCamera.position.x += velocity.value;
+        }
       }
     }
     if (keys.value.space && !isJumping.value) {
@@ -111,7 +173,7 @@ const jump = () => {
     ease: "power1.out",
     onComplete: () => {
       $gsap.to(modelCharacter.position, {
-        y: -1.5,
+        y: -1.4,
         duration: 0.4,
         ease: "power1.in",
         onComplete: () => {

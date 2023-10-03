@@ -38,6 +38,7 @@ const switchCamera = (data) => {
     }, 2200);
   }
 };
+switchCamera(true);
 </script>
 
 <template>

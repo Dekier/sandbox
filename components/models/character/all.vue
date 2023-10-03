@@ -1,0 +1,4 @@
+<template>
+  <ModelsCharacterBody />
+  <ModelsCharacterArms />
+</template>

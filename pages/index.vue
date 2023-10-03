@@ -61,7 +61,7 @@ isActiveAntialias.value = isMobile ? false : true;
       <Telescope />
     </Suspense>
     <Suspense>
-      <Character />
+      <ModelsCharacterAll />
     </Suspense>
     <!-- <Suspense>
       <Tree />
@@ -76,7 +76,13 @@ isActiveAntialias.value = isMobile ? false : true;
       <ModelsRocks />
     </Suspense>
     <Suspense>
+      <ModelsPlatesPlateSmallTree />
+    </Suspense>
+    <Suspense>
       <ModelsSmallTree />
+    </Suspense>
+    <Suspense>
+      <ModelsGrass />
     </Suspense>
   </TresCanvas>
 </template>
