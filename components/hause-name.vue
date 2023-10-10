@@ -6,7 +6,6 @@ const { nodes } = await useGLTF("/models/hause-name.glb", { draco: true });
 const model = nodes.Text001;
 
 for (let index = 0; index < model.children.length; index++) {
-  model.children[index].material.envMapIntensity = 0;
   model.children[index].receiveShadow = true;
   model.children[index].castShadow = true;
 }

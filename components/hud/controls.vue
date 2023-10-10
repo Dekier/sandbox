@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { useCharacterStore } from "~/stores/character";
-const storeCharacter = useCharacterStore();
-
-import { useHudStore } from "~/stores/hud";
-const storeHud = useHudStore();
+const storeControls = useControlsStore();
+const { keys } = storeToRefs(storeControls);
+const { isMobile } = useDevice();
 </script>
 
 <template>
-  <div v-if="storeHud.isActiveCharacterCamera" class="Controls__main-container">
+  <div v-if="!isMobile" class="Controls__main-container">
     <div class="Controls__row-center">
       <div
         class="Controls__label"
-        :class="{ 'Controls__label--active': storeCharacter.keys.w }"
+        :class="{ 'Controls__label--active': keys.w }"
       >
         W
       </div>
@@ -19,19 +17,19 @@ const storeHud = useHudStore();
     <div class="Controls__row-center">
       <div
         class="Controls__label"
-        :class="{ 'Controls__label--active': storeCharacter.keys.a }"
+        :class="{ 'Controls__label--active': keys.a }"
       >
         A
       </div>
       <div
         class="Controls__label"
-        :class="{ 'Controls__label--active': storeCharacter.keys.s }"
+        :class="{ 'Controls__label--active': keys.s }"
       >
         S
       </div>
       <div
         class="Controls__label"
-        :class="{ 'Controls__label--active': storeCharacter.keys.d }"
+        :class="{ 'Controls__label--active': keys.d }"
       >
         D
       </div>
@@ -40,7 +38,7 @@ const storeHud = useHudStore();
       <div
         class="Controls__label-big"
         :class="{
-          'Controls__label-big--active': storeCharacter.keys.shiftleft,
+          'Controls__label-big--active': keys.shiftleft,
         }"
       >
         SHIFT
@@ -50,7 +48,7 @@ const storeHud = useHudStore();
     <div class="Controls__row">
       <div
         class="Controls__label-big"
-        :class="{ 'Controls__label-big--active': storeCharacter.keys.space }"
+        :class="{ 'Controls__label-big--active': keys.space }"
       >
         SPACE
       </div>

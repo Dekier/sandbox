@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useHudStore } from "~/stores/hud";
 const hudStore = useHudStore();
 const openSettingsHud = () => {
   hudStore.setIsSettingsHud();

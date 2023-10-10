@@ -12,6 +12,8 @@ useHead({
     },
   ],
 });
+const characterStore = useCharacterStore();
+const { positionCharacter } = storeToRefs(characterStore);
 
 const { isMobile } = useDevice();
 const gl = {
@@ -63,14 +65,11 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <ModelsCharacterAll />
     </Suspense>
-    <!-- <Suspense>
-      <Tree />
-    </Suspense> -->
     <Suspense>
       <Baner />
     </Suspense>
     <Suspense>
-      <ModelsWardrobeAll />
+      <ModelsWardrobeAll v-if="positionCharacter" />
     </Suspense>
     <Suspense>
       <ModelsRocks />
@@ -79,10 +78,26 @@ isActiveAntialias.value = isMobile ? false : true;
       <ModelsPlatesPlateSmallTree />
     </Suspense>
     <Suspense>
-      <ModelsSmallTree />
+      <ModelsSmallTree v-if="positionCharacter" />
     </Suspense>
     <Suspense>
-      <ModelsGrass />
+      <ModelsGrass v-if="positionCharacter" />
     </Suspense>
+    <Suspense>
+      <ModelsGrass1 v-if="positionCharacter" />
+    </Suspense>
+    <Suspense>
+      <ModelsGrass2 v-if="positionCharacter" />
+    </Suspense>
+    <Suspense>
+      <ModelsToolBox v-if="positionCharacter" />
+    </Suspense>
+    <Suspense>
+      <ModelsTable v-if="positionCharacter" />
+    </Suspense>
+
+    <!-- <Suspense>
+      <Shaders v-if="positionCharacter" />
+    </Suspense> -->
   </TresCanvas>
 </template>

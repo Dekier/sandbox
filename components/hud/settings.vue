@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useHudStore } from "~/stores/hud";
 const { isMobile } = useDevice();
 const hudStore = useHudStore();
 const shadowSize = ref(isMobile ? 1024 : 4096);
@@ -29,16 +28,12 @@ const changeLightZ = () => {
   hudStore.setLightZ(lightZ.value);
 };
 
-const switchCamera = (data) => {
-  if (!hudStore.isSwitchCameraAnimation) {
-    hudStore.setCharacterCameraIsActive(data);
-    hudStore.setIsSwitchCameraAnimation(true);
-    setTimeout(() => {
-      hudStore.setIsSwitchCameraAnimation(false);
-    }, 2200);
-  }
+const switchCamera = (data: boolean) => {
+  hudStore.setIsActiveOutline(data);
 };
-switchCamera(true);
+const switchColorOutline = (data: string) => {
+  hudStore.setColorOutline(data);
+};
 </script>
 
 <template>
@@ -131,29 +126,63 @@ switchCamera(true);
       @input="changeLightZ"
     />
     <div class="Settings__line" />
-    <p class="Settings__subtitle" v-if="!isMobile">Camera</p>
-    <div v-if="!isMobile" class="Settings__row">
+    <p class="Settings__subtitle">Outline</p>
+    <div class="Settings__row">
+      <button
+        type="button"
+        class="Settings__button-turn-on-off"
+        :class="{
+          'Settings__button-turn-on-off--active': hudStore.isActiveOutline,
+        }"
+        @click="switchCamera(true)"
+      >
+        On
+      </button>
+      <button
+        type="button"
+        class="Settings__button-turn-on-off"
+        :class="{
+          'Settings__button-turn-on-off--active': !hudStore.isActiveOutline,
+        }"
+        @click="switchCamera(false)"
+      >
+        Off
+      </button>
+    </div>
+    <p class="Settings__label">Color</p>
+    <div class="Settings__row">
       <button
         type="button"
         class="Settings__button-turn-on-off"
         :class="{
           'Settings__button-turn-on-off--active':
-            !hudStore.isActiveCharacterCamera,
+            hudStore.colorOutline === '#000000',
         }"
-        @click="switchCamera(false)"
+        @click="switchColorOutline('#000000')"
       >
-        House
+        Black
       </button>
       <button
         type="button"
         class="Settings__button-turn-on-off"
         :class="{
           'Settings__button-turn-on-off--active':
-            hudStore.isActiveCharacterCamera,
+            hudStore.colorOutline === '#1e1e1e',
         }"
-        @click="switchCamera(true)"
+        @click="switchColorOutline('#1e1e1e')"
       >
-        Character
+        Gray
+      </button>
+      <button
+        type="button"
+        class="Settings__button-turn-on-off"
+        :class="{
+          'Settings__button-turn-on-off--active':
+            hudStore.colorOutline === '#3d312f',
+        }"
+        @click="switchColorOutline('#3d312f')"
+      >
+        Brown
       </button>
     </div>
   </div>

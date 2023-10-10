@@ -1,32 +1,21 @@
 <script setup lang="ts">
-import { MeshBasicMaterial, Vector3, Object3D } from "three";
-import { storeToRefs } from "pinia";
+import { Object3D } from "three";
+import { useModelSettings } from "~/composables/useModel";
+const { setModel } = useModelSettings();
+const controlsStore = useControlsStore();
+const { isMovingCharacter } = storeToRefs(controlsStore);
+
 const { $gsap } = useNuxtApp();
 const { nodes } = await useGLTF("/models/small-tree.glb", {
   draco: true,
 });
-import { useCharacterStore } from "~/stores/character";
-const characterStore = useCharacterStore();
-const { positionCharacter } = storeToRefs(characterStore);
+const { bendModel, calculateDistance } = useUtils();
 const models: Object3D[] = [];
 
 if (nodes.smallTree) {
-  const calculateDistance = (point1: Vector3, point2: Vector3) => {
-    const dx = point2.x - point1.x;
-    const dz = point2.z - point1.z;
-    return Math.sqrt(dx * dx + dz * dz);
-  };
   const createModelClone = () => {
     const clone = nodes.smallTree.clone();
-    clone.children.forEach((child) => {
-      child.receiveShadow = true;
-      child.castShadow = true;
-    });
-
-    clone.children[clone.children.length - 1].material.dispose();
-    clone.children[clone.children.length - 1].material = new MeshBasicMaterial({
-      color: 0x000000,
-    });
+    setModel(clone);
 
     clone.position.x = Math.random() * 10 + 14 - Math.random();
     clone.position.z = Math.random() * 10 + -11 - Math.random();
@@ -38,41 +27,31 @@ if (nodes.smallTree) {
   for (let index = 0; index < 15; index++) {
     models.push(createModelClone());
   }
-
-  const maxRotation = 1;
-  const maxDistance = 1.5;
-  const bendBush = (model: any) => {
-    const direction = new Vector3();
-    direction.subVectors(positionCharacter.value, model.position).normalize();
-    const currentDistance = calculateDistance(
-      positionCharacter.value,
-      model.position
-    );
-
-    const factor = 1 - Math.min(currentDistance / maxDistance, 1);
-    const limitedAngleX = maxRotation * factor;
-    const limitedAngleY = maxRotation * factor;
-    const sign = direction.z > 0 ? -1 : 1;
-    const signY = direction.x > 0 ? 1 : -1;
-
-    $gsap.to(model.rotation, {
-      duration: 0.7,
-      x: limitedAngleX * sign,
-      z: limitedAngleY * signY,
-      ease: "power4.easeOut",
-    });
-  };
+  const prevPositions: Ref<Record<string, { x: number; z: number }>> = ref({});
   const { onLoop } = useRenderLoop();
   onLoop(() => {
-    models.forEach((model) => {
-      const currentDistance = calculateDistance(
-        positionCharacter.value,
-        model.position
-      );
-      if (currentDistance < 3) {
-        bendBush(model);
-      }
-    });
+    if (isMovingCharacter.value) {
+      models.forEach((model) => {
+        const currentDistance = calculateDistance(model.position);
+        if (currentDistance < 3) {
+          const { x, z } = bendModel(model.position);
+          const key = model.uuid;
+          const prevPosition = prevPositions.value[key];
+          if (!prevPosition || prevPosition.x !== x || prevPosition.z !== z) {
+            if (model.rotation.x !== x && model.rotation.z !== z) {
+              $gsap.to(model.rotation, {
+                duration: 0.7,
+                x,
+                z,
+                ease: "power4.easeOut",
+              });
+
+              prevPositions.value[key] = { x, z };
+            }
+          }
+        }
+      });
+    }
   });
 }
 </script>
