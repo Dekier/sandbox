@@ -29,13 +29,15 @@
     flex-direction: column;
     justify-content: center;
     margin: 4px;
-    opacity: 0.4;
+    opacity: 0.6;
+    background-color: rgba($color: $white, $alpha: 0.7);
 
     @include text(32px, center, $border, 600);
-    transition: scale 100ms, opacity 100ms;
+    transition: scale 100ms, opacity 100ms, background-color 100ms;
     &--active {
-      opacity: 0.8;
+      opacity: 0.95;
       scale: 1.1;
+      background-color: rgba($color: $white, $alpha: 0.95);
     }
   }
 
@@ -48,14 +50,16 @@
     flex-direction: column;
     justify-content: center;
     margin: 12px 0 0;
-    opacity: 0.4;
+    opacity: 0.6;
+    background-color: rgba($color: $white, $alpha: 0.7);
 
     @include text(32px, center, $border, 600);
     letter-spacing: 2px;
-    transition: scale 100ms, opacity 100ms;
+    transition: scale 100ms, opacity 100ms, background-color 100ms;
     &--active {
-      opacity: 0.8;
+      opacity: 0.95;
       scale: 1.1;
+      background-color: rgba($color: $white, $alpha: 0.95);
     }
   }
 

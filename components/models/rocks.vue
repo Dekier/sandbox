@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import { MeshBasicMaterial } from "three";
 import { useGLTF } from "@tresjs/cientos";
+import { useModelSettings } from "~/composables/useModel";
+const { setModel } = useModelSettings();
 const { nodes } = await useGLTF("/models/rocks.glb", { draco: true });
 const model = nodes.rocks;
-model.children[model.children.length - 1].material.dispose();
-model.children[model.children.length - 1].material = new MeshBasicMaterial({
-  color: 0x000000,
-});
-nodes.Scene.traverse((child: any) => {
-  if (child.isMesh) {
-    child.castShadow = true;
-    child.receiveShadow = true;
-  }
-});
+setModel(model);
 </script>
 
 <template>

@@ -1,10 +1,22 @@
-interface State {}
+interface State {
+  mouse: {
+    x: number;
+    y: number;
+  };
+}
 export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
-    return {};
+    return {
+      mouse: {
+        x: 0,
+        y: 0,
+      },
+    };
   },
   getters: {},
   actions: {
-    setIsMobile(data: boolean) {},
+    setMouseMove(data: { x: number; y: number }) {
+      this.mouse = data;
+    },
   },
 });

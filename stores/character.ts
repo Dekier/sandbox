@@ -1,56 +1,27 @@
 interface State {
   positionCharacter: any;
   positionCharacterLookAt: any;
-  keys: {
-    a: boolean;
-    s: boolean;
-    d: boolean;
-    w: boolean;
-    shiftleft: boolean;
-    space: boolean;
-  };
-  angle: number;
-  jumpHeight: number;
-  isJumping: boolean;
+  isActiveHolding: boolean;
 }
 export const useCharacterStore = defineStore("CharacterStore", {
   state: (): State => {
     return {
       positionCharacter: null,
       positionCharacterLookAt: null,
-      keys: {
-        a: false,
-        s: false,
-        d: false,
-        w: false,
-        shiftleft: false,
-        space: false,
-      },
-      angle: 0,
-      jumpHeight: 2.3,
-      isJumping: false,
+      isActiveHolding: false,
     };
   },
   getters: {},
   actions: {
     setPositionCharacter(data: any) {
       this.positionCharacter = data;
+      console.log(data);
     },
     setPositionCharacterLookAt(data: any) {
       this.positionCharacterLookAt = data;
     },
-
-    setKeysTrue(key: string) {
-      this.keys[key] = true;
-    },
-    setKeysFalse(key: any) {
-      this.keys[key] = false;
-    },
-    setAngle(data: number) {
-      this.angle = data;
-    },
-    setIsJumping(data: boolean) {
-      this.isJumping = data;
+    setIsActiveHolding(data: boolean) {
+      this.isActiveHolding = data;
     },
   },
 });

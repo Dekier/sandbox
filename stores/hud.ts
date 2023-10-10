@@ -6,8 +6,8 @@ interface State {
   lightX: number;
   lightY: number;
   lightZ: number;
-  isActiveCharacterCamera: boolean;
-  isSwitchCameraAnimation: boolean;
+  isActiveOutline: boolean;
+  colorOutline: string;
 }
 export const useHudStore = defineStore("HudStore", {
   state: (): State => {
@@ -19,8 +19,8 @@ export const useHudStore = defineStore("HudStore", {
       lightX: -25,
       lightY: 15,
       lightZ: 30,
-      isActiveCharacterCamera: false,
-      isSwitchCameraAnimation: false,
+      isActiveOutline: true,
+      colorOutline: "#000000",
     };
   },
   getters: {},
@@ -46,11 +46,11 @@ export const useHudStore = defineStore("HudStore", {
     setLightZ(data: number) {
       this.lightZ = data;
     },
-    setCharacterCameraIsActive(data: boolean) {
-      this.isActiveCharacterCamera = data;
+    setIsActiveOutline(data: boolean) {
+      this.isActiveOutline = data;
     },
-    setIsSwitchCameraAnimation(data: boolean) {
-      this.isSwitchCameraAnimation = data;
+    setColorOutline(data: string) {
+      this.colorOutline = data;
     },
   },
 });

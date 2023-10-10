@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { DirectionalLight, DirectionalLightHelper, CameraHelper } from "three";
 
-import { useHudStore } from "~/stores/hud";
-import { storeToRefs } from "pinia";
 const hudStore = useHudStore();
 const { isActiveShadows, shadowSize, lightX, lightY, lightZ } =
   storeToRefs(hudStore);
@@ -63,13 +61,13 @@ if (directionalLight) {
     directionalLight.position.y = value;
   });
 
-  const { value: light_Z } = useControls({
-    light_Z: {
-      value: directionalLight.position.z,
-      min: -25,
-      max: 30,
-    },
-  });
+  // const { value: light_Z } = useControls({
+  //   light_Z: {
+  //     value: directionalLight.position.z,
+  //     min: -25,
+  //     max: 30,
+  //   },
+  // });
 
   // watch(light_Z, (value) => {
   //   directionalLight.position.z = value;
