@@ -38,31 +38,3 @@ input {
 .rounded {
   margin-top: 8px !important;
 }
-.label {
-  width: 16px;
-  height: 16px;
-  border: 2px solid $border;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 4px;
-  opacity: 0.95;
-  background-color: rgba($color: $white, $alpha: 0.95);
-
-  @include text(24px, center, $border, 600);
-  opacity: 1;
-  border-radius: 50%;
-  transition: opacity 300ms, border-radius 300ms, width 300ms, height 300ms;
-
-  &--active {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    opacity: 1;
-  }
-
-  &--hidden {
-    opacity: 0;
-  }
-}

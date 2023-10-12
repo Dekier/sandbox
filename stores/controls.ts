@@ -17,7 +17,6 @@ interface State {
   rotateAngle: Vector3;
   rotateQuaternion: Quaternion;
   speed: number;
-  velocity: number;
   isBlockW: boolean;
   isBlockS: boolean;
   isBlockA: boolean;
@@ -43,7 +42,6 @@ export const useControlsStore = defineStore("ControlsStore", {
       rotateAngle: new Vector3(0, -1, 0),
       rotateQuaternion: new Quaternion(),
       speed: 0,
-      velocity: 0,
       isBlockW: false,
       isBlockS: false,
       isBlockA: false,
@@ -110,27 +108,26 @@ export const useControlsStore = defineStore("ControlsStore", {
       this.speed = 0.0;
       if (this.keys.w) {
         if (this.keys.shiftleft) {
-          this.speed = 0.11;
+          this.speed = 11;
         } else {
-          this.speed = 0.08;
+          this.speed = 8;
         }
       } else if (this.keys.s) {
         if (this.keys.shiftleft) {
-          this.speed = -0.11;
+          this.speed = -11;
         } else {
-          this.speed = -0.08;
+          this.speed = -8;
         }
       } else if (
         (!this.keys.w && !this.keys.s && this.keys.a) ||
         (!this.keys.w && !this.keys.s && this.keys.d)
       ) {
         if (this.keys.shiftleft) {
-          this.speed = 0.11;
+          this.speed = 11;
         } else {
-          this.speed = 0.08;
+          this.speed = 8;
         }
       }
-      this.velocity += this.speed - this.velocity;
     },
   },
 });

@@ -11,7 +11,7 @@ const characterStore = useCharacterStore();
 const { $gsap } = useNuxtApp();
 const {
   keys,
-  velocity,
+  speed,
   isJumping,
   isCharacterWalk,
   isBlockW,
@@ -31,30 +31,30 @@ modelCamera.material.transparent = true;
 
 const { onLoop } = useRenderLoop();
 
-onLoop(() => {
+onLoop((data) => {
   if (modelCharacter) {
     storeControl.setSpeedCharacter();
     if (keys.value.w) {
       if (!isBlockW.value) {
-        modelCharacter.position.z -= velocity.value;
-        modelCamera.position.z -= velocity.value;
+        modelCharacter.position.z -= speed.value * data.delta;
+        modelCamera.position.z -= speed.value * data.delta;
       }
     }
 
     if (keys.value.s) {
       if (!isBlockS.value) {
-        modelCharacter.position.z -= velocity.value;
-        modelCamera.position.z -= velocity.value;
+        modelCharacter.position.z -= speed.value * data.delta;
+        modelCamera.position.z -= speed.value * data.delta;
       }
     }
     if (keys.value.a) {
       if (!isBlockA.value) {
         if (keys.value.s) {
-          modelCharacter.position.x += velocity.value;
-          modelCamera.position.x += velocity.value;
+          modelCharacter.position.x += speed.value * data.delta;
+          modelCamera.position.x += speed.value * data.delta;
         } else {
-          modelCharacter.position.x -= velocity.value;
-          modelCamera.position.x -= velocity.value;
+          modelCharacter.position.x -= speed.value * data.delta;
+          modelCamera.position.x -= speed.value * data.delta;
         }
       }
     }
@@ -62,11 +62,11 @@ onLoop(() => {
     if (keys.value.d) {
       if (!isBlockD.value) {
         if (keys.value.s) {
-          modelCharacter.position.x -= velocity.value;
-          modelCamera.position.x -= velocity.value;
+          modelCharacter.position.x -= speed.value * data.delta;
+          modelCamera.position.x -= speed.value * data.delta;
         } else {
-          modelCharacter.position.x += velocity.value;
-          modelCamera.position.x += velocity.value;
+          modelCharacter.position.x += speed.value * data.delta;
+          modelCamera.position.x += speed.value * data.delta;
         }
       }
     }

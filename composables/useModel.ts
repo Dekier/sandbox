@@ -21,6 +21,7 @@ export const useModelSettings = () => {
     });
 
     watch(isActiveOutline, (value) => {
+      if (!model.children[model.children.length - 1].material) return;
       if (value) {
         model.children[model.children.length - 1].material.opacity = 1;
       } else {
