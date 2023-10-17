@@ -60,18 +60,6 @@ if (directionalLight) {
   watch(light_Y, (value) => {
     directionalLight.position.y = value;
   });
-
-  // const { value: light_Z } = useControls({
-  //   light_Z: {
-  //     value: directionalLight.position.z,
-  //     min: -25,
-  //     max: 30,
-  //   },
-  // });
-
-  // watch(light_Z, (value) => {
-  //   directionalLight.position.z = value;
-  // });
 }
 const tresDirectionalLight: Ref<TresObject | null> = ref(null);
 </script>

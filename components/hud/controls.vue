@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const storeControls = useControlsStore();
-const { keys } = storeToRefs(storeControls);
+const { keys, upPressed, downPressed, leftPressed, rightPressed } =
+  storeToRefs(storeControls);
 const { isMobile } = useDevice();
 </script>
 
@@ -9,7 +10,7 @@ const { isMobile } = useDevice();
     <div class="Controls__row-center">
       <div
         class="Controls__label"
-        :class="{ 'Controls__label--active': keys.w }"
+        :class="{ 'Controls__label--active': upPressed }"
       >
         W
       </div>
@@ -17,19 +18,19 @@ const { isMobile } = useDevice();
     <div class="Controls__row-center">
       <div
         class="Controls__label"
-        :class="{ 'Controls__label--active': keys.a }"
+        :class="{ 'Controls__label--active': leftPressed }"
       >
         A
       </div>
       <div
         class="Controls__label"
-        :class="{ 'Controls__label--active': keys.s }"
+        :class="{ 'Controls__label--active': downPressed }"
       >
         S
       </div>
       <div
         class="Controls__label"
-        :class="{ 'Controls__label--active': keys.d }"
+        :class="{ 'Controls__label--active': rightPressed }"
       >
         D
       </div>

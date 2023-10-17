@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { MeshBasicMaterial } from "three";
 const { $gsap } = useNuxtApp();
-import { useGLTF } from "@tresjs/cientos";
+import { useGLTF, Html } from "@tresjs/cientos";
 import { useModelSettings } from "~/composables/useModel";
 import { useControls } from "~/composables/useControls";
 const { setModel } = useModelSettings();
 const { setBorders } = useControls();
+const storeControl = useControlsStore();
 const { nodes } = await useGLTF("/models/tool-box.glb", { draco: true });
 const {
   getModelPositionInfoLabel,
@@ -13,6 +14,7 @@ const {
   checkDistance,
   setPositionItem,
 } = useUtils();
+const { isMovingCharacter } = storeToRefs(storeControl);
 const characterStore = useCharacterStore();
 const controlsStore = useControlsStore();
 const { positionCharacter } = storeToRefs(characterStore);
@@ -183,11 +185,13 @@ const flapPositionToDefaultZ = (value: any, z: number) => {
 const { onLoop } = useRenderLoop();
 
 onLoop(() => {
-  setBorders(modelBox);
-  isCharacterOnPlaneRight.value = isCharacterOnModel(modelBox, 2, 0);
-  isCharacterOnPlaneLeft.value = isCharacterOnModel(modelBox, -2, 0);
-  isCharacterOnPlaneTop.value = isCharacterOnModel(modelBox, 0, -2);
-  isCharacterOnPlaneBottom.value = isCharacterOnModel(modelBox, 0, 2);
+  if (isMovingCharacter.value) {
+    setBorders(modelBox);
+    isCharacterOnPlaneRight.value = isCharacterOnModel(modelBox, 2, 0);
+    isCharacterOnPlaneLeft.value = isCharacterOnModel(modelBox, -2, 0);
+    isCharacterOnPlaneTop.value = isCharacterOnModel(modelBox, 0, -2);
+    isCharacterOnPlaneBottom.value = isCharacterOnModel(modelBox, 0, 2);
+  }
 
   if (isTorusWithCharacter.value) {
     modelTorus.position.x =
@@ -197,18 +201,18 @@ onLoop(() => {
   }
   setLabel();
 });
-const { camera, scene } = useTresContext();
+const { scene, camera } = useTresContext();
+const isActiveLabel = ref(false);
 const { div, labelRenderer } = getModelPositionInfoLabel(modelFlap);
 const setLabel = () => {
   labelRenderer.render(scene.value, camera.value);
   if (
-    isCharacterOnPlaneRight.value ||
-    isCharacterOnPlaneLeft.value ||
-    isCharacterOnPlaneTop.value ||
-    isCharacterOnPlaneBottom.value
+    (isCharacterOnPlaneRight.value && !isActiveLabel.value) ||
+    (isCharacterOnPlaneLeft.value && !isActiveLabel.value) ||
+    (isCharacterOnPlaneTop.value && !isActiveLabel.value) ||
+    (isCharacterOnPlaneBottom.value && !isActiveLabel.value)
   ) {
-    div.className = "label label--active";
-    div.textContent = "E";
+    isActiveLabel.value = true;
   }
   if (
     checkDistance(modelFlap) > 3 &&
@@ -218,7 +222,6 @@ const setLabel = () => {
     div.classList.remove("label--active");
     div.textContent = "";
   }
-
   if (
     checkDistance(modelFlap) > 3 &&
     checkDistance(modelFlap) < 6 &&
@@ -238,7 +241,19 @@ const setLabel = () => {
 </script>
 
 <template>
-  <primitive :object="modelBox" />
   <primitive :object="modelFlap" />
   <primitive :object="modelTorus" />
+
+  <primitive :object="nodes.box">
+    <!-- <Html center transform :distance-factor="5" :position="[0, 1, 0]" portal="">
+      <div class="Label__main-container">
+        <div
+          class="Label__content"
+          :class="{ 'Label__content--active': isActiveLabel }"
+        >
+          E
+        </div>
+      </div>
+    </Html> -->
+  </primitive>
 </template>

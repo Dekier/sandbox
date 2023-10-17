@@ -1,9 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import glsl from "vite-plugin-glsl";
 export default defineNuxtConfig({
-  devServer: {
-    port: 3000,
-  },
   imports: {
     dirs: ["stores"],
   },
@@ -19,7 +16,11 @@ export default defineNuxtConfig({
     "@nuxtjs/device",
   ],
 
-  css: ["@/assets/styles/main.scss", "@tresjs/leches/dist/style.css"],
+  css: [
+    "@/assets/styles/main.scss",
+    "@/assets/styles/hud.scss",
+    "@tresjs/leches/dist/style.css",
+  ],
   vite: {
     css: {
       preprocessorOptions: {

@@ -8,25 +8,32 @@ export const useControls = () => {
   const { angle } = storeToRefs(storeControl);
   const { positionCharacter } = storeToRefs(characterStore);
 
+  const targetRotationNormalized = ref();
+  const rotationDiff = ref();
+  const currentRotation = ref();
+  const normalizedRotationDiff = ref();
   const changeModelRotation = (model: Object3D) => {
-    const currentRotation = Number(model.rotation.y.toFixed(1));
-    if (currentRotation !== angle.value) {
+    currentRotation.value = Number(model.rotation.y.toFixed(1));
+    // console.log("angle.value", angle.value);
+    // console.log("currentRotation.value", currentRotation.value);
+    // model.rotation.y = -angle.value;
+    if (currentRotation.value !== angle.value) {
       // Oblicz różnicę obrotu
-      const rotationDiff = angle.value - currentRotation;
+      rotationDiff.value = angle.value - currentRotation.value;
 
       // Znormalizuj różnicę do zakresu [-π, π]
-      const normalizedRotationDiff =
-        ((rotationDiff + Math.PI) % (2 * Math.PI)) - Math.PI;
+      normalizedRotationDiff.value =
+        ((rotationDiff.value + Math.PI) % (2 * Math.PI)) - Math.PI;
 
       // Oblicz docelowy obrót
-      const targetRotationNormalized = (
-        currentRotation + normalizedRotationDiff
+      targetRotationNormalized.value = (
+        currentRotation.value + normalizedRotationDiff.value
       ).toFixed(1);
 
       // Ustaw animację za pomocą GSAP
       $gsap.to(model.rotation, {
         duration: 0.5,
-        y: Number(targetRotationNormalized),
+        y: Number(targetRotationNormalized.value),
       });
     }
   };

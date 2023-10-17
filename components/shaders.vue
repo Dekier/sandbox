@@ -22,9 +22,9 @@ import {
 } from "three";
 const { camera, renderer, scene } = useTresContext();
 
-const { nodes } = await useGLTF("/models/shader.glb", { draco: true });
+const { nodes } = await useGLTF("/models/suzanne.glb", { draco: false });
 
-const model = nodes.Torus002;
+const model = nodes.Suzanne;
 
 import vertexShader from "@/src/shaders/vertex.glsl";
 import fragmentShader from "@/src/shaders/fragment.glsl";
@@ -38,50 +38,29 @@ var params = {
 const pixelRatio = renderer.value.getPixelRatio();
 
 let uniforms = {
-  time: {
-    value: 0,
-  },
-  threshold: {
-    value: 0.5,
-  },
-  tDudv: {
-    value: null,
-  },
-  tDepth: {
-    value: null,
-  },
-  cameraNear: {
-    value: 0,
-  },
-  cameraFar: {
-    value: 0,
-  },
-  resolution: {
-    value: new Vector2(),
-  },
-  foamColor: {
-    value: new Color(),
-  },
-  waterColor: {
-    value: new Color(),
+  // time: {
+  //   value: 0,
+  // },
+  specMap: {
+    value: "#D6C9AC",
   },
 };
 
 const waterMaterial = new ShaderMaterial({
   uniforms,
-  vertexShader: vertexShader,
+  // vertexShader: vertexShader,
   fragmentShader: fragmentShader,
 });
 
-waterMaterial.uniforms.cameraNear.value = 0.1;
-waterMaterial.uniforms.cameraFar.value = 10000;
-waterMaterial.uniforms.resolution.value.set(
-  window.innerWidth * pixelRatio,
-  window.innerHeight * pixelRatio
-);
+// waterMaterial.uniforms.cameraNear.value = 0.1;
+// waterMaterial.uniforms.cameraFar.value = 10000;
+// waterMaterial.uniforms.resolution.value.set(
+//   window.innerWidth * pixelRatio,
+//   window.innerHeight * pixelRatio
+// );
 
-// model.material?.dispose();
-// model.material = waterMaterial;
+model.material?.dispose();
+model.material = waterMaterial;
 
 const { onLoop, resume } = useRenderLoop();
 resume();

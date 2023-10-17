@@ -1,0 +1,36 @@
+.CenterInformation {
+  &__main-container {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border: 2px solid $border;
+    background-color: $background-white;
+    border-radius: 24px;
+  }
+
+  &__icon {
+    width: 70px;
+    margin: 0 auto;
+  }
+
+  &__text {
+    @include text(16px, center, $black, 500);
+    letter-spacing: 1.2px;
+    font-family: "Inter", sans-serif;
+  }
+}
+.fade-information-enter-active,
+.fade-information-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-information-enter-from,
+.fade-information-leave-to {
+  opacity: 0;
+  transform: translate(-50%, 400px) scale(0);
+}

@@ -1,37 +1,32 @@
 import { Vector3, Quaternion } from "three";
 interface State {
   keys: {
-    a: boolean;
-    s: boolean;
-    d: boolean;
-    w: boolean;
-    shiftleft: boolean;
     space: boolean;
     e: boolean;
   };
   angle: number;
   jumpHeight: number;
   isJumping: boolean;
-  directionOffset: number;
   isCharacterWalk: boolean;
-  rotateAngle: Vector3;
-  rotateQuaternion: Quaternion;
   speed: number;
-  velocity: number;
   isBlockW: boolean;
   isBlockS: boolean;
   isBlockA: boolean;
   isBlockD: boolean;
+  deltaX: number;
+  deltaY: number;
+  upPressed: boolean;
+  downPressed: boolean;
+  leftPressed: boolean;
+  rightPressed: boolean;
+  leftShiftPressed: boolean;
+  xAxis: number;
+  zAxis: number;
 }
 export const useControlsStore = defineStore("ControlsStore", {
   state: (): State => {
     return {
       keys: {
-        a: false,
-        s: false,
-        d: false,
-        w: false,
-        shiftleft: false,
         space: false,
         e: false,
       },
@@ -40,27 +35,80 @@ export const useControlsStore = defineStore("ControlsStore", {
       isJumping: false,
       directionOffset: 0,
       isCharacterWalk: false,
-      rotateAngle: new Vector3(0, -1, 0),
-      rotateQuaternion: new Quaternion(),
-      speed: 0,
-      velocity: 0,
+      speed: 2,
       isBlockW: false,
       isBlockS: false,
       isBlockA: false,
       isBlockD: false,
+      deltaX: 0,
+      deltaY: 0,
+      upPressed: false,
+      downPressed: false,
+      leftPressed: false,
+      rightPressed: false,
+      leftShiftPressed: false,
+      xAxis: 0,
+      zAxis: 0,
     };
   },
   getters: {
     keyE: (state) => state.keys.e,
     isMovingCharacter: (state) =>
-      state.keys.a || state.keys.d || state.keys.s || state.keys.w,
+      state.upPressed ||
+      state.downPressed ||
+      state.leftPressed ||
+      state.rightPressed ||
+      state.zAxis > 0.3 ||
+      state.zAxis < -0.3 ||
+      state.xAxis > 0.3 ||
+      state.xAxis < -0.3 ||
+      state.deltaX > 0.3 ||
+      state.deltaX < -0.3 ||
+      state.deltaY > 0.3 ||
+      state.deltaY < -0.3,
   },
   actions: {
     setKeysTrue(key: string) {
       this.keys[key] = true;
+      if (key === "w" && !this.upPressed) {
+        this.setUpPressed(true);
+      }
+
+      if (key === "s" && !this.downPressed) {
+        this.setDownPressed(true);
+      }
+
+      if (key === "a" && !this.leftPressed) {
+        this.setLeftPressed(true);
+      }
+
+      if (key === "d" && !this.rightPressed) {
+        this.setRightPressed(true);
+      }
+      if (key === "shiftleft" && !this.leftShiftPressed) {
+        this.leftShiftPressed = true;
+      }
     },
     setKeysFalse(key: string) {
       this.keys[key] = false;
+      if (key === "w") {
+        this.setUpPressed(false);
+      }
+
+      if (key === "s") {
+        this.setDownPressed(false);
+      }
+
+      if (key === "a") {
+        this.setLeftPressed(false);
+      }
+
+      if (key === "d") {
+        this.setRightPressed(false);
+      }
+      if (key === "shiftleft") {
+        this.leftShiftPressed = false;
+      }
     },
     setAngle(data: number) {
       this.angle = Number(data.toFixed(1));
@@ -80,57 +128,51 @@ export const useControlsStore = defineStore("ControlsStore", {
     setBlockD(data: boolean) {
       this.isBlockD = data;
     },
-    setDirectionOffset() {
-      if (this.keys.w) {
-        if (this.keys.a) {
-          this.directionOffset = -Math.PI / 4 - Math.PI / 2;
-        } else if (this.keys.d) {
-          this.directionOffset = Math.PI / 4 + Math.PI / 2;
-        } else {
-          this.directionOffset = Math.PI;
-        }
-      } else if (this.keys.s) {
-        if (this.keys.a) {
-          this.directionOffset = -Math.PI / 4;
-        } else if (this.keys.d) {
-          this.directionOffset = Math.PI / 4;
-        } else {
-          this.directionOffset = 0;
-        }
-      } else if (this.keys.a) {
-        this.directionOffset = -Math.PI / 2;
-      } else if (this.keys.d) {
-        this.directionOffset = Math.PI / 2;
-      }
-    },
-    setIsCharacterWalk(data: boolean) {
-      this.isCharacterWalk = data;
-    },
     setSpeedCharacter() {
-      this.speed = 0.0;
-      if (this.keys.w) {
-        if (this.keys.shiftleft) {
-          this.speed = 0.11;
-        } else {
-          this.speed = 0.08;
-        }
-      } else if (this.keys.s) {
-        if (this.keys.shiftleft) {
-          this.speed = -0.11;
-        } else {
-          this.speed = -0.08;
-        }
-      } else if (
-        (!this.keys.w && !this.keys.s && this.keys.a) ||
-        (!this.keys.w && !this.keys.s && this.keys.d)
-      ) {
-        if (this.keys.shiftleft) {
-          this.speed = 0.11;
-        } else {
-          this.speed = 0.08;
-        }
+      if (this.leftShiftPressed) {
+        this.speed = 11;
+      } else {
+        this.speed = 8;
       }
-      this.velocity += this.speed - this.velocity;
+    },
+    setDeltaPosition(deltaX, deltaY) {
+      if (deltaX > 0.3 || deltaX < -0.3) {
+        this.deltaX = deltaX;
+      } else {
+        this.deltaX = 0;
+      }
+
+      if (deltaY > 0.3 || deltaY < -0.3) {
+        this.deltaY = deltaY;
+      } else {
+        this.deltaY = 0;
+      }
+    },
+    setUpPressed(data: boolean) {
+      this.upPressed = data;
+    },
+    setDownPressed(data: boolean) {
+      this.downPressed = data;
+    },
+    setLeftPressed(data: boolean) {
+      this.leftPressed = data;
+    },
+    setRightPressed(data: boolean) {
+      this.rightPressed = data;
+    },
+    setXaxis(data: number) {
+      if (data > 0.3 || data < -0.3) {
+        this.xAxis = data;
+      } else {
+        this.xAxis = 0;
+      }
+    },
+    setZaxis(data: number) {
+      if (data > 0.3 || data < -0.3) {
+        this.zAxis = data;
+      } else {
+        this.zAxis = 0;
+      }
     },
   },
 });

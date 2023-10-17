@@ -24,7 +24,7 @@ if (nodes.smallTree) {
 
     return clone;
   };
-  for (let index = 0; index < 15; index++) {
+  for (let index = 0; index < 12; index++) {
     models.push(createModelClone());
   }
   const prevPositions: Ref<Record<string, { x: number; z: number }>> = ref({});

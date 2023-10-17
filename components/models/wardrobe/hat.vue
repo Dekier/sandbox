@@ -11,7 +11,7 @@ const { jump } = useUtils();
 const characterStore = useCharacterStore();
 const controlsStore = useControlsStore();
 const { positionCharacter } = storeToRefs(characterStore);
-const { keys, isJumping, isCharacterWalk } = storeToRefs(controlsStore);
+const { keys, isJumping, isMovingCharacter } = storeToRefs(controlsStore);
 const { nodes } = await useGLTF("/models/hat.glb", { draco: true });
 const model = nodes.hat;
 setModel(model);
@@ -19,7 +19,7 @@ const { onLoop } = useRenderLoop();
 
 onLoop(() => {
   if (model.position) {
-    if (isCharacterWalk) {
+    if (isMovingCharacter.value) {
       changeModelRotation(model);
     }
 
