@@ -17,7 +17,7 @@ if (nodes.grass005) {
   let dummy = new Object3D();
   let mat4 = new Matrix4();
 
-  const { onLoop } = useRenderLoop();
+  const { onBeforeLoop } = useRenderLoop();
 
   const { scene } = useTresContext();
   let io = new InstancedMesh(geometry, material, instancesCount.value);
@@ -37,31 +37,29 @@ if (nodes.grass005) {
   scene.value.add(io);
 
   const currentDistance = ref(0);
-  const countHalfAnimation = ref(0);
-  onLoop(() => {
+  onBeforeLoop(() => {
     if (isMovingCharacter.value) {
-      countHalfAnimation.value++;
-      if (countHalfAnimation.value === 2) {
-        for (let i = 0; i < instancesCount.value; i++) {
-          io.getMatrixAt(i, mat4);
-          mat4.decompose(dummy.position, dummy.quaternion, dummy.scale);
-          currentDistance.value = calculateDistance(dummy.position);
-          if (currentDistance.value < 2) {
-            const { x, z } = bendModel(dummy.position);
-            if (dummy.rotation.x !== x && dummy.rotation.z !== z) {
-              dummy.rotation.x = x;
-              dummy.rotation.z = z;
-              dummy.updateMatrix();
+      for (let i = 0; i < instancesCount.value; i++) {
+        io.getMatrixAt(i, mat4);
+        mat4.decompose(dummy.position, dummy.quaternion, dummy.scale);
+        currentDistance.value = calculateDistance(dummy.position);
 
-              io.setMatrixAt(i, dummy.matrix);
-              io.instanceMatrix.needsUpdate = true;
-            }
-          }
+        if (currentDistance.value < 2) {
+          const { x, z } = bendModel(dummy.position);
+
+          dummy.rotation.x = lerp(dummy.rotation.x, x, 0.08);
+          dummy.rotation.z = lerp(dummy.rotation.z, z, 0.08);
+
+          dummy.updateMatrix();
+          io.setMatrixAt(i, dummy.matrix);
+          io.instanceMatrix.needsUpdate = true;
         }
-        countHalfAnimation.value = 0;
       }
     }
   });
+  const lerp = (start: number, end: number, alpha: number): number => {
+    return start * (1 - alpha) + end * alpha;
+  };
 }
 </script>
 

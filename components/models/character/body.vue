@@ -33,6 +33,7 @@ const modelCharacter = nodes.character;
 setModel(modelCharacter);
 const modelCamera = nodes.Cube031;
 characterStore.setPositionCharacter(modelCharacter.position);
+characterStore.setMatrixWorldCharacter(modelCharacter.matrixWorld);
 characterStore.setPositionCharacterLookAt(modelCamera.position);
 modelCamera.material.opacity = 0;
 modelCamera.material.transparent = true;
