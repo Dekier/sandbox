@@ -3,15 +3,16 @@ import { DoubleSide, Object3D, InstancedMesh, Matrix4 } from "three";
 const controlsStore = useControlsStore();
 const { isMovingCharacter } = storeToRefs(controlsStore);
 const { bendModel, calculateDistance } = useUtils();
-const { nodes } = await useGLTF("/models/grass2.glb", {
+const { nodes } = await useGLTF("/models/grass3.glb", {
   draco: true,
 });
+
 const models: InstancedMesh[] = [];
-const instancesCount = ref(600);
-if (nodes.grass003) {
-  const geometry = nodes.grass003.geometry;
-  const material = nodes.grass003.material!.clone();
-  const positionY = nodes.grass003.position.y;
+const instancesCount = ref(400);
+if (nodes.grass004) {
+  const geometry = nodes.grass004.geometry;
+  const material = nodes.grass004.material!.clone();
+  const positionY = nodes.grass004.position.y;
 
   let dummy = new Object3D();
   let mat4 = new Matrix4();
@@ -26,8 +27,7 @@ if (nodes.grass003) {
       positionY,
       Math.random() * 10 + -12 - Math.random()
     );
-    const randomScale = Math.random() * 0.6 + 1;
-    dummy.scale.set(randomScale, randomScale, randomScale);
+    dummy.scale.set(1.7, 1.7, 1.7);
     dummy.updateMatrix();
     io.setMatrixAt(i, dummy.matrix);
     io.receiveShadow = true;

@@ -14,7 +14,7 @@ const {
   checkDistance,
   setPositionItem,
 } = useUtils();
-const { isCharacterWalk } = storeToRefs(storeControl);
+const { isMovingCharacter } = storeToRefs(storeControl);
 const characterStore = useCharacterStore();
 const controlsStore = useControlsStore();
 const { positionCharacter } = storeToRefs(characterStore);
@@ -185,7 +185,7 @@ const flapPositionToDefaultZ = (value: any, z: number) => {
 const { onLoop } = useRenderLoop();
 
 onLoop(() => {
-  if (isCharacterWalk) {
+  if (isMovingCharacter.value) {
     setBorders(modelBox);
     isCharacterOnPlaneRight.value = isCharacterOnModel(modelBox, 2, 0);
     isCharacterOnPlaneLeft.value = isCharacterOnModel(modelBox, -2, 0);
@@ -213,7 +213,6 @@ const setLabel = () => {
     (isCharacterOnPlaneBottom.value && !isActiveLabel.value)
   ) {
     isActiveLabel.value = true;
-    console.log("sdf");
   }
   if (
     checkDistance(modelFlap) > 3 &&

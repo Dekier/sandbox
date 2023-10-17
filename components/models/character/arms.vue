@@ -11,7 +11,7 @@ const { jump } = useUtils();
 const characterStore = useCharacterStore();
 const controlsStore = useControlsStore();
 const { positionCharacter, isActiveHolding } = storeToRefs(characterStore);
-const { isJumping, keys, isCharacterWalk } = storeToRefs(controlsStore);
+const { isJumping, keys, isMovingCharacter } = storeToRefs(controlsStore);
 const { nodes } = await useGLTF("/models/arms.glb", { draco: true });
 const model = nodes.arms;
 setModel(model);
@@ -30,7 +30,7 @@ watchEffect(() => {
 
 onLoop(() => {
   if (model.position) {
-    if (isCharacterWalk) {
+    if (isMovingCharacter.value) {
       changeModelRotation(model);
     }
     model.position.x = positionCharacter.value.x;

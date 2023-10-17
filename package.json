@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@hypernym/nuxt-gsap": "^2.4.1",
+    "@hypernym/nuxt-gsap": "^2.4.2",
     "nuxt": "^3.7.4"
   },
   "volta": {
@@ -21,10 +21,11 @@
     "@pinia/nuxt": "^0.4.11",
     "@tresjs/cientos": "3.5.0",
     "@tresjs/core": "^3.3.0",
-    "@tresjs/leches": "^0.10.0",
-    "@tresjs/nuxt": "^1.2.0-next.0",
+    "@tresjs/leches": "^0.12.0",
+    "@tresjs/nuxt": "^1.2.0",
     "eslint": "^8.51.0",
-    "sass": "^1.69.2",
+    "nipplejs": "^0.10.1",
+    "sass": "^1.69.3",
     "three": "^0.157.0",
     "tweakpane": "^4.0.1",
     "typescript": "^5.2.2",

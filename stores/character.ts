@@ -15,7 +15,6 @@ export const useCharacterStore = defineStore("CharacterStore", {
   actions: {
     setPositionCharacter(data: any) {
       this.positionCharacter = data;
-      console.log(data);
     },
     setPositionCharacterLookAt(data: any) {
       this.positionCharacterLookAt = data;

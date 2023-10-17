@@ -35,10 +35,15 @@ isActiveAntialias.value = isMobile ? false : true;
 <template>
   <HudGeneral />
   <LoadingScreen />
+  <client-only>
+    <Joystick v-if="isMobile" />
+    <Suspense>
+      <ControllerGamepad v-if="positionCharacter" />
+    </Suspense>
+  </client-only>
   <TresCanvas
     clear-color="#D6C9AC"
     window-size
-    ref="renderer"
     v-bind="gl"
     :antialias="isActiveAntialias"
   >
@@ -95,7 +100,6 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <ModelsTable v-if="positionCharacter" />
     </Suspense>
-
     <!-- <Suspense>
       <Shaders v-if="positionCharacter" />
     </Suspense> -->

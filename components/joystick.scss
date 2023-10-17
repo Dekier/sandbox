@@ -1,0 +1,12 @@
+.Joystick {
+  pointer-events: auto;
+  display: block;
+  position: absolute;
+  bottom: 60px;
+  left: 40px;
+  background-color: transparent;
+  width: 100px;
+  height: 100px;
+  z-index: 12;
+  touch-action: manipulation;
+}

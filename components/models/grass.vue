@@ -7,11 +7,11 @@ const { nodes } = await useGLTF("/models/grass.glb", {
   draco: true,
 });
 const models: InstancedMesh[] = [];
-const instancesCount = ref(600);
-if (nodes.grass001) {
-  const geometry = nodes.grass001.geometry;
-  const material = nodes.grass001.material!.clone();
-  const positionY = nodes.grass001.position.y;
+const instancesCount = ref(400);
+if (nodes.grass) {
+  const geometry = nodes.grass.geometry;
+  const material = nodes.grass.material!.clone();
+  const positionY = nodes.grass.position.y;
 
   let dummy = new Object3D();
   let mat4 = new Matrix4();
@@ -26,8 +26,7 @@ if (nodes.grass001) {
       positionY,
       Math.random() * 10 + -12 - Math.random()
     );
-    const randomScale = Math.random() * 0.2 + 1;
-    dummy.scale.set(randomScale, randomScale, randomScale);
+    dummy.scale.set(2.2, 2.2, 2.2);
     dummy.updateMatrix();
     io.setMatrixAt(i, dummy.matrix);
     io.receiveShadow = true;

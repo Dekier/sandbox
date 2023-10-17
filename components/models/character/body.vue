@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Vector3, Quaternion } from "three";
+import { Vector3, Quaternion, Object3D } from "three";
 import { useModelSettings } from "~/composables/useModel";
 import { useControls } from "~/composables/useControls";
 import { useGLTF } from "@tresjs/cientos";
@@ -13,11 +13,19 @@ const {
   keys,
   speed,
   isJumping,
-  isCharacterWalk,
+  isMovingCharacter,
   isBlockW,
   isBlockA,
   isBlockD,
   isBlockS,
+  deltaX,
+  deltaY,
+  upPressed,
+  downPressed,
+  leftPressed,
+  rightPressed,
+  zAxis,
+  xAxis,
 } = storeToRefs(storeControl);
 const { jump } = useUtils();
 const { nodes } = await useGLTF("/models/body.glb", { draco: true });
@@ -32,70 +40,61 @@ modelCamera.material.transparent = true;
 const { onLoop } = useRenderLoop();
 
 onLoop((data) => {
-  if (modelCharacter) {
-    storeControl.setSpeedCharacter();
-    if (keys.value.w) {
+  storeControl.setSpeedCharacter();
+
+  if (keys.value.space && !isJumping.value) {
+    jump(modelCharacter);
+  }
+  if (storeControl.isMovingCharacter) {
+    changeModelRotation(modelCharacter);
+    const moveDirection = new Vector3();
+    moveDirection.z = Number(downPressed.value) - Number(upPressed.value);
+    moveDirection.x = Number(rightPressed.value) - Number(leftPressed.value);
+
+    moveDirection.normalize();
+    if (moveDirection.length() > 0) {
+      const angle = Math.atan2(moveDirection.x, moveDirection.z);
+      storeControl.setAngle(angle);
+    }
+
+    if ((modelCharacter && zAxis.value) || (modelCharacter && xAxis.value)) {
+      modelCharacter.position.z += speed.value * zAxis.value * data.delta;
+
+      modelCharacter.position.x += speed.value * xAxis.value * data.delta;
+    }
+
+    if ((modelCharacter && deltaY.value) || (modelCharacter && deltaX.value)) {
+      modelCharacter.position.z -=
+        speed.value * deltaY.value * 1.5 * data.delta;
+
+      modelCharacter.position.x +=
+        speed.value * deltaX.value * 1.5 * data.delta;
+    }
+    if (upPressed.value) {
       if (!isBlockW.value) {
         modelCharacter.position.z -= speed.value * data.delta;
-        modelCamera.position.z -= speed.value * data.delta;
       }
     }
 
-    if (keys.value.s) {
+    if (downPressed.value) {
       if (!isBlockS.value) {
-        modelCharacter.position.z -= speed.value * data.delta;
-        modelCamera.position.z -= speed.value * data.delta;
+        modelCharacter.position.z += speed.value * data.delta;
       }
     }
-    if (keys.value.a) {
+    if (leftPressed.value) {
       if (!isBlockA.value) {
-        if (keys.value.s) {
-          modelCharacter.position.x += speed.value * data.delta;
-          modelCamera.position.x += speed.value * data.delta;
-        } else {
-          modelCharacter.position.x -= speed.value * data.delta;
-          modelCamera.position.x -= speed.value * data.delta;
-        }
+        modelCharacter.position.x -= speed.value * data.delta;
       }
     }
 
-    if (keys.value.d) {
+    if (rightPressed.value) {
       if (!isBlockD.value) {
-        if (keys.value.s) {
-          modelCharacter.position.x -= speed.value * data.delta;
-          modelCamera.position.x -= speed.value * data.delta;
-        } else {
-          modelCharacter.position.x += speed.value * data.delta;
-          modelCamera.position.x += speed.value * data.delta;
-        }
+        modelCharacter.position.x += speed.value * data.delta;
       }
     }
-    if (keys.value.space && !isJumping.value) {
-      jump(modelCharacter);
-    }
-    storeControl.setDirectionOffset();
-    if (isCharacterWalk) {
-      changeModelRotation(modelCharacter);
-    }
   }
-
-  const moveDirection = new Vector3();
-  moveDirection.z = Number(keys.value.s) - Number(keys.value.w);
-  moveDirection.x = Number(keys.value.d) - Number(keys.value.a);
-  moveDirection.normalize();
-  if (moveDirection.length() > 0) {
-    const angle = Math.atan2(moveDirection.x, moveDirection.z);
-    storeControl.setAngle(angle);
-  }
-  if (keys.value.d || keys.value.a || keys.value.w || keys.value.s) {
-    if (!storeControl.isCharacterWalk) {
-      storeControl.setIsCharacterWalk(true);
-    }
-  } else {
-    if (storeControl.isCharacterWalk) {
-      storeControl.setIsCharacterWalk(false);
-    }
-  }
+  modelCamera.position.x = modelCharacter.position.x;
+  modelCamera.position.z = modelCharacter.position.z;
 });
 const defaultKeys = {
   a: false,

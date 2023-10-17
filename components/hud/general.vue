@@ -1,11 +1,7 @@
-<script setup lang="ts">
-let isActive = ref(false);
-setTimeout(() => {
-  isActive.value = true;
-}, 100);
-</script>
+<script setup lang="ts"></script>
 <template>
   <HudButtons />
   <HudSettings />
-  <HudControls v-if="isActive" />
+  <HudControls />
+  <HudCenterInformation />
 </template>

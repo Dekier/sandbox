@@ -14,6 +14,9 @@ export const useControls = () => {
   const normalizedRotationDiff = ref();
   const changeModelRotation = (model: Object3D) => {
     currentRotation.value = Number(model.rotation.y.toFixed(1));
+    // console.log("angle.value", angle.value);
+    // console.log("currentRotation.value", currentRotation.value);
+    // model.rotation.y = -angle.value;
     if (currentRotation.value !== angle.value) {
       // Oblicz różnicę obrotu
       rotationDiff.value = angle.value - currentRotation.value;
