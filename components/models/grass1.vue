@@ -38,22 +38,20 @@ if (nodes.grass005) {
 
   const currentDistance = ref(0);
   onBeforeLoop(() => {
-    if (isMovingCharacter.value) {
-      for (let i = 0; i < instancesCount.value; i++) {
-        io.getMatrixAt(i, mat4);
-        mat4.decompose(dummy.position, dummy.quaternion, dummy.scale);
-        currentDistance.value = calculateDistance(dummy.position);
+    for (let i = 0; i < instancesCount.value; i++) {
+      io.getMatrixAt(i, mat4);
+      mat4.decompose(dummy.position, dummy.quaternion, dummy.scale);
+      currentDistance.value = calculateDistance(dummy.position);
 
-        if (currentDistance.value < 2) {
-          const { x, z } = bendModel(dummy.position);
+      if (currentDistance.value < 2) {
+        const { x, z } = bendModel(dummy.position);
 
-          dummy.rotation.x = lerp(dummy.rotation.x, x, 0.08);
-          dummy.rotation.z = lerp(dummy.rotation.z, z, 0.08);
+        dummy.rotation.x = lerp(dummy.rotation.x, x, 0.08);
+        dummy.rotation.z = lerp(dummy.rotation.z, z, 0.08);
 
-          dummy.updateMatrix();
-          io.setMatrixAt(i, dummy.matrix);
-          io.instanceMatrix.needsUpdate = true;
-        }
+        dummy.updateMatrix();
+        io.setMatrixAt(i, dummy.matrix);
+        io.instanceMatrix.needsUpdate = true;
       }
     }
   });
