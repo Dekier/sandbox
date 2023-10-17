@@ -45,8 +45,8 @@ if (nodes.grass004) {
       if (currentDistance.value < 2) {
         const { x, z } = bendModel(dummy.position);
 
-        dummy.rotation.x = lerp(dummy.rotation.x, x, 0.08);
-        dummy.rotation.z = lerp(dummy.rotation.z, z, 0.08);
+        dummy.rotation.x = lerp(dummy.rotation.x, x, 0.1);
+        dummy.rotation.z = lerp(dummy.rotation.z, z, 0.1);
 
         dummy.updateMatrix();
         io.setMatrixAt(i, dummy.matrix);
