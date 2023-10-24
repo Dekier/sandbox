@@ -12,6 +12,14 @@ const { nodes } = await useGLTF("/models/small-tree.glb", {
 const { bendModel, calculateDistance } = useUtils();
 const models: Object3D[] = [];
 
+const instancesCount = ref(12);
+
+const { isMobile } = useDevice();
+
+if (isMobile) {
+  instancesCount.value = 6;
+}
+
 if (nodes.smallTree) {
   const createModelClone = () => {
     const clone = nodes.smallTree.clone();
@@ -24,7 +32,7 @@ if (nodes.smallTree) {
 
     return clone;
   };
-  for (let index = 0; index < 12; index++) {
+  for (let index = 0; index < instancesCount.value; index++) {
     models.push(createModelClone());
   }
   const prevPositions: Ref<Record<string, { x: number; z: number }>> = ref({});
@@ -40,7 +48,7 @@ if (nodes.smallTree) {
           if (!prevPosition || prevPosition.x !== x || prevPosition.z !== z) {
             if (model.rotation.x !== x && model.rotation.z !== z) {
               $gsap.to(model.rotation, {
-                duration: 0.7,
+                duration: 0.6,
                 x,
                 z,
                 ease: "power4.easeOut",

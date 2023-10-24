@@ -65,10 +65,10 @@ const tresDirectionalLight: Ref<TresObject | null> = ref(null);
 </script>
 
 <template>
-  <TresDirectionalLight
+  <!-- <TresDirectionalLight
     :intensity="0.5"
     :position="[20, -20, -20]"
     ref="TresDirectionalLight"
-  />
-  <TresHemisphereLight :intensity="1" />
+  /> -->
+  <TresHemisphereLight :intensity="1.2" />
 </template>
