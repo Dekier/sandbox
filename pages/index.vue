@@ -42,7 +42,7 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
   </client-only>
   <TresCanvas
-    clear-color="#D6C9AC"
+    clear-color="#DBC295"
     window-size
     v-bind="gl"
     :antialias="isActiveAntialias"
@@ -68,10 +68,10 @@ isActiveAntialias.value = isMobile ? false : true;
       <Telescope />
     </Suspense>
     <Suspense>
-      <ModelsCharacterAll />
+      <Baner />
     </Suspense>
     <Suspense>
-      <Baner />
+      <ModelsCharacterAll />
     </Suspense>
     <Suspense>
       <ModelsWardrobeAll v-if="positionCharacter" />
@@ -94,12 +94,12 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <ModelsGrass2 v-if="positionCharacter" />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <ModelsToolBox v-if="positionCharacter" />
     </Suspense>
     <Suspense>
       <ModelsTable v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
     <!-- <Suspense>
       <Shaders v-if="positionCharacter" />
     </Suspense> -->

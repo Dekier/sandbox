@@ -11,6 +11,11 @@ const { nodes } = await useGLTF("/models/grass.glb", {
 const models: InstancedMesh[] = [];
 const instancesCount = ref(400);
 
+const { isMobile } = useDevice();
+
+if (isMobile) {
+  instancesCount.value = 100;
+}
 if (nodes.grass) {
   const geometry = nodes.grass.geometry;
   const material = nodes.grass.material!.clone();

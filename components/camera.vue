@@ -6,7 +6,7 @@ const { positionCharacterLookAt, matrixWorldCharacter } =
   storeToRefs(characterStore);
 
 const cameraX = ref(0);
-const cameraY = ref(3);
+const cameraY = ref(6);
 const cameraZ = ref(23);
 const perspectiveCamera = ref<TresObject | null>(null);
 
@@ -40,10 +40,10 @@ const cameraSettings = () => {
 <template>
   <TresPerspectiveCamera
     :position="[cameraX, cameraY, cameraZ]"
-    :fov="45"
+    :fov="35"
     :aspect="1"
     :near="1"
-    :far="80"
+    :far="90"
     ref="perspectiveCamera"
   />
   <!-- <OrbitControls
