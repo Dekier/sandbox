@@ -7,7 +7,6 @@ interface State {
   angle: number;
   jumpHeight: number;
   isJumping: boolean;
-  isCharacterWalk: boolean;
   speed: number;
   isBlockW: boolean;
   isBlockS: boolean;
@@ -22,6 +21,11 @@ interface State {
   leftShiftPressed: boolean;
   xAxis: number;
   zAxis: number;
+  buttonRTValue: number;
+  userUseGamepad: boolean;
+  gamepadButtonYPressed: boolean;
+  gamepadButtonXPressed: boolean;
+  gamepadButtonAPressed: boolean;
 }
 export const useControlsStore = defineStore("ControlsStore", {
   state: (): State => {
@@ -33,9 +37,7 @@ export const useControlsStore = defineStore("ControlsStore", {
       angle: 0,
       jumpHeight: 2.3,
       isJumping: false,
-      directionOffset: 0,
-      isCharacterWalk: false,
-      speed: 2,
+      speed: 8,
       isBlockW: false,
       isBlockS: false,
       isBlockA: false,
@@ -49,6 +51,11 @@ export const useControlsStore = defineStore("ControlsStore", {
       leftShiftPressed: false,
       xAxis: 0,
       zAxis: 0,
+      buttonRTValue: 0,
+      userUseGamepad: false,
+      gamepadButtonYPressed: false,
+      gamepadButtonXPressed: false,
+      gamepadButtonAPressed: false,
     };
   },
   getters: {
@@ -130,9 +137,12 @@ export const useControlsStore = defineStore("ControlsStore", {
     },
     setSpeedCharacter() {
       if (this.leftShiftPressed) {
-        this.speed = 11;
+        this.speed = 9;
+      } else if (this.buttonRTValue) {
+        const value = this.buttonRTValue * 3;
+        this.speed = 6 + value;
       } else {
-        this.speed = 8;
+        this.speed = 6;
       }
     },
     setDeltaPosition(deltaX, deltaY) {
@@ -173,6 +183,21 @@ export const useControlsStore = defineStore("ControlsStore", {
       } else {
         this.zAxis = 0;
       }
+    },
+    setButtonRTValue(data: number) {
+      this.buttonRTValue = data;
+    },
+    setUserUseGamepad(data: boolean) {
+      this.userUseGamepad = data;
+    },
+    setGamepadButtonYPressed(data: boolean) {
+      this.gamepadButtonYPressed = data;
+    },
+    setGamepadButtonXPressed(data: boolean) {
+      this.gamepadButtonXPressed = data;
+    },
+    setGamepadButtonAPressed(data: boolean) {
+      this.gamepadButtonAPressed = data;
     },
   },
 });

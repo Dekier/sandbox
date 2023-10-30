@@ -77,6 +77,9 @@ isActiveAntialias.value = isMobile ? false : true;
       <ModelsWardrobeAll v-if="positionCharacter" />
     </Suspense>
     <Suspense>
+      <ModelsRoads />
+    </Suspense>
+    <Suspense>
       <ModelsRocks />
     </Suspense>
     <Suspense>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DoubleSide, Object3D, InstancedMesh, Matrix4 } from "three";
+import { Object3D, InstancedMesh, Matrix4 } from "three";
 const controlsStore = useControlsStore();
 const { isMovingCharacter } = storeToRefs(controlsStore);
 const { bendModel, calculateDistance } = useUtils();
@@ -7,7 +7,6 @@ const { nodes } = await useGLTF("/models/grass2.glb", {
   draco: true,
 });
 
-const models: InstancedMesh[] = [];
 const instancesCount = ref(400);
 
 const { isMobile } = useDevice();
@@ -39,7 +38,6 @@ if (nodes.grass005) {
     io.setMatrixAt(i, dummy.matrix);
     io.receiveShadow = true;
     io.castShadow = true;
-    io.material.side = DoubleSide;
   }
   scene.value.add(io);
 
@@ -68,6 +66,4 @@ if (nodes.grass005) {
 }
 </script>
 
-<template>
-  <primitive v-for="(model, index) in models" :object="model" :key="index" />
-</template>
+<template></template>

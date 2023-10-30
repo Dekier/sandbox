@@ -8,28 +8,31 @@
     flex-direction: column;
     justify-content: center;
     margin: 4px;
-    opacity: 0.95;
-    background-color: rgba($color: $white, $alpha: 0.95);
-
+    background-color: rgba($color: $white, $alpha: 1);
     @include text(24px, center, $border, 600);
     border-radius: 50%;
-    transition: opacity 300ms, border-radius 300ms, width 300ms, height 300ms;
+    transition: border-radius 300ms, width 300ms, height 300ms;
 
     &--active {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 8px;
     }
 
-    // &--hidden {
-    //   opacity: 0;
-    // }
+    &--gamepad {
+      border-radius: 50%;
+    }
+
+    &--hide {
+      // display: none;
+    }
   }
 
   &__content {
-    opacity: 0;
+    // display: none;
     &--active {
-      opacity: 1;
+      margin: auto;
+      display: flex;
     }
   }
 }
