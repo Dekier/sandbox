@@ -8,9 +8,12 @@ import {
   RepeatWrapping,
   Vector2,
   NearestFilter,
+  WebGLRenderTarget,
 } from "three";
 
-const { scene } = useTresContext();
+const { scene, renderer, camera } = useTresContext();
+const characterStore = useCharacterStore();
+const { positionCharacter } = storeToRefs(characterStore);
 
 const pbrTexture = await useTexture({
   map: "/materials/sand/color_512x512.webp",
@@ -25,36 +28,36 @@ const pbrTexture = await useTexture({
 
 pbrTexture.map.wrapS = RepeatWrapping;
 pbrTexture.map.wrapT = RepeatWrapping;
-pbrTexture.map.repeat.x = 11;
-pbrTexture.map.repeat.y = 11;
+pbrTexture.map.repeat.x = 7;
+pbrTexture.map.repeat.y = 7;
 pbrTexture.map.minFilter = NearestFilter;
 
 pbrTexture.displacementMap.wrapS = RepeatWrapping;
 pbrTexture.displacementMap.wrapT = RepeatWrapping;
-pbrTexture.displacementMap.repeat.x = 11;
-pbrTexture.displacementMap.repeat.y = 11;
+pbrTexture.displacementMap.repeat.x = 7;
+pbrTexture.displacementMap.repeat.y = 7;
 pbrTexture.displacementMap.minFilter = NearestFilter;
 
 pbrTexture.roughnessMap.wrapS = RepeatWrapping;
 pbrTexture.roughnessMap.wrapT = RepeatWrapping;
-pbrTexture.roughnessMap.repeat.x = 11;
-pbrTexture.roughnessMap.repeat.y = 11;
+pbrTexture.roughnessMap.repeat.x = 7;
+pbrTexture.roughnessMap.repeat.y = 7;
 pbrTexture.roughnessMap.minFilter = NearestFilter;
 
 pbrTexture.normalMap.wrapS = RepeatWrapping;
 pbrTexture.normalMap.wrapT = RepeatWrapping;
-pbrTexture.normalMap.repeat.x = 11;
-pbrTexture.normalMap.repeat.y = 11;
+pbrTexture.normalMap.repeat.x = 7;
+pbrTexture.normalMap.repeat.y = 7;
 pbrTexture.normalMap.minFilter = NearestFilter;
 
 pbrTexture.aoMap.wrapS = RepeatWrapping;
 pbrTexture.aoMap.wrapT = RepeatWrapping;
-pbrTexture.aoMap.repeat.x = 11;
-pbrTexture.aoMap.repeat.y = 11;
+pbrTexture.aoMap.repeat.x = 7;
+pbrTexture.aoMap.repeat.y = 7;
 pbrTexture.aoMap.minFilter = NearestFilter;
 
 const mesh = new Mesh(
-  new PlaneGeometry(180, 180, 1800, 1800),
+  new PlaneGeometry(100, 100, 1000, 1000),
   new MeshStandardMaterial({
     color: 0xdbc0a4,
     metalness: 0,

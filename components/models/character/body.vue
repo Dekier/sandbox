@@ -26,6 +26,8 @@ const {
   rightPressed,
   zAxis,
   xAxis,
+  leftShiftPressed,
+  buttonRTValue,
 } = storeToRefs(storeControl);
 const { jump } = useUtils();
 const { nodes } = await useGLTF("/models/body.glb", { draco: true });
@@ -38,15 +40,21 @@ characterStore.setPositionCharacterLookAt(modelCamera.position);
 modelCamera.material.opacity = 0;
 modelCamera.material.transparent = true;
 
+watch(leftShiftPressed, () => {
+  storeControl.setSpeedCharacter();
+});
+
+watch(buttonRTValue, () => {
+  storeControl.setSpeedCharacter();
+});
+
 const { onLoop } = useRenderLoop();
 
 onLoop((data) => {
-  storeControl.setSpeedCharacter();
-
   if (keys.value.space && !isJumping.value) {
     jump(modelCharacter);
   }
-  if (storeControl.isMovingCharacter) {
+  if (storeControl.isMovingCharacter && modelCharacter) {
     changeModelRotation(modelCharacter);
     const moveDirection = new Vector3();
     moveDirection.z = Number(downPressed.value) - Number(upPressed.value);
@@ -71,6 +79,7 @@ onLoop((data) => {
       modelCharacter.position.x +=
         speed.value * deltaX.value * 1.5 * data.delta;
     }
+
     if (upPressed.value) {
       if (!isBlockW.value) {
         modelCharacter.position.z -= speed.value * data.delta;
@@ -118,6 +127,9 @@ document.body.addEventListener("keydown", (e) => {
   const key = e.code.replace("Key", "").toLowerCase();
   if (defaultKeys[key] !== undefined) {
     storeControl.setKeysTrue(key);
+  }
+  if (storeControl.userUseGamepad) {
+    storeControl.setUserUseGamepad(false);
   }
 });
 document.body.addEventListener("keyup", (e) => {

@@ -8,17 +8,15 @@ const { setModel } = useModelSettings();
 const { setBorders } = useControls();
 const storeControl = useControlsStore();
 const { nodes } = await useGLTF("/models/tool-box.glb", { draco: true });
-const {
-  getModelPositionInfoLabel,
-  isCharacterOnModel,
-  checkDistance,
-  setPositionItem,
-} = useUtils();
+const { isCharacterOnModel, checkDistance, setPositionItem } = useUtils();
+const hudStore = useHudStore();
+const { isActiveGamepad } = storeToRefs(hudStore);
 const { isMovingCharacter } = storeToRefs(storeControl);
 const characterStore = useCharacterStore();
 const controlsStore = useControlsStore();
 const { positionCharacter } = storeToRefs(characterStore);
 const { angle, keyE } = storeToRefs(controlsStore);
+
 const isCharacterOnPlaneRight = ref(false);
 const isCharacterOnPlaneTop = ref(false);
 const isCharacterOnPlaneLeft = ref(false);
@@ -182,6 +180,11 @@ const flapPositionToDefaultZ = (value: any, z: number) => {
     });
   }
 };
+
+const labelText = computed(() => {
+  return isActiveGamepad.value ? "A" : "E";
+});
+
 const { onLoop } = useRenderLoop();
 
 onLoop(() => {
@@ -191,6 +194,7 @@ onLoop(() => {
     isCharacterOnPlaneLeft.value = isCharacterOnModel(modelBox, -2, 0);
     isCharacterOnPlaneTop.value = isCharacterOnModel(modelBox, 0, -2);
     isCharacterOnPlaneBottom.value = isCharacterOnModel(modelBox, 0, 2);
+    setLabel();
   }
 
   if (isTorusWithCharacter.value) {
@@ -199,43 +203,36 @@ onLoop(() => {
     modelTorus.position.z =
       positionCharacter.value.z + 1.3 * Math.cos(angleAnim.value);
   }
-  setLabel();
 });
-const { scene, camera } = useTresContext();
+
 const isActiveLabel = ref(false);
-const { div, labelRenderer } = getModelPositionInfoLabel(modelFlap);
+const isHideLabel = ref(true);
 const setLabel = () => {
-  labelRenderer.render(scene.value, camera.value);
-  if (
-    (isCharacterOnPlaneRight.value && !isActiveLabel.value) ||
-    (isCharacterOnPlaneLeft.value && !isActiveLabel.value) ||
-    (isCharacterOnPlaneTop.value && !isActiveLabel.value) ||
-    (isCharacterOnPlaneBottom.value && !isActiveLabel.value)
-  ) {
-    isActiveLabel.value = true;
-  }
-  if (
-    checkDistance(modelFlap) > 3 &&
-    checkDistance(modelFlap) < 6 &&
-    div.classList.contains("label--active")
-  ) {
-    div.classList.remove("label--active");
-    div.textContent = "";
-  }
-  if (
-    checkDistance(modelFlap) > 3 &&
-    checkDistance(modelFlap) < 6 &&
-    div.classList.contains("label--hidden")
-  ) {
-    div.classList.remove("label--hidden");
-    div.textContent = "";
-  }
-  if (
-    checkDistance(modelFlap) > 6 &&
-    !div.classList.contains("label--hidden")
-  ) {
-    div.className = "label label--hidden";
-    div.textContent = "";
+  // labelRenderer.render(scene.value, camera.value);
+
+  if (checkDistance(modelBox) > 5) {
+    isHideLabel.value = true;
+  } else {
+    isHideLabel.value = false;
+
+    if (
+      (isCharacterOnPlaneRight.value && !isActiveLabel.value) ||
+      (isCharacterOnPlaneLeft.value && !isActiveLabel.value) ||
+      (isCharacterOnPlaneTop.value && !isActiveLabel.value) ||
+      (isCharacterOnPlaneBottom.value && !isActiveLabel.value)
+    ) {
+      isActiveLabel.value = true;
+    }
+
+    if (
+      !isCharacterOnPlaneRight.value &&
+      isActiveLabel.value &&
+      !isCharacterOnPlaneLeft.value &&
+      !isCharacterOnPlaneTop.value &&
+      !isCharacterOnPlaneBottom.value
+    ) {
+      isActiveLabel.value = false;
+    }
   }
 };
 </script>
@@ -244,16 +241,23 @@ const setLabel = () => {
   <primitive :object="modelFlap" />
   <primitive :object="modelTorus" />
 
-  <primitive :object="nodes.box">
-    <!-- <Html center transform :distance-factor="5" :position="[0, 1, 0]" portal="">
-      <div class="Label__main-container">
+  <primitive :object="modelBox">
+    <Html center transform :distance-factor="5" :position="[0, 1, 0]" portal="">
+      <div
+        class="Label__main-container"
+        :class="{
+          'Label__main-container--active': isActiveLabel,
+          'Label__main-container--gamepad': isActiveGamepad,
+          'Label__main-container--hide': isHideLabel,
+        }"
+      >
         <div
           class="Label__content"
           :class="{ 'Label__content--active': isActiveLabel }"
         >
-          E
+          {{ labelText }}
         </div>
       </div>
-    </Html> -->
+    </Html>
   </primitive>
 </template>

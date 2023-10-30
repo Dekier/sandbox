@@ -70,26 +70,10 @@ export const useUtils = () => {
     };
   };
 
-  const labelRenderer: any = ref(null);
-  const getModelPositionInfoLabel = (model: Object3D) => {
-    if (!positionCharacter.value) return;
-    const div = document.createElement("div");
-    div.className = "label";
-    const label = new CSS2DObject(div);
-    label.position.set(model.position.x, 0, model.position.z);
-    scene.value.add(label);
-    labelRenderer.value = new CSS2DRenderer();
-    labelRenderer.value.setSize(window.innerWidth, window.innerHeight);
-    labelRenderer.value.domElement.style.position = "absolute";
-    labelRenderer.value.domElement.style.top = "16px";
-    labelRenderer.value.domElement.style.left = "-8px";
-    document.body.appendChild(labelRenderer.value.domElement);
-    return { div, labelRenderer: labelRenderer.value };
-  };
-
   const checkDistance = (model: Object3D) => {
     return positionCharacter.value.distanceTo(model.position);
   };
+
   const planeWidth = ref(1.6);
   const planeHeight = ref(1.6);
   const isCharacterOnModel = (model: Object3D, x: number, z: number) => {
@@ -109,7 +93,6 @@ export const useUtils = () => {
     bendModel,
     calculateDistance,
     setPositionItem,
-    getModelPositionInfoLabel,
     isCharacterOnModel,
     checkDistance,
   };
