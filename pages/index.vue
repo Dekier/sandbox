@@ -79,12 +79,12 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <ModelsRoads />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <ModelsRocks />
-    </Suspense>
-    <Suspense>
+    </Suspense> -->
+    <!-- <Suspense>
       <ModelsPlatesPlateSmallTree />
-    </Suspense>
+    </Suspense> -->
     <Suspense>
       <ModelsSmallTree v-if="positionCharacter" />
     </Suspense>
