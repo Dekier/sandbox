@@ -7,7 +7,7 @@
     z-index: 1;
     display: flex;
     flex-direction: column;
-    padding: 16px;
+    padding: 16px 24px;
     border: 2px solid $border;
     background-color: $background-white;
     border-radius: 24px;
@@ -16,6 +16,11 @@
   &__icon {
     width: 70px;
     margin: 0 auto;
+  }
+
+  &__icon-keyboard {
+    width: 70px;
+    margin: 20px auto;
   }
 
   &__text {

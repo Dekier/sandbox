@@ -2,8 +2,7 @@
 import { Vector3 } from "three";
 const { $gsap } = useNuxtApp();
 const characterStore = useCharacterStore();
-const { positionCharacterLookAt, matrixWorldCharacter } =
-  storeToRefs(characterStore);
+const { positionCharacterLookAt } = storeToRefs(characterStore);
 
 const cameraX = ref(0);
 const cameraY = ref(6);
