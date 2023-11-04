@@ -2,6 +2,7 @@ interface State {
   positionCharacter: any;
   positionCharacterLookAt: any;
   isActiveHolding: boolean;
+  characterModel: any;
 }
 export const useCharacterStore = defineStore("CharacterStore", {
   state: (): State => {
@@ -9,6 +10,7 @@ export const useCharacterStore = defineStore("CharacterStore", {
       positionCharacter: null,
       positionCharacterLookAt: null,
       isActiveHolding: false,
+      characterModel: null,
     };
   },
   getters: {},
@@ -21,6 +23,9 @@ export const useCharacterStore = defineStore("CharacterStore", {
     },
     setIsActiveHolding(data: boolean) {
       this.isActiveHolding = data;
+    },
+    setCharacterModel(data: any) {
+      this.characterModel = data;
     },
   },
 });

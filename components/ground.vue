@@ -68,13 +68,14 @@ const mesh = new Mesh(
     normalMap: pbrTexture.normalMap,
     aoMap: pbrTexture.aoMap,
     aoMapIntensity: 1.5,
-    displacementScale: 1.1,
+    displacementScale: 0.7,
     normalScale: new Vector2(10, -10),
   })
 );
 mesh.rotation.x = -Math.PI / 2;
 // mesh.position.y = -1.67;
-mesh.position.y = -2.05;
+// mesh.position.y = -2.05;
+mesh.position.y = -1.9;
 mesh.receiveShadow = true;
 mesh.castShadow = false;
 scene.value.add(mesh);

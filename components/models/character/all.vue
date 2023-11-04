@@ -4,5 +4,6 @@ const { positionCharacter } = storeToRefs(characterStore);
 </script>
 <template>
   <ModelsCharacterBody />
-  <ModelsCharacterArms v-if="positionCharacter" />
+  <!-- <ModelsCharacterArms v-if="positionCharacter" /> -->
+  <ModelsCharacterHead v-if="positionCharacter" />
 </template>

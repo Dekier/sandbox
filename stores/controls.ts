@@ -26,6 +26,8 @@ interface State {
   gamepadButtonYPressed: boolean;
   gamepadButtonXPressed: boolean;
   gamepadButtonAPressed: boolean;
+  sanitisedAngle: number;
+  escape: boolean;
 }
 export const useControlsStore = defineStore("ControlsStore", {
   state: (): State => {
@@ -37,7 +39,7 @@ export const useControlsStore = defineStore("ControlsStore", {
       angle: 0,
       jumpHeight: 2.3,
       isJumping: false,
-      speed: 8,
+      speed: 0.06,
       isBlockW: false,
       isBlockS: false,
       isBlockA: false,
@@ -56,6 +58,8 @@ export const useControlsStore = defineStore("ControlsStore", {
       gamepadButtonYPressed: false,
       gamepadButtonXPressed: false,
       gamepadButtonAPressed: false,
+      sanitisedAngle: 0,
+      escape: false,
     };
   },
   getters: {
@@ -94,6 +98,10 @@ export const useControlsStore = defineStore("ControlsStore", {
       }
       if (key === "shiftleft" && !this.leftShiftPressed) {
         this.leftShiftPressed = true;
+      }
+
+      if (key === "escape") {
+        this.escape = !this.escape;
       }
     },
     setKeysFalse(key: string) {
@@ -135,14 +143,36 @@ export const useControlsStore = defineStore("ControlsStore", {
     setBlockD(data: boolean) {
       this.isBlockD = data;
     },
+    // setSpeedCharacter() {
+    //   if (this.leftShiftPressed) {
+    //     this.speed = 9;
+    //   } else if (this.buttonRTValue) {
+    //     const value = this.buttonRTValue * 3;
+    //     this.speed = 6 + value;
+    //   } else {
+    //     this.speed = 6;
+    //   }
+    // },
     setSpeedCharacter() {
-      if (this.leftShiftPressed) {
-        this.speed = 9;
-      } else if (this.buttonRTValue) {
-        const value = this.buttonRTValue * 3;
-        this.speed = 6 + value;
-      } else {
-        this.speed = 6;
+      if (this.upPressed) {
+        if (this.leftShiftPressed) {
+          this.speed = 0.09;
+        } else if (this.buttonRTValue) {
+          const value = this.buttonRTValue * 0.03;
+          this.speed = 0.06 + value;
+        } else {
+          this.speed = 0.06;
+        }
+      }
+      if (this.downPressed) {
+        if (this.leftShiftPressed) {
+          this.speed = -0.09;
+        } else if (this.buttonRTValue) {
+          const value = this.buttonRTValue * 0.03;
+          this.speed = -0.06 - value;
+        } else {
+          this.speed = -0.06;
+        }
       }
     },
     setDeltaPosition(deltaX, deltaY) {
@@ -198,6 +228,9 @@ export const useControlsStore = defineStore("ControlsStore", {
     },
     setGamepadButtonAPressed(data: boolean) {
       this.gamepadButtonAPressed = data;
+    },
+    setSanitisedAngle(data: number) {
+      this.sanitisedAngle = data;
     },
   },
 });

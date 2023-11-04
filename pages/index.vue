@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
-
+const storeControl = useControlsStore();
+const { escape } = storeToRefs(storeControl);
 const title = ref("Marcin Dekier");
 const description = ref("Marcin Dekier Sandbox (Portfolio)");
 useHead({
@@ -17,15 +18,17 @@ const { positionCharacter } = storeToRefs(characterStore);
 
 const { isMobile } = useDevice();
 const gl = {
-  alfa: false,
+  alfa: true,
   shadows: true,
   physicallyCorrectLights: true,
   gammaFactor: 2.2,
+  gammaOutput: true,
   outputColorSpace: SRGBColorSpace,
   toneMapping: ACESFilmicToneMapping,
-  toneMappingExposure: 2.4,
+  toneMappingExposure: 2.2,
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
   powerPreference: "high-performance",
+  stencil: false,
 };
 
 const isActiveAntialias = ref(false);
@@ -42,6 +45,7 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
   </client-only>
   <TresCanvas
+    :class="{ 'hide-cursor': escape }"
     clear-color="#DBC295"
     window-size
     v-bind="gl"
@@ -61,15 +65,21 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <Flag />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <Ground />
-    </Suspense>
+    </Suspense> -->
     <Suspense>
       <Telescope />
     </Suspense>
     <Suspense>
       <Baner />
     </Suspense>
+    <Suspense>
+      <Ground2 />
+    </Suspense>
+    <!-- <Suspense>
+      <Elo />
+    </Suspense> -->
     <Suspense>
       <ModelsCharacterAll />
     </Suspense>
@@ -88,7 +98,7 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <ModelsSmallTree v-if="positionCharacter" />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <ModelsGrass v-if="positionCharacter" />
     </Suspense>
     <Suspense>
@@ -96,7 +106,7 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
     <Suspense>
       <ModelsGrass2 v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
     <!-- <Suspense>
       <ModelsToolBox v-if="positionCharacter" />
     </Suspense>
@@ -108,3 +118,9 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense> -->
   </TresCanvas>
 </template>
+
+<style lang="scss">
+.hide-cursor {
+  cursor: none;
+}
+</style>

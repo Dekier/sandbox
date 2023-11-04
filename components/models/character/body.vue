@@ -30,18 +30,19 @@ const {
   buttonRTValue,
 } = storeToRefs(storeControl);
 const { jump } = useUtils();
-const { nodes } = await useGLTF("/models/body.glb", { draco: true });
+const { nodes } = await useGLTF("/models/body2.glb", { draco: true });
 const modelCharacter = nodes.character;
 setModel(modelCharacter);
 const modelCamera = nodes.Cube031;
 characterStore.setPositionCharacter(modelCharacter.position);
 characterStore.setPositionCharacterLookAt(modelCamera.position);
+characterStore.setCharacterModel(modelCharacter);
 modelCamera.material.opacity = 0;
 modelCamera.material.transparent = true;
 
-watch(leftShiftPressed, () => {
-  storeControl.setSpeedCharacter();
-});
+// watch(leftShiftPressed, () => {
+//   storeControl.setSpeedCharacter();
+// });
 
 watch(buttonRTValue, () => {
   storeControl.setSpeedCharacter();
@@ -50,60 +51,53 @@ watch(buttonRTValue, () => {
 const { onLoop } = useRenderLoop();
 
 onLoop((data) => {
+  storeControl.setSpeedCharacter();
   if (keys.value.space && !isJumping.value) {
     jump(modelCharacter);
   }
   if (storeControl.isMovingCharacter && modelCharacter) {
-    changeModelRotation(modelCharacter);
-    const moveDirection = new Vector3();
-    moveDirection.z = Number(downPressed.value) - Number(upPressed.value);
-    moveDirection.x = Number(rightPressed.value) - Number(leftPressed.value);
-
-    moveDirection.normalize();
-    if (moveDirection.length() > 0) {
-      const angle = Math.atan2(moveDirection.x, moveDirection.z);
-      storeControl.setAngle(angle);
-    }
-
-    if ((modelCharacter && zAxis.value) || (modelCharacter && xAxis.value)) {
-      modelCharacter.position.z += speed.value * zAxis.value * data.delta;
-
-      modelCharacter.position.x += speed.value * xAxis.value * data.delta;
-    }
-
-    if ((modelCharacter && deltaY.value) || (modelCharacter && deltaX.value)) {
-      modelCharacter.position.z -=
-        speed.value * deltaY.value * 1.5 * data.delta;
-
-      modelCharacter.position.x +=
-        speed.value * deltaX.value * 1.5 * data.delta;
-    }
-
-    if (upPressed.value) {
-      if (!isBlockW.value) {
-        modelCharacter.position.z -= speed.value * data.delta;
-      }
-    }
-
-    if (downPressed.value) {
-      if (!isBlockS.value) {
-        modelCharacter.position.z += speed.value * data.delta;
-      }
-    }
-    if (leftPressed.value) {
-      if (!isBlockA.value) {
-        modelCharacter.position.x -= speed.value * data.delta;
-      }
-    }
-
-    if (rightPressed.value) {
-      if (!isBlockD.value) {
-        modelCharacter.position.x += speed.value * data.delta;
-      }
-    }
+    // changeModelRotation(modelCharacter);
+    // const moveDirection = new Vector3();
+    // moveDirection.z = Number(downPressed.value) - Number(upPressed.value);
+    // moveDirection.x = Number(rightPressed.value) - Number(leftPressed.value);
+    // moveDirection.normalize();
+    // if (moveDirection.length() > 0) {
+    //   const angle = Math.atan2(moveDirection.x, moveDirection.z);
+    //   storeControl.setAngle(angle);
+    // }
+    // if ((modelCharacter && zAxis.value) || (modelCharacter && xAxis.value)) {
+    //   modelCharacter.position.z += speed.value * zAxis.value * data.delta;
+    //   modelCharacter.position.x += speed.value * xAxis.value * data.delta;
+    // }
+    // if ((modelCharacter && deltaY.value) || (modelCharacter && deltaX.value)) {
+    //   modelCharacter.position.z -=
+    //     speed.value * deltaY.value * 1.5 * data.delta;
+    //   modelCharacter.position.x +=
+    //     speed.value * deltaX.value * 1.5 * data.delta;
+    // }
+    // if (upPressed.value) {
+    //   if (!isBlockW.value) {
+    //     modelCharacter.position.z -= speed.value * data.delta;
+    //   }
+    // }
+    // if (downPressed.value) {
+    //   if (!isBlockS.value) {
+    //     modelCharacter.position.z += speed.value * data.delta;
+    //   }
+    // }
+    // if (leftPressed.value) {
+    //   if (!isBlockA.value) {
+    //     modelCharacter.position.x -= speed.value * data.delta;
+    //   }
+    // }
+    // if (rightPressed.value) {
+    //   if (!isBlockD.value) {
+    //     modelCharacter.position.x += speed.value * data.delta;
+    //   }
+    // }
   }
-  modelCamera.position.x = modelCharacter.position.x;
-  modelCamera.position.z = modelCharacter.position.z;
+  // modelCamera.position.x = modelCharacter.position.x;
+  // modelCamera.position.z = modelCharacter.position.z;
 });
 const defaultKeys = {
   a: false,
@@ -113,6 +107,7 @@ const defaultKeys = {
   shiftleft: false,
   space: false,
   e: false,
+  escape: false,
 } as {
   a: boolean;
   s: boolean;
@@ -121,8 +116,10 @@ const defaultKeys = {
   shiftleft: boolean;
   space: boolean;
   e: boolean;
+  escape: boolean;
 };
 document.body.addEventListener("keydown", (e) => {
+  console.log(e.code);
   const key = e.code.replace("Key", "").toLowerCase();
   if (defaultKeys[key] !== undefined) {
     storeControl.setKeysTrue(key);
