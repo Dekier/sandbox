@@ -20,7 +20,7 @@ export const useHudStore = defineStore("HudStore", {
       lightX: -25,
       lightY: 15,
       lightZ: 30,
-      isActiveOutline: true,
+      isActiveOutline: false,
       colorOutline: "#000000",
       isActiveGamepad: false,
     };

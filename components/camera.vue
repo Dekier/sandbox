@@ -9,7 +9,7 @@ const { scene } = useTresContext();
 const cameraTheta = ref(0);
 const cameraX = ref(0);
 const cameraY = ref(1);
-const cameraZ = ref(8);
+const cameraZ = ref(16);
 const delta = ref(new Vector2());
 const perspectiveCamera = ref<TresObject | null>(null);
 const { onLoop } = useRenderLoop();
@@ -63,7 +63,6 @@ const cameraSettings = () => {
       );
 
       storeControl.setSanitisedAngle(sanitisedAngle);
-      console.log(storeControl.speed);
       // poniżej 0.05 to jest prędkość
       container.position.add(
         cameraDirection.multiplyScalar(storeControl.speed)

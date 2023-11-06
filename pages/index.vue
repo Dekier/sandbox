@@ -54,6 +54,9 @@ isActiveAntialias.value = isMobile ? false : true;
     <Camera />
     <Light />
     <Suspense>
+      <Rapier />
+    </Suspense>
+    <!-- <Suspense>
       <Hause />
     </Suspense>
     <Suspense>
@@ -64,7 +67,7 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
     <Suspense>
       <Flag />
-    </Suspense>
+    </Suspense> -->
     <!-- <Suspense>
       <Ground />
     </Suspense> -->
@@ -86,9 +89,9 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <ModelsWardrobeAll v-if="positionCharacter" />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <ModelsRoads />
-    </Suspense>
+    </Suspense> -->
     <!-- <Suspense>
       <ModelsRocks />
     </Suspense> -->

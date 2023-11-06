@@ -31,17 +31,21 @@
 
     float distance = calculateDistance(vPosition, uCharacterPosition);
     if (distance < 2.0) {
-      if (vPosition.y > 1.0) {
-       vec3 dirToCharacter = uCharacterPosition - vPosition;
+      vec3 dirToCharacter = uCharacterPosition - vPosition;
 
-      // Znormalizuj kierunek
       dirToCharacter = normalize(dirToCharacter);
-
-      // Przesuń wierzchołek w kierunku postaci
-      vPosition -= dirToCharacter * 0.6;
-      vPosition.y -= 0.6;
+      float invertedDistance = 2.0 - distance;
+      vec3 directionScaledByDistance  = dirToCharacter * invertedDistance;
+      float newPositionY = mix(-0.6, 0.0, smoothstep(0.0, 2.0, distance));
+      if (vPosition.y > 1.0) {
+        vPosition.x -= directionScaledByDistance .x;
+        vPosition.z -= directionScaledByDistance .z;
+        vPosition.y += newPositionY;
       } else {
-        vPosition.y -= 0.4;
+        vec3 invertedDirectionScaledByDistance = directionScaledByDistance  * 0.1;
+        vPosition.x -= invertedDirectionScaledByDistance.x;
+        vPosition.z -= invertedDirectionScaledByDistance.z;
+        vPosition.y += newPositionY;
       }
       vPosition.x += wave(uv.x * 20.0, 0.3, 0.1);
     } else {

@@ -17,6 +17,7 @@
     "node": "20.9.0"
   },
   "dependencies": {
+    "@dimforge/rapier3d": "^0.11.2",
     "@nuxtjs/device": "^3.1.1",
     "@pinia/nuxt": "^0.4.11",
     "@tresjs/cientos": "3.5.1",
@@ -30,6 +31,7 @@
     "three": "^0.158.0",
     "tweakpane": "^4.0.1",
     "typescript": "^5.2.2",
-    "vite-plugin-glsl": "^1.1.2"
+    "vite-plugin-glsl": "^1.1.2",
+    "vite-plugin-wasm": "^3.2.2"
   }
 }

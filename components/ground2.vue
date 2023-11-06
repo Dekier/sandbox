@@ -2,7 +2,6 @@
 import {
   MeshBasicMaterial,
   Mesh,
-  PlaneGeometry,
   MeshStandardMaterial,
   TextureLoader,
   RepeatWrapping,
@@ -10,7 +9,7 @@ import {
   Vector3,
   NearestFilter,
   WebGLRenderTarget,
-  CircleGeometry,
+  PlaneGeometry,
   DoubleSide,
   BufferAttribute,
   ShaderMaterial,
@@ -45,7 +44,7 @@ const BLADE_WIDTH = 0.1;
 const BLADE_HEIGHT = 0.8;
 const BLADE_HEIGHT_VARIATION = 0.6;
 const BLADE_VERTEX_COUNT = 5;
-const BLADE_TIP_OFFSET = 0.1;
+const BLADE_TIP_OFFSET = 0.3;
 
 const interpolate = (val, oldMin, oldMax, newMin, newMax) => {
   return ((val - oldMin) * (newMax - newMin)) / (oldMax - oldMin) + newMin;
@@ -86,7 +85,7 @@ const computeBlade = (center, index = 0) => {
   };
 };
 const { onLoop, resume } = useRenderLoop();
-const size = 150;
+const size = 100;
 const count = 500000;
 const geometry = new BufferGeometry();
 
@@ -95,18 +94,15 @@ const uvs = [];
 const indices = [];
 
 for (let i = 0; i < count; i++) {
-  const surfaceMin = (size / 2) * -1;
-  const surfaceMax = size / 2;
-  const radius = (size / 2) * Math.random();
-  const theta = Math.random() * 2 * Math.PI;
+  const halfSize = size / 2;
 
-  const x = radius * Math.cos(theta);
-  const y = radius * Math.sin(theta);
+  const x = Math.random() * size - halfSize;
+  const y = Math.random() * size - halfSize;
 
   uvs.push(
     ...Array.from({ length: BLADE_VERTEX_COUNT }).flatMap(() => [
-      interpolate(x, surfaceMin, surfaceMax, 0, 1),
-      interpolate(y, surfaceMin, surfaceMax, 0, 1),
+      interpolate((x + halfSize) / size, 0, 1, 0, 1),
+      interpolate((y + halfSize) / size, 0, 1, 0, 1),
     ])
   );
 
@@ -136,15 +132,23 @@ const material = new ShaderMaterial({
   fragmentShader,
 });
 const grass = new Mesh(geometry, material);
+grass.position.y = -1.67;
 
+const materialFloor = new ShaderMaterial({
+  uniforms: {
+    uCloud: { value: cloudTexture },
+    uTime: { value: 0 },
+    uCharacterPosition: { value: new Vector3(0, 0, 0) },
+  },
+  side: DoubleSide,
+  vertexShader,
+  fragmentShader,
+});
 const floor = new Mesh(
-  new CircleGeometry(75, 20).rotateX(Math.PI / 2),
-  material
+  new PlaneGeometry(100, 100).rotateX(Math.PI / 2),
+  materialFloor
 );
 floor.position.y = -Number.EPSILON;
-grass.position.y = -1.67;
-floor.receiveShadow = true;
-floor.castShadow = true;
 grass.add(floor);
 scene.value.add(grass);
 onLoop(({ _delta, elapsed }) => {
@@ -152,6 +156,7 @@ onLoop(({ _delta, elapsed }) => {
     material.uniforms.uCharacterPosition.value = positionCharacter.value;
   }
   material.uniforms.uTime.value = elapsed;
+  materialFloor.uniforms.uTime.value = elapsed;
 });
 //   grass.update = function (time) {
 //     this.material.uniforms.uTime.value = time;
@@ -159,3 +164,35 @@ onLoop(({ _delta, elapsed }) => {
 </script>
 
 <template></template>
+
+<!-- 
+const xMin = -30;
+const xMax = -71;
+const yMin = -30;
+const yMax = -71;
+
+for (let i = 0; i < count; i++) {
+  const x = xMin + Math.random() * (xMax - xMin);
+  const y = yMin + Math.random() * (yMax - yMin);
+
+  // Odwróć pozycje względem wysokości (zmiana y)
+  const newY = -y;
+
+  // Przesunięcie względem floor
+  const xOffset = (xMax - xMin) / 2; // Przesunięcie x na środek wybranego obszaru
+  const yOffset = (yMax - yMin) / 2; // Przesunięcie y na środek wybranego obszaru
+
+  const finalX = x - xOffset;
+  const finalY = newY + yOffset;
+
+  uvs.push(
+    ...Array.from({ length: BLADE_VERTEX_COUNT }).flatMap(() => [
+      interpolate(finalX, xMin, xMax, 0, 1),
+      interpolate(finalY, yMin, yMax, 0, 1),
+    ])
+  );
+
+  const blade = computeBlade([finalX, 0, finalY], i);
+  positions.push(...blade.positions);
+  indices.push(...blade.indices);
+} -->
