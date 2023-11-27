@@ -11,12 +11,13 @@ void main() {
     vec3 color = mix(green * 0.7, green, vPosition.y);
     if (uFloor) {
 
-    color = mix(color, texture2D(uCloud, cloudUV).rgb, 0.01);
+    color = mix(color, texture2D(uCloud, cloudUV).rgb, 0.0);
     } else {
-    color = mix(color, texture2D(uCloud, cloudUV).rgb, 0.2);
+    color = mix(color, texture2D(uCloud, cloudUV).rgb, 0.0);
 
     }
 
     float lighting = dot(vNormal, vec3(0.1));
     gl_FragColor = vec4(color + lighting * 0.001, 1.0);
+    // gl_FragColor = vec4(color, 1.0);
 }

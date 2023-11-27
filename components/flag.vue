@@ -10,7 +10,7 @@ const {
 const model = nodes.Plane028;
 const { actions, mixer } = useAnimations(animations, modelScene);
 actions.KeyAction.play();
-
+model.position.y = model.position.y + 1.5;
 for (let index = 0; index < model.children.length; index++) {
   model.children[index].receiveShadow = true;
   model.children[index].castShadow = true;

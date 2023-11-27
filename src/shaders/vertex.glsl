@@ -7,8 +7,9 @@
   varying vec3 vNormal;
 
   float wave(float waveSize, float tipDistance, float centerDistance) {
-    // Tip is the fifth vertex drawn per blade
     bool isTip = (gl_VertexID + 1) % 5 == 0;
+
+    // bool lol = (gl_VertexID+ 1) % 5 = 3 % 5 = 3
 
     float waveDistance = isTip ? tipDistance : centerDistance;
     return sin(uTime + waveSize) * waveDistance;
@@ -34,30 +35,39 @@
       vec3 dirToCharacter = uCharacterPosition - vPosition;
 
       dirToCharacter = normalize(dirToCharacter);
-      float invertedDistance = 2.0 - distance;
+      float invertedDistance = 6.0 - distance;
       vec3 directionScaledByDistance  = dirToCharacter * invertedDistance;
-      float newPositionY = mix(-0.6, 0.0, smoothstep(0.0, 2.0, distance));
+      // float newPositionY = mix(-0.6, 0.0, smoothstep(0.0, 2.0, distance));
       if (vPosition.y > 1.0) {
-        vPosition.x -= directionScaledByDistance .x;
-        vPosition.z -= directionScaledByDistance .z;
-        vPosition.y += newPositionY;
+        vPosition.x -= directionScaledByDistance.x;
+        vPosition.z -= directionScaledByDistance.z;
+        // vPosition.y += newPositionY;
       } else {
         vec3 invertedDirectionScaledByDistance = directionScaledByDistance  * 0.1;
         vPosition.x -= invertedDirectionScaledByDistance.x;
         vPosition.z -= invertedDirectionScaledByDistance.z;
-        vPosition.y += newPositionY;
+        // vPosition.y += newPositionY;
       }
-      vPosition.x += wave(uv.x * 20.0, 0.3, 0.1);
-    } else {
+      // vPosition.x += wave(uv.x * 20.0, 0.2, 0.1);
+    } 
+    else {
       if (vPosition.y < 0.0) {
         vPosition.y = 0.0;
       } else {
-        vPosition.x += wave(uv.x * 20.0, 0.3, 0.1);
+        // vPosition.x += wave(uv.x * 20.0, 0.15, 0.1);
       }
     }
 
-    cloudUV.x += uTime / 80.;
-    cloudUV.y += uTime / 40.;
+    // cloudUV.x += uTime / 80.;
+    // cloudUV.y += uTime / 40.;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0);
   }
+
+  // float windDir = noise12(vPosition.xz * 0.05 + 0.05 * uTime);
+  // windDir = remap(windDir, -1.0, 1.0, 0.0, PI * 2.0);
+
+  // float windNoiseSample = noise12(vPosition.xz * 0.25 + uTime);
+
+  // float windLeanAngle = remap(windNoiseSample, -1.0, 1.0, 0.25, 1.0);
+  // windNoiseSample = easeIn(windLeanAngle, 2.0) * 1.25;

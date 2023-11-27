@@ -5,31 +5,40 @@ const controlsStore = useControlsStore();
 const { isMovingCharacter } = storeToRefs(controlsStore);
 
 const { bendModel, calculateDistance } = useUtils();
-const { nodes } = await useGLTF("/models/grass.glb", {
+const { nodes } = await useGLTF("/models/grass-flat.glb", {
   draco: true,
 });
-const instancesCount = ref(400);
+console.log(nodes);
+const instancesCount = ref(40000);
 
 const { isMobile } = useDevice();
 
 if (isMobile) {
   instancesCount.value = 100;
 }
-if (nodes.grass) {
-  const geometry = nodes.grass.geometry;
-  const material = nodes.grass.material!.clone();
-  const positionY = nodes.grass.position.y;
+const model = nodes.grass007;
+if (model) {
+  const geometry = model.geometry;
+  const material = model.material!.clone();
+  const positionY = model.position.y;
 
   let dummy = new Object3D();
   let mat4 = new Matrix4();
 
   const { scene } = useTresContext();
   let io = new InstancedMesh(geometry, material, instancesCount.value);
+
   for (let i = 0; i < instancesCount.value; i++) {
+    // dummy.position.set(
+    //   Math.random() * 10 + 29 - Math.random(),
+    //   positionY,
+    //   Math.random() * 10 + -12 - Math.random()
+    // );
+
     dummy.position.set(
-      Math.random() * 10 + 29 - Math.random(),
+      Math.random() * 100 - 50,
       positionY,
-      Math.random() * 10 + -12 - Math.random()
+      Math.random() * 100 - 50
     );
     dummy.scale.set(2.2, 2.2, 2.2);
     dummy.rotation.set(0, 0, 0); // Set initial rotation
@@ -44,21 +53,21 @@ if (nodes.grass) {
   const { onBeforeLoop } = useRenderLoop();
   onBeforeLoop(() => {
     for (let i = 0; i < instancesCount.value; i++) {
-      io.getMatrixAt(i, mat4);
-      mat4.decompose(dummy.position, dummy.quaternion, dummy.scale);
-      currentDistance.value = calculateDistance(dummy.position);
-
+      // io.getMatrixAt(i, mat4);
+      // mat4.decompose(dummy.position, dummy.quaternion, dummy.scale);
+      // currentDistance.value = calculateDistance(dummy.position);
       if (currentDistance.value < 2) {
-        const { x, z } = bendModel(dummy.position);
-
-        dummy.rotation.x = lerp(dummy.rotation.x, x, 0.1);
-        dummy.rotation.z = lerp(dummy.rotation.z, z, 0.1);
-
-        dummy.updateMatrix();
-        io.setMatrixAt(i, dummy.matrix);
-        io.instanceMatrix.needsUpdate = true;
+        // dummy.position.y = 1;
+        // const { x, z } = bendModel(dummy.position);
+        // dummy.rotation.x = lerp(dummy.rotation.x, x, 0.1);
+        // dummy.rotation.z = lerp(dummy.rotation.z, z, 0.1);
+        // dummy.updateMatrix();
+        // io.setMatrixAt(i, dummy.matrix);
+      } else {
+        // dummy.position.y = 0;
       }
     }
+    // io.instanceMatrix.needsUpdate = true;
   });
   const lerp = (start: number, end: number, alpha: number): number => {
     return start * (1 - alpha) + end * alpha;

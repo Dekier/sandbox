@@ -11,7 +11,7 @@ export const useModelSettings = () => {
     model.children[model.children.length - 1].material = new MeshBasicMaterial({
       color: colorOutline.value,
       transparent: true,
-      opacity: 1,
+      opacity: 0,
     });
     model.traverse((child: any) => {
       if (child.isMesh) {

@@ -5,5 +5,5 @@ const { positionCharacter } = storeToRefs(characterStore);
 <template>
   <ModelsCharacterBody />
   <!-- <ModelsCharacterArms v-if="positionCharacter" /> -->
-  <ModelsCharacterHead v-if="positionCharacter" />
+  <!-- <ModelsCharacterHead v-if="positionCharacter" /> -->
 </template>

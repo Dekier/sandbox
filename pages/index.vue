@@ -46,17 +46,17 @@ isActiveAntialias.value = isMobile ? false : true;
   </client-only>
   <TresCanvas
     :class="{ 'hide-cursor': escape }"
-    clear-color="#DBC295"
+    clear-color="#80CBF8"
     window-size
     v-bind="gl"
     :antialias="isActiveAntialias"
   >
     <Camera />
     <Light />
-    <Suspense>
-      <Rapier />
-    </Suspense>
     <!-- <Suspense>
+      <Rapier />
+    </Suspense> -->
+    <Suspense>
       <Hause />
     </Suspense>
     <Suspense>
@@ -67,19 +67,29 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
     <Suspense>
       <Flag />
-    </Suspense> -->
-    <!-- <Suspense>
-      <Ground />
-    </Suspense> -->
-    <Suspense>
-      <Telescope />
     </Suspense>
+    <!-- <Suspense>
+      <Ground2 />
+    </Suspense> -->
+
+    <!-- <Suspense>
+      <Telescope />
+    </Suspense> -->
     <Suspense>
       <Baner />
     </Suspense>
+    <!-- <Suspense>
+      <Rabbit />
+    </Suspense> -->
+    <!-- <Suspense>
+      <ModelsRoads />
+    </Suspense> -->
     <Suspense>
       <Ground2 />
     </Suspense>
+    <!-- <Suspense>
+      <Sky />
+    </Suspense> -->
     <!-- <Suspense>
       <Elo />
     </Suspense> -->
@@ -90,21 +100,18 @@ isActiveAntialias.value = isMobile ? false : true;
       <ModelsWardrobeAll v-if="positionCharacter" />
     </Suspense>
     <!-- <Suspense>
-      <ModelsRoads />
-    </Suspense> -->
-    <!-- <Suspense>
       <ModelsRocks />
     </Suspense> -->
     <!-- <Suspense>
       <ModelsPlatesPlateSmallTree />
     </Suspense> -->
-    <Suspense>
+    <!-- <Suspense>
       <ModelsSmallTree v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
     <!-- <Suspense>
       <ModelsGrass v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
+    </Suspense> -->
+    <!-- <Suspense>
       <ModelsGrass1 v-if="positionCharacter" />
     </Suspense>
     <Suspense>

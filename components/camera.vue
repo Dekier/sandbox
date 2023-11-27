@@ -26,7 +26,7 @@ watch(characterModel, (value) => {
 const xAxis = new Vector3(1, 0, 0);
 const tempCameraVector = new Vector3();
 const tempModelVector = new Vector3();
-const cameraOrigin = new Vector3(0, 2, 0);
+const cameraOrigin = new Vector3(0, 3, 0);
 const container = new Group();
 scene.value.add(container);
 const cameraSettings = () => {
@@ -76,15 +76,6 @@ const cameraSettings = () => {
   });
 };
 
-let mousedown = false;
-// window.addEventListener("pointerdown", (e) => {
-//   mousedown = true;
-// });
-
-// window.addEventListener("pointerup", (e) => {
-//   mousedown = false;
-// });
-
 window.addEventListener("pointermove", (e) => {
   if (storeControl.escape) {
     const { movementX, movementY } = e;
@@ -110,9 +101,11 @@ window.addEventListener("pointermove", (e) => {
     :fov="45"
     :aspect="1"
     :near="1"
-    :far="90"
+    :far="150"
     ref="perspectiveCamera"
   />
+
+  <!-- <Sky /> -->
   <!-- <OrbitControls
     :enablePan="false"
     :minDistance="1"
