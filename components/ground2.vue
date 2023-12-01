@@ -179,6 +179,11 @@ watch(color, (value) => {
     new Color(value).b
   );
 });
+
+const newColor = ref(new Color(colorBackground.value));
+watch(colorBackground, (value) => {
+  newColor.value = new Color(value);
+});
 onLoop(({ _delta, elapsed }) => {
   leavesMaterial.uniforms.time.value = elapsed;
   leavesMaterial.uniformsNeedUpdate = true;
@@ -195,11 +200,7 @@ onLoop(({ _delta, elapsed }) => {
     :position="[0, 0, 19]"
     receive-shadow
   >
-    <TresMeshLambertMaterial
-      :color="new Color(colorBackground)"
-      :map="rough"
-      :roughness="1"
-    />
+    <TresMeshLambertMaterial :color="newColor" :map="rough" :roughness="1" />
   </Plane>
 </template>
 <style lang="scss">
