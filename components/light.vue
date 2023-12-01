@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { DirectionalLight, DirectionalLightHelper, CameraHelper } from "three";
+import {
+  DirectionalLight,
+  DirectionalLightHelper,
+  CameraHelper,
+  Vector3,
+} from "three";
 import { Lensflare } from "@tresjs/cientos";
-import { Vector3 } from "@dimforge/rapier3d";
 
 const hudStore = useHudStore();
 const { isActiveShadows, shadowSize, lightX, lightY, lightZ } =
