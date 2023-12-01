@@ -1,3 +1,3 @@
 <template>
-  <ModelsWardrobeHat />
+  <!-- <ModelsWardrobeHat /> -->
 </template>

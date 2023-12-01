@@ -1,14 +1,10 @@
 import { useCharacterStore } from "~/stores/character";
 import { Object3D, Vector3 } from "three";
-import {
-  CSS2DObject,
-  CSS2DRenderer,
-} from "three/addons/renderers/CSS2DRenderer.js";
 export const useUtils = () => {
   const { $gsap } = useNuxtApp();
   const storeControls = useControlsStore();
   const characterStore = useCharacterStore();
-  const { positionCharacter, angle } = storeToRefs(characterStore);
+  const { positionCharacter } = storeToRefs(characterStore);
   const offsetDistance = ref(1.5);
   const { camera, scene } = useTresContext();
 

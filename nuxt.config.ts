@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import glsl from "vite-plugin-glsl";
+import wasm from "vite-plugin-wasm";
 export default defineNuxtConfig({
   imports: {
     dirs: ["stores"],
@@ -30,6 +31,6 @@ export default defineNuxtConfig({
         },
       },
     },
-    plugins: [glsl({ root: "/public/shaders/" })],
+    plugins: [wasm(), glsl({ root: "/public/shaders/" })],
   },
 });

@@ -20,11 +20,11 @@ onLoop(({ _delta, elapsed }) => {
 </script>
 
 <template>
-  <div class="Buttons__main-container-right-top" @click="openSettingsHud">
+  <!-- <div class="Buttons__main-container-right-top" @click="openSettingsHud">
     <button type="button" class="Buttons__button">
       <img src="/svg/settings.svg" class="Buttons__icon" />
     </button>
-  </div>
+  </div> -->
   <div class="Buttons__main-container-left-bottom">
     <span class="Buttons__fps">{{ hudStore.fps }} FPS</span>
   </div>

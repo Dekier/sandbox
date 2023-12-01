@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
-
+const storeControl = useControlsStore();
+const storeGeneral = useGeneralStore();
+const { escape } = storeToRefs(storeControl);
 const title = ref("Marcin Dekier");
+import { useControls, TresLeches } from "@tresjs/leches";
 const description = ref("Marcin Dekier Sandbox (Portfolio)");
 useHead({
   title,
@@ -17,67 +20,114 @@ const { positionCharacter } = storeToRefs(characterStore);
 
 const { isMobile } = useDevice();
 const gl = {
-  alfa: false,
+  alfa: true,
   shadows: true,
   physicallyCorrectLights: true,
   gammaFactor: 2.2,
+  gammaOutput: true,
   outputColorSpace: SRGBColorSpace,
   toneMapping: ACESFilmicToneMapping,
-  toneMappingExposure: 2.4,
+  toneMappingExposure: 2.2,
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
   powerPreference: "high-performance",
+  stencil: false,
 };
 
+const { value: color } = useControls({
+  grass: storeGeneral.color,
+});
+const { value: colorBackground } = useControls({
+  ground: storeGeneral.colorBackground,
+});
+watch(color, (value) => {
+  storeGeneral.setColor(value);
+  // directionalLight.position.Z = value;
+});
+
+watch(colorBackground, (value) => {
+  storeGeneral.setColorBackground(value);
+  // directionalLight.position.Z = value;
+});
 const isActiveAntialias = ref(false);
 isActiveAntialias.value = isMobile ? false : true;
 </script>
 
 <template>
+  <canvas id="drawing-canvas" height="130" width="130"></canvas>
+  <canvas
+    id="old-canvas"
+    style="z-index: -1; opacity: 0; position: absolute"
+  ></canvas>
+  <!-- <div style="width: 95%; height: 1000px; overflow: scroll; position: fixed">
+    {{ storeGeneral.positions }}
+  </div> -->
   <HudGeneral />
   <LoadingScreen />
   <client-only>
+    <TresLeches />
     <Joystick v-if="isMobile" />
     <Suspense>
       <ControllerGamepad v-if="positionCharacter" />
     </Suspense>
   </client-only>
   <TresCanvas
-    clear-color="#DBC295"
+    :class="{ 'hide-cursor': escape }"
+    clear-color="#80CBF8"
     window-size
     v-bind="gl"
     :antialias="isActiveAntialias"
   >
     <Camera />
-    <Light />
+    <Light v-if="positionCharacter" />
     <Suspense>
-      <Hause />
+      <Sky />
     </Suspense>
     <Suspense>
-      <HauseName />
+      <Ground2 v-if="positionCharacter" />
+    </Suspense>
+    <!-- <Suspense>
+      <Rapier />
+    </Suspense> -->
+    <Suspense>
+      <Hause v-if="positionCharacter" />
     </Suspense>
     <Suspense>
-      <Lantern />
+      <HauseName v-if="positionCharacter" />
     </Suspense>
     <Suspense>
-      <Flag />
+      <Lantern v-if="positionCharacter" />
     </Suspense>
     <Suspense>
-      <Ground />
+      <Flag v-if="positionCharacter" />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
+      <Ground2 />
+    </Suspense> -->
+
+    <!-- <Suspense>
       <Telescope />
-    </Suspense>
+    </Suspense> -->
     <Suspense>
-      <Baner />
+      <Baner v-if="positionCharacter" />
     </Suspense>
+    <!-- <Suspense>
+      <ModelsTest v-if="positionCharacter" />
+    </Suspense> -->
+    <!-- <Suspense>
+      <Rabbit />
+    </Suspense> -->
+    <!-- <Suspense>
+      <ModelsRoads />
+    </Suspense> -->
+
+    <!-- <Suspense>
+      <Elo />
+    </Suspense> -->
     <Suspense>
       <ModelsCharacterAll />
     </Suspense>
     <Suspense>
       <ModelsWardrobeAll v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
-      <ModelsRoads />
     </Suspense>
     <!-- <Suspense>
       <ModelsRocks />
@@ -85,18 +135,18 @@ isActiveAntialias.value = isMobile ? false : true;
     <!-- <Suspense>
       <ModelsPlatesPlateSmallTree />
     </Suspense> -->
-    <Suspense>
+    <!-- <Suspense>
       <ModelsSmallTree v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
+    </Suspense> -->
+    <!-- <Suspense>
       <ModelsGrass v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
+    </Suspense> -->
+    <!-- <Suspense>
       <ModelsGrass1 v-if="positionCharacter" />
     </Suspense>
     <Suspense>
       <ModelsGrass2 v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
     <!-- <Suspense>
       <ModelsToolBox v-if="positionCharacter" />
     </Suspense>
@@ -108,3 +158,9 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense> -->
   </TresCanvas>
 </template>
+
+<style lang="scss">
+.hide-cursor {
+  cursor: none;
+}
+</style>

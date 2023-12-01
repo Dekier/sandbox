@@ -5,6 +5,7 @@ import { useGLTF } from "@tresjs/cientos";
 const { nodes } = await useGLTF("/models/hause-name.glb", { draco: true });
 const model = nodes.Text001;
 
+model.position.y = model.position.y + 1.5;
 for (let index = 0; index < model.children.length; index++) {
   model.children[index].receiveShadow = true;
   model.children[index].castShadow = true;

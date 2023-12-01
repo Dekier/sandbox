@@ -1,22 +1,21 @@
 interface State {
-  mouse: {
-    x: number;
-    y: number;
-  };
+  color: string;
+  colorBackground: string;
 }
 export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
     return {
-      mouse: {
-        x: 0,
-        y: 0,
-      },
+      color: "#7c715a",
+      colorBackground: "#4b4230",
     };
   },
   getters: {},
   actions: {
-    setMouseMove(data: { x: number; y: number }) {
-      this.mouse = data;
+    setColor(data: string) {
+      this.color = data;
+    },
+    setColorBackground(data: string) {
+      this.colorBackground = data;
     },
   },
 });
