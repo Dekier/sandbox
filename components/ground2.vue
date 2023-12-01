@@ -34,6 +34,11 @@ import vertexShader from "@/src/shaders/vertex3.glsl";
 import fragmentShader from "@/src/shaders/fragment3.glsl";
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/grass/blade_alpha2.webp");
+const rough = loader.load("/materials/grass/rough.webp");
+rough.wrapS = RepeatWrapping;
+rough.wrapT = RepeatWrapping;
+rough.repeat.x = 35;
+rough.repeat.y = 35;
 
 const uniforms = {
   time: {
@@ -119,7 +124,6 @@ const noiseTexture = loader.load("/materials/grass/perlin.png", (texture) => {
 let oldModel = null;
 const setIntancesMesh = (data) => {
   if (oldModel) {
-    console.log(";dskjfhk");
     oldModel.geometry.dispose();
     oldModel.material.dispose();
     scene.value.remove(oldModel);
@@ -182,11 +186,6 @@ onLoop(({ _delta, elapsed }) => {
     leavesMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
   }
 });
-const rough = loader.load("/materials/grass/rough.webp");
-rough.wrapS = RepeatWrapping;
-rough.wrapT = RepeatWrapping;
-rough.repeat.x = 35;
-rough.repeat.y = 35;
 </script>
 
 <template>
