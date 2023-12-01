@@ -4,4 +4,5 @@
   <HudSettings />
   <HudControls />
   <HudCenterInformation />
+  <HudMenu />
 </template>

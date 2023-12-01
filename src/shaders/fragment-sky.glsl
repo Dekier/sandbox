@@ -16,7 +16,7 @@ vec3 applyFog(vec3 rgb, vec3 rayOri, vec3 rayDir, vec3 sunDir){
 	//Make horizon more hazy
 	float dist = 4000.0;
 	if(abs(rayDir.y) < 0.0001){rayDir.y = 0.0001;}
-	float fogAmount = 1.0 * exp(-rayOri.y*fogFade) * (1.0-exp(-dist*rayDir.y*fogFade))/(rayDir.y*fogFade);
+	float fogAmount = 2.0 * exp(-rayOri.y*fogFade) * (1.0-exp(-dist*rayDir.y*fogFade))/(rayDir.y*fogFade);
 	float sunAmount = max( dot( rayDir, sunDir ), 0.0 );
 	vec3 fogColor  = mix(vec3(0.35, 0.5, 0.9), vec3(1.0, 1.0, 0.75), pow(sunAmount, 16.0) );
 	return mix(rgb, fogColor, clamp(fogAmount, 0.0, 1.0));

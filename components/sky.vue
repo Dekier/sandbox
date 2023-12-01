@@ -15,20 +15,21 @@ import skyFragmentSource from "@/src/shaders/fragment-sky.glsl";
 
 //Sun
 //Height over horizon in range [0, PI/2.0]
-const elevation = 0.2;
+const elevation = 0.08;
 //Rotation around Y axis in range [0, 2*PI]
-const azimuth = 0.9;
+const azimuth = -1.0;
 const fogFade = 0.009;
-const FOV = 90;
+const FOV = 45;
 const backgroundMaterial = new ShaderMaterial({
   uniforms: {
     sunDirection: {
       value: new Vector3(
         Math.sin(azimuth),
         Math.sin(elevation),
-        -Math.cos(azimuth)
+        Math.cos(azimuth)
       ),
     },
+    cameraPos: { value: camera.value.position },
     resolution: {
       value: new Vector2(window.innerWidth, window.innerHeight),
     },
@@ -40,11 +41,16 @@ const backgroundMaterial = new ShaderMaterial({
 });
 
 backgroundMaterial.depthWrite = false;
-var backgroundGeometry = new PlaneGeometry(100, 100, 1, 1);
-var background = new Mesh(backgroundGeometry, backgroundMaterial);
-// scene.value.add(background);
+const backgroundGeometry = new PlaneGeometry(45000, 45000, 1, 1);
+const background = new Mesh(backgroundGeometry, backgroundMaterial);
+
+onMounted(async () => {
+  await nextTick();
+  setTimeout(() => {
+    scene.value.add(background);
+    console.log("hehe");
+  }, 2000);
+});
 </script>
 
-<template>
-  <Sky :azimuth="azimuth" :elevation="elevation" />
-</template>
+<template></template>

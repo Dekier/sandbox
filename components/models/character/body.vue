@@ -31,7 +31,6 @@ const {
 } = storeToRefs(storeControl);
 const { jump } = useUtils();
 const { nodes } = await useGLTF("/models/body.glb", { draco: true });
-console.log;
 const modelCharacter = nodes.character1;
 
 modelCharacter.traverse((child: any) => {
@@ -40,13 +39,14 @@ modelCharacter.traverse((child: any) => {
     child.receiveShadow = true;
   }
 });
+modelCharacter.scale.set(0.8, 0.8, 0.8);
 // setModel(modelCharacter);
-const modelCamera = nodes.Cube031;
+// const modelCamera = nodes.Cube031;
 characterStore.setPositionCharacter(modelCharacter.position);
-characterStore.setPositionCharacterLookAt(modelCamera.position);
+characterStore.setPositionCharacterLookAt(modelCharacter.position);
 characterStore.setCharacterModel(modelCharacter);
-modelCamera.material.opacity = 0;
-modelCamera.material.transparent = true;
+// modelCamera.material.opacity = 0;
+// modelCamera.material.transparent = true;
 
 // watch(leftShiftPressed, () => {
 //   storeControl.setSpeedCharacter();
@@ -127,7 +127,6 @@ const defaultKeys = {
   escape: boolean;
 };
 document.body.addEventListener("keydown", (e) => {
-  console.log(e.code);
   const key = e.code.replace("Key", "").toLowerCase();
   if (defaultKeys[key] !== undefined) {
     storeControl.setKeysTrue(key);
@@ -146,5 +145,5 @@ document.body.addEventListener("keyup", (e) => {
 
 <template>
   <primitive :object="modelCharacter" />
-  <primitive :object="modelCamera" />
+  <!-- <primitive :object="modelCamera" /> -->
 </template>

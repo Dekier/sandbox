@@ -1,69 +1,31 @@
 <script setup lang="ts">
 import {
-  MeshBasicMaterial,
   Mesh,
   MeshStandardMaterial,
   TextureLoader,
   RepeatWrapping,
   Vector2,
   Vector3,
-  NearestFilter,
-  WebGLRenderTarget,
   PlaneGeometry,
   DoubleSide,
-  BufferAttribute,
   ShaderMaterial,
   BufferGeometry,
   Matrix4,
   Object3D,
   InstancedMesh,
-  Uint8BufferAttribute,
-  InstancedBufferAttribute,
+  Color,
+  MeshDepthMaterial,
+  RGBADepthPacking,
+  UniformsLib,
+  CanvasTexture,
+  MeshBasicMaterial,
+  BoxGeometry,
 } from "three";
 
-import { useControls, TresLeches } from "@tresjs/leches";
-
+const storeGeneral = useGeneralStore();
+const { color, colorBackground, positions } = storeToRefs(storeGeneral);
 const { scene, renderer, camera } = useTresContext();
 const { onLoop, resume } = useRenderLoop();
-
-const { nodes } = await useGLTF("/models/grass-flat-3.glb", {
-  draco: true,
-});
-const modelGrass = nodes.grass006;
-import skyVertexSource from "@/src/shaders/vertex-sky.glsl";
-import skyFragmentSource from "@/src/shaders/fragment-sky.glsl";
-
-//Sun
-//Height over horizon in range [0, PI/2.0]
-const elevation = 0.08;
-//Rotation around Y axis in range [0, 2*PI]
-const azimuth = -1.0;
-const fogFade = 0.009;
-const FOV = 45;
-const backgroundMaterial = new ShaderMaterial({
-  uniforms: {
-    sunDirection: {
-      value: new Vector3(
-        Math.sin(azimuth),
-        Math.sin(elevation),
-        Math.cos(azimuth)
-      ),
-    },
-    cameraPos: { value: camera.value.position },
-    resolution: {
-      value: new Vector2(window.innerWidth, window.innerHeight),
-    },
-    fogFade: { value: fogFade },
-    fov: { value: FOV },
-  },
-  vertexShader: skyVertexSource,
-  fragmentShader: skyFragmentSource,
-});
-
-backgroundMaterial.depthWrite = false;
-const backgroundGeometry = new PlaneGeometry(45000, 45000, 1, 1);
-const background = new Mesh(backgroundGeometry, backgroundMaterial);
-scene.value.add(background);
 
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
@@ -72,9 +34,6 @@ import vertexShader from "@/src/shaders/vertex3.glsl";
 import fragmentShader from "@/src/shaders/fragment3.glsl";
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/grass/blade_alpha2.webp");
-const noiseTexture = loader.load("/materials/grass/perlinFbm.png");
-noiseTexture.wrapS = RepeatWrapping;
-noiseTexture.wrapT = RepeatWrapping;
 
 const uniforms = {
   time: {
@@ -82,7 +41,14 @@ const uniforms = {
   },
   uCharacterPosition: { value: new Vector3(0, 0, 0) },
   alphaMap: { value: alphaMap },
-  noiseTexture: { value: noiseTexture },
+  hexColor: {
+    value: new Vector3(
+      new Color(color.value).r,
+      new Color(color.value).g,
+      new Color(color.value).b
+    ),
+  },
+  ...UniformsLib.lights,
 };
 
 const leavesMaterial = new ShaderMaterial({
@@ -90,92 +56,165 @@ const leavesMaterial = new ShaderMaterial({
   vertexShader,
   fragmentShader,
   side: DoubleSide,
-  transparent: true,
-  alphaTest: 0.5,
+  lights: true,
 });
-
-const instanceNumber = 130000;
-const dummy = new Object3D();
-useControls({
-  awiwi: true,
-  color: "#008080",
-});
+const instanceNumber = 90000;
+let dummy = new Object3D();
 const geometry = new PlaneGeometry(0.1, 1, 1, 4);
 geometry.translate(0, 0.5, 0); // move grass blade geometry lowest point at 0.
 
-const instancedMesh = new InstancedMesh(
-  geometry,
-  leavesMaterial,
-  instanceNumber
-);
-instancedMesh.castShadow = true;
-instancedMesh.receiveShadow = true;
-const { scene: modelScene } = await useGLTF("/models/new-grass2.glb", {
-  draco: true,
-});
-let heh = [];
-modelScene.traverse((lol) => {
-  heh.push({
-    pos: { x: lol.position.x, y: 0, z: lol.position.z },
-    scale: lol.scale,
-  });
+let instancedMesh = new InstancedMesh(geometry, leavesMaterial, instanceNumber);
+instancedMesh.castShadow = false;
+instancedMesh.receiveShadow = false;
+
+const noiseTexture = loader.load("/materials/grass/perlin.png", (texture) => {
+  const material = new MeshBasicMaterial();
+  let newTexture = null;
+  const drawingCanvas = document.getElementById("drawing-canvas");
+  const drawStartPos = new Vector2();
+  const drawingContext = drawingCanvas?.getContext("2d");
+  const setupCanvasDrawing = () => {
+    drawingContext.fillStyle = "#FFFFFF";
+    drawingContext.fillRect(0, 0, 130, 130);
+    drawingContext.drawImage(texture.source.data, 0, 0, 130, 130);
+
+    newTexture = new CanvasTexture(drawingCanvas);
+    material.map = newTexture;
+    let paint = false;
+    drawingCanvas.addEventListener("pointerdown", (e) => {
+      paint = true;
+      drawStartPos.set(e.offsetX, e.offsetY);
+    });
+
+    drawingCanvas.addEventListener("pointermove", (e) => {
+      if (paint) draw(drawingContext, e.offsetX, e.offsetY);
+    });
+
+    drawingCanvas.addEventListener("pointerup", () => {
+      paint = false;
+      setIntancesMesh(newTexture.source.data);
+    });
+
+    drawingCanvas.addEventListener("pointerleave", () => {
+      paint = false;
+    });
+
+    setIntancesMesh(newTexture.source.data);
+  };
+
+  const draw = (drawContext, x, y) => {
+    drawContext.moveTo(drawStartPos.x, drawStartPos.y);
+    drawContext.lineWidth = 7;
+    drawContext.strokeStyle = "#000000";
+    drawContext.lineTo(x, y);
+    drawContext.stroke();
+    drawStartPos.set(x, y);
+    if (newTexture) {
+      newTexture.needsUpdate = true;
+    }
+  };
+  setupCanvasDrawing();
 });
 
-const offsets = [];
-for (let i = 0; i < instanceNumber; i++) {
-  if (heh[i]) {
-    dummy.position.set(heh[i].pos.x, -0.5, heh[i].pos.z);
-    dummy.scale.y = heh[i].scale.y * 0.3;
-  } else {
-    // dummy.position.set(
-    //   (Math.random() - 0.5) * 100,
-    //   0,
-    //   (Math.random() - 0.5) * 100
-    // );
+let oldModel = null;
+const setIntancesMesh = (data) => {
+  if (oldModel) {
+    console.log(";dskjfhk");
+    oldModel.geometry.dispose();
+    oldModel.material.dispose();
+    scene.value.remove(oldModel);
+
+    dummy = new Object3D();
+    instancedMesh = new InstancedMesh(geometry, leavesMaterial, instanceNumber);
   }
-  offsets.push(dummy.position);
+  const canvas = document.getElementById("old-canvas");
+  const context = canvas.getContext("2d");
+  canvas.width = 130;
+  canvas.height = 130;
+  context.drawImage(data, 0, 0);
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  const pixels = imageData.data;
 
-  // dummy.scale.setScalar(0.4 + Math.random() * 0.4);
-  // dummy.scale.y = 0.4 + Math.random() * 0.5;
-  dummy.scale.x = 5.5 + Math.random() * 0.4;
-  dummy.scale.z = 5.5 + Math.random() * 0.4;
-  dummy.rotation.y = Math.random() * 184;
+  const threshold = 0.3;
+  const validPositions = [];
+  for (let i = 0; i < pixels.length; i += 4) {
+    const pixelValue = (pixels[i] / 255.0 - 0.5) * 2.0;
 
-  dummy.updateMatrix();
-  instancedMesh.setMatrixAt(i, dummy.matrix);
-}
+    if (pixelValue > threshold) {
+      const x = (i / 4) % canvas.width;
+      const z = Math.floor(i / 4 / canvas.width);
+      validPositions.push({ x, z });
+    }
+  }
 
-const offsetAttribute = new InstancedBufferAttribute(
-  new Float32Array(offsets),
-  3
-);
-geometry.setAttribute("offset", offsetAttribute);
-scene.value.add(instancedMesh);
+  for (let i = 0; i < instanceNumber; i++) {
+    const randomIndex = Math.floor(Math.random() * validPositions.length);
+    const randomPosition = validPositions[randomIndex];
+    dummy.position.set(
+      randomPosition.x + Math.random() * 3.0 - 64.5,
+      0,
+      randomPosition.z + Math.random() * 3.0 - 47
+    );
 
-const floor = new Mesh(
-  new PlaneGeometry(130, 130).rotateX(-Math.PI / 2),
-  new MeshStandardMaterial({
-    // color: 0xffffff,
-    color: 0x6b5f49,
-    // map: noiseTexture,
-  })
-);
-floor.position.z = 10;
-floor.receiveShadow = true;
-scene.value.add(floor);
+    dummy.scale.y = 0.6 + Math.random() * 0.7;
+    dummy.scale.x = 6.0 + Math.random() * 0.4;
+    dummy.scale.z = 6.0 + Math.random() * 0.4;
+    dummy.rotation.y = Math.random() * 184;
 
+    dummy.updateMatrix();
+    instancedMesh.setMatrixAt(i, dummy.matrix);
+  }
+  oldModel = instancedMesh;
+  scene.value.add(instancedMesh);
+};
+
+watch(color, (value) => {
+  leavesMaterial.uniforms.hexColor.value = new Vector3(
+    new Color(value).r,
+    new Color(value).g,
+    new Color(value).b
+  );
+});
 onLoop(({ _delta, elapsed }) => {
-  // Hand a time variable to vertex shader for wind displacement.
   leavesMaterial.uniforms.time.value = elapsed;
   leavesMaterial.uniformsNeedUpdate = true;
   if (positionCharacter.value) {
     leavesMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
   }
-  // material.uniforms.uTime.value = elapsed;
-  // materialFloor.uniforms.uTime.value = elapsed;
 });
+const rough = loader.load("/materials/grass/rough.webp");
+rough.wrapS = RepeatWrapping;
+rough.wrapT = RepeatWrapping;
+rough.repeat.x = 35;
+rough.repeat.y = 35;
 </script>
 
 <template>
-  <TresLeches />
+  <Plane
+    ref="planeRef"
+    :args="[130, 133]"
+    :position="[0, 0, 19]"
+    receive-shadow
+  >
+    <TresMeshLambertMaterial
+      :color="new Color(colorBackground)"
+      :map="rough"
+      :roughness="1"
+    />
+  </Plane>
 </template>
+<style lang="scss">
+#drawing-canvas {
+  position: absolute;
+  background-color: #000000;
+  top: 20px;
+  left: 0px;
+  right: 0px;
+  margin: 0 auto;
+  z-index: 2;
+  cursor: crosshair;
+  touch-action: none;
+  width: 130px;
+  height: 130px;
+}
+</style>

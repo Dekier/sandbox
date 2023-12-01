@@ -1,20 +1,35 @@
+#include <common>
+#include <packing>
+#include <lights_pars_begin>
+#include <shadowmap_pars_fragment>
+#include <shadowmask_pars_fragment>
+
 varying vec2 vUv;
+varying vec3 vNormal;
 uniform sampler2D alphaMap;
-  
+uniform vec3 hexColor;
+
+
   void main() {
-	  float noise = texture2D(alphaMap, vUv).r;
-	  //If transparent, don't draw
+    DirectionalLightShadow directionalShadow = directionalLightShadows[0];
+    float shadow = getShadow(
+      directionalShadowMap[0],
+      directionalShadow.shadowMapSize,
+      directionalShadow.shadowBias,
+      directionalShadow.shadowRadius,
+      vDirectionalShadowCoord[0]
+    );
+
+    // directional light
+    float NdotL = dot(vNormal, directionalLights[0].direction);
+    float lightIntensity = smoothstep(-1.2, 1.01, NdotL * shadow);
+    vec3 directionalLight = directionalLights[0].color * lightIntensity;
+    
     if(texture2D(alphaMap, vUv).r < 0.15){
       discard;
     }
-  	// vec3 baseColor =vec3(0.851,0.706,0.529);
-    // float clarity = ( vUv.y * 0.9 ) ;
-    // gl_FragColor = vec4( baseColor * clarity, 0.8 );
-	  vec3 baseColor = vec3(0.498,0.439,0.337);
     
-    // Adjust clarity based on the vertical UV coordinate
-    float clarity = vUv.y * 1.0 + 0.7; // Adjust the coefficients as needed
-    
-    // Apply the adjusted clarity to the base color
-    gl_FragColor = vec4(baseColor * clarity, 1.0);
+    float clarity = vUv.y * 1.0 + 0.5;
+
+    gl_FragColor = vec4(hexColor * clarity * directionalLight , 1.0);
   }

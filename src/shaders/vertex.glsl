@@ -9,7 +9,6 @@
   float wave(float waveSize, float tipDistance, float centerDistance) {
     bool isTip = (gl_VertexID + 1) % 5 == 0;
 
-    // bool lol = (gl_VertexID+ 1) % 5 = 3 % 5 = 3
 
     float waveDistance = isTip ? tipDistance : centerDistance;
     return sin(uTime + waveSize) * waveDistance;

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
 const storeControl = useControlsStore();
+const storeGeneral = useGeneralStore();
 const { escape } = storeToRefs(storeControl);
 const title = ref("Marcin Dekier");
+import { useControls, TresLeches } from "@tresjs/leches";
 const description = ref("Marcin Dekier Sandbox (Portfolio)");
 useHead({
   title,
@@ -31,14 +33,38 @@ const gl = {
   stencil: false,
 };
 
+const { value: color } = useControls({
+  grass: storeGeneral.color,
+});
+const { value: colorBackground } = useControls({
+  ground: storeGeneral.colorBackground,
+});
+watch(color, (value) => {
+  storeGeneral.setColor(value);
+  // directionalLight.position.Z = value;
+});
+
+watch(colorBackground, (value) => {
+  storeGeneral.setColorBackground(value);
+  // directionalLight.position.Z = value;
+});
 const isActiveAntialias = ref(false);
 isActiveAntialias.value = isMobile ? false : true;
 </script>
 
 <template>
+  <canvas id="drawing-canvas" height="130" width="130"></canvas>
+  <canvas
+    id="old-canvas"
+    style="z-index: -1; opacity: 0; position: absolute"
+  ></canvas>
+  <!-- <div style="width: 95%; height: 1000px; overflow: scroll; position: fixed">
+    {{ storeGeneral.positions }}
+  </div> -->
   <HudGeneral />
   <LoadingScreen />
   <client-only>
+    <TresLeches />
     <Joystick v-if="isMobile" />
     <Suspense>
       <ControllerGamepad v-if="positionCharacter" />
@@ -52,21 +78,27 @@ isActiveAntialias.value = isMobile ? false : true;
     :antialias="isActiveAntialias"
   >
     <Camera />
-    <Light />
+    <Light v-if="positionCharacter" />
+    <Suspense>
+      <Sky />
+    </Suspense>
+    <Suspense>
+      <Ground2 v-if="positionCharacter" />
+    </Suspense>
     <!-- <Suspense>
       <Rapier />
     </Suspense> -->
     <Suspense>
-      <Hause />
+      <Hause v-if="positionCharacter" />
     </Suspense>
     <Suspense>
-      <HauseName />
+      <HauseName v-if="positionCharacter" />
     </Suspense>
     <Suspense>
-      <Lantern />
+      <Lantern v-if="positionCharacter" />
     </Suspense>
     <Suspense>
-      <Flag />
+      <Flag v-if="positionCharacter" />
     </Suspense>
     <!-- <Suspense>
       <Ground2 />
@@ -76,20 +108,18 @@ isActiveAntialias.value = isMobile ? false : true;
       <Telescope />
     </Suspense> -->
     <Suspense>
-      <Baner />
+      <Baner v-if="positionCharacter" />
     </Suspense>
+    <!-- <Suspense>
+      <ModelsTest v-if="positionCharacter" />
+    </Suspense> -->
     <!-- <Suspense>
       <Rabbit />
     </Suspense> -->
     <!-- <Suspense>
       <ModelsRoads />
     </Suspense> -->
-    <Suspense>
-      <Ground2 />
-    </Suspense>
-    <!-- <Suspense>
-      <Sky />
-    </Suspense> -->
+
     <!-- <Suspense>
       <Elo />
     </Suspense> -->
