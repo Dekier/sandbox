@@ -1115,7 +1115,7 @@
     "@alvarosabu/utils" "^3.1.1"
     "@vueuse/core" "^10.5.0"
 
-"@tresjs/leches@@next":
+"@tresjs/leches@^0.15.0-next.3":
   version "0.15.0-next.3"
   resolved "https://registry.yarnpkg.com/@tresjs/leches/-/leches-0.15.0-next.3.tgz#da645cb984b9cc6002fd4ae24c6196b87720ec1e"
   integrity sha512-kI8DovuzZ/mnSY3ifEiKJ1fd3aBoM5hYSfX0uwlJ6KWblVafrhds1J8j5aoFq6Kx0pjDVsY72fL8itAfm0ZrzQ==

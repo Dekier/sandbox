@@ -22,7 +22,7 @@
     "@pinia/nuxt": "^0.4.11",
     "@tresjs/cientos": "3.6.0",
     "@tresjs/core": "^3.5.1",
-    "@tresjs/leches": "@next",
+    "@tresjs/leches": "^0.15.0-next.3",
     "@tresjs/nuxt": "^1.3.0",
     "eslint": "^8.55.0",
     "mersenne-twister": "^1.1.0",
