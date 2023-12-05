@@ -72,61 +72,48 @@ let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
 instancedMesh.castShadow = false;
 instancedMesh.receiveShadow = false;
 
-loader.load("/materials/grass/perlin.png", (texture) => {
-  const material = new MeshBasicMaterial();
-  let newTexture = null;
-  const drawingCanvas = document.getElementById("drawing-canvas");
-  const drawStartPos = new Vector2();
-  const drawingContext = drawingCanvas?.getContext("2d");
-  const setupCanvasDrawing = () => {
-    drawingContext.fillStyle = "#FFFFFF";
-    drawingContext.fillRect(0, 0, 130, 130);
-    drawingContext.drawImage(texture.source.data, 0, 0, 130, 130);
+const drawingCanvas = document.getElementById("drawing-canvas");
+const drawStartPos = new Vector2();
+const drawingContext = drawingCanvas?.getContext("2d");
 
-    newTexture = new CanvasTexture(drawingCanvas);
-    material.map = newTexture;
-    let paint = false;
-    drawingCanvas.addEventListener("pointerdown", (e) => {
-      paint = true;
-      drawStartPos.set(e.offsetX, e.offsetY);
-    });
+const setupCanvasDrawing = (texture) => {
+  drawingContext.fillStyle = "#FFFFFF";
+  drawingContext.fillRect(0, 0, 130, 130);
+  drawingContext.drawImage(texture, 0, 0, 130, 130);
 
-    drawingCanvas.addEventListener("pointermove", (e) => {
-      if (paint) draw(drawingContext, e.offsetX, e.offsetY);
-    });
+  const newTexture = new CanvasTexture(drawingCanvas);
+  let paint = false;
+  drawingCanvas.addEventListener("pointerdown", (e) => {
+    paint = true;
+    drawStartPos.set(e.offsetX, e.offsetY);
+  });
 
-    drawingCanvas.addEventListener("pointerup", () => {
-      paint = false;
-      setIntancesMesh(newTexture.source.data);
-    });
+  drawingCanvas.addEventListener("pointermove", (e) => {
+    if (paint) draw(drawingContext, e.offsetX, e.offsetY);
+  });
 
-    drawingCanvas.addEventListener("pointerleave", () => {
-      paint = false;
-    });
-
+  drawingCanvas.addEventListener("pointerup", () => {
+    paint = false;
     setIntancesMesh(newTexture.source.data);
-  };
+  });
 
-  const draw = (drawContext, x, y) => {
-    drawContext.fillStyle = "#000000";
-    drawContext.beginPath();
-    drawContext.arc(x, y, 3, 0, 3 * Math.PI);
-    drawContext.fill();
+  setIntancesMesh(newTexture.source.data);
+};
+const draw = (drawContext, x, y) => {
+  drawContext.fillStyle = "#000000";
+  drawContext.beginPath();
+  drawContext.arc(x, y, 3, 0, 3 * Math.PI);
+  drawContext.fill();
+  drawContext.strokeStyle = "#000000";
+  drawContext.beginPath();
+  drawContext.moveTo(drawStartPos.x, drawStartPos.y);
+  drawContext.lineTo(x, y);
+  drawContext.stroke();
+  drawStartPos.set(x, y);
+};
 
-    // Łącząc aktualny punkt z nowym punktem za pomocą linii
-    drawContext.strokeStyle = "#000000";
-    drawContext.beginPath();
-    drawContext.moveTo(drawStartPos.x, drawStartPos.y);
-    drawContext.lineTo(x, y);
-    drawContext.stroke();
-
-    drawStartPos.set(x, y);
-
-    if (newTexture) {
-      newTexture.needsUpdate = true;
-    }
-  };
-  setupCanvasDrawing();
+loader.load("/materials/grass/perlin.png", (texture) => {
+  setupCanvasDrawing(texture.source.data);
 });
 
 const calculatePixelPercentage = (pixelData, targetColor) => {
