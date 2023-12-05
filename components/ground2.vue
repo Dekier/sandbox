@@ -56,23 +56,23 @@ const uniforms = {
   ...UniformsLib.lights,
 };
 
-const leavesMaterial = new ShaderMaterial({
+const grassMaterial = new ShaderMaterial({
   uniforms,
   vertexShader,
   fragmentShader,
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 90000;
+const instanceNumber = 200000;
 let dummy = new Object3D();
-const geometry = new PlaneGeometry(0.1, 1, 1, 4);
-geometry.translate(0, 0.5, 0); // move grass blade geometry lowest point at 0.
+const geometry = new PlaneGeometry(0.1, 1, 1, 1);
+geometry.translate(0, 0.5, 0);
 
-let instancedMesh = new InstancedMesh(geometry, leavesMaterial, instanceNumber);
+let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
 instancedMesh.castShadow = false;
 instancedMesh.receiveShadow = false;
 
-const noiseTexture = loader.load("/materials/grass/perlin.png", (texture) => {
+loader.load("/materials/grass/perlin.png", (texture) => {
   const material = new MeshBasicMaterial();
   let newTexture = null;
   const drawingCanvas = document.getElementById("drawing-canvas");
@@ -108,12 +108,20 @@ const noiseTexture = loader.load("/materials/grass/perlin.png", (texture) => {
   };
 
   const draw = (drawContext, x, y) => {
-    drawContext.moveTo(drawStartPos.x, drawStartPos.y);
-    drawContext.lineWidth = 7;
+    drawContext.fillStyle = "#000000";
+    drawContext.beginPath();
+    drawContext.arc(x, y, 3, 0, 3 * Math.PI);
+    drawContext.fill();
+
+    // Łącząc aktualny punkt z nowym punktem za pomocą linii
     drawContext.strokeStyle = "#000000";
+    drawContext.beginPath();
+    drawContext.moveTo(drawStartPos.x, drawStartPos.y);
     drawContext.lineTo(x, y);
     drawContext.stroke();
+
     drawStartPos.set(x, y);
+
     if (newTexture) {
       newTexture.needsUpdate = true;
     }
@@ -121,16 +129,39 @@ const noiseTexture = loader.load("/materials/grass/perlin.png", (texture) => {
   setupCanvasDrawing();
 });
 
+const calculatePixelPercentage = (pixelData, targetColor) => {
+  let totalPixels = 0;
+  let targetPixels = 0;
+  for (let i = 0; i < pixelData.length; i += 4) {
+    // Pixel data is stored in RGBA format (4 values per pixel)
+    const red = pixelData[i];
+    const green = pixelData[i + 1];
+    const blue = pixelData[i + 2];
+    const alpha = pixelData[i + 3];
+
+    // Check if the pixel is not fully transparent
+    if (alpha > 0) {
+      // Assuming targetColor is either "#000000" (black) or "#FFFFFF" (white)
+      const isTargetColor =
+        (targetColor === "#000000" && red === 0 && green === 0 && blue === 0) ||
+        (targetColor === "#FFFFFF" &&
+          red === 255 &&
+          green === 255 &&
+          blue === 255);
+
+      if (isTargetColor) {
+        targetPixels++;
+      }
+    }
+
+    totalPixels++;
+  }
+
+  return (targetPixels / totalPixels) * 100;
+};
+
 let oldModel = null;
 const setIntancesMesh = (data) => {
-  if (oldModel) {
-    oldModel.geometry.dispose();
-    oldModel.material.dispose();
-    scene.value.remove(oldModel);
-
-    dummy = new Object3D();
-    instancedMesh = new InstancedMesh(geometry, leavesMaterial, instanceNumber);
-  }
   const canvas = document.getElementById("old-canvas");
   const context = canvas.getContext("2d");
   canvas.width = 130;
@@ -138,6 +169,23 @@ const setIntancesMesh = (data) => {
   context.drawImage(data, 0, 0);
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
   const pixels = imageData.data;
+  const whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
+
+  const newPercentInstanceNumber = Math.round(
+    instanceNumber * (whitePercentage / 100)
+  );
+  if (oldModel) {
+    oldModel.geometry.dispose();
+    oldModel.material.dispose();
+    scene.value.remove(oldModel);
+
+    dummy = new Object3D();
+    instancedMesh = new InstancedMesh(
+      geometry,
+      grassMaterial,
+      newPercentInstanceNumber
+    );
+  }
 
   const threshold = 0.3;
   const validPositions = [];
@@ -151,7 +199,7 @@ const setIntancesMesh = (data) => {
     }
   }
 
-  for (let i = 0; i < instanceNumber; i++) {
+  for (let i = 0; i < newPercentInstanceNumber; i++) {
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
@@ -173,7 +221,7 @@ const setIntancesMesh = (data) => {
 };
 
 watch(color, (value) => {
-  leavesMaterial.uniforms.hexColor.value = new Vector3(
+  grassMaterial.uniforms.hexColor.value = new Vector3(
     new Color(value).r,
     new Color(value).g,
     new Color(value).b
@@ -185,10 +233,10 @@ watch(colorBackground, (value) => {
   newColor.value = new Color(value);
 });
 onLoop(({ _delta, elapsed }) => {
-  leavesMaterial.uniforms.time.value = elapsed;
-  leavesMaterial.uniformsNeedUpdate = true;
+  grassMaterial.uniforms.time.value = elapsed;
+  grassMaterial.uniformsNeedUpdate = true;
   if (positionCharacter.value) {
-    leavesMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
+    grassMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
   }
 });
 </script>
@@ -212,6 +260,7 @@ onLoop(({ _delta, elapsed }) => {
   right: 0px;
   margin: 0 auto;
   z-index: 2;
+  opacity: 1;
   cursor: crosshair;
   touch-action: none;
   width: 130px;

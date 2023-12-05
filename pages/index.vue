@@ -4,7 +4,8 @@ const storeControl = useControlsStore();
 const storeGeneral = useGeneralStore();
 const { escape } = storeToRefs(storeControl);
 const title = ref("Marcin Dekier");
-import { useControls, TresLeches } from "@tresjs/leches";
+import { useControls, TresLeches, Perf } from "@tresjs/leches";
+
 const description = ref("Marcin Dekier Sandbox (Portfolio)");
 useHead({
   title,
@@ -32,7 +33,6 @@ const gl = {
   powerPreference: "high-performance",
   stencil: false,
 };
-
 const { value: color } = useControls({
   grass: storeGeneral.color,
 });
@@ -58,9 +58,6 @@ isActiveAntialias.value = isMobile ? false : true;
     id="old-canvas"
     style="z-index: -1; opacity: 0; position: absolute"
   ></canvas>
-  <!-- <div style="width: 95%; height: 1000px; overflow: scroll; position: fixed">
-    {{ storeGeneral.positions }}
-  </div> -->
   <HudGeneral />
   <LoadingScreen />
   <client-only>
@@ -77,6 +74,7 @@ isActiveAntialias.value = isMobile ? false : true;
     v-bind="gl"
     :antialias="isActiveAntialias"
   >
+    <Perf />
     <Camera />
     <Light v-if="positionCharacter" />
     <Suspense>
@@ -100,9 +98,6 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <Flag v-if="positionCharacter" />
     </Suspense>
-    <!-- <Suspense>
-      <Ground2 />
-    </Suspense> -->
 
     <!-- <Suspense>
       <Telescope />
@@ -111,6 +106,9 @@ isActiveAntialias.value = isMobile ? false : true;
       <Baner v-if="positionCharacter" />
     </Suspense>
     <!-- <Suspense>
+      <ModelsTree v-if="positionCharacter" />
+    </Suspense> -->
+    <!-- <Suspense>
       <ModelsTest v-if="positionCharacter" />
     </Suspense> -->
     <!-- <Suspense>
@@ -118,10 +116,6 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense> -->
     <!-- <Suspense>
       <ModelsRoads />
-    </Suspense> -->
-
-    <!-- <Suspense>
-      <Elo />
     </Suspense> -->
     <Suspense>
       <ModelsCharacterAll />
