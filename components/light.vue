@@ -22,7 +22,7 @@ const cameraShadowSize = ref({ left: -60, right: 60, top: 30, bottom: -10 });
 const directionalLight = new DirectionalLight(0xffffff, 2);
 directionalLight.position.set(lightX.value, lightY.value, lightZ.value);
 directionalLight.rotation.set(-0.8, -1.7, -0.7);
-directionalLight.intensity = 1.4;
+directionalLight.intensity = 2.5;
 directionalLight.castShadow = true;
 directionalLight.shadow.bias = -0.002;
 directionalLight.target = characterModel.value;
@@ -30,7 +30,7 @@ directionalLight.target = characterModel.value;
 directionalLight.shadow.mapSize.width = isMobile ? 1024 : 4048;
 directionalLight.shadow.mapSize.height = isMobile ? 1024 : 4048;
 directionalLight.shadow.camera.near = 0.1;
-directionalLight.shadow.camera.far = 90;
+directionalLight.shadow.camera.far = 150;
 
 directionalLight.lookAt = positionCharacter.value;
 scene.value.add(directionalLight);
@@ -55,7 +55,6 @@ const setShadowCameraSize = ({
   top: number;
   bottom: number;
 }) => {
-  console.log(directionalLight.shadow.camera.left);
   directionalLight.shadow.camera.left = left;
   directionalLight.shadow.camera.right = right;
   directionalLight.shadow.camera.top = top;
@@ -147,5 +146,9 @@ onLoop(({ _delta, elapsed }) => {
     :position="[20, -20, -20]"
     ref="TresDirectionalLight"
   />
-  <TresHemisphereLight :intensity="1.2" />
+  <TresHemisphereLight
+    :intensity="1.5"
+    :color="0xffffff"
+    :ground-color="0xffffff"
+  />
 </template>

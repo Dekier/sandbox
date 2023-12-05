@@ -6,13 +6,13 @@ const startGame = () => {
 </script>
 
 <template>
-  <div
+  <!-- <div
     v-if="!storeControl.escape"
     class="Menu__main-container"
     @click="startGame"
   >
     <button type="button" class="Menu__button">START</button>
-  </div>
+  </div> -->
 </template>
 <style lang="scss">
 @import "menu";
