@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Mesh, Vector2, Vector3, PlaneGeometry, ShaderMaterial } from "three";
-import { Sky } from "@tresjs/cientos";
+import { Sky, Lensflare } from "@tresjs/cientos";
 
 const { scene, renderer, camera } = useTresContext();
 
@@ -51,6 +51,35 @@ onMounted(async () => {
     console.log("hehe");
   }, 2000);
 });
+
+const sunPosition = ref([]);
+
+watch(positionCharacter, () => {
+  console.log("sdjfhsdjkf");
+  sunPosition.value = [
+    positionCharacter.value.x + -100,
+    60,
+    positionCharacter.value.z + 87,
+  ];
+});
+const { onLoop } = useRenderLoop();
+onLoop(({ _delta, elapsed }) => {
+  if (positionCharacter.value) {
+    sunPosition.value = [
+      positionCharacter.value.x + -142,
+      65,
+      positionCharacter.value.z + 90,
+    ];
+  }
+});
 </script>
 
-<template></template>
+<template>
+  <TresPointLight v-if="positionCharacter" :intensity="0">
+    <Lensflare
+      :position="sunPosition"
+      :elements="[{ color: 'red' }, { color: 'yellow' }]"
+      :seed="8193"
+    />
+  </TresPointLight>
+</template>

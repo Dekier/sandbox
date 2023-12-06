@@ -115,7 +115,6 @@ const defaultKeys = {
   shiftleft: false,
   space: false,
   e: false,
-  escape: false,
 } as {
   a: boolean;
   s: boolean;
@@ -124,7 +123,6 @@ const defaultKeys = {
   shiftleft: boolean;
   space: boolean;
   e: boolean;
-  escape: boolean;
 };
 document.body.addEventListener("keydown", (e) => {
   const key = e.code.replace("Key", "").toLowerCase();

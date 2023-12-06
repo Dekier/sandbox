@@ -27,7 +27,6 @@ interface State {
   gamepadButtonXPressed: boolean;
   gamepadButtonAPressed: boolean;
   sanitisedAngle: number;
-  escape: boolean;
 }
 export const useControlsStore = defineStore("ControlsStore", {
   state: (): State => {
@@ -59,7 +58,6 @@ export const useControlsStore = defineStore("ControlsStore", {
       gamepadButtonXPressed: false,
       gamepadButtonAPressed: false,
       sanitisedAngle: 0,
-      escape: false,
     };
   },
   getters: {
@@ -98,10 +96,6 @@ export const useControlsStore = defineStore("ControlsStore", {
       }
       if (key === "shiftleft" && !this.leftShiftPressed) {
         this.leftShiftPressed = true;
-      }
-
-      if (key === "escape") {
-        this.escape = !this.escape;
       }
     },
     setKeysFalse(key: string) {
@@ -156,22 +150,22 @@ export const useControlsStore = defineStore("ControlsStore", {
     setSpeedCharacter() {
       if (this.upPressed) {
         if (this.leftShiftPressed) {
-          this.speed = 0.09;
+          this.speed = 13;
         } else if (this.buttonRTValue) {
-          const value = this.buttonRTValue * 0.03;
-          this.speed = 0.06 + value;
+          const value = this.buttonRTValue * 3;
+          this.speed = 10 + value;
         } else {
-          this.speed = 0.06;
+          this.speed = 10;
         }
       }
       if (this.downPressed) {
         if (this.leftShiftPressed) {
-          this.speed = -0.09;
+          this.speed = -13;
         } else if (this.buttonRTValue) {
-          const value = this.buttonRTValue * 0.03;
-          this.speed = -0.06 - value;
+          const value = this.buttonRTValue * 3;
+          this.speed = -10 - value;
         } else {
-          this.speed = -0.06;
+          this.speed = -10;
         }
       }
     },

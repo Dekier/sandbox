@@ -65,7 +65,7 @@ const grassMaterial = new ShaderMaterial({
 });
 const instanceNumber = 200000;
 let dummy = new Object3D();
-const geometry = new PlaneGeometry(0.1, 1, 1, 1);
+const geometry = new PlaneGeometry(0.1, 1, 1, 3);
 geometry.translate(0, 0.5, 0);
 
 let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
@@ -112,7 +112,7 @@ const draw = (drawContext, x, y) => {
   drawStartPos.set(x, y);
 };
 
-loader.load("/materials/grass/perlin.png", (texture) => {
+loader.load("/materials/grass/perlin2.png", (texture) => {
   setupCanvasDrawing(texture.source.data);
 });
 
