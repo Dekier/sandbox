@@ -2,7 +2,7 @@
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
 const storeControl = useControlsStore();
 const storeGeneral = useGeneralStore();
-const { escape } = storeToRefs(storeControl);
+const { isStartedGame } = storeToRefs(storeGeneral);
 const title = ref("Marcin Dekier");
 import { useControls, TresLeches, Perf } from "@tresjs/leches";
 
@@ -68,7 +68,7 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
   </client-only>
   <TresCanvas
-    :class="{ 'hide-cursor': escape }"
+    :class="{ 'hide-cursor': isStartedGame }"
     clear-color="#80CBF8"
     window-size
     v-bind="gl"

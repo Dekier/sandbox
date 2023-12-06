@@ -1,18 +1,20 @@
 <script setup lang="ts">
-const storeControl = useControlsStore();
+const storeGeneral = useGeneralStore();
 const startGame = () => {
-  storeControl.setKeysTrue("escape");
+  console.log("start");
+  storeGeneral.setIsStartedGame(true);
 };
 </script>
 
 <template>
-  <!-- <div
-    v-if="!storeControl.escape"
+  <div
+    id="button-start-game"
+    v-if="!storeGeneral.isStartedGame"
     class="Menu__main-container"
     @click="startGame"
   >
     <button type="button" class="Menu__button">START</button>
-  </div> -->
+  </div>
 </template>
 <style lang="scss">
 @import "menu";

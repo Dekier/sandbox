@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Vector3, Vector2, Spherical, Group } from "three";
 const { $gsap } = useNuxtApp();
+const storeGeneral = useGeneralStore();
 const characterStore = useCharacterStore();
 const storeControl = useControlsStore();
 const { positionCharacterLookAt, characterModel } = storeToRefs(characterStore);
+const { isStartedGame } = storeToRefs(storeGeneral);
 
 const { scene } = useTresContext();
 const cameraTheta = ref(0);
@@ -11,6 +13,7 @@ const cameraX = ref(0);
 const cameraY = ref(1);
 const cameraZ = ref(16);
 const delta = ref(new Vector2());
+const isMouseLocked = ref(false);
 const perspectiveCamera = ref<TresObject | null>(null);
 const { onLoop } = useRenderLoop();
 watch(positionCharacterLookAt, () => {
@@ -23,6 +26,17 @@ watch(characterModel, (value) => {
   container.position.z = characterModel.value.position.z;
 });
 
+// watch(isStartedGame, (value) => {
+//   const element = document.body;
+//   if (element.requestPointerLock || element.mozRequestPointerLock) {
+//     element.requestPointerLock =
+//       element.requestPointerLock || element.mozRequestPointerLock;
+//     if (!isMouseLocked.value) {
+//       element.requestPointerLock();
+//     }
+//   }
+// });
+
 const xAxis = new Vector3(1, 0, 0);
 const tempCameraVector = new Vector3();
 const tempModelVector = new Vector3();
@@ -33,7 +47,7 @@ scene.value.add(container);
 const cameraSettings = () => {
   container.add(perspectiveCamera.value);
   perspectiveCamera.value!.lookAt(positionCharacterLookAt.value);
-  onLoop(({ _delta, elapsed }) => {
+  onLoop(({ delta, elapsed }) => {
     if (!perspectiveCamera.value || !positionCharacterLookAt.value) {
       return;
     }
@@ -66,7 +80,7 @@ const cameraSettings = () => {
       storeControl.setSanitisedAngle(sanitisedAngle);
       // poniżej 0.05 to jest prędkość
       container.position.add(
-        cameraDirection.multiplyScalar(storeControl.speed)
+        cameraDirection.multiplyScalar(storeControl.speed * delta)
       );
       perspectiveCamera.value.lookAt(
         container.position.clone().add(cameraOrigin)
@@ -78,13 +92,13 @@ const cameraSettings = () => {
 };
 
 window.addEventListener("pointermove", (e) => {
-  if (storeControl.escape) {
+  if (isMouseLocked.value) {
     const { movementX, movementY } = e;
     const offset = new Spherical().setFromVector3(
       perspectiveCamera.value!.position.clone().sub(cameraOrigin)
     );
-    const phi = offset.phi - movementY * 0.02;
-    offset.theta -= movementX * 0.02;
+    const phi = offset.phi - movementY * 0.002;
+    offset.theta -= movementX * 0.002;
     offset.phi = Math.max(0.7, Math.min(0.55 * Math.PI, phi));
     perspectiveCamera.value!.position.copy(
       cameraOrigin.clone().add(new Vector3().setFromSpherical(offset))
@@ -93,6 +107,48 @@ window.addEventListener("pointermove", (e) => {
       container.position.clone().add(cameraOrigin)
     );
   }
+});
+
+document.addEventListener("pointerlockchange", () => {
+  isMouseLocked.value =
+    document.pointerLockElement === document.body ||
+    document.mozPointerLockElement === document.body;
+});
+document.addEventListener("mozpointerlockchange", () => {
+  isMouseLocked.value =
+    document.pointerLockElement === document.body ||
+    document.mozPointerLockElement === document.body;
+});
+
+document.addEventListener("click", () => {
+  if (isStartedGame.value) {
+    const element = document.body;
+
+    // Check if Pointer Lock is supported
+    if (element.requestPointerLock || element.mozRequestPointerLock) {
+      element.requestPointerLock =
+        element.requestPointerLock || element.mozRequestPointerLock;
+
+      // Request Pointer Lock only if it's not already locked
+      if (!isMouseLocked.value) {
+        element.requestPointerLock();
+      }
+    }
+  }
+});
+const defaultKeys = {
+  escape: false,
+} as {
+  escape: boolean;
+};
+document.body.addEventListener("keyup", (e) => {
+  const key = e.code.replace("Key", "").toLowerCase();
+  if (defaultKeys[key] !== undefined) {
+    storeGeneral.setIsStartedGame(false);
+  }
+  isMouseLocked.value =
+    document.pointerLockElement === document.body ||
+    document.mozPointerLockElement === document.body;
 });
 </script>
 
@@ -106,7 +162,6 @@ window.addEventListener("pointermove", (e) => {
     ref="perspectiveCamera"
   />
 
-  <!-- <Sky /> -->
   <!-- <OrbitControls
     :enablePan="false"
     :minDistance="1"
