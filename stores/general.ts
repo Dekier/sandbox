@@ -1,13 +1,15 @@
 interface State {
   color: string;
   colorBackground: string;
+  colorFlower: string;
   isStartedGame: boolean;
 }
 export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
     return {
-      color: "#7c715a",
-      colorBackground: "#4b4230",
+      color: "#286a81",
+      colorBackground: "#213545",
+      colorFlower: "#318f9b",
       isStartedGame: false,
     };
   },
@@ -19,9 +21,11 @@ export const useGeneralStore = defineStore("GeneralStore", {
     setColorBackground(data: string) {
       this.colorBackground = data;
     },
+    setColorFlower(data: string) {
+      this.colorFlower = data;
+    },
     setIsStartedGame(data: boolean) {
       this.isStartedGame = data;
-      console.log("data", data);
     },
   },
 });

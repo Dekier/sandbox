@@ -41,7 +41,7 @@ const xAxis = new Vector3(1, 0, 0);
 const tempCameraVector = new Vector3();
 const tempModelVector = new Vector3();
 // const cameraOrigin = new Vector3(0, 3, 0);
-const cameraOrigin = new Vector3(0, 5, 0);
+const cameraOrigin = new Vector3(0, 3, 0);
 const container = new Group();
 scene.value.add(container);
 const cameraSettings = () => {
@@ -93,7 +93,32 @@ const cameraSettings = () => {
 
 window.addEventListener("pointermove", (e) => {
   if (isMouseLocked.value) {
-    const { movementX, movementY } = e;
+    let movementX = 0;
+
+    if (e.movementX > 30) {
+      movementX = 30;
+    }
+
+    if (e.movementX < -30) {
+      movementX = -30;
+    }
+
+    if (e.movementX < 30 && e.movementX > -30) {
+      movementX = e.movementX;
+    }
+
+    let movementY = 0;
+
+    if (e.movementY > 30) {
+      movementY = 30;
+    }
+
+    if (e.movementY < -30) {
+      movementY = -30;
+    }
+    if (e.movementY < 30 && e.movementY > -30) {
+      movementY = e.movementY;
+    }
     const offset = new Spherical().setFromVector3(
       perspectiveCamera.value!.position.clone().sub(cameraOrigin)
     );
@@ -155,7 +180,7 @@ document.body.addEventListener("keyup", (e) => {
 <template>
   <TresPerspectiveCamera
     :position="[cameraX, cameraY, cameraZ]"
-    :fov="35"
+    :fov="55"
     :aspect="1"
     :near="1"
     :far="150"

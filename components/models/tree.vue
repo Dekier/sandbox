@@ -14,7 +14,7 @@ const { color } = storeToRefs(storeGeneral);
 
 const { nodes } = await useGLTF("/models/tree.glb", { draco: true });
 console.log(nodes);
-const modelTree = nodes.tree;
+const modelTree = nodes.tree1;
 
 modelTree.castShadow = true;
 modelTree.receiveShadow = true;
@@ -23,7 +23,7 @@ import vertexShader from "@/src/shaders/leafs/vertex.glsl";
 import fragmentShader from "@/src/shaders/leafs/fragment.glsl";
 
 const loader = new TextureLoader();
-const alphaMap = loader.load("/materials/leaves/alpha.png");
+const alphaMap = loader.load("/materials/leaves/leaves.webp");
 
 const uniforms = {
   time: {
@@ -45,17 +45,18 @@ const leavesMaterial = new ShaderMaterial({
   vertexShader,
   fragmentShader,
   lights: true,
+  side: DoubleSide,
 });
 const lol = new MeshStandardMaterial({
   color: 0xdbc0a4,
 });
-const modelLeafs = nodes.leafs;
+const modelLeafs = nodes.leaves;
 console.log(modelLeafs);
 modelLeafs.material?.dispose();
 modelLeafs.material = leavesMaterial;
 
 modelLeafs.castShadow = true;
-modelLeafs.receiveShadow = false;
+modelLeafs.receiveShadow = true;
 
 watch(color, (value) => {
   leavesMaterial.uniforms.hexColor.value = new Vector3(
