@@ -24,11 +24,11 @@ directionalLight.position.set(lightX.value, lightY.value, lightZ.value);
 directionalLight.rotation.set(-0.8, -1.7, -0.7);
 directionalLight.intensity = 2.5;
 directionalLight.castShadow = true;
-directionalLight.shadow.bias = -0.002;
+directionalLight.shadow.bias = -0.0001;
 directionalLight.target = characterModel.value;
 // directionalLight.shadow.radius = 2;
-directionalLight.shadow.mapSize.width = isMobile ? 1024 : 4048;
-directionalLight.shadow.mapSize.height = isMobile ? 1024 : 4048;
+directionalLight.shadow.mapSize.width = isMobile ? 1024 : 2024;
+directionalLight.shadow.mapSize.height = isMobile ? 1024 : 2024;
 directionalLight.shadow.camera.near = 0.1;
 directionalLight.shadow.camera.far = 150;
 
@@ -66,7 +66,7 @@ const setShadowCameraSize = ({
   }
 };
 if (directionalLight) {
-  // const helper = new DirectionalLightHelper(directionalLight, 5);
+  const helper = new DirectionalLightHelper(directionalLight, 5);
   // scene.value.add(helper);
   helperShadow = new CameraHelper(directionalLight.shadow.camera);
   // scene.value.add(helperShadow);

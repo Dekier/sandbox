@@ -39,6 +39,10 @@ const { value: color } = useControls({
 const { value: colorBackground } = useControls({
   ground: storeGeneral.colorBackground,
 });
+
+const { value: colorFlower } = useControls({
+  flower: storeGeneral.colorFlower,
+});
 watch(color, (value) => {
   storeGeneral.setColor(value);
   // directionalLight.position.Z = value;
@@ -46,6 +50,11 @@ watch(color, (value) => {
 
 watch(colorBackground, (value) => {
   storeGeneral.setColorBackground(value);
+  // directionalLight.position.Z = value;
+});
+
+watch(colorFlower, (value) => {
+  storeGeneral.setColorFlower(value);
   // directionalLight.position.Z = value;
 });
 const isActiveAntialias = ref(false);
@@ -89,7 +98,7 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <Hause v-if="positionCharacter" />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <HauseName v-if="positionCharacter" />
     </Suspense>
     <Suspense>
@@ -97,15 +106,21 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
     <Suspense>
       <Flag v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
 
     <!-- <Suspense>
       <Telescope />
     </Suspense> -->
-    <Suspense>
-      <Baner v-if="positionCharacter" />
-    </Suspense>
     <!-- <Suspense>
+      <Baner v-if="positionCharacter" />
+    </Suspense> -->
+    <!-- <Suspense>
+      <ModelsFlowers v-if="positionCharacter" />
+    </Suspense>
+    <Suspense>
+      <ModelsFern v-if="positionCharacter" />
+    </Suspense>
+    <Suspense>
       <ModelsTree v-if="positionCharacter" />
     </Suspense> -->
     <!-- <Suspense>
@@ -155,6 +170,6 @@ isActiveAntialias.value = isMobile ? false : true;
 
 <style lang="scss">
 .hide-cursor {
-  cursor: none;
+  // cursor: none;
 }
 </style>

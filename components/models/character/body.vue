@@ -39,7 +39,7 @@ modelCharacter.traverse((child: any) => {
     child.receiveShadow = true;
   }
 });
-modelCharacter.scale.set(0.8, 0.8, 0.8);
+modelCharacter.scale.set(1.2, 1.2, 1.2);
 // setModel(modelCharacter);
 // const modelCamera = nodes.Cube031;
 characterStore.setPositionCharacter(modelCharacter.position);
