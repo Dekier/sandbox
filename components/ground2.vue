@@ -78,8 +78,8 @@ const drawingContext = drawingCanvas?.getContext("2d");
 
 const setupCanvasDrawing = (texture) => {
   drawingContext.fillStyle = "#FFFFFF";
-  drawingContext.fillRect(0, 0, 130, 130);
-  drawingContext.drawImage(texture, 0, 0, 130, 130);
+  drawingContext.fillRect(0, 0, 160, 160);
+  drawingContext.drawImage(texture, 0, 0, 160, 160);
 
   const newTexture = new CanvasTexture(drawingCanvas);
   let paint = false;
@@ -112,7 +112,7 @@ const draw = (drawContext, x, y) => {
   drawStartPos.set(x, y);
 };
 
-loader.load("/materials/grass/perlin2.png", (texture) => {
+loader.load("/materials/grass/perlin.webp", (texture) => {
   setupCanvasDrawing(texture.source.data);
 });
 
@@ -151,13 +151,13 @@ let oldModel = null;
 const setIntancesMesh = (data) => {
   const canvas = document.getElementById("old-canvas");
   const context = canvas.getContext("2d");
-  canvas.width = 130;
-  canvas.height = 130;
+  canvas.width = 160;
+  canvas.height = 160;
   context.drawImage(data, 0, 0);
-  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.width);
   const pixels = imageData.data;
   const whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
-
+  console.log(whitePercentage);
   const newPercentInstanceNumber = Math.round(
     instanceNumber * (whitePercentage / 100)
   );
@@ -185,14 +185,14 @@ const setIntancesMesh = (data) => {
       validPositions.push({ x, z });
     }
   }
-
+  console.log(newPercentInstanceNumber);
   for (let i = 0; i < newPercentInstanceNumber; i++) {
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
-      randomPosition.x + Math.random() * 3.0 - 64.5,
+      randomPosition.x + Math.random() * 3.0 - 80,
       0,
-      randomPosition.z + Math.random() * 3.0 - 47
+      randomPosition.z - canvas.width / 2 + Math.random() * 3.0
     );
 
     dummy.scale.y = 0.6 + Math.random() * 0.7;
@@ -229,12 +229,7 @@ onLoop(({ _delta, elapsed }) => {
 </script>
 
 <template>
-  <Plane
-    ref="planeRef"
-    :args="[130, 133]"
-    :position="[0, 0, 19]"
-    receive-shadow
-  >
+  <Plane ref="planeRef" :args="[163, 163]" :position="[1, 0, 1]" receive-shadow>
     <TresMeshLambertMaterial :color="newColor" :map="rough" :roughness="1" />
   </Plane>
 </template>
@@ -250,7 +245,7 @@ onLoop(({ _delta, elapsed }) => {
   opacity: 1;
   cursor: crosshair;
   touch-action: none;
-  width: 130px;
-  height: 130px;
+  width: 160px;
+  height: 160px;
 }
 </style>

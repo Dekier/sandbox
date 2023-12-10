@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useModelSettings } from "~/composables/useModel";
-const { setModel } = useModelSettings();
+const { newSetModel } = useModelSettings();
 const {
   scene: modelScene,
   nodes,
@@ -8,14 +8,15 @@ const {
 } = await useGLTF("/models/baner.glb", {
   draco: true,
 });
-const { actions } = useAnimations(animations, modelScene);
-actions.desk.play();
-actions.desk2.play();
+const lol = useAnimations(animations, modelScene);
+console.log(nodes);
+// actions.desk.play();
+// actions.desk2.play();
 
 const model = nodes.desk;
-setModel(model);
+newSetModel(model);
 const modelDesk = nodes.desk2;
-setModel(modelDesk);
+newSetModel(modelDesk);
 </script>
 
 <template>

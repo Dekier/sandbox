@@ -183,7 +183,7 @@ document.body.addEventListener("keyup", (e) => {
     :fov="55"
     :aspect="1"
     :near="1"
-    :far="150"
+    :far="240"
     ref="perspectiveCamera"
   />
 
