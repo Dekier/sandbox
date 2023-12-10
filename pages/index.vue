@@ -62,7 +62,7 @@ isActiveAntialias.value = isMobile ? false : true;
 </script>
 
 <template>
-  <canvas id="drawing-canvas" height="130" width="130"></canvas>
+  <canvas id="drawing-canvas" height="160" width="160"></canvas>
   <canvas
     id="old-canvas"
     style="z-index: -1; opacity: 0; position: absolute"
@@ -111,10 +111,10 @@ isActiveAntialias.value = isMobile ? false : true;
     <!-- <Suspense>
       <Telescope />
     </Suspense> -->
-    <!-- <Suspense>
+    <Suspense>
       <Baner v-if="positionCharacter" />
-    </Suspense> -->
-    <!-- <Suspense>
+    </Suspense>
+    <Suspense>
       <ModelsFlowers v-if="positionCharacter" />
     </Suspense>
     <Suspense>
@@ -122,7 +122,7 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
     <Suspense>
       <ModelsTree v-if="positionCharacter" />
-    </Suspense> -->
+    </Suspense>
     <!-- <Suspense>
       <ModelsTest v-if="positionCharacter" />
     </Suspense> -->

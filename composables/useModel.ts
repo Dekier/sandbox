@@ -1,5 +1,5 @@
 import { Object3D } from "three";
-import { MeshBasicMaterial, Color } from "three";
+import { MeshBasicMaterial, Color, MeshLambertMaterial } from "three";
 export const useModelSettings = () => {
   const hudStore = useHudStore();
   const characterStore = useCharacterStore();
@@ -38,5 +38,19 @@ export const useModelSettings = () => {
     });
   };
 
-  return { setModel };
+  const newSetModel = (model: Object3D) => {
+    model.traverse((child: any) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+        const color = child.material.color;
+        child.material.dispose();
+        child.material = new MeshLambertMaterial({
+          color: new Color(color.r, color.g, color.b),
+        });
+      }
+    });
+  };
+
+  return { setModel, newSetModel };
 };

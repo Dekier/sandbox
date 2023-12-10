@@ -20,18 +20,20 @@ import {
   CanvasTexture,
   MeshBasicMaterial,
   BoxGeometry,
+  SphereGeometry,
 } from "three";
 
 const storeGeneral = useGeneralStore();
 const { colorFlower } = storeToRefs(storeGeneral);
 const { scene, renderer, camera } = useTresContext();
 const { onLoop, resume } = useRenderLoop();
+const { color, colorBackground } = storeToRefs(storeGeneral);
 
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
 
-import vertexShader from "@/src/shaders/flowers/vertex.glsl";
-import fragmentShader from "@/src/shaders/flowers/fragment.glsl";
+import vertexShader from "@/src/shaders/fern/vertex.glsl";
+import fragmentShader from "@/src/shaders/fern/fragment.glsl";
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/flowers/fern_alpha.jpg");
 
@@ -58,15 +60,14 @@ const grassMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 50;
+const instanceNumber = 20;
 let dummy = new Object3D();
-const geometry = new PlaneGeometry(0.1, 1, 1, 4);
-geometry.translate(0, 0.5, 0);
-
-const { nodes } = await useGLTF("/models/fern2.glb", { draco: true });
-console.log(nodes);
-const geo = new BoxGeometry(3, 3, 3);
-let instancedMesh = new InstancedMesh(geo, grassMaterial, instanceNumber);
+const { nodes } = await useGLTF("/models/fern.glb", { draco: true });
+let instancedMesh = new InstancedMesh(
+  nodes.fern.geometry,
+  grassMaterial,
+  instanceNumber
+);
 instancedMesh.castShadow = false;
 instancedMesh.receiveShadow = false;
 
@@ -76,8 +77,8 @@ const drawingContext = drawingCanvas?.getContext("2d");
 
 const setupCanvasDrawing = (texture) => {
   drawingContext.fillStyle = "#FFFFFF";
-  drawingContext.fillRect(0, 0, 130, 130);
-  drawingContext.drawImage(texture, 0, 0, 130, 130);
+  drawingContext.fillRect(0, 0, 160, 160);
+  drawingContext.drawImage(texture, 0, 0, 160, 160);
 
   const newTexture = new CanvasTexture(drawingCanvas);
   let paint = false;
@@ -110,7 +111,7 @@ const draw = (drawContext, x, y) => {
   drawStartPos.set(x, y);
 };
 
-loader.load("/materials/grass/perlin2.png", (texture) => {
+loader.load("/materials/grass/perlin.webp", (texture) => {
   setupCanvasDrawing(texture.source.data);
 });
 
@@ -149,13 +150,13 @@ let oldModel = null;
 const setIntancesMesh = (data) => {
   const canvas = document.getElementById("old-canvas");
   const context = canvas.getContext("2d");
-  canvas.width = 130;
-  canvas.height = 130;
+  canvas.width = 160;
+  canvas.height = 160;
   context.drawImage(data, 0, 0);
-  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.width);
   const pixels = imageData.data;
   const whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
-
+  console.log(whitePercentage);
   const newPercentInstanceNumber = Math.round(
     instanceNumber * (whitePercentage / 100)
   );
@@ -183,20 +184,19 @@ const setIntancesMesh = (data) => {
       validPositions.push({ x, z });
     }
   }
-
   for (let i = 0; i < newPercentInstanceNumber; i++) {
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
-      randomPosition.x + Math.random() * 3.0 - 64.5,
-      1.5,
-      randomPosition.z + Math.random() * 3.0 - 47
+      randomPosition.x + Math.random() * 3.0 - 80,
+      1,
+      randomPosition.z - canvas.width / 2 + Math.random() * 3.0
     );
-    const randomScale = Math.random() * 0.4;
-    dummy.scale.y = 0.5 + randomScale;
-    dummy.scale.x = 0.5 + randomScale;
-    dummy.scale.z = 0.5 + randomScale;
-    dummy.rotation.y = Math.random() * 184;
+
+    dummy.scale.y = 1.6 + Math.random() * 0.7;
+    dummy.scale.x = 1.5 + Math.random() * 0.4;
+    dummy.scale.z = 1.5 + Math.random() * 0.4;
+    // dummy.rotation.y = Math.random() * 184;
 
     dummy.updateMatrix();
     instancedMesh.setMatrixAt(i, dummy.matrix);
@@ -222,6 +222,7 @@ onLoop(({ _delta, elapsed }) => {
 });
 </script>
 
+<template></template>
 <style lang="scss">
 #drawing-canvas {
   position: absolute;
@@ -234,7 +235,7 @@ onLoop(({ _delta, elapsed }) => {
   opacity: 1;
   cursor: crosshair;
   touch-action: none;
-  width: 130px;
-  height: 130px;
+  width: 160px;
+  height: 160px;
 }
 </style>
