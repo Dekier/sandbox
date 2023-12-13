@@ -3,82 +3,120 @@ import {
   MeshBasicMaterial,
   Mesh,
   PlaneGeometry,
-  MeshStandardMaterial,
   TextureLoader,
   RepeatWrapping,
   Vector2,
   NearestFilter,
   WebGLRenderTarget,
+  Vector3,
+  Color,
+  UniformsLib,
+  ShaderMaterial,
+  CanvasTexture,
+  MeshPhongMaterial,
+  Texture,
 } from "three";
 
+import vertexShader from "@/src/shaders/ground/vertex.glsl";
+import fragmentShader from "@/src/shaders/ground/fragment.glsl";
+const storeGeneral = useGeneralStore();
+const { color } = storeToRefs(storeGeneral);
 const { scene, renderer, camera } = useTresContext();
-const characterStore = useCharacterStore();
-const { positionCharacter } = storeToRefs(characterStore);
 
-const pbrTexture = await useTexture({
-  map: "/materials/sand/color_512x512.webp",
-  displacementMap: "/materials/sand/height_512x512.webp",
-  roughnessMap: "/materials/sand/rough_512x512.webp",
-  normalMap: "/materials/sand/normal_512x512.webp",
-  aoMap: "/materials/sand/ao_512x512.webp",
-  // metalnessMap: "/materials/sand/metallic.webp",
-  // matcap: '/materials/sand/myMatcapTexture.webp',
-  // alphaMap: '/materials/sand/myAlphaMapTexture.webp'
+const loader = new TextureLoader();
+const rough = loader.load("/materials/grass/color.webp");
+rough.wrapS = RepeatWrapping;
+rough.wrapT = RepeatWrapping;
+rough.repeat.x = 35;
+rough.repeat.y = 35;
+
+const drawingCanvas = document.getElementById("drawing-canvas");
+const drawStartPos = new Vector2();
+const drawingContext = drawingCanvas?.getContext("2d");
+
+drawingCanvas.addEventListener("pointerup", (e) => {
+  const alphaMap = new Texture();
+  alphaMap.image = drawingContext.getImageData(0, 0, 160, 160);
+  alphaMap.needsUpdate = true;
+
+  // Ustaw parametry dla tekstury mapy alfy
+  alphaMap.wrapS = RepeatWrapping;
+  alphaMap.wrapT = RepeatWrapping;
+  groundMaterial.uniforms.alphaMap.value = alphaMap;
 });
 
-pbrTexture.map.wrapS = RepeatWrapping;
-pbrTexture.map.wrapT = RepeatWrapping;
-pbrTexture.map.repeat.x = 7;
-pbrTexture.map.repeat.y = 7;
-pbrTexture.map.minFilter = NearestFilter;
+const alphaMap = new Texture();
+alphaMap.image = drawingContext.getImageData(0, 0, 160, 160);
+alphaMap.needsUpdate = true;
 
-pbrTexture.displacementMap.wrapS = RepeatWrapping;
-pbrTexture.displacementMap.wrapT = RepeatWrapping;
-pbrTexture.displacementMap.repeat.x = 7;
-pbrTexture.displacementMap.repeat.y = 7;
-pbrTexture.displacementMap.minFilter = NearestFilter;
+// Ustaw parametry dla tekstury mapy alfy
+alphaMap.wrapS = RepeatWrapping;
+alphaMap.wrapT = RepeatWrapping;
 
-pbrTexture.roughnessMap.wrapS = RepeatWrapping;
-pbrTexture.roughnessMap.wrapT = RepeatWrapping;
-pbrTexture.roughnessMap.repeat.x = 7;
-pbrTexture.roughnessMap.repeat.y = 7;
-pbrTexture.roughnessMap.minFilter = NearestFilter;
+const darkerFactor = 1.0;
+const darkerFactorRoads = 1.5;
+const uniforms = {
+  time: {
+    value: 0,
+  },
+  uCharacterPosition: { value: new Vector3(0, 0, 0) },
+  roughMap: { value: rough },
+  alphaMap: { value: alphaMap },
+  hexColor: {
+    value: new Vector3(
+      new Color(color.value).r * darkerFactor,
+      new Color(color.value).g * darkerFactor,
+      new Color(color.value).b * darkerFactor
+    ),
+  },
+  hexColorRoads: {
+    value: new Vector3(
+      new Color(color.value).r * darkerFactorRoads,
+      new Color(color.value).g * darkerFactorRoads,
+      new Color(color.value).b * darkerFactorRoads
+    ),
+  },
+  ...UniformsLib.lights,
+};
 
-pbrTexture.normalMap.wrapS = RepeatWrapping;
-pbrTexture.normalMap.wrapT = RepeatWrapping;
-pbrTexture.normalMap.repeat.x = 7;
-pbrTexture.normalMap.repeat.y = 7;
-pbrTexture.normalMap.minFilter = NearestFilter;
+const groundMaterial = new ShaderMaterial({
+  uniforms,
+  vertexShader,
+  fragmentShader,
+  lights: true,
+});
 
-pbrTexture.aoMap.wrapS = RepeatWrapping;
-pbrTexture.aoMap.wrapT = RepeatWrapping;
-pbrTexture.aoMap.repeat.x = 7;
-pbrTexture.aoMap.repeat.y = 7;
-pbrTexture.aoMap.minFilter = NearestFilter;
-
-const mesh = new Mesh(
-  new PlaneGeometry(100, 100, 1000, 1000),
-  new MeshStandardMaterial({
-    color: 0xdbc0a4,
-    metalness: 0,
-    roughness: 1,
-    map: pbrTexture.map,
-    displacementMap: pbrTexture.displacementMap,
-    roughnessMap: pbrTexture.roughnessMap,
-    normalMap: pbrTexture.normalMap,
-    aoMap: pbrTexture.aoMap,
-    aoMapIntensity: 1.5,
-    displacementScale: 0.7,
-    normalScale: new Vector2(10, -10),
-  })
-);
+const mesh = new Mesh(new PlaneGeometry(161, 161, 1, 1), groundMaterial);
+// mesh.position.z = 1;
+// mesh.position.x = 1;
 mesh.rotation.x = -Math.PI / 2;
-// mesh.position.y = -1.67;
-// mesh.position.y = -2.05;
-mesh.position.y = -1.9;
 mesh.receiveShadow = true;
-mesh.castShadow = false;
 scene.value.add(mesh);
+
+watch(color, (value) => {
+  groundMaterial.uniforms.hexColor.value = new Vector3(
+    new Color(value).r * darkerFactor,
+    new Color(value).g * darkerFactor,
+    new Color(value).b * darkerFactor
+  );
+
+  groundMaterial.uniforms.hexColorRoads.value = new Vector3(
+    new Color("#4b3120").r,
+    new Color("#4b3120").g,
+    new Color("#4b3120").b
+  );
+});
+
+const geometry = new PlaneGeometry(101, 100, 1, 4);
+const lol = new MeshPhongMaterial({
+  color: 0xcccfff,
+});
+// const jdshfk = new Mesh(geometry, lol);
+// jdshfk.rotation.x = -Math.PI / 2;
+// jdshfk.position.y = 0.2;
+// jdshfk.castShadow = true;
+// jdshfk.receiveShadow = true;
+// scene.value.add(jdshfk);
 </script>
 
 <template></template>

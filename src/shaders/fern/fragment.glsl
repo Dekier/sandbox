@@ -6,7 +6,6 @@
 
 varying vec2 vUv;
 uniform vec3 hexColor;
-uniform float uGlossiness;
 uniform sampler2D alphaMap;
 
 varying vec3 vNormal;
@@ -24,17 +23,16 @@ void main() {
   );
 
   // Adjust shadow color to be darker than hexColor
-  vec3 shadowColor = hexColor * 0.7 ; // You can adjust the factor (0.5 in this case)
+  vec3 shadowColor = hexColor * 0.7 ;
 
   // directional light
   float NdotL = dot(vNormal, directionalLights[0].direction);
   float lightIntensity = smoothstep(0.0, 0.61, NdotL * shadow);
   vec3 directionalLight = directionalLights[0].color * lightIntensity;
   vec3 baseColor = hexColor * 0.7;
-  // Combine ambient, directional light, and shadow color
-     // Sample roughness value from the existing roughness map
-    float existingRoughness = texture2D(alphaMap, vUv).r;
-    float clarity = vUv.y * 1.0 ;
+
+  float existingRoughness = texture2D(alphaMap, vUv).r;
+  float clarity = vUv.y * 1.0 ;
   vec3 finalColor = baseColor * clarity * (ambientLightColor + directionalLight) + shadowColor ;
 
      if(texture2D(alphaMap, vUv).r < 0.5){

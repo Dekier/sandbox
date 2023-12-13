@@ -14,7 +14,6 @@ const { isActiveShadows, shadowSize, lightX, lightY, lightZ } =
 const storeControl = useControlsStore();
 const { isMovingCharacter } = storeToRefs(storeControl);
 const characterStore = useCharacterStore();
-const { positionCharacter, characterModel } = storeToRefs(characterStore);
 const { scene, camera } = useTresContext();
 const { isMobile } = useDevice();
 
@@ -26,9 +25,9 @@ directionalLight.position.set(-100, 55, 100);
 directionalLight.castShadow = true;
 directionalLight.shadow.bias = -0.0002;
 // directionalLight.shadow.radius = 2;
-directionalLight.shadow.mapSize.width = isMobile ? 1024 : 2024;
-directionalLight.shadow.mapSize.height = isMobile ? 1024 : 2024;
-directionalLight.shadow.camera.near = 0.1;
+directionalLight.shadow.mapSize.width = isMobile ? 1024 : 4048;
+directionalLight.shadow.mapSize.height = isMobile ? 1024 : 4048;
+directionalLight.shadow.camera.near = 0.0;
 directionalLight.shadow.camera.far = 255;
 // directionalLight.target = characterModel.value;
 // directionalLight.lookAt = new Vector3(0, 0, 0);

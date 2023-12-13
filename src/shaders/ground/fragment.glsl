@@ -6,12 +6,17 @@
 
 varying vec2 vUv;
 uniform vec3 hexColor;
+uniform vec3 hexColorRoads;
+uniform sampler2D roughMap;
 uniform sampler2D alphaMap;
 
 varying vec3 vNormal;
 
 void main() {
-  // shadow map
+
+  vec2 repeatedUV = vUv * vec2(30.0, 30.0); 
+  float alphaValue = texture2D(alphaMap, vUv).r;
+
   DirectionalLightShadow directionalShadow = directionalLightShadows[0];
 
   float shadow = getShadow(
@@ -22,23 +27,21 @@ void main() {
     vDirectionalShadowCoord[0]
   );
 
-  // Adjust shadow color to be darker than hexColor
-  vec3 shadowColor = hexColor * 0.7 ; // You can adjust the factor (0.5 in this case)
-
   // directional light
   float NdotL = dot(vNormal, directionalLights[0].direction);
-  float lightIntensity = smoothstep(0.0, 0.61, NdotL * shadow);
+  float lightIntensity = smoothstep(0.0, 0.71, NdotL * shadow);
   vec3 directionalLight = directionalLights[0].color * lightIntensity;
   vec3 baseColor = hexColor * 0.7;
-  // Combine ambient, directional light, and shadow color
-     // Sample roughness value from the existing roughness map
-    float existingRoughness = texture2D(alphaMap, vUv).r;
-    float clarity = vUv.y * 1.0 ;
-  vec3 finalColor = baseColor * clarity * (ambientLightColor + directionalLight) + shadowColor ;
 
-     if(texture2D(alphaMap, vUv).r < 0.5){
-      discard;
-    }
+  float existingRoughness = texture2D(roughMap, repeatedUV).r;
+    // Adjust clarity based on roughness
+  float clarity = 1.0 - existingRoughness;
+  
+  vec3 finalColor = mix(hexColorRoads, hexColor, alphaValue) * (2.0 - existingRoughness) + hexColor * existingRoughness * directionalLight;
+
+  // Dodaj teksturę (jeśli używasz roughMap do tekstury)
+  vec3 roughColor = texture2D(roughMap, repeatedUV).rgb;
+  finalColor *= roughColor;
 
   gl_FragColor = vec4(finalColor, 1.0);
 }

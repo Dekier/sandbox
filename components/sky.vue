@@ -55,7 +55,6 @@ onMounted(async () => {
 const sunPosition = ref([]);
 
 watch(positionCharacter, () => {
-  console.log("sdjfhsdjkf");
   sunPosition.value = [
     positionCharacter.value.x + -100,
     60,
@@ -75,11 +74,11 @@ onLoop(({ _delta, elapsed }) => {
 </script>
 
 <template>
-  <TresPointLight v-if="positionCharacter" :intensity="0">
+  <!-- <TresPointLight v-if="positionCharacter" :intensity="0">
     <Lensflare
       :position="sunPosition"
       :elements="[{ color: 'red' }, { color: 'yellow' }]"
       :seed="8193"
-    />
-  </TresPointLight>
+    /> -->
+  <!-- </TresPointLight> -->
 </template>

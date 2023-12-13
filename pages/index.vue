@@ -32,41 +32,38 @@ const gl = {
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
   powerPreference: "high-performance",
   stencil: false,
+  logarithmicDepthBuffer: true,
 };
 const { value: color } = useControls({
   grass: storeGeneral.color,
 });
-const { value: colorBackground } = useControls({
-  ground: storeGeneral.colorBackground,
-});
 
-const { value: colorFlower } = useControls({
-  flower: storeGeneral.colorFlower,
-});
+// const { value: colorFlower } = useControls({
+//   flower: storeGeneral.colorFlower,
+// });
+// const { value: colorTrees } = useControls({
+//   trees: storeGeneral.colorTrees,
+// });
 watch(color, (value) => {
   storeGeneral.setColor(value);
   // directionalLight.position.Z = value;
 });
 
-watch(colorBackground, (value) => {
-  storeGeneral.setColorBackground(value);
-  // directionalLight.position.Z = value;
-});
+// watch(colorFlower, (value) => {
+//   storeGeneral.setColorFlower(value);
+//   // directionalLight.position.Z = value;
+// });
 
-watch(colorFlower, (value) => {
-  storeGeneral.setColorFlower(value);
-  // directionalLight.position.Z = value;
-});
+// watch(colorTrees, (value) => {
+//   storeGeneral.setColorTrees(value);
+//   // directionalLight.position.Z = value;
+// });
 const isActiveAntialias = ref(false);
 isActiveAntialias.value = isMobile ? false : true;
 </script>
 
 <template>
-  <canvas id="drawing-canvas" height="160" width="160"></canvas>
-  <canvas
-    id="old-canvas"
-    style="z-index: -1; opacity: 0; position: absolute"
-  ></canvas>
+  <canvas id="drawing-canvas" height="160" width="160" />
   <HudGeneral />
   <LoadingScreen />
   <client-only>
@@ -90,7 +87,13 @@ isActiveAntialias.value = isMobile ? false : true;
       <Sky />
     </Suspense>
     <Suspense>
+      <Ground v-if="positionCharacter" />
+    </Suspense>
+    <!-- <Suspense>
       <Ground2 v-if="positionCharacter" />
+    </Suspense> -->
+    <Suspense>
+      <ModelsGrass v-if="positionCharacter" />
     </Suspense>
     <!-- <Suspense>
       <Rapier />
@@ -98,7 +101,7 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <Hause v-if="positionCharacter" />
     </Suspense>
-    <!-- <Suspense>
+    <Suspense>
       <HauseName v-if="positionCharacter" />
     </Suspense>
     <Suspense>
@@ -106,7 +109,7 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
     <Suspense>
       <Flag v-if="positionCharacter" />
-    </Suspense> -->
+    </Suspense>
 
     <!-- <Suspense>
       <Telescope />
@@ -114,7 +117,7 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <Baner v-if="positionCharacter" />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <ModelsFlowers v-if="positionCharacter" />
     </Suspense>
     <Suspense>
@@ -123,6 +126,9 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <ModelsTree v-if="positionCharacter" />
     </Suspense>
+    <Suspense>
+      <ModelsTreeSecond v-if="positionCharacter" />
+    </Suspense> -->
     <!-- <Suspense>
       <ModelsTest v-if="positionCharacter" />
     </Suspense> -->
@@ -147,9 +153,7 @@ isActiveAntialias.value = isMobile ? false : true;
     <!-- <Suspense>
       <ModelsSmallTree v-if="positionCharacter" />
     </Suspense> -->
-    <!-- <Suspense>
-      <ModelsGrass v-if="positionCharacter" />
-    </Suspense> -->
+
     <!-- <Suspense>
       <ModelsGrass1 v-if="positionCharacter" />
     </Suspense>
@@ -171,5 +175,20 @@ isActiveAntialias.value = isMobile ? false : true;
 <style lang="scss">
 .hide-cursor {
   // cursor: none;
+}
+
+#drawing-canvas {
+  position: absolute;
+  background-color: #000000;
+  top: 20px;
+  left: 0px;
+  right: 0px;
+  margin: 0 auto;
+  z-index: 2;
+  opacity: 1;
+  cursor: crosshair;
+  touch-action: none;
+  width: 160px;
+  height: 160px;
 }
 </style>

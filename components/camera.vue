@@ -95,28 +95,28 @@ window.addEventListener("pointermove", (e) => {
   if (isMouseLocked.value) {
     let movementX = 0;
 
-    if (e.movementX > 30) {
-      movementX = 30;
+    if (e.movementX > 20) {
+      movementX = 20;
     }
 
-    if (e.movementX < -30) {
-      movementX = -30;
+    if (e.movementX < -20) {
+      movementX = -20;
     }
 
-    if (e.movementX < 30 && e.movementX > -30) {
+    if (e.movementX < 20 && e.movementX > -20) {
       movementX = e.movementX;
     }
 
     let movementY = 0;
 
-    if (e.movementY > 30) {
-      movementY = 30;
+    if (e.movementY > 20) {
+      movementY = 20;
     }
 
-    if (e.movementY < -30) {
-      movementY = -30;
+    if (e.movementY < -20) {
+      movementY = -20;
     }
-    if (e.movementY < 30 && e.movementY > -30) {
+    if (e.movementY < 20 && e.movementY > -20) {
       movementY = e.movementY;
     }
     const offset = new Spherical().setFromVector3(

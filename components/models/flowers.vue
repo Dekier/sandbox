@@ -63,9 +63,9 @@ let dummy = new Object3D();
 const geometry = new PlaneGeometry(0.1, 1, 1, 4);
 geometry.translate(0, 0.5, 0);
 
-const { nodes } = await useGLTF("/models/flower.glb", { draco: true });
+const { nodes } = await useGLTF("/models/flowers.glb", { draco: true });
 let instancedMesh = new InstancedMesh(
-  nodes.flower.geometry,
+  nodes.flowers.geometry,
   grassMaterial,
   instanceNumber
 );
@@ -195,10 +195,10 @@ const setIntancesMesh = (data) => {
       randomPosition.z + Math.random() * 3.0 - 47
     );
 
-    dummy.scale.y = 1.0 + Math.random() * 0.7;
+    dummy.scale.y = 1.3 + Math.random() * 0.7;
     dummy.scale.x = 1.5 + Math.random() * 0.4;
     dummy.scale.z = 1.5 + Math.random() * 0.4;
-    dummy.rotation.y = Math.random() * 184;
+    // dummy.rotation.y = Math.random() * 184;
 
     dummy.updateMatrix();
     instancedMesh.setMatrixAt(i, dummy.matrix);
@@ -223,20 +223,3 @@ onLoop(({ _delta, elapsed }) => {
   }
 });
 </script>
-
-<style lang="scss">
-#drawing-canvas {
-  position: absolute;
-  background-color: #000000;
-  top: 20px;
-  left: 0px;
-  right: 0px;
-  margin: 0 auto;
-  z-index: 2;
-  opacity: 1;
-  cursor: crosshair;
-  touch-action: none;
-  width: 130px;
-  height: 130px;
-}
-</style>

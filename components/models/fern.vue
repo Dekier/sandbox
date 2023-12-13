@@ -189,11 +189,11 @@ const setIntancesMesh = (data) => {
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
       randomPosition.x + Math.random() * 3.0 - 80,
-      1,
+      1.3,
       randomPosition.z - canvas.width / 2 + Math.random() * 3.0
     );
 
-    dummy.scale.y = 1.6 + Math.random() * 0.7;
+    dummy.scale.y = 1.5 + Math.random() * 0.7;
     dummy.scale.x = 1.5 + Math.random() * 0.4;
     dummy.scale.z = 1.5 + Math.random() * 0.4;
     // dummy.rotation.y = Math.random() * 184;
@@ -223,19 +223,3 @@ onLoop(({ _delta, elapsed }) => {
 </script>
 
 <template></template>
-<style lang="scss">
-#drawing-canvas {
-  position: absolute;
-  background-color: #000000;
-  top: 20px;
-  left: 0px;
-  right: 0px;
-  margin: 0 auto;
-  z-index: 2;
-  opacity: 1;
-  cursor: crosshair;
-  touch-action: none;
-  width: 160px;
-  height: 160px;
-}
-</style>

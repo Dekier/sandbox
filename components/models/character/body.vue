@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Vector3, Quaternion, Object3D } from "three";
+import { Vector3, Quaternion, MeshLambertMaterial } from "three";
 import { useModelSettings } from "~/composables/useModel";
 import { useControls } from "~/composables/useControls";
 import { useGLTF } from "@tresjs/cientos";
 import { useUtils } from "~/composables/useUtils";
-const { setModel } = useModelSettings();
+const { newSetModel } = useModelSettings();
 const { changeModelRotation } = useControls();
 const storeControl = useControlsStore();
 const characterStore = useCharacterStore();
@@ -31,16 +31,18 @@ const {
 } = storeToRefs(storeControl);
 const { jump } = useUtils();
 const { nodes } = await useGLTF("/models/body.glb", { draco: true });
-const modelCharacter = nodes.character1;
-
-modelCharacter.traverse((child: any) => {
-  if (child.isMesh) {
-    child.castShadow = true;
-    child.receiveShadow = true;
-  }
+const modelCharacter = nodes.character;
+modelCharacter.material = new MeshLambertMaterial({
+  color: 0x7d7d7d,
 });
-modelCharacter.scale.set(1.2, 1.2, 1.2);
-// setModel(modelCharacter);
+// modelCharacter.traverse((child: any) => {
+//   if (child.isMesh) {
+//     child.castShadow = true;
+//     child.receiveShadow = true;
+//   }
+// });
+// modelCharacter.scale.set(1.2, 1.2, 1.2);
+newSetModel(modelCharacter);
 // const modelCamera = nodes.Cube031;
 characterStore.setPositionCharacter(modelCharacter.position);
 characterStore.setPositionCharacterLookAt(modelCharacter.position);
