@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   modules: [
     "@tresjs/nuxt",
     "@hypernym/nuxt-gsap",
+    "@nuxt/devtools",
     [
       "@pinia/nuxt",
       {
@@ -16,6 +17,10 @@ export default defineNuxtConfig({
     ],
     "@nuxtjs/device",
   ],
+  devtools: { enabled: true },
+  tres: {
+    devtools: true,
+  },
 
   css: [
     "@/assets/styles/main.scss",

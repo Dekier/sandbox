@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { MeshBasicMaterial } from "three";
 import { useGLTF } from "@tresjs/cientos";
+const { newSetModel } = useModelSettings();
 
 const { nodes } = await useGLTF("/models/hause-name.glb", { draco: true });
-const model = nodes.Text001;
+const model = nodes.name;
 
-model.position.y = model.position.y + 1.5;
-for (let index = 0; index < model.children.length; index++) {
-  model.children[index].receiveShadow = true;
-  model.children[index].castShadow = true;
-}
+newSetModel(model);
+// model.position.y = model.position.y + 1.5;
+// for (let index = 0; index < model.children.length; index++) {
+//   model.children[index].receiveShadow = true;
+//   model.children[index].castShadow = true;
+// }
 </script>
 
 <template>

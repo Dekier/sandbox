@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useModelSettings } from "~/composables/useModel";
-const { setModel } = useModelSettings();
+const { newSetModel } = useModelSettings();
 const {
   scene: modelScene,
   nodes,
@@ -15,8 +15,8 @@ actions.lantern2.play();
 const model = nodes.lantern;
 const modellantern = nodes.lantern2;
 
-setModel(model);
-setModel(modellantern);
+newSetModel(model);
+newSetModel(modellantern);
 </script>
 
 <template>

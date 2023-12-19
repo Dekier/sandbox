@@ -9,7 +9,7 @@ const {
   draco: true,
 });
 const lol = useAnimations(animations, modelScene);
-console.log(nodes);
+// console.log(nodes);
 // actions.desk.play();
 // actions.desk2.play();
 

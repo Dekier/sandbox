@@ -21,12 +21,13 @@ import {
   MeshBasicMaterial,
   BoxGeometry,
   SphereGeometry,
+  MeshLambertMaterial,
 } from "three";
 
 const storeGeneral = useGeneralStore();
 const { scene, renderer, camera } = useTresContext();
 const { onLoop, resume } = useRenderLoop();
-const { color } = storeToRefs(storeGeneral);
+const { color, colorStone } = storeToRefs(storeGeneral);
 
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
@@ -35,39 +36,20 @@ import vertexShader from "@/src/shaders/fern/vertex.glsl";
 import fragmentShader from "@/src/shaders/fern/fragment.glsl";
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/flowers/fern.png");
-const uniforms = {
-  time: {
-    value: 0,
-  },
-  uCharacterPosition: { value: new Vector3(0, 0, 0) },
-  alphaMap: { value: alphaMap },
-  hexColor: {
-    value: new Vector3(
-      new Color(color.value).r / 0.7,
-      new Color(color.value).g / 0.7,
-      new Color(color.value).b / 0.7
-    ),
-  },
-  ...UniformsLib.lights,
-};
 
-const fernMaterial = new ShaderMaterial({
-  uniforms,
-  vertexShader,
-  fragmentShader,
-  side: DoubleSide,
-  lights: true,
+const stoneMaterial = new MeshLambertMaterial({
+  color: new Color("#787878"),
 });
-const instanceNumber = 50;
+const instanceNumber = 40;
 let dummy = new Object3D();
-const { nodes } = await useGLTF("/models/fern.glb", { draco: true });
-let instancedMesh = new InstancedMesh(
-  nodes.fern.geometry,
-  fernMaterial,
-  instanceNumber
-);
-instancedMesh.castShadow = false;
-instancedMesh.receiveShadow = false;
+const { nodes } = await useGLTF("/models/stones.glb", { draco: true });
+const geometry1 = nodes.stone1.geometry;
+const geometry2 = nodes.stone2.geometry;
+const geometry3 = nodes.stone3.geometry;
+const geometry4 = nodes.stone4.geometry;
+let instancedMesh = new InstancedMesh(geometry1, stoneMaterial, instanceNumber);
+instancedMesh.castShadow = true;
+instancedMesh.receiveShadow = true;
 
 const drawingCanvas = document.getElementById("drawing-canvas");
 const drawStartPos = new Vector2();
@@ -159,10 +141,12 @@ const setIntancesMesh = (data) => {
 
     dummy = new Object3D();
     instancedMesh = new InstancedMesh(
-      nodes.fern.geometry,
-      fernMaterial,
+      geometry1,
+      stoneMaterial,
       newPercentInstanceNumber
     );
+    instancedMesh.castShadow = true;
+    instancedMesh.receiveShadow = true;
   }
 
   const threshold = 0.3;
@@ -176,41 +160,51 @@ const setIntancesMesh = (data) => {
       validPositions.push({ x, z });
     }
   }
+  const geometries = [geometry1, geometry2, geometry3, geometry4];
   for (let i = 0; i < newPercentInstanceNumber; i++) {
+    const randomGeometryIndex = Math.floor(Math.random() * geometries.length);
+    const randomGeometry = geometries[randomGeometryIndex];
+
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
       randomPosition.x + Math.random() * 1.2 - 80,
-      1.2,
+      -0.5,
       randomPosition.z - 160 / 2 + Math.random() * 1.2
     );
     dummy.rotation.y = Math.random() * 184;
-    dummy.scale.y = 1.2 + Math.random() * 0.7;
-    dummy.scale.x = 1.2 + Math.random() * 0.4;
-    dummy.scale.z = 1.2 + Math.random() * 0.4;
+    dummy.scale.y = 1.0 + Math.random() * 0.7;
+    dummy.scale.x = 1.0 + Math.random() * 0.4;
+    dummy.scale.z = 1.0 + Math.random() * 0.4;
 
     dummy.updateMatrix();
     instancedMesh.setMatrixAt(i, dummy.matrix);
+    instancedMesh.instanceMatrix.needsUpdate = true;
+    instancedMesh.geometry.attributes.position.copy(
+      randomGeometry.attributes.position
+    );
+    instancedMesh.geometry.attributes.normal.copy(
+      randomGeometry.attributes.normal
+    );
+    // instancedMesh.geometry.attributes.uv.copy(randomGeometry.attributes.uv);
+    // instancedMesh.geometry.index.copy(randomGeometry.index);
+    // instancedMesh.geometry.computeVertexNormals();
+    // instancedMesh.geometry.computeBoundingBox();
+    // instancedMesh.geometry.computeBoundingSphere();
+
+    // const dotX = dummy.position.x + 80;
+    // const dotZ = dummy.position.z + 80;
+    // drawingContext.fillStyle = "#000000";
+    // drawingContext.beginPath();
+    // drawingContext.arc(dotX, dotZ, 3, 0, 2 * Math.PI);
+    // drawingContext.fill();
   }
   oldModel = instancedMesh;
   scene.value.add(instancedMesh);
-  instancedMesh.instanceMatrix.needsUpdate = true;
 };
 
-watch(color, (value) => {
-  fernMaterial.uniforms.hexColor.value = new Vector3(
-    new Color(value).r,
-    new Color(value).g,
-    new Color(value).b
-  );
-});
-
-onLoop(({ _delta, elapsed }) => {
-  fernMaterial.uniforms.time.value = elapsed;
-  fernMaterial.uniformsNeedUpdate = true;
-  if (positionCharacter.value) {
-    fernMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
-  }
+watch(colorStone, (value) => {
+  stoneMaterial.color = new Color(value);
 });
 </script>
 
