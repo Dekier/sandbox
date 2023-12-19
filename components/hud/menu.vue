@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const storeGeneral = useGeneralStore();
+const { isStartedGame } = storeToRefs(storeGeneral);
 const startGame = () => {
-  console.log("start");
   storeGeneral.setIsStartedGame(true);
 };
 </script>
@@ -9,7 +9,7 @@ const startGame = () => {
 <template>
   <div
     id="button-start-game"
-    v-if="!storeGeneral.isStartedGame"
+    v-if="!isStartedGame"
     class="Menu__main-container"
     @click="startGame"
   >
