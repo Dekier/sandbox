@@ -1,6 +1,6 @@
 interface State {
   color: string;
-  colorFlower: string;
+  colorStone: string;
   colorTrees: string;
   isStartedGame: boolean;
 }
@@ -8,7 +8,7 @@ export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
     return {
       color: "#6e3a47",
-      colorFlower: "#6C7644",
+      colorStone: "#6C7644",
       colorTrees: "#5c703e",
       isStartedGame: false,
     };
@@ -18,8 +18,8 @@ export const useGeneralStore = defineStore("GeneralStore", {
     setColor(data: string) {
       this.color = data;
     },
-    setColorFlower(data: string) {
-      this.colorFlower = data;
+    setColorStone(data: string) {
+      this.colorStone = data;
     },
     setColorTrees(data: string) {
       this.colorTrees = data;

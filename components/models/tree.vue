@@ -14,7 +14,7 @@ const { colorTrees } = storeToRefs(storeGeneral);
 
 const { nodes } = await useGLTF("/models/tree.glb", { draco: true });
 console.log(nodes);
-const modelTree = nodes.tree1;
+const modelTree = nodes.tree;
 
 modelTree.castShadow = true;
 modelTree.receiveShadow = true;

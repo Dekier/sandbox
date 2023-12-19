@@ -46,10 +46,7 @@ const background = new Mesh(backgroundGeometry, backgroundMaterial);
 
 onMounted(async () => {
   await nextTick();
-  setTimeout(() => {
-    scene.value.add(background);
-    console.log("hehe");
-  }, 2000);
+  scene.value.add(background);
 });
 
 const sunPosition = ref([]);
@@ -73,12 +70,12 @@ onLoop(({ _delta, elapsed }) => {
 });
 </script>
 
-<template>
-  <!-- <TresPointLight v-if="positionCharacter" :intensity="0">
+<!-- <template>
+  <TresPointLight v-if="positionCharacter" :intensity="0">
     <Lensflare
       :position="sunPosition"
       :elements="[{ color: 'red' }, { color: 'yellow' }]"
       :seed="8193"
-    /> -->
-  <!-- </TresPointLight> -->
-</template>
+    />
+  </TresPointLight>
+</template> -->

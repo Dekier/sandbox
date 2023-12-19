@@ -6,16 +6,16 @@ import {
   Color,
   UniformsLib,
   DoubleSide,
-  MeshStandardMaterial,
+  MeshLambertMaterial,
 } from "three";
 import { useGLTF } from "@tresjs/cientos";
 const storeGeneral = useGeneralStore();
-const { colorTrees } = storeToRefs(storeGeneral);
+const { color } = storeToRefs(storeGeneral);
 
 const { nodes } = await useGLTF("/models/tree2.glb", { draco: true });
-console.log(nodes);
-const modelTree = nodes.tree004;
+const modelTree = nodes.tree;
 
+console.log(nodes);
 modelTree.castShadow = true;
 modelTree.receiveShadow = true;
 
@@ -23,7 +23,7 @@ import vertexShader from "@/src/shaders/leafs/vertex.glsl";
 import fragmentShader from "@/src/shaders/leafs/fragment.glsl";
 
 const loader = new TextureLoader();
-const alphaMap = loader.load("/materials/leaves/alpha2.webp");
+const alphaMap = loader.load("/materials/leaves/leaves.webp");
 
 const uniforms = {
   time: {
@@ -32,9 +32,9 @@ const uniforms = {
   alphaMap: { value: alphaMap },
   hexColor: {
     value: new Vector3(
-      new Color(colorTrees.value).r,
-      new Color(colorTrees.value).g,
-      new Color(colorTrees.value).b
+      new Color(color.value).r,
+      new Color(color.value).g,
+      new Color(color.value).b
     ),
   },
   ...UniformsLib.lights,
@@ -47,18 +47,30 @@ const leavesMaterial = new ShaderMaterial({
   lights: true,
   side: DoubleSide,
 });
-const lol = new MeshStandardMaterial({
-  color: 0xdbc0a4,
+const lol = new MeshLambertMaterial({
+  color: new Color(color.value),
+  alphaMap: alphaMap,
+  alphaTest: 0.3,
+  side: DoubleSide,
 });
-const modelLeafs = nodes.Plane233;
-console.log(modelLeafs);
-modelLeafs.material?.dispose();
-modelLeafs.material = leavesMaterial;
 
-modelLeafs.castShadow = true;
-modelLeafs.receiveShadow = true;
+const modelLeaves = nodes.leaves;
+modelLeaves.material?.dispose();
+modelLeaves.material = lol;
 
-watch(colorTrees, (value) => {
+modelLeaves.castShadow = true;
+modelLeaves.receiveShadow = true;
+
+const modelLeaves2 = nodes.leaves2;
+modelLeaves2.material?.dispose();
+modelLeaves2.material = lol;
+
+modelLeaves2.castShadow = true;
+modelLeaves2.receiveShadow = true;
+
+watch(color, (value) => {
+  modelLeaves.material.color = new Color(value);
+  modelLeaves2.material.color = new Color(value);
   leavesMaterial.uniforms.hexColor.value = new Vector3(
     new Color(value).r,
     new Color(value).g,
@@ -75,5 +87,6 @@ onLoop(({ _delta, elapsed }) => {
 
 <template>
   <primitive :object="modelTree" />
-  <primitive :object="modelLeafs" />
+  <primitive :object="modelLeaves" />
+  <primitive :object="modelLeaves2" />
 </template>

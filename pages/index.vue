@@ -32,25 +32,23 @@ const gl = {
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
   powerPreference: "high-performance",
   stencil: false,
-  logarithmicDepthBuffer: true,
 };
 const { value: color } = useControls({
   grass: storeGeneral.color,
 });
 
-// const { value: colorFlower } = useControls({
-//   flower: storeGeneral.colorFlower,
+// const { value: colorStone } = useControls({
+//   stones: storeGeneral.colorStone,
 // });
 // const { value: colorTrees } = useControls({
 //   trees: storeGeneral.colorTrees,
 // });
 watch(color, (value) => {
   storeGeneral.setColor(value);
-  // directionalLight.position.Z = value;
 });
 
-// watch(colorFlower, (value) => {
-//   storeGeneral.setColorFlower(value);
+// watch(colorStone, (value) => {
+//   storeGeneral.setColorStone(value);
 //   // directionalLight.position.Z = value;
 // });
 
@@ -110,6 +108,12 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <Flag v-if="positionCharacter" />
     </Suspense>
+    <!-- <Suspense>
+      <ModelsTree v-if="positionCharacter" />
+    </Suspense> -->
+    <!-- <Suspense>
+      <ModelsTreeSecond v-if="positionCharacter" />
+    </Suspense> -->
 
     <!-- <Suspense>
       <Telescope />
@@ -117,18 +121,17 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <Baner v-if="positionCharacter" />
     </Suspense>
-    <!-- <Suspense>
+    <Suspense>
       <ModelsFlowers v-if="positionCharacter" />
     </Suspense>
     <Suspense>
       <ModelsFern v-if="positionCharacter" />
     </Suspense>
-    <Suspense>
-      <ModelsTree v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
-      <ModelsTreeSecond v-if="positionCharacter" />
+    <!-- <Suspense>
+      <ModelsStones v-if="positionCharacter" />
     </Suspense> -->
+    <!--
+     -->
     <!-- <Suspense>
       <ModelsTest v-if="positionCharacter" />
     </Suspense> -->

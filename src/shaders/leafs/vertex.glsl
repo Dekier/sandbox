@@ -57,8 +57,8 @@ void main() {
     float dispPower = 1. - cos(uv.y * 3.1416 * 0.7);
 
     float displacement = noise * (0.3 * dispPower);
-    mvPosition.x -= displacement;
-    mvPosition.z -= displacement;
+    // mvPosition.x -= displacement;
+    // mvPosition.z -= displacement;
 
  
 

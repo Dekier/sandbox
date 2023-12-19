@@ -101,9 +101,9 @@ watch(color, (value) => {
   );
 
   groundMaterial.uniforms.hexColorRoads.value = new Vector3(
-    new Color("#4b3120").r,
-    new Color("#4b3120").g,
-    new Color("#4b3120").b
+    new Color(value).r * darkerFactorRoads,
+    new Color(value).g * darkerFactorRoads,
+    new Color(value).b * darkerFactorRoads
   );
 });
 

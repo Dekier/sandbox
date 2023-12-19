@@ -7,7 +7,6 @@ const { nodes } = await useGLTF("/models/grass-flat-2.glb", {
   draco: true,
 });
 
-console.log(nodes);
 const instancesCount = ref(40000);
 
 const { isMobile } = useDevice();

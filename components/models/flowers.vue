@@ -23,7 +23,7 @@ import {
 } from "three";
 
 const storeGeneral = useGeneralStore();
-const { colorFlower } = storeToRefs(storeGeneral);
+const { color } = storeToRefs(storeGeneral);
 const { scene, renderer, camera } = useTresContext();
 const { onLoop, resume } = useRenderLoop();
 
@@ -33,8 +33,9 @@ const { positionCharacter } = storeToRefs(characterStore);
 import vertexShader from "@/src/shaders/flowers/vertex.glsl";
 import fragmentShader from "@/src/shaders/flowers/fragment.glsl";
 const loader = new TextureLoader();
-const alphaMap = loader.load("/materials/flowers/alpha2.webp");
+const alphaMap = loader.load("/materials/flowers/alpha3.webp");
 
+const darkerFactor = 1.3;
 const uniforms = {
   time: {
     value: 0,
@@ -43,9 +44,9 @@ const uniforms = {
   alphaMap: { value: alphaMap },
   hexColor: {
     value: new Vector3(
-      new Color(colorFlower.value).r,
-      new Color(colorFlower.value).g,
-      new Color(colorFlower.value).b
+      new Color(color.value).r * darkerFactor,
+      new Color(color.value).g * darkerFactor,
+      new Color(color.value).b * darkerFactor
     ),
   },
   ...UniformsLib.lights,
@@ -58,17 +59,13 @@ const grassMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 50;
+const instanceNumber = 1150;
 let dummy = new Object3D();
-const geometry = new PlaneGeometry(0.1, 1, 1, 4);
+const geometry = new PlaneGeometry(0.2, 0.8, 1, 2);
 geometry.translate(0, 0.5, 0);
 
-const { nodes } = await useGLTF("/models/flowers.glb", { draco: true });
-let instancedMesh = new InstancedMesh(
-  nodes.flowers.geometry,
-  grassMaterial,
-  instanceNumber
-);
+const { nodes } = await useGLTF("/models/flower.glb", { draco: true });
+let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
 instancedMesh.castShadow = false;
 instancedMesh.receiveShadow = false;
 
@@ -78,8 +75,8 @@ const drawingContext = drawingCanvas?.getContext("2d");
 
 const setupCanvasDrawing = (texture) => {
   drawingContext.fillStyle = "#FFFFFF";
-  drawingContext.fillRect(0, 0, 130, 130);
-  drawingContext.drawImage(texture, 0, 0, 130, 130);
+  drawingContext.fillRect(0, 0, 160, 160);
+  drawingContext.drawImage(texture, 0, 0, 160, 160);
 
   const newTexture = new CanvasTexture(drawingCanvas);
   let paint = false;
@@ -112,7 +109,7 @@ const draw = (drawContext, x, y) => {
   drawStartPos.set(x, y);
 };
 
-loader.load("/materials/grass/perlin2.png", (texture) => {
+loader.load("/materials/grass/perlin.webp", (texture) => {
   setupCanvasDrawing(texture.source.data);
 });
 
@@ -149,15 +146,9 @@ const calculatePixelPercentage = (pixelData, targetColor) => {
 
 let oldModel = null;
 const setIntancesMesh = (data) => {
-  const canvas = document.getElementById("old-canvas");
-  const context = canvas.getContext("2d");
-  canvas.width = 130;
-  canvas.height = 130;
-  context.drawImage(data, 0, 0);
-  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  const imageData = drawingContext.getImageData(0, 0, 160, 160);
   const pixels = imageData.data;
   const whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
-
   const newPercentInstanceNumber = Math.round(
     instanceNumber * (whitePercentage / 100)
   );
@@ -180,8 +171,8 @@ const setIntancesMesh = (data) => {
     const pixelValue = (pixels[i] / 255.0 - 0.5) * 2.0;
 
     if (pixelValue > threshold) {
-      const x = (i / 4) % canvas.width;
-      const z = Math.floor(i / 4 / canvas.width);
+      const x = (i / 4) % 160;
+      const z = Math.floor(i / 4 / 160);
       validPositions.push({ x, z });
     }
   }
@@ -190,15 +181,15 @@ const setIntancesMesh = (data) => {
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
-      randomPosition.x + Math.random() * 3.0 - 64.5,
-      0.0,
-      randomPosition.z + Math.random() * 3.0 - 47
+      randomPosition.x + Math.random() * 1.2 - 80,
+      0,
+      randomPosition.z - 160 / 2 + Math.random() * 1.2
     );
 
-    dummy.scale.y = 1.3 + Math.random() * 0.7;
+    dummy.scale.y = 1.5 + Math.random() * 0.7;
     dummy.scale.x = 1.5 + Math.random() * 0.4;
     dummy.scale.z = 1.5 + Math.random() * 0.4;
-    // dummy.rotation.y = Math.random() * 184;
+    dummy.rotation.y = Math.random() * 184;
 
     dummy.updateMatrix();
     instancedMesh.setMatrixAt(i, dummy.matrix);
@@ -207,11 +198,11 @@ const setIntancesMesh = (data) => {
   scene.value.add(instancedMesh);
 };
 
-watch(colorFlower, (value) => {
+watch(color, (value) => {
   grassMaterial.uniforms.hexColor.value = new Vector3(
-    new Color(value).r,
-    new Color(value).g,
-    new Color(value).b
+    new Color(value).r * darkerFactor,
+    new Color(value).g * darkerFactor,
+    new Color(value).b * darkerFactor
   );
 });
 
