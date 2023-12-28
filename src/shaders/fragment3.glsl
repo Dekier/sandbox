@@ -37,7 +37,7 @@ uniform vec3 hexColor;
 
 
 void main() {
-    float clarity = vUv.y / 1.0;
+    float clarity = vUv.y / 1.3;
     
     DirectionalLightShadow directionalShadow = directionalLightShadows[0];
     float shadow = getShadow(

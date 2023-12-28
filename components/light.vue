@@ -23,7 +23,7 @@ const directionalLight = new DirectionalLight(0xffffff, 2.5);
 directionalLight.position.set(-100, 55, 100);
 // directionalLight.rotation.set(-0.8, 100.7, 100.7);
 directionalLight.castShadow = true;
-directionalLight.shadow.bias = -0.002;
+directionalLight.shadow.bias = -0.001;
 // directionalLight.shadow.radius = 2;
 directionalLight.shadow.mapSize.width = isMobile ? 1024 : 4048;
 directionalLight.shadow.mapSize.height = isMobile ? 1024 : 4048;

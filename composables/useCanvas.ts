@@ -4,6 +4,9 @@ export const useCanvas = () => {
   const calculatePixelPercentage = (pixelData, targetColor) => {
     let totalPixels = 0;
     let targetPixels = 0;
+
+    const isGrayColor = (red, green, blue) => red === green && green === blue;
+
     for (let i = 0; i < pixelData.length; i += 4) {
       // Pixel data is stored in RGBA format (4 values per pixel)
       const red = pixelData[i];
@@ -13,7 +16,7 @@ export const useCanvas = () => {
 
       // Check if the pixel is not fully transparent
       if (alpha > 0) {
-        // Assuming targetColor is either "#000000" (black) or "#FFFFFF" (white)
+        // Assuming targetColor is either "#000000" (black), "#FFFFFF" (white), or "#808080" (gray)
         const isTargetColor =
           (targetColor === "#000000" &&
             red === 0 &&
@@ -22,7 +25,8 @@ export const useCanvas = () => {
           (targetColor === "#FFFFFF" &&
             red === 255 &&
             green === 255 &&
-            blue === 255);
+            blue === 255) ||
+          (targetColor === "#808080" && isGrayColor(red, green, blue));
 
         if (isTargetColor) {
           targetPixels++;
@@ -48,5 +52,21 @@ export const useCanvas = () => {
     drawStartPos.set(x, y);
   };
 
-  return { calculatePixelPercentage, draw };
+  const drawDots = (positions, drawContext) => {
+    for (let i = 0; i < positions.length; i++) {
+      const offsetX = 160 / 2;
+      const offsetY = 160 / 2;
+
+      for (let i = 0; i < positions.length; i++) {
+        const x = positions[i].positionX + offsetX;
+        const y = positions[i].positionZ + offsetY;
+        drawContext.fillStyle = "#000000";
+        drawContext.beginPath();
+        drawContext.arc(x, y, 1.5, 0, 2 * Math.PI);
+        drawContext.fill();
+      }
+    }
+  };
+
+  return { calculatePixelPercentage, draw, drawDots };
 };

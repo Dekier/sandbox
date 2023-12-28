@@ -1,0 +1,145 @@
+<script setup lang="ts">
+import {
+  TextureLoader,
+  Color,
+  DoubleSide,
+  MeshLambertMaterial,
+  InstancedMesh,
+  Object3D,
+  Matrix4,
+} from "three";
+import { useGLTF } from "@tresjs/cientos";
+const storeGeneral = useGeneralStore();
+const controlsStore = useControlsStore();
+const characterStore = useCharacterStore();
+const { isMovingCharacter } = storeToRefs(controlsStore);
+const { positionCharacter } = storeToRefs(characterStore);
+const { $gsap } = useNuxtApp();
+const { colorTrees } = storeToRefs(storeGeneral);
+const { bendModel, calculateDistance } = useUtils();
+
+const { nodes } = await useGLTF("/models/bush.glb", { draco: true });
+const modelLeaves = nodes.leaves;
+const modelWood = nodes.wood;
+modelWood.castShadow = true;
+modelWood.receiveShadow = true;
+
+const loader = new TextureLoader();
+const alphaMap = loader.load("/materials/leaves/leaves.png");
+
+const bushMaterial = new MeshLambertMaterial({
+  color: new Color(colorTrees.value),
+  alphaMap: alphaMap,
+  alphaTest: 0.3,
+  side: DoubleSide,
+});
+
+modelLeaves.material?.dispose();
+modelLeaves.material = bushMaterial;
+
+modelLeaves.castShadow = true;
+modelLeaves.receiveShadow = true;
+
+watch(colorTrees, (value) => {
+  modelLeaves.material.color = new Color(value);
+});
+const positions = [
+  { x: 10, z: 16, y: 0 },
+  { x: 22, z: 1, y: 0 },
+  { x: -30, z: 23, y: 0 },
+  { x: -23, z: -7, y: 0 },
+  { x: 50, z: 56, y: 0 },
+  { x: -44, z: -36, y: 0 },
+  { x: 30, z: -24, y: 0 },
+  { x: 3, z: -50, y: 0 },
+  { x: 53, z: 4, y: 0 },
+  { x: 32, z: 40, y: 0 },
+  { x: -50, z: 60, y: 0 },
+  { x: -47, z: -3, y: 0 },
+  { x: -10, z: 53, y: 0 },
+];
+let dummyWood = new Object3D();
+const instancesWood = new InstancedMesh(
+  modelWood.geometry,
+  modelWood.material,
+  positions.length
+);
+
+instancesWood.castShadow = true;
+instancesWood.receiveShadow = true;
+
+let dummyLeaves = new Object3D();
+const instancesLeaves = new InstancedMesh(
+  modelLeaves.geometry,
+  modelLeaves.material,
+  positions.length
+);
+instancesLeaves.castShadow = true;
+instancesLeaves.receiveShadow = true;
+const { scene } = useTresContext();
+
+for (let i = 0; i < positions.length; i++) {
+  const randomY = Math.random() * 184;
+  dummyWood.position.set(positions[i].x, modelWood.position.y, positions[i].z);
+  // dummyWood.rotation.y = randomY;
+  dummyWood.updateMatrix();
+  dummyLeaves.position.set(
+    positions[i].x,
+    modelLeaves.position.y,
+    positions[i].z
+  );
+  // dummyLeaves.rotation.y = randomY;
+  dummyLeaves.updateMatrix();
+  instancesWood.setMatrixAt(i, dummyWood.matrix);
+  instancesLeaves.setMatrixAt(i, dummyLeaves.matrix);
+  scene.value.add(instancesWood);
+  scene.value.add(instancesLeaves);
+}
+
+const { onBeforeLoop } = useRenderLoop();
+let mat4Wood = new Matrix4();
+let mat4Leaves = new Matrix4();
+const currentDistance = ref(0);
+onBeforeLoop(() => {
+  for (let i = 0; i < positions.length; i++) {
+    instancesWood.getMatrixAt(i, mat4Wood);
+    mat4Wood.decompose(
+      dummyWood.position,
+      dummyWood.quaternion,
+      dummyWood.scale
+    );
+
+    instancesLeaves.getMatrixAt(i, mat4Leaves);
+    mat4Leaves.decompose(
+      dummyLeaves.position,
+      dummyLeaves.quaternion,
+      dummyLeaves.scale
+    );
+
+    currentDistance.value = calculateDistance(dummyWood.position);
+    if (currentDistance.value < 4) {
+      const { x, z } = bendModel(dummyWood.position);
+      dummyWood.rotation.x = lerp(dummyWood.rotation.x, x, 0.04);
+      dummyWood.rotation.z = lerp(dummyWood.rotation.z, z, 0.04);
+      dummyWood.updateMatrix();
+      instancesWood.setMatrixAt(i, dummyWood.matrix);
+      instancesWood.instanceMatrix.needsUpdate = true;
+
+      dummyLeaves.rotation.x = lerp(dummyLeaves.rotation.x, x, 0.04);
+      dummyLeaves.rotation.z = lerp(dummyLeaves.rotation.z, z, 0.04);
+      dummyLeaves.updateMatrix();
+      instancesLeaves.setMatrixAt(i, dummyLeaves.matrix);
+      instancesLeaves.instanceMatrix.needsUpdate = true;
+    }
+  }
+});
+
+const lerp = (start: number, end: number, alpha: number): number => {
+  return start * (1 - alpha) + end * alpha;
+};
+</script>
+
+<!-- <template>
+  <primitive :object="modelLeaves" />
+  <primitive :object="modelWood" />
+</template> -->

@@ -62,6 +62,7 @@ const { onLoop } = useRenderLoop();
 
 onLoop((data) => {
   storeControl.setSpeedCharacter();
+  characterStore.setPositionCharacter(modelCharacter.position);
   // if (keys.value.space && !isJumping.value) {
   //   jump(modelCharacter);
   // }

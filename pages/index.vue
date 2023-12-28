@@ -40,9 +40,9 @@ const { value: color } = useControls({
 // const { value: colorStone } = useControls({
 //   stones: storeGeneral.colorStone,
 // });
-// const { value: colorTrees } = useControls({
-//   trees: storeGeneral.colorTrees,
-// });
+const { value: colorTrees } = useControls({
+  trees: storeGeneral.colorTrees,
+});
 watch(color, (value) => {
   storeGeneral.setColor(value);
 });
@@ -52,16 +52,17 @@ watch(color, (value) => {
 //   // directionalLight.position.Z = value;
 // });
 
-// watch(colorTrees, (value) => {
-//   storeGeneral.setColorTrees(value);
-//   // directionalLight.position.Z = value;
-// });
+watch(colorTrees, (value) => {
+  storeGeneral.setColorTrees(value);
+  // directionalLight.position.Z = value;
+});
 const isActiveAntialias = ref(false);
 isActiveAntialias.value = isMobile ? false : true;
 </script>
 
 <template>
   <canvas id="drawing-canvas" height="160" width="160" />
+  <!-- <canvas id="drawing-canvas-snow" height="320" width="320" /> -->
   <HudGeneral />
   <LoadingScreen />
   <client-only>
@@ -94,6 +95,9 @@ isActiveAntialias.value = isMobile ? false : true;
       <ModelsGrass v-if="positionCharacter" />
     </Suspense>
     <!-- <Suspense>
+      <ModelsSnow v-if="positionCharacter" />
+    </Suspense> -->
+    <!-- <Suspense>
       <Rapier />
     </Suspense> -->
     <Suspense>
@@ -111,9 +115,18 @@ isActiveAntialias.value = isMobile ? false : true;
     <!-- <Suspense>
       <ModelsTree v-if="positionCharacter" />
     </Suspense> -->
-    <!-- <Suspense>
+    <Suspense>
       <ModelsTreeSecond v-if="positionCharacter" />
+    </Suspense>
+    <!-- <Suspense>
+      <PostProcessing v-if="positionCharacter" />
     </Suspense> -->
+    <Suspense>
+      <ModelsBush v-if="positionCharacter" />
+    </Suspense>
+    <Suspense>
+      <ModelsBushStick v-if="positionCharacter" />
+    </Suspense>
 
     <!-- <Suspense>
       <Telescope />
@@ -158,15 +171,9 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense> -->
 
     <!-- <Suspense>
-      <ModelsGrass1 v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
-      <ModelsGrass2 v-if="positionCharacter" />
+      <ModelsToolBox v-if="positionCharacter" />
     </Suspense> -->
     <!-- <Suspense>
-      <ModelsToolBox v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
       <ModelsTable v-if="positionCharacter" />
     </Suspense> -->
     <!-- <Suspense>
@@ -190,6 +197,20 @@ isActiveAntialias.value = isMobile ? false : true;
   z-index: 2;
   opacity: 1;
   cursor: crosshair;
+  touch-action: none;
+  width: 160px;
+  height: 160px;
+}
+
+#drawing-canvas-snow {
+  position: absolute;
+  background-color: #000000;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 3;
+  opacity: 1;
   touch-action: none;
   width: 160px;
   height: 160px;
