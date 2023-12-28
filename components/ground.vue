@@ -53,8 +53,8 @@ alphaMap.needsUpdate = true;
 alphaMap.wrapS = RepeatWrapping;
 alphaMap.wrapT = RepeatWrapping;
 
-const darkerFactor = 1.0;
-const darkerFactorRoads = 1.5;
+const darkerFactor = 0.8;
+const darkerFactorRoads = 1.2;
 const uniforms = {
   time: {
     value: 0,
@@ -64,16 +64,16 @@ const uniforms = {
   alphaMap: { value: alphaMap },
   hexColor: {
     value: new Vector3(
-      new Color(color.value).r * darkerFactor,
-      new Color(color.value).g * darkerFactor,
-      new Color(color.value).b * darkerFactor
+      new Color(color.value).r / darkerFactor,
+      new Color(color.value).g / darkerFactor,
+      new Color(color.value).b / darkerFactor
     ),
   },
   hexColorRoads: {
     value: new Vector3(
-      new Color(color.value).r * darkerFactorRoads,
-      new Color(color.value).g * darkerFactorRoads,
-      new Color(color.value).b * darkerFactorRoads
+      new Color(color.value).r / darkerFactorRoads,
+      new Color(color.value).g / darkerFactorRoads,
+      new Color(color.value).b / darkerFactorRoads
     ),
   },
   ...UniformsLib.lights,
@@ -91,26 +91,27 @@ const mesh = new Mesh(new PlaneGeometry(161, 161, 1, 1), groundMaterial);
 // mesh.position.x = 1;
 mesh.rotation.x = -Math.PI / 2;
 mesh.receiveShadow = true;
+
 scene.value.add(mesh);
 
 watch(color, (value) => {
   groundMaterial.uniforms.hexColor.value = new Vector3(
-    new Color(value).r * darkerFactor,
-    new Color(value).g * darkerFactor,
-    new Color(value).b * darkerFactor
+    new Color(value).r / darkerFactor,
+    new Color(value).g / darkerFactor,
+    new Color(value).b / darkerFactor
   );
 
   groundMaterial.uniforms.hexColorRoads.value = new Vector3(
-    new Color(value).r * darkerFactorRoads,
-    new Color(value).g * darkerFactorRoads,
-    new Color(value).b * darkerFactorRoads
+    new Color(value).r / darkerFactorRoads,
+    new Color(value).g / darkerFactorRoads,
+    new Color(value).b / darkerFactorRoads
   );
 });
 
-const geometry = new PlaneGeometry(101, 100, 1, 4);
-const lol = new MeshPhongMaterial({
-  color: 0xcccfff,
-});
+// const geometry = new PlaneGeometry(101, 100, 1, 4);
+// const lol = new MeshPhongMaterial({
+//   color: 0xcccfff,
+// });
 // const jdshfk = new Mesh(geometry, lol);
 // jdshfk.rotation.x = -Math.PI / 2;
 // jdshfk.position.y = 0.2;
@@ -119,4 +120,8 @@ const lol = new MeshPhongMaterial({
 // scene.value.add(jdshfk);
 </script>
 
-<template></template>
+<!-- <template>
+  <Plane ref="planeRef" :args="[161, 161, 1, 1]" :position="[0, 0, 0]">
+    <TresMeshToonMaterial color="teal" />
+  </Plane>
+</template> -->

@@ -1,5 +1,5 @@
 import { useCharacterStore } from "~/stores/character";
-import { Object3D, Vector3 } from "three";
+import { Object3D, Vector3, Matrix4, Quaternion } from "three";
 export const useUtils = () => {
   const { $gsap } = useNuxtApp();
   const storeControls = useControlsStore();
@@ -33,8 +33,8 @@ export const useUtils = () => {
     return Math.sqrt(dx.value * dx.value + dz.value * dz.value);
   };
 
-  const maxRotation = ref(1);
-  const maxDistance = ref(1.5);
+  const maxRotation = ref(0.4);
+  const maxDistance = ref(1.8);
   const direction = ref(new Vector3());
   const currentDistance = ref(0);
   const factor = ref(0);
@@ -66,8 +66,8 @@ export const useUtils = () => {
     };
   };
 
-  const checkDistance = (model: Object3D) => {
-    return positionCharacter.value.distanceTo(model.position);
+  const checkDistance = (position) => {
+    return positionCharacter.value.distanceTo(position);
   };
 
   const planeWidth = ref(1.6);

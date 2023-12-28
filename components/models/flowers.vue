@@ -72,45 +72,9 @@ instancedMesh.receiveShadow = false;
 const drawingCanvas = document.getElementById("drawing-canvas");
 const drawStartPos = new Vector2();
 const drawingContext = drawingCanvas?.getContext("2d");
-
-const setupCanvasDrawing = (texture) => {
-  drawingContext.fillStyle = "#FFFFFF";
-  drawingContext.fillRect(0, 0, 160, 160);
-  drawingContext.drawImage(texture, 0, 0, 160, 160);
-
+drawingCanvas.addEventListener("pointerup", () => {
   const newTexture = new CanvasTexture(drawingCanvas);
-  let paint = false;
-  drawingCanvas.addEventListener("pointerdown", (e) => {
-    paint = true;
-    drawStartPos.set(e.offsetX, e.offsetY);
-  });
-
-  drawingCanvas.addEventListener("pointermove", (e) => {
-    if (paint) draw(drawingContext, e.offsetX, e.offsetY);
-  });
-
-  drawingCanvas.addEventListener("pointerup", () => {
-    paint = false;
-    setIntancesMesh(newTexture.source.data);
-  });
-
   setIntancesMesh(newTexture.source.data);
-};
-const draw = (drawContext, x, y) => {
-  drawContext.fillStyle = "#000000";
-  drawContext.beginPath();
-  drawContext.arc(x, y, 3, 0, 3 * Math.PI);
-  drawContext.fill();
-  drawContext.strokeStyle = "#000000";
-  drawContext.beginPath();
-  drawContext.moveTo(drawStartPos.x, drawStartPos.y);
-  drawContext.lineTo(x, y);
-  drawContext.stroke();
-  drawStartPos.set(x, y);
-};
-
-loader.load("/materials/grass/perlin.webp", (texture) => {
-  setupCanvasDrawing(texture.source.data);
 });
 
 const calculatePixelPercentage = (pixelData, targetColor) => {
@@ -197,6 +161,9 @@ const setIntancesMesh = (data) => {
   oldModel = instancedMesh;
   scene.value.add(instancedMesh);
 };
+
+const newTexture = new CanvasTexture(drawingCanvas);
+setIntancesMesh(newTexture.source.data);
 
 watch(color, (value) => {
   grassMaterial.uniforms.hexColor.value = new Vector3(

@@ -7,9 +7,10 @@ interface State {
 export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
     return {
-      color: "#6e3a47",
+      color: "#226756",
+      // color: "#adadads",
       colorStone: "#6C7644",
-      colorTrees: "#5c703e",
+      colorTrees: "#165037",
       isStartedGame: false,
     };
   },

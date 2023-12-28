@@ -70,74 +70,9 @@ const instanceNumber = 170000;
 let dummy = new Object3D();
 const geometry = new PlaneGeometry(0.1, 1, 1, 4);
 geometry.translate(0, 0.5, 0);
-// const lol = new MeshPhongMaterial({
-//   alphaMap: alphaMap,
-//   alphaTest: 0.3,
-//   side: DoubleSide,
-// });
 let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
 instancedMesh.castShadow = false;
 instancedMesh.receiveShadow = false;
-// instancedMesh.instanceMatrix.setUsage(DynamicDrawUsage);
-// instancedMesh.frustumCulled = false;
-const grassDepthVertexShader = `
-varying vec2 vUv;
-void main(){
-vUv=uv;
-vec4 mvPosition=vec4(position,1.0);
-mvPosition=instanceMatrix*mvPosition;
-mvPosition=modelViewMatrix*mvPosition;
-    gl_Position=projectionMatrix*mvPosition;
-}
-`;
-
-const grassDepthFragmentShader = `
-uniform sampler2D map;
-  varying vec2 vUv;
-  void main(){
-  gl_FragColor=vec4(1.0);
-  vec4 diffuse=texture2D(map,vUv);
-  if(diffuse.a<0.5){ discard; }
-      gl_FragColor=diffuse;
-  }
-  `;
-instancedMesh.customDepthMaterial = new ShaderMaterial({
-  uniforms: {
-    map: { value: trawaMap },
-  },
-  vertexShader: grassDepthVertexShader,
-  fragmentShader: grassDepthFragmentShader,
-});
-instancedMesh.customDepthMaterial = new MeshDepthMaterial({
-  depthPacking: RGBADepthPacking,
-  alphaTest: 0.1,
-});
-
-// const planeMesh = new Mesh(geometry, lol);
-// planeMesh.position.set(10, 1, 10);
-// planeMesh.scale.set(10, 5, 10);
-// planeMesh.castShadow = true;
-// planeMesh.receiveShadow = true;
-// scene.value.add(planeMesh);
-
-const uniformsShadow = {
-  time: {
-    value: 0,
-  },
-  alphaMap: { value: alphaMap },
-  hexColor: {
-    value: new Vector3(
-      new Color(color.value).r,
-      new Color(color.value).g,
-      new Color(color.value).b
-    ),
-  },
-};
-// instancedMesh.customDepthMaterial = new ShaderMaterial({
-//   uniforms: uniformsShadow,
-//   vertexShader: vertexShaderShadow,
-//   fragmentShader: fragmentShaderShadow,
-// });
 
 const drawingCanvas = document.getElementById("drawing-canvas");
 const drawStartPos = new Vector2();

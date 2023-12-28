@@ -72,45 +72,9 @@ instancedMesh.receiveShadow = false;
 const drawingCanvas = document.getElementById("drawing-canvas");
 const drawStartPos = new Vector2();
 const drawingContext = drawingCanvas?.getContext("2d");
-
-const setupCanvasDrawing = (texture) => {
-  drawingContext.fillStyle = "#FFFFFF";
-  drawingContext.fillRect(0, 0, 160, 160);
-  drawingContext.drawImage(texture, 0, 0, 160, 160);
-
+drawingCanvas.addEventListener("pointerup", () => {
   const newTexture = new CanvasTexture(drawingCanvas);
-  let paint = false;
-  drawingCanvas.addEventListener("pointerdown", (e) => {
-    paint = true;
-    drawStartPos.set(e.offsetX, e.offsetY);
-  });
-
-  drawingCanvas.addEventListener("pointermove", (e) => {
-    if (paint) draw(drawingContext, e.offsetX, e.offsetY);
-  });
-
-  drawingCanvas.addEventListener("pointerup", () => {
-    paint = false;
-    setIntancesMesh(newTexture.source.data);
-  });
-
   setIntancesMesh(newTexture.source.data);
-};
-const draw = (drawContext, x, y) => {
-  drawContext.fillStyle = "#000000";
-  drawContext.beginPath();
-  drawContext.arc(x, y, 3, 0, 3 * Math.PI);
-  drawContext.fill();
-  drawContext.strokeStyle = "#000000";
-  drawContext.beginPath();
-  drawContext.moveTo(drawStartPos.x, drawStartPos.y);
-  drawContext.lineTo(x, y);
-  drawContext.stroke();
-  drawStartPos.set(x, y);
-};
-
-loader.load("/materials/grass/perlin.webp", (texture) => {
-  setupCanvasDrawing(texture.source.data);
 });
 
 const calculatePixelPercentage = (pixelData, targetColor) => {
@@ -181,7 +145,7 @@ const setIntancesMesh = (data) => {
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
       randomPosition.x + Math.random() * 1.2 - 80,
-      1.2,
+      0.0,
       randomPosition.z - 160 / 2 + Math.random() * 1.2
     );
     dummy.rotation.y = Math.random() * 184;
@@ -196,6 +160,9 @@ const setIntancesMesh = (data) => {
   scene.value.add(instancedMesh);
   instancedMesh.instanceMatrix.needsUpdate = true;
 };
+
+const newTexture = new CanvasTexture(drawingCanvas);
+setIntancesMesh(newTexture.source.data);
 
 watch(color, (value) => {
   fernMaterial.uniforms.hexColor.value = new Vector3(
@@ -212,6 +179,20 @@ onLoop(({ _delta, elapsed }) => {
     fernMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
   }
 });
+
+// :class="{
+//           'Label__main-container--active': isActiveLabel,
+//           'Label__main-container--gamepad': isActiveGamepad,
+//           'Label__main-container--hide': isHideLabel,
+//         }"
 </script>
 
-<template></template>
+<!-- <template> -->
+<!-- <primitive :object="instancedMesh"> -->
+<!-- <Html center transform :distance-factor="5" :position="[0, 1, 0]" portal="">
+      <div class="Label__main-container--active">
+        <div class="Label__content">E</div>
+      </div>
+    </Html> -->
+<!-- </primitive> -->
+<!-- </template> -->

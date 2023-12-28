@@ -6,74 +6,119 @@ import {
   Color,
   UniformsLib,
   DoubleSide,
-  MeshStandardMaterial,
+  MeshLambertMaterial,
+  InstancedMesh,
+  Object3D,
+  Vector2,
 } from "three";
+import { Precipitation } from "@tresjs/cientos";
 import { useGLTF } from "@tresjs/cientos";
 const storeGeneral = useGeneralStore();
 const { colorTrees } = storeToRefs(storeGeneral);
+const { drawDots } = useCanvas();
+const { scene } = useTresContext();
 
 const { nodes } = await useGLTF("/models/tree.glb", { draco: true });
-console.log(nodes);
-const modelTree = nodes.tree;
+const modelTree = nodes.tree2;
+const modelLeaves = nodes.leaves2;
 
-modelTree.castShadow = true;
-modelTree.receiveShadow = true;
-
-import vertexShader from "@/src/shaders/leafs/vertex.glsl";
-import fragmentShader from "@/src/shaders/leafs/fragment.glsl";
+const positions = [
+  { x: -30, z: 10 },
+  { x: -62, z: 56 },
+  { x: -57, z: -53 },
+  { x: 18, z: 53 },
+  { x: -20, z: 65 },
+  { x: 30, z: -30 },
+  { x: 10, z: -50 },
+  { x: 60, z: 3 },
+];
 
 const loader = new TextureLoader();
-const alphaMap = loader.load("/materials/leaves/leaves.webp");
+const alphaMap = loader.load("/materials/leaves/leaves.png");
 
-const uniforms = {
-  time: {
-    value: 0,
-  },
-  alphaMap: { value: alphaMap },
-  hexColor: {
-    value: new Vector3(
-      new Color(colorTrees.value).r,
-      new Color(colorTrees.value).g,
-      new Color(colorTrees.value).b
-    ),
-  },
-  ...UniformsLib.lights,
-};
-
-const leavesMaterial = new ShaderMaterial({
-  uniforms,
-  vertexShader,
-  fragmentShader,
-  lights: true,
+const leavesMaterial = new MeshLambertMaterial({
+  color: new Color(colorTrees.value),
+  alphaMap: alphaMap,
+  alphaTest: 0.3,
   side: DoubleSide,
 });
-const lol = new MeshStandardMaterial({
-  color: 0xdbc0a4,
-});
-const modelLeafs = nodes.leaves;
-console.log(modelLeafs);
-modelLeafs.material?.dispose();
-modelLeafs.material = leavesMaterial;
 
-modelLeafs.castShadow = false;
-modelLeafs.receiveShadow = false;
+const treeMaterial = new MeshLambertMaterial({
+  color: modelTree.material.color,
+  side: DoubleSide,
+});
+
+let dummy = new Object3D();
+const instancedMesh = new InstancedMesh(
+  modelTree.geometry,
+  treeMaterial,
+  positions.length
+);
+
+let dummyLeaves = new Object3D();
+const instancedMeshLeaves = new InstancedMesh(
+  modelLeaves.geometry,
+  leavesMaterial,
+  positions.length
+);
+for (let i = 0; i < positions.length; i++) {
+  const randomScale = Math.random() * 1.0;
+  dummy.position.set(
+    positions[i].x,
+    modelTree.position.y * randomScale,
+    positions[i].z
+  );
+  dummyLeaves.position.set(
+    positions[i].x,
+    modelLeaves.position.y * randomScale,
+    positions[i].z
+  );
+  const randomRotationY = Math.random() * 184;
+  dummy.scale.y = 0.6 + randomScale;
+  dummy.scale.x = 0.6 + randomScale;
+  dummy.scale.z = 0.6 + randomScale;
+  dummy.rotation.y = randomRotationY;
+  dummy.updateMatrix();
+
+  dummyLeaves.scale.y = 0.6 + randomScale;
+  dummyLeaves.scale.x = 0.6 + randomScale;
+  dummyLeaves.scale.z = 0.6 + randomScale;
+  dummy.rotation.y = randomRotationY;
+  dummyLeaves.updateMatrix();
+
+  instancedMesh.setMatrixAt(i, dummy.matrix);
+  instancedMeshLeaves.setMatrixAt(i, dummyLeaves.matrix);
+}
+
+instancedMesh.castShadow = true;
+instancedMesh.receiveShadow = true;
+instancedMeshLeaves.castShadow = true;
+instancedMeshLeaves.receiveShadow = true;
+scene.value.add(instancedMesh);
+scene.value.add(instancedMeshLeaves);
 
 watch(colorTrees, (value) => {
-  leavesMaterial.uniforms.hexColor.value = new Vector3(
-    new Color(value).r,
-    new Color(value).g,
-    new Color(value).b
-  );
+  leavesMaterial.color = new Color(value);
 });
-// setModel(model);
-const { onLoop } = useRenderLoop();
-onLoop(({ _delta, elapsed }) => {
-  leavesMaterial.uniforms.time.value = elapsed;
-  leavesMaterial.uniformsNeedUpdate = true;
-});
-</script>
 
-<template>
-  <primitive :object="modelTree" />
-  <primitive :object="modelLeafs" />
-</template>
+const drawingCanvas = document.getElementById("drawing-canvas");
+const drawStartPos = new Vector2();
+const drawingContext = drawingCanvas?.getContext("2d");
+drawDots(positions, drawingContext);
+const snowflakeMap = loader.load("/materials/leaves/leaf.png");
+</script>
+<!-- <template>
+  <Suspense v-for="data in positions" :key="data.x + data.z">
+    <Precipitation
+      :color="colorTrees"
+      :alpha-map="snowflakeMap"
+      :position="[data.x, 5, data.z]"
+      :area="[15, 10, 15]"
+      :count="10"
+      :speed="0.1"
+      :size="0.7"
+      :opacity="1"
+      :randomness="1"
+    />
+  </Suspense>
+</template> -->

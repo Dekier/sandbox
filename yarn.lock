@@ -2009,7 +2009,7 @@
     "@alvarosabu/utils" "^3.1.1"
     "@vueuse/core" "^10.5.0"
 
-"@tresjs/core@^3.6.0":
+"@tresjs/core@^3.5.0", "@tresjs/core@^3.6.0":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@tresjs/core/-/core-3.6.0.tgz#7405c05d93f00425e89eca3ba4137cc12ced7285"
   integrity sha512-eG5WFyETwSMmGt/5v+5yTk8nxU2ohyUdE2F6Dv4e7PIMXGsiNaT6ouT3jR9oK4LBU+I/1KZXb0V6HJKCS+AV/Q==
@@ -2064,6 +2064,17 @@
     sirv "^2.0.3"
     typescript "^5.3.3"
     vite-plugin-glsl "^1.2.1"
+
+"@tresjs/post-processing@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@tresjs/post-processing/-/post-processing-0.7.0.tgz#fdd084050cc4c5f60e52000103e76aa38381a8e2"
+  integrity sha512-HCLZLvextKBxZBRb09cfmKSmP3GQf/meeaBQoPrawX/mQw0tQMp2SP9jdo0nBCd/xotwudteygXp2PfRzpzzSA==
+  dependencies:
+    "@tresjs/core" "^3.5.0"
+    "@unocss/core" "^0.57.3"
+    "@vueuse/core" "^10.6.1"
+    postprocessing "^6.33.3"
+    three-stdlib "^2.28.5"
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
@@ -2254,7 +2265,7 @@
   resolved "https://registry.yarnpkg.com/@unocss/core/-/core-0.58.0.tgz#510dc6ad3930c13e5028504d4ccaf7225e7c2282"
   integrity sha512-KhABQXGE2AgtO9vE28d+HnciuyGDcuygsnQdUwlzUuR4K05OSw2kRE9emRN4HaMycD+gA/zDbQrJxTXb6mQUiA==
 
-"@unocss/core@^0.57.2":
+"@unocss/core@^0.57.2", "@unocss/core@^0.57.3":
   version "0.57.7"
   resolved "https://registry.yarnpkg.com/@unocss/core/-/core-0.57.7.tgz#4fe79e3d7327d5f25de0f82b80567fd8f5f82602"
   integrity sha512-1d36M0CV3yC80J0pqOa5rH1BX6g2iZdtKmIb3oSBN4AWnMCSrrJEPBrUikyMq2TEQTrYWJIVDzv5A9hBUat3TA==
@@ -5738,10 +5749,10 @@ mz@^2.7.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-n8ao@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/n8ao/-/n8ao-1.7.1.tgz#f9c69dfc358c125276e23cf4d952baeeb447e126"
-  integrity sha512-QQVcsAA+FUxSnu3lGhjxd4es/o3Wzg20aK+yVfD682qXRFwI4MvY4S3QNTarmH5P4PygMd/RBxMSVJ4JtZl2bA==
+n8ao@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/n8ao/-/n8ao-1.7.2.tgz#a37c0a464c04491d68c3cee98c3b17d752abf053"
+  integrity sha512-S+su++t4/2hw22tdRKdxLND3mT7ZA3xyH1HkhJpTseepCIaoVS8kE/9PPP9PMkXI/ny9WsfVC9x5m86kvxNvsA==
 
 nanoid@^3.3.6:
   version "3.3.6"
@@ -6811,10 +6822,15 @@ postcss@^8.4.23, postcss@^8.4.31, postcss@^8.4.32:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postprocessing@^6.33.4:
+postprocessing@^6.33.3:
   version "6.33.4"
   resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.33.4.tgz#f4815071c486527c4d8fe6971c57880b73c7bd3b"
   integrity sha512-2gFymFsEEKVGGD9g/JDi8bNzFNc4PGQiVn3oMYTZd+ebc90gHFXI4eWircELHADxaQVYMlhHvhCpsnlJ1SLhQw==
+
+postprocessing@^6.34.0:
+  version "6.34.0"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.34.0.tgz#eb23829fce29d0f3413caf3b2e3ff8417aaad985"
+  integrity sha512-g2zi/jgJATsTa4HfIqPUSaOLOQguvecXFP7JaqmaiS+nrD3Y1qj7m9vRhm5CWOkGhb1UwMBaGkn0H4L8vTAE1Q==
 
 potpack@^1.0.1:
   version "1.0.2"
@@ -7681,7 +7697,7 @@ three-custom-shader-material@^5.4.0:
     glsl-tokenizer "^2.1.5"
     object-hash "^3.0.0"
 
-three-stdlib@^2.28.7:
+three-stdlib@^2.28.5, three-stdlib@^2.28.7:
   version "2.28.7"
   resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.28.7.tgz#677ad2ce4d57375f7582e5fd62eadfd07ef6059a"
   integrity sha512-E7NuztilCswBKnEoyqydvA7N4dy0cf/gLA0bKrrg6+Q6j4WtusGa/+t9oK2HVq47S1AHRH2CvFHpdIGNjPKo/A==
@@ -7693,10 +7709,10 @@ three-stdlib@^2.28.7:
     fflate "^0.6.9"
     potpack "^1.0.1"
 
-three@^0.159.0:
-  version "0.159.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.159.0.tgz#6576b1210805b14f0765bac41fd0e4ec18e43b2e"
-  integrity sha512-eCmhlLGbBgucuo4VEA9IO3Qpc7dh8Bd4VKzr7WfW4+8hMcIfoAVi1ev0pJYN9PTTsCslbcKgBwr2wNZ1EvLInA==
+three@^0.160.0:
+  version "0.160.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.160.0.tgz#cd1e4dbd01aee0719280a9086d75545db52b7a8f"
+  integrity sha512-DLU8lc0zNIPkM7rH5/e1Ks1Z8tWCGRq6g8mPowdDJpw1CFBJMU7UoJjC6PefXW7z//SSl0b2+GCw14LB+uDhng==
 
 through2@^0.6.3:
   version "0.6.5"
@@ -7762,10 +7778,10 @@ tuf-js@^2.1.0:
     debug "^4.3.4"
     make-fetch-happen "^13.0.0"
 
-tweakpane@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/tweakpane/-/tweakpane-4.0.2.tgz#7e3788b740e84a0f640ba967a81466944358a8e1"
-  integrity sha512-AW3HpTJkM/8gpWt/TATV6Xtkng2VPDiz/4R2q0S5azHK03XKHlbFt4M6/r+g+1fkml2RcQ494E9QPbbE93Ky9A==
+tweakpane@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/tweakpane/-/tweakpane-4.0.3.tgz#6bb8a24706916a33d59ab0e478c2a66a9928fc60"
+  integrity sha512-BlcWOAe8oe4c+k9pmLBARGdWB6MVZMszayekkixQXTgkxTaYoTUpHpwVEp+3HkoamZkomodpbBf0CkguIHTgLg==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
