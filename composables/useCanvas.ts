@@ -42,7 +42,7 @@ export const useCanvas = () => {
   const draw = (drawContext, x, y, drawStartPos) => {
     drawContext.fillStyle = "#000000";
     drawContext.beginPath();
-    drawContext.arc(x, y, 3, 0, 3 * Math.PI);
+    drawContext.arc(x, y, 2, 0, 2 * Math.PI);
     drawContext.fill();
     drawContext.strokeStyle = "#000000";
     drawContext.beginPath();

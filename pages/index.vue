@@ -112,9 +112,9 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <Flag v-if="positionCharacter" />
     </Suspense>
-    <!-- <Suspense>
+    <Suspense>
       <ModelsTree v-if="positionCharacter" />
-    </Suspense> -->
+    </Suspense>
     <Suspense>
       <ModelsTreeSecond v-if="positionCharacter" />
     </Suspense>
@@ -124,9 +124,9 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <ModelsBush v-if="positionCharacter" />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <ModelsBushStick v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
 
     <!-- <Suspense>
       <Telescope />

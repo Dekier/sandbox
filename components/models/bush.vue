@@ -18,12 +18,20 @@ const { $gsap } = useNuxtApp();
 const { colorTrees } = storeToRefs(storeGeneral);
 const { bendModel, calculateDistance } = useUtils();
 
-const { nodes } = await useGLTF("/models/bush.glb", { draco: true });
-const modelLeaves = nodes.leaves;
-const modelWood = nodes.wood;
+const {
+  scene: modelScene,
+  nodes,
+  animations,
+} = await useGLTF("/models/bush.glb", {
+  draco: true,
+});
+const { actions } = useAnimations(animations, modelScene);
+actions.bush.play();
+const modelLeaves = nodes.leaves1;
+const modelWood = nodes.wood1;
 modelWood.castShadow = true;
 modelWood.receiveShadow = true;
-
+console.log(modelLeaves);
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/leaves/leaves.png");
 
@@ -41,7 +49,7 @@ modelLeaves.castShadow = true;
 modelLeaves.receiveShadow = true;
 
 watch(colorTrees, (value) => {
-  modelLeaves.material.color = new Color(value);
+  bushMaterial.color = new Color(value);
 });
 const positions = [
   { x: 10, z: 16, y: 0 },
@@ -69,6 +77,7 @@ instancesWood.castShadow = true;
 instancesWood.receiveShadow = true;
 
 let dummyLeaves = new Object3D();
+console.log(modelLeaves);
 const instancesLeaves = new InstancedMesh(
   modelLeaves.geometry,
   modelLeaves.material,
@@ -76,6 +85,9 @@ const instancesLeaves = new InstancedMesh(
 );
 instancesLeaves.castShadow = true;
 instancesLeaves.receiveShadow = true;
+// Ustawienie morph targetów dla instancji liści (leaves)
+instancesLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
+instancesLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 const { scene } = useTresContext();
 
 for (let i = 0; i < positions.length; i++) {
@@ -92,9 +104,9 @@ for (let i = 0; i < positions.length; i++) {
   dummyLeaves.updateMatrix();
   instancesWood.setMatrixAt(i, dummyWood.matrix);
   instancesLeaves.setMatrixAt(i, dummyLeaves.matrix);
-  scene.value.add(instancesWood);
-  scene.value.add(instancesLeaves);
 }
+scene.value.add(instancesWood);
+scene.value.add(instancesLeaves);
 
 const { onBeforeLoop } = useRenderLoop();
 let mat4Wood = new Matrix4();
