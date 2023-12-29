@@ -18,9 +18,15 @@ const { colorTrees } = storeToRefs(storeGeneral);
 const { drawDots } = useCanvas();
 const { scene } = useTresContext();
 
-const { nodes } = await useGLTF("/models/tree.glb", { draco: true });
-const modelTree = nodes.tree2;
-const modelLeaves = nodes.leaves2;
+const {
+  scene: modelScene,
+  nodes,
+  animations,
+} = await useGLTF("/models/tree.glb", { draco: true });
+const { actions } = useAnimations(animations, modelScene);
+actions.leaves2.play();
+const modelTree = nodes.treeAnim2;
+const modelLeaves = nodes.leavesAnim2;
 
 const positions = [
   { x: -30, z: 10 },
@@ -61,6 +67,8 @@ const instancedMeshLeaves = new InstancedMesh(
   leavesMaterial,
   positions.length
 );
+instancedMeshLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
+instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 for (let i = 0; i < positions.length; i++) {
   const randomScale = Math.random() * 1.0;
   dummy.position.set(
@@ -74,15 +82,15 @@ for (let i = 0; i < positions.length; i++) {
     positions[i].z
   );
   const randomRotationY = Math.random() * 184;
-  dummy.scale.y = 0.6 + randomScale;
-  dummy.scale.x = 0.6 + randomScale;
-  dummy.scale.z = 0.6 + randomScale;
+  // dummy.scale.y = 0.6 + randomScale;
+  // dummy.scale.x = 0.6 + randomScale;
+  // dummy.scale.z = 0.6 + randomScale;
   dummy.rotation.y = randomRotationY;
   dummy.updateMatrix();
 
-  dummyLeaves.scale.y = 0.6 + randomScale;
-  dummyLeaves.scale.x = 0.6 + randomScale;
-  dummyLeaves.scale.z = 0.6 + randomScale;
+  // dummyLeaves.scale.y = 0.6 + randomScale;
+  // dummyLeaves.scale.x = 0.6 + randomScale;
+  // dummyLeaves.scale.z = 0.6 + randomScale;
   dummy.rotation.y = randomRotationY;
   dummyLeaves.updateMatrix();
 
