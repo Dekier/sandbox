@@ -59,7 +59,7 @@ const grassMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 1150;
+const instanceNumber = 900;
 let dummy = new Object3D();
 const geometry = new PlaneGeometry(0.2, 0.8, 1, 2);
 geometry.translate(0, 0.5, 0);

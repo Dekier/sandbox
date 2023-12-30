@@ -78,11 +78,7 @@ const drawingCanvas = document.getElementById("drawing-canvas");
 const drawStartPos = new Vector2();
 const drawingContext = drawingCanvas?.getContext("2d");
 
-const setupCanvasDrawing = (texture) => {
-  drawingContext.fillStyle = "#FFFFFF";
-  drawingContext.fillRect(0, 0, 160, 160);
-  drawingContext.drawImage(texture, 0, 0, 160, 160);
-
+const setupCanvasDrawing = () => {
   const newTexture = new CanvasTexture(drawingCanvas);
   let paint = false;
   drawingCanvas?.addEventListener("pointerdown", (e) => {
@@ -101,10 +97,6 @@ const setupCanvasDrawing = (texture) => {
 
   setIntancesMesh(newTexture.source.data);
 };
-
-loader.load("/materials/grass/perlin.webp", (texture) => {
-  setupCanvasDrawing(texture.source.data);
-});
 
 let oldModel = null;
 const setIntancesMesh = (data) => {
@@ -161,6 +153,7 @@ const setIntancesMesh = (data) => {
   scene.value.add(instancedMesh);
 };
 
+setupCanvasDrawing();
 watch(color, (value) => {
   grassMaterial.uniforms.hexColor.value = new Vector3(
     new Color(value).r,

@@ -9,12 +9,17 @@ import {
   Matrix4,
 } from "three";
 import { useGLTF } from "@tresjs/cientos";
+const props = defineProps({
+  bushData: {
+    type: Array,
+    required: true,
+  },
+});
 const storeGeneral = useGeneralStore();
 const controlsStore = useControlsStore();
 const characterStore = useCharacterStore();
 const { isMovingCharacter } = storeToRefs(controlsStore);
 const { positionCharacter } = storeToRefs(characterStore);
-const { $gsap } = useNuxtApp();
 const { colorTrees } = storeToRefs(storeGeneral);
 const { bendModel, calculateDistance } = useUtils();
 
@@ -51,37 +56,21 @@ modelLeaves.receiveShadow = true;
 watch(colorTrees, (value) => {
   bushMaterial.color = new Color(value);
 });
-const positions = [
-  { x: 10, z: 16, y: 0 },
-  { x: 22, z: 1, y: 0 },
-  { x: -30, z: 23, y: 0 },
-  { x: -23, z: -7, y: 0 },
-  { x: 50, z: 56, y: 0 },
-  { x: -44, z: -36, y: 0 },
-  { x: 30, z: -24, y: 0 },
-  { x: 3, z: -50, y: 0 },
-  { x: 53, z: 4, y: 0 },
-  { x: 32, z: 40, y: 0 },
-  { x: -50, z: 60, y: 0 },
-  { x: -47, z: -3, y: 0 },
-  { x: -10, z: 53, y: 0 },
-];
 let dummyWood = new Object3D();
 const instancesWood = new InstancedMesh(
   modelWood.geometry,
   modelWood.material,
-  positions.length
+  props.bushData.length
 );
 
 instancesWood.castShadow = true;
 instancesWood.receiveShadow = true;
 
 let dummyLeaves = new Object3D();
-console.log(modelLeaves);
 const instancesLeaves = new InstancedMesh(
   modelLeaves.geometry,
   modelLeaves.material,
-  positions.length
+  props.bushData.length
 );
 instancesLeaves.castShadow = true;
 instancesLeaves.receiveShadow = true;
@@ -90,15 +79,19 @@ instancesLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
 instancesLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 const { scene } = useTresContext();
 
-for (let i = 0; i < positions.length; i++) {
+for (let i = 0; i < props.bushData.length; i++) {
   const randomY = Math.random() * 184;
-  dummyWood.position.set(positions[i].x, modelWood.position.y, positions[i].z);
+  dummyWood.position.set(
+    props.bushData[i].positionX,
+    modelWood.position.y,
+    props.bushData[i].positionZ
+  );
   // dummyWood.rotation.y = randomY;
   dummyWood.updateMatrix();
   dummyLeaves.position.set(
-    positions[i].x,
+    props.bushData[i].positionX,
     modelLeaves.position.y,
-    positions[i].z
+    props.bushData[i].positionZ
   );
   // dummyLeaves.rotation.y = randomY;
   dummyLeaves.updateMatrix();
@@ -113,7 +106,7 @@ let mat4Wood = new Matrix4();
 let mat4Leaves = new Matrix4();
 const currentDistance = ref(0);
 onBeforeLoop(() => {
-  for (let i = 0; i < positions.length; i++) {
+  for (let i = 0; i < props.bushData.length; i++) {
     instancesWood.getMatrixAt(i, mat4Wood);
     mat4Wood.decompose(
       dummyWood.position,

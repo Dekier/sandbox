@@ -113,19 +113,10 @@ isActiveAntialias.value = isMobile ? false : true;
       <Flag v-if="positionCharacter" />
     </Suspense>
     <Suspense>
-      <ModelsTree v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
-      <ModelsTreeSecond v-if="positionCharacter" />
+      <ModelsFloraMain />
     </Suspense>
     <!-- <Suspense>
       <PostProcessing v-if="positionCharacter" />
-    </Suspense> -->
-    <Suspense>
-      <ModelsBush v-if="positionCharacter" />
-    </Suspense>
-    <!-- <Suspense>
-      <ModelsBushStick v-if="positionCharacter" />
     </Suspense> -->
 
     <!-- <Suspense>
@@ -134,25 +125,13 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <Baner v-if="positionCharacter" />
     </Suspense>
-    <Suspense>
-      <ModelsFlowers v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
-      <ModelsFern v-if="positionCharacter" />
-    </Suspense>
+
     <!-- <Suspense>
       <ModelsStones v-if="positionCharacter" />
     </Suspense> -->
-    <!--
-     -->
-    <!-- <Suspense>
-      <ModelsTest v-if="positionCharacter" />
-    </Suspense> -->
+
     <!-- <Suspense>
       <Rabbit />
-    </Suspense> -->
-    <!-- <Suspense>
-      <ModelsRoads />
     </Suspense> -->
     <Suspense>
       <ModelsCharacterAll />

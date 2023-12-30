@@ -15,13 +15,18 @@ import {
 } from "three";
 import { Precipitation } from "@tresjs/cientos";
 import { useGLTF } from "@tresjs/cientos";
+const props = defineProps({
+  treesData: {
+    type: Array,
+    required: true,
+  },
+});
 const storeGeneral = useGeneralStore();
 const storeControl = useControlsStore();
 const characterStore = useCharacterStore();
 const { isMovingCharacter } = storeToRefs(storeControl);
 const { positionCharacter } = storeToRefs(characterStore);
 const { checkDistance } = useUtils();
-const { drawDots } = useCanvas();
 const { colorTrees } = storeToRefs(storeGeneral);
 const { scene } = useTresContext();
 
@@ -36,64 +41,6 @@ const modelTree = nodes.treeAnim;
 const modelLeaves = nodes.leavesAnim;
 // const cutList = [nodes.cut1, nodes.cut2, nodes.cut3, nodes.cut4, nodes.cut5];
 const indexActive = ref<number | null>(null);
-const treesData = ref([
-  {
-    positionX: 50,
-    positionZ: 40,
-    cutStep: 1,
-    scale: 0.6 + Math.random() * 0.7,
-    rotationY: Math.random() * 360,
-  },
-  {
-    positionX: 30,
-    positionZ: 10,
-    cutStep: 1,
-    scale: 0.6 + Math.random() * 0.7,
-    rotationY: Math.random() * 360,
-  },
-  {
-    positionX: -30,
-    positionZ: -30,
-    cutStep: 1,
-    scale: 0.6 + Math.random() * 0.7,
-    rotationY: Math.random() * 360,
-  },
-  {
-    positionX: -34,
-    positionZ: 45,
-    cutStep: 1,
-    scale: 0.6 + Math.random() * 0.7,
-    rotationY: Math.random() * 360,
-  },
-  {
-    positionX: 0,
-    positionZ: 50,
-    cutStep: 1,
-    scale: 0.6 + Math.random() * 0.7,
-    rotationY: Math.random() * 360,
-  },
-  {
-    positionX: -70,
-    positionZ: 10,
-    cutStep: 1,
-    scale: 0.6 + Math.random() * 0.7,
-    rotationY: Math.random() * 360,
-  },
-  {
-    positionX: 60,
-    positionZ: -50,
-    cutStep: 1,
-    scale: 0.6 + Math.random() * 0.7,
-    rotationY: Math.random() * 360,
-  },
-  {
-    positionX: 4,
-    positionZ: -30,
-    cutStep: 1,
-    scale: 0.6 + Math.random() * 0.7,
-    rotationY: Math.random() * 360,
-  },
-]);
 
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/leaves/leaves.png");
@@ -114,46 +61,46 @@ let dummy = new Object3D();
 const instancedMesh = new InstancedMesh(
   modelTree.geometry,
   treeMaterial,
-  treesData.value.length
+  props.treesData.length
 );
 // let dummyCut1 = new Object3D();
 // let instancedMeshCut1 = new InstancedMesh(
 //   cutList[0].geometry,
 //   treeMaterial,
-//   treesData.value.length
+//   props.treesData.length
 // );
 // let dummyCut2 = new Object3D();
 // let instancedMeshCut2 = new InstancedMesh(
 //   cutList[1].geometry,
 //   treeMaterial,
-//   treesData.value.length
+//   props.treesData.length
 // );
 // let dummyCut3 = new Object3D();
 // let instancedMeshCut3 = new InstancedMesh(
 //   cutList[2].geometry,
 //   treeMaterial,
-//   treesData.value.length
+//   props.treesData.length
 // );
 
 // let dummyCut4 = new Object3D();
 // let instancedMeshCut4 = new InstancedMesh(
 //   cutList[3].geometry,
 //   treeMaterial,
-//   treesData.value.length
+//   props.treesData.length
 // );
 
 // let dummyCut5 = new Object3D();
 // let instancedMeshCut5 = new InstancedMesh(
 //   cutList[4].geometry,
 //   treeMaterial,
-//   treesData.value.length
+//   props.treesData.length
 // );
 
 let dummyLeaves = new Object3D();
 const instancedMeshLeaves = new InstancedMesh(
   modelLeaves.geometry,
   leavesMaterial,
-  treesData.value.length
+  props.treesData.length
 );
 
 instancedMeshLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
@@ -161,7 +108,7 @@ instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 
 // const setInstacedMeshCut1 = () => {
 //   scene.value.remove(instancedMeshCut1);
-//   const newArray = treesData.value.filter((element) => element.cutStep === 1);
+//   const newArray = props.treesData.filter((element) => element.cutStep === 1);
 //   instancedMeshCut1 = new InstancedMesh(
 //     cutList[0].geometry,
 //     treeMaterial,
@@ -189,7 +136,7 @@ instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 // setInstacedMeshCut1();
 // const setInstacedMeshCut2 = () => {
 //   scene.value.remove(instancedMeshCut2);
-//   const newArray = treesData.value.filter((element) => element.cutStep === 2);
+//   const newArray = props.treesData.filter((element) => element.cutStep === 2);
 //   instancedMeshCut2 = new InstancedMesh(
 //     cutList[1].geometry,
 //     treeMaterial,
@@ -216,7 +163,7 @@ instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 // };
 // const setInstacedMeshCut3 = () => {
 //   scene.value.remove(instancedMeshCut3);
-//   const newArray = treesData.value.filter((element) => element.cutStep === 3);
+//   const newArray = props.treesData.filter((element) => element.cutStep === 3);
 //   instancedMeshCut3 = new InstancedMesh(
 //     cutList[2].geometry,
 //     treeMaterial,
@@ -243,7 +190,7 @@ instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 // };
 // const setInstacedMeshCut4 = () => {
 //   scene.value.remove(instancedMeshCut4);
-//   const newArray = treesData.value.filter((element) => element.cutStep === 4);
+//   const newArray = props.treesData.filter((element) => element.cutStep === 4);
 //   instancedMeshCut4 = new InstancedMesh(
 //     cutList[3].geometry,
 //     treeMaterial,
@@ -270,7 +217,7 @@ instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 // };
 // const setInstacedMeshCut5 = () => {
 //   scene.value.remove(instancedMeshCut5);
-//   const newArray = treesData.value.filter((element) => element.cutStep === 5);
+//   const newArray = props.treesData.filter((element) => element.cutStep === 5);
 //   instancedMeshCut5 = new InstancedMesh(
 //     cutList[4].geometry,
 //     treeMaterial,
@@ -295,29 +242,29 @@ instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 //   instancedMeshCut5.receiveShadow = true;
 //   scene.value.add(instancedMeshCut5);
 // };
-for (let i = 0; i < treesData.value.length; i++) {
+for (let i = 0; i < props.treesData.length; i++) {
   dummy.position.set(
-    treesData.value[i].positionX,
-    modelTree.position.y * treesData.value[i].scale,
-    treesData.value[i].positionZ
+    props.treesData[i].positionX,
+    modelTree.position.y * props.treesData[i].scale,
+    props.treesData[i].positionZ
   );
 
   dummyLeaves.position.set(
-    treesData.value[i].positionX,
-    modelLeaves.position.y * treesData.value[i].scale,
-    treesData.value[i].positionZ
+    props.treesData[i].positionX,
+    modelLeaves.position.y * props.treesData[i].scale,
+    props.treesData[i].positionZ
   );
 
-  // dummy.scale.y = treesData.value[i].scale;
-  dummy.scale.x = treesData.value[i].scale;
-  dummy.scale.z = treesData.value[i].scale;
-  dummy.rotation.y = treesData.value[i].rotationY;
+  // dummy.scale.y = props.treesData[i].scale;
+  dummy.scale.x = props.treesData[i].scale;
+  dummy.scale.z = props.treesData[i].scale;
+  dummy.rotation.y = props.treesData[i].rotationY;
   dummy.updateMatrix();
 
-  // dummyLeaves.scale.y = treesData.value[i].scale;
-  dummyLeaves.scale.x = treesData.value[i].scale;
-  dummyLeaves.scale.z = treesData.value[i].scale;
-  dummyLeaves.rotation.y = treesData.value[i].rotationY;
+  // dummyLeaves.scale.y = props.treesData[i].scale;
+  dummyLeaves.scale.x = props.treesData[i].scale;
+  dummyLeaves.scale.z = props.treesData[i].scale;
+  dummyLeaves.rotation.y = props.treesData[i].rotationY;
   dummyLeaves.updateMatrix();
 
   instancedMesh.setMatrixAt(i, dummy.matrix);
@@ -340,7 +287,6 @@ const drawingCanvas = document.getElementById("drawing-canvas");
 const drawStartPos = new Vector2();
 const drawContext = drawingCanvas?.getContext("2d");
 
-drawDots(treesData.value, drawContext);
 const { onLoop } = useRenderLoop();
 
 onLoop(() => {
@@ -349,7 +295,7 @@ onLoop(() => {
       indexActive.value = null;
     }
     const instanceMatrix = new Matrix4();
-    for (let i = 0; i < treesData.value.length; i++) {
+    for (let i = 0; i < props.treesData.length; i++) {
       instancedMesh.getMatrixAt(i, instanceMatrix);
 
       // Pobierz pozycję instancji
@@ -372,24 +318,24 @@ onLoop(() => {
 document.addEventListener("mousedown", (event) => {
   // Sprawdź, czy naciśnięty został lewy przycisk myszy (button === 0)
   // if (indexActive.value !== null) {
-  //   switch (treesData.value[indexActive.value].cutStep) {
+  //   switch (props.treesData[indexActive.value].cutStep) {
   //     case 1:
-  //       treesData.value[indexActive.value].cutStep = 2;
+  //       props.treesData[indexActive.value].cutStep = 2;
   //       setInstacedMeshCut1();
   //       setInstacedMeshCut2();
   //       break;
   //     case 2:
-  //       treesData.value[indexActive.value].cutStep = 3;
+  //       props.treesData[indexActive.value].cutStep = 3;
   //       setInstacedMeshCut2();
   //       setInstacedMeshCut3();
   //       break;
   //     case 3:
-  //       treesData.value[indexActive.value].cutStep = 4;
+  //       props.treesData[indexActive.value].cutStep = 4;
   //       setInstacedMeshCut3();
   //       setInstacedMeshCut4();
   //       break;
   //     case 4:
-  //       treesData.value[indexActive.value].cutStep = 5;
+  //       props.treesData[indexActive.value].cutStep = 5;
   //       setInstacedMeshCut4();
   //       setInstacedMeshCut5();
   //       break;
