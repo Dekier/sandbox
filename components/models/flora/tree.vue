@@ -15,7 +15,6 @@ import { Precipitation } from "@tresjs/cientos";
 import { useGLTF } from "@tresjs/cientos";
 const storeGeneral = useGeneralStore();
 const { colorTrees } = storeToRefs(storeGeneral);
-const { drawDots } = useCanvas();
 const { scene } = useTresContext();
 
 const {
@@ -28,16 +27,12 @@ actions.leaves2.play();
 const modelTree = nodes.treeAnim2;
 const modelLeaves = nodes.leavesAnim2;
 
-const positions = [
-  { x: -30, z: 10 },
-  { x: -62, z: 56 },
-  { x: -57, z: -53 },
-  { x: 18, z: 53 },
-  { x: -20, z: 65 },
-  { x: 30, z: -30 },
-  { x: 10, z: -50 },
-  { x: 60, z: 3 },
-];
+const props = defineProps({
+  treesData: {
+    type: Array,
+    required: true,
+  },
+});
 
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/leaves/leaves.png");
@@ -58,39 +53,38 @@ let dummy = new Object3D();
 const instancedMesh = new InstancedMesh(
   modelTree.geometry,
   treeMaterial,
-  positions.length
+  props.treesData.length
 );
 
 let dummyLeaves = new Object3D();
 const instancedMeshLeaves = new InstancedMesh(
   modelLeaves.geometry,
   leavesMaterial,
-  positions.length
+  props.treesData.length
 );
 instancedMeshLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
 instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
-for (let i = 0; i < positions.length; i++) {
-  const randomScale = Math.random() * 1.0;
+for (let i = 0; i < props.treesData.length; i++) {
   dummy.position.set(
-    positions[i].x,
-    modelTree.position.y * randomScale,
-    positions[i].z
+    props.treesData[i].positionX,
+    modelTree.position.y,
+    props.treesData[i].positionZ
   );
   dummyLeaves.position.set(
-    positions[i].x,
-    modelLeaves.position.y * randomScale,
-    positions[i].z
+    props.treesData[i].positionX,
+    modelLeaves.position.y,
+    props.treesData[i].positionZ
   );
   const randomRotationY = Math.random() * 184;
-  // dummy.scale.y = 0.6 + randomScale;
-  // dummy.scale.x = 0.6 + randomScale;
-  // dummy.scale.z = 0.6 + randomScale;
+  // dummy.scale.y = props.treesData[i].scale;
+  dummy.scale.x = props.treesData[i].scale;
+  dummy.scale.z = props.treesData[i].scale;
   dummy.rotation.y = randomRotationY;
   dummy.updateMatrix();
 
-  // dummyLeaves.scale.y = 0.6 + randomScale;
-  // dummyLeaves.scale.x = 0.6 + randomScale;
-  // dummyLeaves.scale.z = 0.6 + randomScale;
+  // dummyLeaves.scale.y =  props.treesData[i].scale;
+  dummyLeaves.scale.x = props.treesData[i].scale;
+  dummyLeaves.scale.z = props.treesData[i].scale;
   dummy.rotation.y = randomRotationY;
   dummyLeaves.updateMatrix();
 
@@ -112,8 +106,8 @@ watch(colorTrees, (value) => {
 const drawingCanvas = document.getElementById("drawing-canvas");
 const drawStartPos = new Vector2();
 const drawingContext = drawingCanvas?.getContext("2d");
-drawDots(positions, drawingContext);
-const snowflakeMap = loader.load("/materials/leaves/leaf.png");
+
+// const snowflakeMap = loader.load("/materials/leaves/leaf.png");
 </script>
 <!-- <template>
   <Suspense v-for="data in positions" :key="data.x + data.z">

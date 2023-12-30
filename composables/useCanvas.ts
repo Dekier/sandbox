@@ -52,7 +52,7 @@ export const useCanvas = () => {
     drawStartPos.set(x, y);
   };
 
-  const drawDots = (positions, drawContext) => {
+  const drawDots = async (positions, drawContext) => {
     for (let i = 0; i < positions.length; i++) {
       const offsetX = 160 / 2;
       const offsetY = 160 / 2;
@@ -61,9 +61,9 @@ export const useCanvas = () => {
         const x = positions[i].positionX + offsetX;
         const y = positions[i].positionZ + offsetY;
         drawContext.fillStyle = "#000000";
-        drawContext.beginPath();
-        drawContext.arc(x, y, 1.5, 0, 2 * Math.PI);
-        drawContext.fill();
+        await drawContext.beginPath();
+        await drawContext.arc(x, y, 0 + positions[i].scale, 0, 2 * Math.PI);
+        await drawContext.fill();
       }
     }
   };
