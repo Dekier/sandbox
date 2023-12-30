@@ -77,7 +77,6 @@ instancesWood.castShadow = true;
 instancesWood.receiveShadow = true;
 
 let dummyLeaves = new Object3D();
-console.log(modelLeaves);
 const instancesLeaves = new InstancedMesh(
   modelLeaves.geometry,
   modelLeaves.material,
