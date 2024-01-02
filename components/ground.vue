@@ -16,6 +16,16 @@ import {
   MeshPhongMaterial,
   Texture,
 } from "three";
+const props = defineProps({
+  positions: {
+    type: Object,
+    required: true,
+  },
+  drawingCanvas: {
+    type: Object,
+    required: true,
+  },
+});
 
 import vertexShader from "@/src/shaders/ground/vertex.glsl";
 import fragmentShader from "@/src/shaders/ground/fragment.glsl";
@@ -30,31 +40,30 @@ rough.wrapT = RepeatWrapping;
 rough.repeat.x = 35;
 rough.repeat.y = 35;
 
-const drawingCanvas = document.getElementById("drawing-canvas");
 const drawStartPos = new Vector2();
-const drawingContext = drawingCanvas?.getContext("2d");
+const drawingContext = props.drawingCanvas?.getContext("2d");
 
-drawingCanvas.addEventListener("pointerup", (e) => {
-  const alphaMap = new Texture();
-  alphaMap.image = drawingContext.getImageData(0, 0, 160, 160);
-  alphaMap.needsUpdate = true;
+props.drawingCanvas.addEventListener("pointerup", () => {
+  const newAlphaMap = new Texture();
+  newAlphaMap.image = drawingContext.getImageData(0, 0, 200, 200);
+  newAlphaMap.needsUpdate = true;
 
   // Ustaw parametry dla tekstury mapy alfy
-  alphaMap.wrapS = RepeatWrapping;
-  alphaMap.wrapT = RepeatWrapping;
-  groundMaterial.uniforms.alphaMap.value = alphaMap;
+  newAlphaMap.wrapS = RepeatWrapping;
+  newAlphaMap.wrapT = RepeatWrapping;
+  groundMaterial.uniforms.alphaMap.value = newAlphaMap;
 });
 
 const alphaMap = new Texture();
-alphaMap.image = drawingContext.getImageData(0, 0, 160, 160);
+alphaMap.image = await drawingContext.getImageData(0, 0, 200, 200);
 alphaMap.needsUpdate = true;
 
 // Ustaw parametry dla tekstury mapy alfy
 alphaMap.wrapS = RepeatWrapping;
 alphaMap.wrapT = RepeatWrapping;
 
-const darkerFactor = 0.8;
-const darkerFactorRoads = 1.2;
+const darkerFactor = 0.85;
+const darkerFactorRoads = 1.0;
 const uniforms = {
   time: {
     value: 0,
@@ -85,11 +94,13 @@ const groundMaterial = new ShaderMaterial({
   fragmentShader,
   lights: true,
 });
-
-const mesh = new Mesh(new PlaneGeometry(161, 161, 1, 1), groundMaterial);
+const groundGeometry = new PlaneGeometry(201, 201, 1, 1);
+groundGeometry.rotateX(-Math.PI / 2);
+const mesh = new Mesh(groundGeometry, groundMaterial);
 // mesh.position.z = 1;
 // mesh.position.x = 1;
-mesh.rotation.x = -Math.PI / 2;
+mesh.position.z = props.positions.z;
+mesh.position.x = props.positions.x;
 mesh.receiveShadow = true;
 
 scene.value.add(mesh);

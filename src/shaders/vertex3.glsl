@@ -75,11 +75,13 @@ void main() {
 	}
 
     // vec4 modelViewPosition = modelViewMatrix * mvPosition;
-      vec4 modelPosition = modelMatrix * mvPosition;
+    vec4 modelPosition = modelMatrix * mvPosition;
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 clipPosition = projectionMatrix * viewPosition;
 
     vNormal = normalize(normalMatrix * normal);
+
+   
 
     gl_Position = clipPosition;
 }

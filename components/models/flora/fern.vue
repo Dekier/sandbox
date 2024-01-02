@@ -58,7 +58,7 @@ const fernMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 50;
+const instanceNumber = 70;
 let dummy = new Object3D();
 const { nodes } = await useGLTF("/models/fern.glb", { draco: true });
 let instancedMesh = new InstancedMesh(
