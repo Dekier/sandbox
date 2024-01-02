@@ -11,7 +11,7 @@ uniform sampler2D alphaMap;
 varying vec3 vNormal;
 
 void main() {
-    float clarity = vUv.y / 1.0;
+    float clarity = vUv.y / 2.0;
     
     DirectionalLightShadow directionalShadow = directionalLightShadows[0];
     float shadow = getShadow(

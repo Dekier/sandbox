@@ -61,7 +61,8 @@ isActiveAntialias.value = isMobile ? false : true;
 </script>
 
 <template>
-  <canvas id="drawing-canvas" height="160" width="160" />
+  <canvas id="drawing-canvas" height="200" width="200" />
+  <!-- <canvas id="drawing-canvas-1" height="200" width="200" /> -->
   <!-- <canvas id="drawing-canvas-snow" height="320" width="320" /> -->
   <HudGeneral />
   <LoadingScreen />
@@ -82,18 +83,16 @@ isActiveAntialias.value = isMobile ? false : true;
     <Perf />
     <Camera />
     <Light v-if="positionCharacter" />
+    <!-- <Suspense>
+      <Fog />
+    </Suspense> -->
     <Suspense>
       <Sky />
     </Suspense>
-    <Suspense>
-      <Ground v-if="positionCharacter" />
-    </Suspense>
+    <!-- <Space1Main v-if="positionCharacter" /> -->
     <!-- <Suspense>
       <Ground2 v-if="positionCharacter" />
     </Suspense> -->
-    <Suspense>
-      <ModelsGrass v-if="positionCharacter" />
-    </Suspense>
     <!-- <Suspense>
       <ModelsSnow v-if="positionCharacter" />
     </Suspense> -->
@@ -113,7 +112,7 @@ isActiveAntialias.value = isMobile ? false : true;
       <Flag v-if="positionCharacter" />
     </Suspense>
     <Suspense>
-      <ModelsFloraMain />
+      <ModelsFloraMain v-if="positionCharacter" />
     </Suspense>
     <!-- <Suspense>
       <PostProcessing v-if="positionCharacter" />
@@ -166,7 +165,8 @@ isActiveAntialias.value = isMobile ? false : true;
   // cursor: none;
 }
 
-#drawing-canvas {
+#drawing-canvas,
+#drawing-canvas-1 {
   position: absolute;
   background-color: #000000;
   top: 20px;
@@ -177,10 +177,18 @@ isActiveAntialias.value = isMobile ? false : true;
   opacity: 1;
   cursor: crosshair;
   touch-action: none;
-  width: 160px;
-  height: 160px;
+  width: 50px;
+  height: 50px;
+  transition: width 300ms, height 300ms;
+  &:hover {
+    width: 200px;
+    height: 200px;
+  }
 }
 
+#drawing-canvas-1 {
+  left: -400px;
+}
 #drawing-canvas-snow {
   position: absolute;
   background-color: #000000;

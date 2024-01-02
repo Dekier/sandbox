@@ -16,40 +16,47 @@ const drawStartPos = new Vector2();
 const drawingContext = drawingCanvas?.getContext("2d");
 const setupCanvasDrawing = async (texture) => {
   drawingContext.fillStyle = "#FFFFFF";
-  drawingContext.fillRect(0, 0, 160, 160);
-  drawingContext.drawImage(texture, 0, 0, 160, 160);
+  drawingContext.fillRect(0, 0, 200, 200);
+  drawingContext.drawImage(texture, 0, 0, 200, 200);
   await drawDots(treeData.value, drawingContext);
   await drawDots(treeSecondData.value, drawingContext);
   loadedCanvas.value = true;
 };
+
+const groundPositions = ref({ x: 0, z: 0 });
 </script>
 
 <template>
   <Suspense>
-    <ModelsFloraTree
-      v-if="positionCharacter && loadedCanvas"
-      :trees-data="treeData"
+    <Ground
+      v-if="loadedCanvas"
+      :positions="groundPositions"
+      :drawing-canvas="drawingCanvas"
     />
   </Suspense>
   <Suspense>
-    <ModelsFloraTreeSecond
-      v-if="positionCharacter"
-      :trees-data="treeSecondData"
+    <ModelsFloraGrass
+      v-if="loadedCanvas"
+      :drawing-canvas="drawingCanvas"
+      :positions="groundPositions"
     />
   </Suspense>
   <Suspense>
-    <ModelsFloraBush
-      v-if="positionCharacter && loadedCanvas"
-      :bush-data="bushData"
-    />
+    <ModelsFloraTree v-if="loadedCanvas" :trees-data="treeData" />
   </Suspense>
   <Suspense>
-    <ModelsFloraSmallLeaves v-if="positionCharacter" />
+    <ModelsFloraTreeSecond :trees-data="treeSecondData" />
   </Suspense>
   <Suspense>
-    <ModelsFloraFern v-if="positionCharacter && loadedCanvas" />
+    <ModelsFloraBush v-if="loadedCanvas" :bush-data="bushData" />
+  </Suspense>
+  <Suspense>
+    <ModelsFloraSmallLeaves />
+  </Suspense>
+  <Suspense>
+    <ModelsFloraFern v-if="loadedCanvas" />
   </Suspense>
   <!-- <Suspense>
-      <ModelsFloraBushStick v-if="positionCharacter" />
-    </Suspense> -->
+    <ModelsFloraBushStick v-if="positionCharacter" />
+  </Suspense> -->
 </template>

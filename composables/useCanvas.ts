@@ -54,8 +54,8 @@ export const useCanvas = () => {
 
   const drawDots = async (positions, drawContext) => {
     for (let i = 0; i < positions.length; i++) {
-      const offsetX = 160 / 2;
-      const offsetY = 160 / 2;
+      const offsetX = 200 / 2;
+      const offsetY = 200 / 2;
 
       for (let i = 0; i < positions.length; i++) {
         const x = positions[i].positionX + offsetX;

@@ -110,7 +110,7 @@ const calculatePixelPercentage = (pixelData, targetColor) => {
 
 let oldModel = null;
 const setIntancesMesh = (data) => {
-  const imageData = drawingContext.getImageData(0, 0, 160, 160);
+  const imageData = drawingContext.getImageData(0, 0, 200, 200);
   const pixels = imageData.data;
   const whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
   const newPercentInstanceNumber = Math.round(
@@ -135,8 +135,8 @@ const setIntancesMesh = (data) => {
     const pixelValue = (pixels[i] / 255.0 - 0.5) * 2.0;
 
     if (pixelValue > threshold) {
-      const x = (i / 4) % 160;
-      const z = Math.floor(i / 4 / 160);
+      const x = (i / 4) % 200;
+      const z = Math.floor(i / 4 / 200);
       validPositions.push({ x, z });
     }
   }
@@ -145,9 +145,9 @@ const setIntancesMesh = (data) => {
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
-      randomPosition.x + Math.random() * 1.2 - 80,
+      randomPosition.x + Math.random() * 1.2 - 200 / 2,
       0,
-      randomPosition.z - 160 / 2 + Math.random() * 1.2
+      randomPosition.z - 200 / 2 + Math.random() * 1.2
     );
 
     dummy.scale.y = 1.5 + Math.random() * 0.7;

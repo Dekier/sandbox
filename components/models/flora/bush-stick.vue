@@ -16,7 +16,15 @@ const { $gsap } = useNuxtApp();
 const { colorTrees } = storeToRefs(storeGeneral);
 const { bendModel, calculateDistance } = useUtils();
 
-const { nodes } = await useGLTF("/models/bush-stick.glb", { draco: true });
+const {
+  scene: modelScene,
+  nodes,
+  animations,
+} = await useGLTF("/models/bush-stick.glb", { draco: true });
+const { actions } = useAnimations(animations, modelScene);
+console.log(nodes);
+console.log(animations);
+actions.stick.play();
 const modelLeaves = nodes.leavesStick;
 const modelWood = nodes.woodStick;
 modelWood.castShadow = true;

@@ -25,9 +25,9 @@ onLoop(({ _delta, elapsed }) => {
       <img src="/svg/settings.svg" class="Buttons__icon" />
     </button>
   </div> -->
-  <div class="Buttons__main-container-left-bottom">
+  <!-- <div class="Buttons__main-container-left-bottom">
     <span class="Buttons__fps">{{ hudStore.fps }} FPS</span>
-  </div>
+  </div> -->
 </template>
 <style lang="scss">
 @import "buttons";

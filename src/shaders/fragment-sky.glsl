@@ -5,7 +5,7 @@ uniform vec3 cameraPos;
 uniform float fogFade;
 uniform float fov;
 
-const vec3 skyColour = 0.6 * vec3(0.02, 0.2, 0.9);
+const vec3 skyColour = vec3(0.02, 0.2, 0.9);
 //Darken sky when looking up
 vec3 getSkyColour(vec3 rayDir){
 	return mix(0.35*skyColour, skyColour, pow(1.0-rayDir.y, 4.0));
