@@ -8,7 +8,7 @@ const { treeData, treeSecondData, bushData } = storeToRefs(floraStore);
 
 const loadedCanvas = ref(false);
 const loader = new TextureLoader();
-loader.load("/materials/grass/perlin.webp", (texture) => {
+loader.load("/materials/grass/perlin.png", (texture) => {
   setupCanvasDrawing(texture.source.data);
 });
 const drawingCanvas = document.getElementById("drawing-canvas");
@@ -27,20 +27,23 @@ const groundPositions = ref({ x: 0, z: 0 });
 </script>
 
 <template>
-  <Suspense>
+  <!-- <Suspense>
     <Ground
       v-if="loadedCanvas"
       :positions="groundPositions"
       :drawing-canvas="drawingCanvas"
     />
-  </Suspense>
+  </Suspense> -->
   <Suspense>
+    <ModelsFloraModularGround />
+  </Suspense>
+  <!-- <Suspense>
     <ModelsFloraGrass
       v-if="loadedCanvas"
       :drawing-canvas="drawingCanvas"
       :positions="groundPositions"
     />
-  </Suspense>
+  </Suspense> -->
   <Suspense>
     <ModelsFloraTree v-if="loadedCanvas" :trees-data="treeData" />
   </Suspense>
