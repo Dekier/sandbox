@@ -21,6 +21,12 @@ import {
   MeshBasicMaterial,
   BoxGeometry,
 } from "three";
+const props = defineProps({
+  drawingCanvas: {
+    type: Object,
+    required: true,
+  },
+});
 
 const storeGeneral = useGeneralStore();
 const { color } = storeToRefs(storeGeneral);
@@ -69,11 +75,9 @@ let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
 instancedMesh.castShadow = false;
 instancedMesh.receiveShadow = false;
 
-const drawingCanvas = document.getElementById("drawing-canvas");
-const drawStartPos = new Vector2();
-const drawingContext = drawingCanvas?.getContext("2d");
-drawingCanvas.addEventListener("pointerup", () => {
-  const newTexture = new CanvasTexture(drawingCanvas);
+const drawingContext = props.drawingCanvas?.getContext("2d");
+props.drawingCanvas.addEventListener("pointerup", () => {
+  const newTexture = new CanvasTexture(props.drawingCanvas);
   setIntancesMesh(newTexture.source.data);
 });
 
@@ -162,7 +166,7 @@ const setIntancesMesh = (data) => {
   scene.value.add(instancedMesh);
 };
 
-const newTexture = new CanvasTexture(drawingCanvas);
+const newTexture = new CanvasTexture(props.drawingCanvas);
 setIntancesMesh(newTexture.source.data);
 
 watch(color, (value) => {

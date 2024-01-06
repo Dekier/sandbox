@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { TextureLoader, Vector2 } from "three";
-const { drawDots } = useCanvas();
+const { drawDots, drawRects } = useCanvas();
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
 const floraStore = useFloraStore();
 const { treeData, treeSecondData, bushData } = storeToRefs(floraStore);
+const storeModularGround = useModularGroundStore();
+const { activeModularList } = storeToRefs(storeModularGround);
 
 const loadedCanvas = ref(false);
 const loader = new TextureLoader();
@@ -18,6 +20,7 @@ const setupCanvasDrawing = async (texture) => {
   drawingContext.fillStyle = "#FFFFFF";
   drawingContext.fillRect(0, 0, 200, 200);
   drawingContext.drawImage(texture, 0, 0, 200, 200);
+  await drawRects(activeModularList.value, drawingContext);
   await drawDots(treeData.value, drawingContext);
   await drawDots(treeSecondData.value, drawingContext);
   loadedCanvas.value = true;
@@ -35,16 +38,22 @@ const groundPositions = ref({ x: 0, z: 0 });
     />
   </Suspense> -->
   <Suspense>
-    <ModelsFloraModularGround />
+    <ModelsFloraModularGround
+      v-if="loadedCanvas"
+      :drawing-canvas="drawingCanvas"
+    />
   </Suspense>
   <!-- <Suspense>
+    <Seaa />
+  </Suspense> -->
+  <Suspense>
     <ModelsFloraGrass
       v-if="loadedCanvas"
       :drawing-canvas="drawingCanvas"
       :positions="groundPositions"
     />
-  </Suspense> -->
-  <Suspense>
+  </Suspense>
+  <!-- <Suspense>
     <ModelsFloraTree v-if="loadedCanvas" :trees-data="treeData" />
   </Suspense>
   <Suspense>
@@ -52,12 +61,15 @@ const groundPositions = ref({ x: 0, z: 0 });
   </Suspense>
   <Suspense>
     <ModelsFloraBush v-if="loadedCanvas" :bush-data="bushData" />
+  </Suspense> -->
+  <Suspense>
+    <ModelsFloraSmallLeaves
+      v-if="loadedCanvas"
+      :drawing-canvas="drawingCanvas"
+    />
   </Suspense>
   <Suspense>
-    <ModelsFloraSmallLeaves />
-  </Suspense>
-  <Suspense>
-    <ModelsFloraFern v-if="loadedCanvas" />
+    <ModelsFloraFern v-if="loadedCanvas" :drawing-canvas="drawingCanvas" />
   </Suspense>
   <!-- <Suspense>
     <ModelsFloraBushStick v-if="positionCharacter" />

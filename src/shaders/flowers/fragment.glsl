@@ -27,7 +27,7 @@ void main() {
     float lightIntensity = smoothstep(0.0, 0.61, NdotL * shadow);
     vec3 directionalLight = directionalLights[0].color * lightIntensity;
 
-    vec3 baseColor = hexColor * 0.6  * clarity;
+    vec3 baseColor = hexColor * 1.1 * clarity;
     vec3 shadowColor = hexColor * 1.5 * (vUv.y + 0.6);
     
     // Adjust clarity to control the brightness of the shadow
@@ -37,5 +37,7 @@ void main() {
         discard;
     }
 
-    gl_FragColor = vec4(finalColor, 1.0);
+    vec3 toneMappedColor = toneMapping(finalColor);
+
+    gl_FragColor = vec4(toneMappedColor, 2.2);
 }

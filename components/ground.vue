@@ -40,7 +40,6 @@ rough.wrapT = RepeatWrapping;
 rough.repeat.x = 35;
 rough.repeat.y = 35;
 
-const drawStartPos = new Vector2();
 const drawingContext = props.drawingCanvas?.getContext("2d");
 
 props.drawingCanvas.addEventListener("pointerup", () => {

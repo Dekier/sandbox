@@ -68,5 +68,21 @@ export const useCanvas = () => {
     }
   };
 
-  return { calculatePixelPercentage, draw, drawDots };
+  const drawRects = async (positions, drawContext) => {
+    for (let i = 0; i < positions.length; i++) {
+      const offsetX = 200 / 2;
+      const offsetY = 200 / 2;
+
+      for (let i = 0; i < positions.length; i++) {
+        const x = positions[i].positionX + offsetX;
+        const y = positions[i].positionZ + offsetY;
+        drawContext.fillStyle = "#ffffff";
+        await drawContext.beginPath();
+        await drawContext.rect(x - 15 / 2, y - 15 / 2, 15, 15);
+        await drawContext.fill();
+      }
+    }
+  };
+
+  return { calculatePixelPercentage, draw, drawDots, drawRects };
 };

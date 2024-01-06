@@ -182,8 +182,8 @@ document.body.addEventListener("keyup", (e) => {
     :position="[cameraX, cameraY, cameraZ]"
     :fov="55"
     :aspect="1"
-    :near="1"
-    :far="240"
+    :near="0.1"
+    :far="300"
     ref="perspectiveCamera"
   />
 

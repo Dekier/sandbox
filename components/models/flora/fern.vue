@@ -22,7 +22,12 @@ import {
   BoxGeometry,
   SphereGeometry,
 } from "three";
-
+const props = defineProps({
+  drawingCanvas: {
+    type: Object,
+    required: true,
+  },
+});
 const storeGeneral = useGeneralStore();
 const { scene, renderer, camera } = useTresContext();
 const { onLoop, resume } = useRenderLoop();
@@ -69,11 +74,9 @@ let instancedMesh = new InstancedMesh(
 instancedMesh.castShadow = false;
 instancedMesh.receiveShadow = false;
 
-const drawingCanvas = document.getElementById("drawing-canvas");
-const drawStartPos = new Vector2();
-const drawingContext = drawingCanvas?.getContext("2d");
-drawingCanvas.addEventListener("pointerup", () => {
-  const newTexture = new CanvasTexture(drawingCanvas);
+const drawingContext = props.drawingCanvas?.getContext("2d");
+props.drawingCanvas.addEventListener("pointerup", () => {
+  const newTexture = new CanvasTexture(props.drawingCanvas);
   setIntancesMesh(newTexture.source.data);
 });
 
@@ -110,7 +113,7 @@ const calculatePixelPercentage = (pixelData, targetColor) => {
 
 let oldModel = null;
 const setIntancesMesh = (data) => {
-  const imageData = drawingContext.getImageData(0, 0, 160, 160);
+  const imageData = drawingContext.getImageData(0, 0, 200, 200);
   const pixels = imageData.data;
   const whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
   const newPercentInstanceNumber = Math.round(
@@ -135,8 +138,8 @@ const setIntancesMesh = (data) => {
     const pixelValue = (pixels[i] / 255.0 - 0.5) * 2.0;
 
     if (pixelValue > threshold) {
-      const x = (i / 4) % 160;
-      const z = Math.floor(i / 4 / 160);
+      const x = (i / 4) % 200;
+      const z = Math.floor(i / 4 / 200);
       validPositions.push({ x, z });
     }
   }
@@ -144,9 +147,9 @@ const setIntancesMesh = (data) => {
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
-      randomPosition.x + Math.random() * 1.2 - 80,
+      randomPosition.x + Math.random() * 1.2 - 200 / 2,
       0.0,
-      randomPosition.z - 160 / 2 + Math.random() * 1.2
+      randomPosition.z - 200 / 2 + Math.random() * 1.2
     );
     dummy.rotation.y = Math.random() * 184;
     dummy.scale.y = 1.2 + Math.random() * 0.7;
@@ -161,7 +164,7 @@ const setIntancesMesh = (data) => {
   instancedMesh.instanceMatrix.needsUpdate = true;
 };
 
-const newTexture = new CanvasTexture(drawingCanvas);
+const newTexture = new CanvasTexture(props.drawingCanvas);
 setIntancesMesh(newTexture.source.data);
 
 watch(color, (value) => {

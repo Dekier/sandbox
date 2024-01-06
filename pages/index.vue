@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
+import { PCFSoftShadowMap, SRGBColorSpace, AgXToneMapping } from "three";
 const storeControl = useControlsStore();
 const storeGeneral = useGeneralStore();
 const { isStartedGame } = storeToRefs(storeGeneral);
@@ -27,7 +27,7 @@ const gl = {
   gammaFactor: 2.2,
   gammaOutput: true,
   outputColorSpace: SRGBColorSpace,
-  toneMapping: ACESFilmicToneMapping,
+  toneMapping: AgXToneMapping,
   toneMappingExposure: 2.2,
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
   powerPreference: "high-performance",
@@ -64,9 +64,10 @@ isActiveAntialias.value = isMobile ? false : true;
   <canvas id="drawing-canvas" height="200" width="200" />
   <!-- <canvas id="drawing-canvas-1" height="200" width="200" /> -->
   <!-- <canvas id="drawing-canvas-snow" height="320" width="320" /> -->
-  <HudGeneral />
+
   <LoadingScreen />
   <client-only>
+    <HudGeneral />
     <TresLeches />
     <Joystick v-if="isMobile" />
     <Suspense>
@@ -86,9 +87,9 @@ isActiveAntialias.value = isMobile ? false : true;
     <!-- <Suspense>
       <Fog />
     </Suspense> -->
-    <Suspense>
+    <!-- <Suspense>
       <Sky />
-    </Suspense>
+    </Suspense> -->
     <!-- <Space1Main v-if="positionCharacter" /> -->
     <!-- <Suspense>
       <Ground2 v-if="positionCharacter" />
@@ -99,7 +100,7 @@ isActiveAntialias.value = isMobile ? false : true;
     <!-- <Suspense>
       <Rapier />
     </Suspense> -->
-    <Suspense>
+    <!-- <Suspense>
       <Hause v-if="positionCharacter" />
     </Suspense>
     <Suspense>
@@ -110,7 +111,7 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
     <Suspense>
       <Flag v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
     <Suspense>
       <ModelsFloraMain v-if="positionCharacter" />
     </Suspense>
@@ -121,9 +122,9 @@ isActiveAntialias.value = isMobile ? false : true;
     <!-- <Suspense>
       <Telescope />
     </Suspense> -->
-    <Suspense>
+    <!-- <Suspense>
       <Baner v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
 
     <!-- <Suspense>
       <ModelsStones v-if="positionCharacter" />

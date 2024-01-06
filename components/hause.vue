@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { MeshLambertMaterial, Color } from "three";
 import { useGLTF } from "@tresjs/cientos";
 const { nodes } = await useGLTF("/models/hause.glb", { draco: true });
 const { newSetModel } = useModelSettings();
