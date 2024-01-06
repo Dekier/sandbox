@@ -69,10 +69,10 @@ isActiveAntialias.value = isMobile ? false : true;
   <client-only>
     <HudGeneral />
     <TresLeches />
-    <Joystick v-if="isMobile" />
-    <Suspense>
+    <!-- <Joystick v-if="isMobile" /> -->
+    <!-- <Suspense>
       <ControllerGamepad v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
   </client-only>
   <TresCanvas
     :class="{ 'hide-cursor': isStartedGame }"
@@ -87,9 +87,9 @@ isActiveAntialias.value = isMobile ? false : true;
     <!-- <Suspense>
       <Fog />
     </Suspense> -->
-    <!-- <Suspense>
+    <Suspense>
       <Sky />
-    </Suspense> -->
+    </Suspense>
     <!-- <Space1Main v-if="positionCharacter" /> -->
     <!-- <Suspense>
       <Ground2 v-if="positionCharacter" />
@@ -136,9 +136,9 @@ isActiveAntialias.value = isMobile ? false : true;
     <Suspense>
       <ModelsCharacterAll />
     </Suspense>
-    <Suspense>
+    <!-- <Suspense>
       <ModelsWardrobeAll v-if="positionCharacter" />
-    </Suspense>
+    </Suspense> -->
     <!-- <Suspense>
       <ModelsRocks />
     </Suspense> -->

@@ -10,9 +10,12 @@ import {
   UniformsLib,
   Texture,
   ShaderMaterial,
+  Mesh,
+  PlaneGeometry,
 } from "three";
 import { useGLTF } from "@tresjs/cientos";
 const { nodes } = await useGLTF("/models/ground.glb", { draco: true });
+console.log(nodes);
 const storeGeneral = useGeneralStore();
 const { color } = storeToRefs(storeGeneral);
 const storeModularGround = useModularGroundStore();
@@ -95,20 +98,19 @@ const listGroundOneSide = [];
 const groundCornerList = [];
 const groundTwoSideList = [];
 const groundThreeSideList = [];
-
 activeModularList.value.forEach((element) => {
   const isLeftActive = activeModularList.value.find(
-    (data) => data.index === element.index - 1
+    (data) => data.id === element.id - 1
   );
   const isRightActive = activeModularList.value.find(
-    (data) => data.index === element.index + 1
+    (data) => data.id === element.id + 1
   );
 
   const isTopActive = activeModularList.value.find(
-    (data) => data.index === element.index - 15
+    (data) => data.id === element.id - 15
   );
   const isBottomActive = activeModularList.value.find(
-    (data) => data.index === element.index + 15
+    (data) => data.id === element.id + 15
   );
   if (isLeftActive && isRightActive && isTopActive && isBottomActive) {
     groundZeroList.push(element);
@@ -360,6 +362,10 @@ for (let i = 0; i < groundTwoSideList.length; i++) {
 }
 scene.value.add(instancedMeshGroundTwoSide);
 scene.value.add(instancedMeshGroundTwoSide2);
+
+// const groundGeometry = new PlaneGeometry(201, 201, 1, 1);
+const mesh = new Mesh(instancedMeshGroundTwoSide.geometry, groundMaterial);
+scene.value.add(mesh);
 </script>
 
 <!-- <template>
