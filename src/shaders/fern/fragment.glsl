@@ -27,8 +27,8 @@ void main() {
     float lightIntensity = smoothstep(0.0, 0.61, NdotL * shadow);
     vec3 directionalLight = directionalLights[0].color * lightIntensity;
 
-    vec3 baseColor = hexColor * 0.6 * clarity;
-    vec3 shadowColor = hexColor * 1.5 * (vUv.y + 0.6);
+    vec3 baseColor = hexColor * 1.1 * clarity;
+    vec3 shadowColor = hexColor * 1.8 * (vUv.y + 0.6);
     
     // Adjust clarity to control the brightness of the shadow
     vec3 finalColor = baseColor * (ambientLightColor + directionalLight) + shadowColor ;

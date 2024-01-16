@@ -2,8 +2,9 @@
 <template>
   <HudMapHome />
   <HudButtons />
-  <HudSettings />
-  <HudControls />
+  <HudMouseControl />
+  <!-- <HudSettings /> -->
+  <!-- <HudControls /> -->
   <HudCenterInformation />
   <HudMenu />
 </template>

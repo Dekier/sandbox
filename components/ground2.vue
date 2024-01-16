@@ -18,9 +18,7 @@ watch(colorBackground, (value) => {
   newColor.value = new Color(value);
 });
 const planeRef = ref();
-watch(planeRef, (value) => {
-  console.log(planeRef.value);
-});
+watch(planeRef, (value) => {});
 
 const geometry = new PlaneGeometry(163, 163, 1, 1);
 // geometry.translate(0, 0.5, 0);

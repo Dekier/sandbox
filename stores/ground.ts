@@ -138,7 +138,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -146,7 +146,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -154,7 +154,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
 
@@ -163,7 +163,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
 
@@ -172,7 +172,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -180,7 +180,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -30,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -188,7 +188,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -15,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -196,7 +196,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 0,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -204,7 +204,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 15,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -212,7 +212,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 30,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -220,7 +220,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -228,7 +228,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -236,7 +236,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -244,7 +244,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -252,7 +252,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: -90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -260,7 +260,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -268,7 +268,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -276,7 +276,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -284,7 +284,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -292,7 +292,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -300,7 +300,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -30,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -308,7 +308,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -15,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -316,7 +316,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 0,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -324,7 +324,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 15,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -332,7 +332,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 30,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -340,7 +340,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -348,7 +348,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -356,7 +356,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -364,7 +364,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -372,7 +372,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: -75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -380,7 +380,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -388,7 +388,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -396,7 +396,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -404,7 +404,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -412,7 +412,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -420,7 +420,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -30,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -428,7 +428,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -15,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -436,7 +436,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 0,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -444,7 +444,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 15,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -452,7 +452,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 30,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -460,7 +460,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -468,7 +468,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -476,7 +476,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -484,7 +484,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -492,7 +492,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: -60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -500,7 +500,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -508,7 +508,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -516,7 +516,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -524,7 +524,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -532,7 +532,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -540,7 +540,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -30,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -548,7 +548,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -15,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -556,7 +556,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 0,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -564,7 +564,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 15,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -572,7 +572,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 30,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -580,7 +580,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -588,7 +588,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -596,7 +596,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -604,7 +604,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -612,7 +612,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: -45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -620,7 +620,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -628,7 +628,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -636,7 +636,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -644,7 +644,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -652,7 +652,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -700,7 +700,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -708,7 +708,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -716,7 +716,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -724,7 +724,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -732,7 +732,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: -30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -740,7 +740,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -748,7 +748,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -756,7 +756,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -764,7 +764,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -772,7 +772,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -820,7 +820,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -828,7 +828,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -836,7 +836,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -844,7 +844,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -852,7 +852,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: -15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -868,7 +868,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: 0,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -876,7 +876,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: 0,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -884,7 +884,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: 0,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -892,7 +892,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: 0,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -940,7 +940,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: 0,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -948,7 +948,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: 0,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -956,7 +956,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: 0,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
 
@@ -965,7 +965,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: 0,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
 
@@ -974,7 +974,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: 0,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -982,7 +982,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -990,7 +990,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -998,7 +998,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1006,7 +1006,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1014,7 +1014,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1062,7 +1062,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1070,7 +1070,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1078,7 +1078,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1086,7 +1086,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1094,7 +1094,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: 15,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1102,7 +1102,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1110,7 +1110,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1118,7 +1118,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1126,7 +1126,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1134,7 +1134,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1182,7 +1182,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1190,7 +1190,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1198,7 +1198,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1206,7 +1206,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1214,7 +1214,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: 30,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1222,7 +1222,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1230,7 +1230,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1238,7 +1238,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1246,7 +1246,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1254,7 +1254,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1262,7 +1262,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -30,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1270,7 +1270,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -15,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1278,7 +1278,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 0,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1286,7 +1286,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 15,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1294,7 +1294,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 30,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1302,7 +1302,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1310,7 +1310,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1318,7 +1318,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1326,7 +1326,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1334,7 +1334,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: 45,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1342,7 +1342,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1350,7 +1350,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1358,7 +1358,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1366,7 +1366,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1374,7 +1374,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1382,7 +1382,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -30,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1390,7 +1390,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -15,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1398,7 +1398,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 0,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1406,7 +1406,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 15,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1414,7 +1414,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 30,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1422,7 +1422,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1430,7 +1430,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1438,7 +1438,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1446,7 +1446,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1454,7 +1454,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: 60,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1462,7 +1462,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1470,7 +1470,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1478,7 +1478,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1486,7 +1486,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1494,7 +1494,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1502,7 +1502,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -30,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1510,7 +1510,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -15,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1518,7 +1518,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 0,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1526,7 +1526,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 15,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1534,7 +1534,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 30,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1542,7 +1542,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1550,7 +1550,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1558,7 +1558,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1566,7 +1566,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1574,7 +1574,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: 75,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1582,7 +1582,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -105,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1590,7 +1590,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -90,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1598,7 +1598,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -75,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1606,7 +1606,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -60,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1614,7 +1614,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -45,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1622,7 +1622,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -30,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1630,7 +1630,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: -15,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1638,7 +1638,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 0,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1646,7 +1646,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 15,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1654,7 +1654,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 30,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1662,7 +1662,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 45,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1670,7 +1670,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 60,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1678,7 +1678,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 75,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1686,7 +1686,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 90,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: false,
         },
         {
@@ -1694,7 +1694,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionX: 105,
           positionZ: 90,
           positionY: 0,
-          isActive: true,
+          isActive: false,
           isWall: true,
         },
         {
@@ -1711,7 +1711,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 213,
@@ -1719,7 +1719,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 214,
@@ -1727,7 +1727,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 215,
@@ -1735,7 +1735,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 216,
@@ -1743,7 +1743,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 217,
@@ -1751,7 +1751,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 218,
@@ -1759,7 +1759,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
 
         {
@@ -1768,7 +1768,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
 
         {
@@ -1777,7 +1777,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 221,
@@ -1785,7 +1785,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 222,
@@ -1793,7 +1793,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 223,
@@ -1801,7 +1801,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 224,
@@ -1809,7 +1809,7 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 0,
           positionY: 0,
           isActive: false,
-          isWall: false,
+          isWall: true,
         },
         {
           id: 225,
@@ -1827,8 +1827,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
       state.groundDataList.filter((data) => data.isActive && !data.isWall),
   },
   actions: {
-    //   setCharacterModel(data: any) {
-    //     this.characterModel = data;
-    //   },
+    updatePieces(data: GroundData[]) {
+      data.forEach((element: GroundData) => {
+        this.groundDataList[element.id - 1].isActive = true;
+      });
+    },
   },
 });

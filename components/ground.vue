@@ -61,8 +61,8 @@ alphaMap.needsUpdate = true;
 alphaMap.wrapS = RepeatWrapping;
 alphaMap.wrapT = RepeatWrapping;
 
-const darkerFactor = 0.85;
-const darkerFactorRoads = 1.0;
+const darkerFactor = 3.4;
+const darkerFactorRoads = 3.7;
 const uniforms = {
   time: {
     value: 0,
@@ -100,6 +100,7 @@ const mesh = new Mesh(groundGeometry, groundMaterial);
 // mesh.position.x = 1;
 mesh.position.z = props.positions.z;
 mesh.position.x = props.positions.x;
+// mesh.position.y = 0.11;
 mesh.receiveShadow = true;
 
 scene.value.add(mesh);

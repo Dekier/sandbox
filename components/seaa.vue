@@ -98,7 +98,6 @@ waterMaterial.uniforms.resolution.value.set(
   window.innerWidth * pixelRatio,
   window.innerHeight * pixelRatio
 );
-console.log(waterMaterial.uniforms);
 waterMaterial.uniforms.tDudv.value = dudvMap;
 waterMaterial.uniforms.tDepth.value = renderTarget.texture;
 

@@ -4,10 +4,8 @@ varying vec2 vUv;
 uniform float time;
 attribute vec3 offset;
 uniform vec3 uCharacterPosition;
-uniform sampler2D alphaMap;
 varying vec3 vNormal;
 varying vec3 vViewDir;
-
 
 float calculateDistance(vec3 vPosition, vec3 uCharacterPosition) {
     float dx = vPosition.x - uCharacterPosition.x;
@@ -46,13 +44,12 @@ void main() {
     #include <shadowmap_vertex>
     vUv = uv;
     float t = time * 2.;
-	
 
     // VERTEX POSITION
     vec4 mvPosition = vec4(position, 1.0);
-	#ifdef USE_INSTANCING
-    	mvPosition = instanceMatrix * mvPosition;
-	#endif
+    #ifdef USE_INSTANCING
+        mvPosition = instanceMatrix * mvPosition;
+    #endif
 
     // DISPLACEMENT
     float noise = smoothNoise(mvPosition.xz * 0.2 + vec2(-0., t));
@@ -65,23 +62,21 @@ void main() {
     mvPosition.x += displacement;
     mvPosition.z += displacement;
 
-   // Check if the vertex position is less than 2 units from the character position
-	float distance = calculateDistance(mvPosition.xyz, uCharacterPosition);
-	if (distance < 2.0) {
+    // Check if the vertex position is less than 2 units from the character position
+    float distance = calculateDistance(mvPosition.xyz, uCharacterPosition);
+    if (distance < 2.0) {
         // Use smoothstep to determine the amount of bending based on distance
-      	float newPositionY = mix(-0.6, 0.0, smoothstep(0.0, 2.1, distance));
-      
+        float bendingFactor = smoothstep(0.0, 2.0, distance);
+        // Use bendingFactor to bend the grass more as the character gets closer
+        float newPositionY = mix(-0.6, 0.0, bendingFactor);
         mvPosition.y += newPositionY;
-	}
+    }
 
-    // vec4 modelViewPosition = modelViewMatrix * mvPosition;
     vec4 modelPosition = modelMatrix * mvPosition;
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 clipPosition = projectionMatrix * viewPosition;
 
     vNormal = normalize(normalMatrix * normal);
-
-   
 
     gl_Position = clipPosition;
 }

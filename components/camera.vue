@@ -5,7 +5,9 @@ const storeGeneral = useGeneralStore();
 const characterStore = useCharacterStore();
 const storeControl = useControlsStore();
 const { positionCharacterLookAt, characterModel } = storeToRefs(characterStore);
-const { isStartedGame } = storeToRefs(storeGeneral);
+const { isStartedGame, isMouseLocked } = storeToRefs(storeGeneral);
+const storeHud = useHudStore();
+const { isActiveFullSizeMap } = storeToRefs(storeHud);
 
 const { scene } = useTresContext();
 const cameraTheta = ref(0);
@@ -13,59 +15,52 @@ const cameraX = ref(0);
 const cameraY = ref(1);
 const cameraZ = ref(13);
 const delta = ref(new Vector2());
-const isMouseLocked = ref(false);
 const perspectiveCamera = ref<TresObject | null>(null);
 const { onLoop } = useRenderLoop();
-watch(positionCharacterLookAt, () => {
-  cameraSettings();
-});
 
-watch(characterModel, (value) => {
+watch(characterModel, () => {
   perspectiveCamera.value!.lookAt(characterModel.value.position.clone());
   container.position.x = characterModel.value.position.x;
   container.position.z = characterModel.value.position.z;
 });
 
-// watch(isStartedGame, (value) => {
-//   const element = document.body;
-//   if (element.requestPointerLock || element.mozRequestPointerLock) {
-//     element.requestPointerLock =
-//       element.requestPointerLock || element.mozRequestPointerLock;
-//     if (!isMouseLocked.value) {
-//       element.requestPointerLock();
-//     }
-//   }
-// });
+watch(positionCharacterLookAt, () => {
+  container.add(perspectiveCamera.value);
+  perspectiveCamera.value!.lookAt(positionCharacterLookAt.value);
+});
 
 const xAxis = new Vector3(1, 0, 0);
 const tempCameraVector = new Vector3();
 const tempModelVector = new Vector3();
-// const cameraOrigin = new Vector3(0, 3, 0);
 const cameraOrigin = new Vector3(0, 3, 0);
 const container = new Group();
 scene.value.add(container);
+let cameraDirection = null;
+let playerDirection = null;
+let cameraAngle = null;
+let playerAngle = null;
+let angleToRotate = null;
+let sanitisedAngle = null;
 const cameraSettings = () => {
-  container.add(perspectiveCamera.value);
-  perspectiveCamera.value!.lookAt(positionCharacterLookAt.value);
   onLoop(({ delta, elapsed }) => {
     if (!perspectiveCamera.value || !positionCharacterLookAt.value) {
       return;
     }
 
-    if (storeControl.isMovingCharacter) {
+    if (storeControl.isMovingCharacter && !isActiveFullSizeMap.value) {
       perspectiveCamera.value.getWorldDirection(tempCameraVector);
-      const cameraDirection = tempCameraVector.setY(0).normalize();
+      cameraDirection = tempCameraVector.setY(0).normalize();
 
       characterModel.value.getWorldDirection(tempModelVector);
-      const playerDirection = tempModelVector.setY(0).normalize();
+      playerDirection = tempModelVector.setY(0).normalize();
 
-      const cameraAngle =
+      cameraAngle =
         cameraDirection.angleTo(xAxis) * (cameraDirection.z > 0 ? 1 : -1);
-      const playerAngle =
+      playerAngle =
         playerDirection.angleTo(xAxis) * (playerDirection.z > 0 ? 1 : -1);
-      const angleToRotate = playerAngle - cameraAngle;
+      angleToRotate = playerAngle - cameraAngle;
 
-      let sanitisedAngle = angleToRotate;
+      sanitisedAngle = angleToRotate;
       if (angleToRotate > Math.PI) {
         sanitisedAngle = angleToRotate - 2 * Math.PI;
       }
@@ -91,9 +86,12 @@ const cameraSettings = () => {
   });
 };
 
+cameraSettings();
+let movementX = 0;
+let movementY = 0;
 window.addEventListener("pointermove", (e) => {
-  if (isMouseLocked.value) {
-    let movementX = 0;
+  if (isMouseLocked.value && !isActiveFullSizeMap.value) {
+    movementX = 0;
 
     if (e.movementX > 20) {
       movementX = 20;
@@ -107,7 +105,7 @@ window.addEventListener("pointermove", (e) => {
       movementX = e.movementX;
     }
 
-    let movementY = 0;
+    movementY = 0;
 
     if (e.movementY > 20) {
       movementY = 20;
@@ -132,48 +130,6 @@ window.addEventListener("pointermove", (e) => {
       container.position.clone().add(cameraOrigin)
     );
   }
-});
-
-document.addEventListener("pointerlockchange", () => {
-  isMouseLocked.value =
-    document.pointerLockElement === document.body ||
-    document.mozPointerLockElement === document.body;
-});
-document.addEventListener("mozpointerlockchange", () => {
-  isMouseLocked.value =
-    document.pointerLockElement === document.body ||
-    document.mozPointerLockElement === document.body;
-});
-
-document.addEventListener("click", () => {
-  if (isStartedGame.value) {
-    const element = document.body;
-
-    // Check if Pointer Lock is supported
-    if (element.requestPointerLock || element.mozRequestPointerLock) {
-      element.requestPointerLock =
-        element.requestPointerLock || element.mozRequestPointerLock;
-
-      // Request Pointer Lock only if it's not already locked
-      if (!isMouseLocked.value) {
-        element.requestPointerLock();
-      }
-    }
-  }
-});
-const defaultKeys = {
-  escape: false,
-} as {
-  escape: boolean;
-};
-document.body.addEventListener("keyup", (e) => {
-  const key = e.code.replace("Key", "").toLowerCase();
-  if (defaultKeys[key] !== undefined) {
-    storeGeneral.setIsStartedGame(false);
-  }
-  isMouseLocked.value =
-    document.pointerLockElement === document.body ||
-    document.mozPointerLockElement === document.body;
 });
 </script>
 

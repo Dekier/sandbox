@@ -20,7 +20,6 @@ import {
   CanvasTexture,
   MeshBasicMaterial,
   BoxGeometry,
-  SphereGeometry,
 } from "three";
 const props = defineProps({
   drawingCanvas: {
@@ -32,19 +31,21 @@ const props = defineProps({
     required: true,
   },
 });
+
 const storeGeneral = useGeneralStore();
+const { color } = storeToRefs(storeGeneral);
 const { scene, renderer, camera } = useTresContext();
 const { onLoop, resume } = useRenderLoop();
-const { color } = storeToRefs(storeGeneral);
 
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
 
-import vertexShader from "@/src/shaders/fern/vertex.glsl";
-import fragmentShader from "@/src/shaders/fern/fragment.glsl";
+import vertexShader from "@/src/shaders/vertex3.glsl";
+import fragmentShader from "@/src/shaders/fragment3.glsl";
 const loader = new TextureLoader();
-const alphaMap = loader.load("/materials/flowers/fern.png");
-const darkerFactor = 3.0;
+const alphaMap = loader.load("/materials/grass/blade_alpha3.png");
+
+const darkerFactor = 3.4;
 const uniforms = {
   time: {
     value: 0,
@@ -58,28 +59,27 @@ const uniforms = {
       new Color(color.value).b / darkerFactor
     ),
   },
+  fogColor: { value: new Color("#BEE1F7") },
+  fogNear: { value: 130 },
+  fogFar: { value: 150 },
   ...UniformsLib.lights,
 };
 
-const fernMaterial = new ShaderMaterial({
+const grassMaterial = new ShaderMaterial({
   uniforms,
   vertexShader,
   fragmentShader,
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 70;
+const instanceNumber = 100000;
 let dummy = new Object3D();
-const { nodes } = await useGLTF("/models/fern.glb", { draco: true });
-let instancedMesh = new InstancedMesh(
-  nodes.fern.geometry,
-  fernMaterial,
-  instanceNumber
-);
+const geometry = new PlaneGeometry(0.1, 0.2, 1, 4);
+geometry.translate(0, 0.5, 0);
+
+let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
 instancedMesh.castShadow = false;
 instancedMesh.receiveShadow = false;
-
-const drawingContext = props.drawingCanvas?.getContext("2d");
 
 const calculatePixelPercentage = (pixelData, targetColor) => {
   let totalPixels = 0;
@@ -113,6 +113,8 @@ const calculatePixelPercentage = (pixelData, targetColor) => {
 };
 
 let oldModel = null;
+
+const drawingContext = props.drawingCanvas?.getContext("2d");
 const setIntancesMesh = () => {
   const imageData = drawingContext.getImageData(0, 0, 200, 200);
   const pixels = imageData.data;
@@ -127,8 +129,8 @@ const setIntancesMesh = () => {
 
     dummy = new Object3D();
     instancedMesh = new InstancedMesh(
-      nodes.fern.geometry,
-      fernMaterial,
+      geometry,
+      grassMaterial,
       newPercentInstanceNumber
     );
   }
@@ -144,31 +146,32 @@ const setIntancesMesh = () => {
       validPositions.push({ x, z });
     }
   }
+
   for (let i = 0; i < newPercentInstanceNumber; i++) {
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
       randomPosition.x + Math.random() * 1.2 - 200 / 2,
-      0.0,
+      0,
       randomPosition.z - 200 / 2 + Math.random() * 1.2
     );
+
+    dummy.scale.y = 1.5 + Math.random() * 0.7;
+    dummy.scale.x = 1.5 + Math.random() * 0.4;
+    dummy.scale.z = 1.5 + Math.random() * 0.4;
     dummy.rotation.y = Math.random() * 184;
-    dummy.scale.y = 1.2 + Math.random() * 0.7;
-    dummy.scale.x = 1.2 + Math.random() * 0.4;
-    dummy.scale.z = 1.2 + Math.random() * 0.4;
 
     dummy.updateMatrix();
     instancedMesh.setMatrixAt(i, dummy.matrix);
   }
   oldModel = instancedMesh;
   scene.value.add(instancedMesh);
-  instancedMesh.instanceMatrix.needsUpdate = true;
 };
 
 setIntancesMesh();
 
 watch(color, (value) => {
-  fernMaterial.uniforms.hexColor.value = new Vector3(
+  grassMaterial.uniforms.hexColor.value = new Vector3(
     new Color(value).r / darkerFactor,
     new Color(value).g / darkerFactor,
     new Color(value).b / darkerFactor
@@ -185,26 +188,10 @@ watch(
 );
 
 onLoop(({ _delta, elapsed }) => {
-  fernMaterial.uniforms.time.value = elapsed;
-  fernMaterial.uniformsNeedUpdate = true;
+  grassMaterial.uniforms.time.value = elapsed;
+  grassMaterial.uniformsNeedUpdate = true;
   if (positionCharacter.value) {
-    fernMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
+    grassMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
   }
 });
-
-// :class="{
-//           'Label__main-container--active': isActiveLabel,
-//           'Label__main-container--gamepad': isActiveGamepad,
-//           'Label__main-container--hide': isHideLabel,
-//         }"
 </script>
-
-<!-- <template> -->
-<!-- <primitive :object="instancedMesh"> -->
-<!-- <Html center transform :distance-factor="5" :position="[0, 1, 0]" portal="">
-      <div class="Label__main-container--active">
-        <div class="Label__content">E</div>
-      </div>
-    </Html> -->
-<!-- </primitive> -->
-<!-- </template> -->

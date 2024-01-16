@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PCFSoftShadowMap, SRGBColorSpace, AgXToneMapping } from "three";
+import { PCFSoftShadowMap, SRGBColorSpace, CineonToneMapping } from "three";
 const storeControl = useControlsStore();
 const storeGeneral = useGeneralStore();
 const { isStartedGame } = storeToRefs(storeGeneral);
@@ -17,7 +17,8 @@ useHead({
   ],
 });
 const characterStore = useCharacterStore();
-const { positionCharacter } = storeToRefs(characterStore);
+const { positionCharacter, positionCharacterLookAt } =
+  storeToRefs(characterStore);
 
 const { isMobile } = useDevice();
 const gl = {
@@ -27,7 +28,7 @@ const gl = {
   gammaFactor: 2.2,
   gammaOutput: true,
   outputColorSpace: SRGBColorSpace,
-  toneMapping: AgXToneMapping,
+  toneMapping: CineonToneMapping,
   toneMappingExposure: 2.2,
   shadowMap: { enabled: true, type: PCFSoftShadowMap },
   powerPreference: "high-performance",
@@ -47,6 +48,13 @@ watch(color, (value) => {
   storeGeneral.setColor(value);
 });
 
+const { value: colorSand } = useControls({
+  sand: storeGeneral.colorSand,
+});
+watch(colorSand, (value) => {
+  storeGeneral.setColorSand(value);
+});
+
 // watch(colorStone, (value) => {
 //   storeGeneral.setColorStone(value);
 //   // directionalLight.position.Z = value;
@@ -62,7 +70,7 @@ isActiveAntialias.value = isMobile ? false : true;
 
 <template>
   <canvas id="drawing-canvas" height="200" width="200" />
-  <!-- <canvas id="drawing-canvas-1" height="200" width="200" /> -->
+  <!-- <canvas id="drawing-canvas-moving" height="200" width="200" /> -->
   <!-- <canvas id="drawing-canvas-snow" height="320" width="320" /> -->
 
   <LoadingScreen />
@@ -111,6 +119,9 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense>
     <Suspense>
       <Flag v-if="positionCharacter" />
+    </Suspense>
+    <Suspense>
+      <Baner v-if="positionCharacter" />
     </Suspense> -->
     <Suspense>
       <ModelsFloraMain v-if="positionCharacter" />
@@ -120,10 +131,7 @@ isActiveAntialias.value = isMobile ? false : true;
     </Suspense> -->
 
     <!-- <Suspense>
-      <Telescope />
-    </Suspense> -->
-    <!-- <Suspense>
-      <Baner v-if="positionCharacter" />
+      <Telescope />bush
     </Suspense> -->
 
     <!-- <Suspense>
@@ -167,9 +175,9 @@ isActiveAntialias.value = isMobile ? false : true;
 }
 
 #drawing-canvas,
-#drawing-canvas-1 {
+#drawing-canvas-moving {
   position: absolute;
-  background-color: #000000;
+  background-color: #fff;
   top: 20px;
   left: 0px;
   right: 0px;
@@ -187,7 +195,7 @@ isActiveAntialias.value = isMobile ? false : true;
   }
 }
 
-#drawing-canvas-1 {
+#drawing-canvas-moving {
   left: -400px;
 }
 #drawing-canvas-snow {

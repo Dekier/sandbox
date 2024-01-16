@@ -1,45 +1,33 @@
 .MapHome {
   &__main-container {
-    width: 300px;
-    height: 300px;
-    max-width: 500px;
-    max-height: 500px;
     border-radius: 8px;
-    border: 2px solid #ccc;
+    border: 2px solid $black;
+    background-color: #dfdfdf;
     z-index: 2;
     position: fixed;
     overflow: hidden;
-
-    will-change: transform, top, right, width, height;
-
     right: 50%;
     top: 50%;
     transform: translate(50%, -50%);
-    width: 50vw;
-    height: 50vw;
+  }
+
+  &__center-box {
   }
 
   &__list-of-modulars {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #dfdfdf;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    background-color: #d0e1e2;
+    max-width: 390px;
+    margin: 0 24px;
   }
 
   &__modular {
-    border: 1px solid #ccc;
-    width: calc(100% / 15);
-    height: calc(100% / 15);
-    &:hover {
-      border: 2px solid #2fad84;
-      cursor: pointer;
-    }
+    border: 1px solid #cccccc;
+    width: 26px;
+    height: 26px;
+    position: relative;
 
     &--purchased-module {
       border: 1px solid #2fad84;
@@ -51,29 +39,104 @@
     }
 
     &--selected {
-      background-color: #a2e9d1;
+      background-color: #87dabe;
       border: 1px solid #2fad84;
+      &:hover {
+        background-color: #87dabe;
+      }
+    }
+
+    &--wall {
+      cursor: default;
+      border: 1px solid #cccccc;
+      background-color: #dfdfdf;
+      &:hover {
+        cursor: default;
+        border: 1px solid #cccccc;
+        background-color: #dfdfdf;
+      }
+    }
+
+    &--can-select {
+      &:hover {
+        border: 2px solid #2fad84;
+        background-color: #bbf3e0;
+        cursor: pointer;
+      }
+    }
+
+    &--info {
+      margin-right: 12px;
     }
   }
 
-  &__character {
-    border: 2px solid peru;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+  &__modular-wall {
+    width: 100%;
+    height: 2px;
+    background-color: #cccccc;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: -50%;
+    top: calc(50% - 2px);
+    z-index: 1;
+    transform: translate(50%, 50%) rotate(45deg);
   }
 
-  &__icon {
+  &__icon-container {
     position: fixed;
     z-index: 2;
     right: 24px;
     bottom: 24px;
+    display: flex;
+  }
+
+  &__icon {
     width: 42px;
     height: 42px;
     cursor: pointer;
+  }
+
+  &__footer {
+    display: flex;
+    margin: 24px;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  &__button-buy {
+    width: 100px;
+    height: 36px;
+    letter-spacing: 1.5px;
+    @include text(20px, center, $black, 400);
+    background-color: #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 16px;
+  }
+
+  &__header {
+    display: flex;
+    margin: 24px;
+  }
+
+  &__text {
+    @include text(20px, center, $black, 400);
+    display: flex;
+    align-items: center;
+  }
+
+  &__keyboard-button {
+    display: flex;
+    height: 24px;
+    width: 24px;
+    background-color: #ccc;
+    border: 2px solid $black;
+    border-radius: 4px;
+    margin: auto 12px auto 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.9;
+    @include text(14px, center, $black, 400);
   }
 }
