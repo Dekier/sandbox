@@ -20,6 +20,7 @@ interface State {
   treeData: TreeData[];
   treeSecondData: TreeSecondData[];
   bushData: BushData[];
+  bushStickData: BushData[];
 }
 export const useFloraStore = defineStore("FloraStore", {
   state: (): State => {
@@ -46,6 +47,17 @@ export const useFloraStore = defineStore("FloraStore", {
         { positionX: 53, positionZ: -80, positionY: 0 },
         { positionX: 13, positionZ: -76, positionY: 0 },
         { positionX: -33, positionZ: -73, positionY: 0 },
+      ],
+      bushStickData: [
+        { positionX: 50, positionZ: 56, positionY: 0 },
+        { positionX: 22, positionZ: 10, positionY: 0 },
+        { positionX: -39, positionZ: 28, positionY: 0 },
+        { positionX: -23, positionZ: -1, positionY: 0 },
+        { positionX: 50, positionZ: 3, positionY: 0 },
+        { positionX: -34, positionZ: -36, positionY: 0 },
+        { positionX: 10, positionZ: -34, positionY: 0 },
+        { positionX: 5, positionZ: -13, positionY: 0 },
+        { positionX: 34, positionZ: 6, positionY: 0 },
       ],
       treeData: [
         {

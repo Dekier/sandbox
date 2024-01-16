@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { TextureLoader, Vector2 } from "three";
 const groundPositions = ref({ x: -200, z: 0 });
-console.log("dskfjsd");
 
 const loadedCanvas = ref(false);
 const loader = new TextureLoader();

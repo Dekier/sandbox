@@ -76,7 +76,6 @@ world.createCollider(wallColliderType, wallRigidBody);
 const numBoxes = 3;
 const { nodes } = await useGLTF("/models/rock.glb", { draco: true });
 const model = nodes.stone;
-console.log(model);
 const bodys: { rigid: RigidBody; mesh: Mesh }[] = [];
 
 for (let i = 0; i < numBoxes; i++) {

@@ -9,18 +9,22 @@ import {
   PlaneGeometry,
   DoubleSide,
   ShaderMaterial,
-  BufferGeometry,
   Matrix4,
   Object3D,
   InstancedMesh,
   Color,
-  MeshDepthMaterial,
-  RGBADepthPacking,
   UniformsLib,
-  CanvasTexture,
-  MeshBasicMaterial,
-  BoxGeometry,
 } from "three";
+const props = defineProps({
+  drawingCanvas: {
+    type: Object,
+    required: true,
+  },
+  isActiveUpdateCanvas: {
+    type: Boolean,
+    required: true,
+  },
+});
 
 const storeGeneral = useGeneralStore();
 const { color } = storeToRefs(storeGeneral);
@@ -35,7 +39,7 @@ import fragmentShader from "@/src/shaders/flowers/fragment.glsl";
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/flowers/alpha3.webp");
 
-const darkerFactor = 1.3;
+const darkerFactor = 1.4;
 const uniforms = {
   time: {
     value: 0,
@@ -44,38 +48,29 @@ const uniforms = {
   alphaMap: { value: alphaMap },
   hexColor: {
     value: new Vector3(
-      new Color(color.value).r * darkerFactor,
-      new Color(color.value).g * darkerFactor,
-      new Color(color.value).b * darkerFactor
+      new Color(color.value).r / darkerFactor,
+      new Color(color.value).g / darkerFactor,
+      new Color(color.value).b / darkerFactor
     ),
   },
   ...UniformsLib.lights,
 };
 
-const grassMaterial = new ShaderMaterial({
+const leavesMaterial = new ShaderMaterial({
   uniforms,
   vertexShader,
   fragmentShader,
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 900;
+const instanceNumber = 600;
 let dummy = new Object3D();
 const geometry = new PlaneGeometry(0.2, 0.8, 1, 2);
 geometry.translate(0, 0.5, 0);
 
-const { nodes } = await useGLTF("/models/flower.glb", { draco: true });
-let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
+let instancedMesh = new InstancedMesh(geometry, leavesMaterial, instanceNumber);
 instancedMesh.castShadow = false;
 instancedMesh.receiveShadow = false;
-
-const drawingCanvas = document.getElementById("drawing-canvas");
-const drawStartPos = new Vector2();
-const drawingContext = drawingCanvas?.getContext("2d");
-drawingCanvas.addEventListener("pointerup", () => {
-  const newTexture = new CanvasTexture(drawingCanvas);
-  setIntancesMesh(newTexture.source.data);
-});
 
 const calculatePixelPercentage = (pixelData, targetColor) => {
   let totalPixels = 0;
@@ -109,7 +104,9 @@ const calculatePixelPercentage = (pixelData, targetColor) => {
 };
 
 let oldModel = null;
-const setIntancesMesh = (data) => {
+
+const drawingContext = props.drawingCanvas?.getContext("2d");
+const setIntancesMesh = () => {
   const imageData = drawingContext.getImageData(0, 0, 200, 200);
   const pixels = imageData.data;
   const whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
@@ -124,7 +121,7 @@ const setIntancesMesh = (data) => {
     dummy = new Object3D();
     instancedMesh = new InstancedMesh(
       geometry,
-      grassMaterial,
+      leavesMaterial,
       newPercentInstanceNumber
     );
   }
@@ -162,22 +159,30 @@ const setIntancesMesh = (data) => {
   scene.value.add(instancedMesh);
 };
 
-const newTexture = new CanvasTexture(drawingCanvas);
-setIntancesMesh(newTexture.source.data);
+setIntancesMesh();
 
 watch(color, (value) => {
-  grassMaterial.uniforms.hexColor.value = new Vector3(
-    new Color(value).r * darkerFactor,
-    new Color(value).g * darkerFactor,
-    new Color(value).b * darkerFactor
+  leavesMaterial.uniforms.hexColor.value = new Vector3(
+    new Color(value).r / darkerFactor,
+    new Color(value).g / darkerFactor,
+    new Color(value).b / darkerFactor
   );
 });
 
+watch(
+  () => props.isActiveUpdateCanvas,
+  (value) => {
+    if (!value) {
+      setIntancesMesh();
+    }
+  }
+);
+
 onLoop(({ _delta, elapsed }) => {
-  grassMaterial.uniforms.time.value = elapsed;
-  grassMaterial.uniformsNeedUpdate = true;
+  leavesMaterial.uniforms.time.value = elapsed;
+  leavesMaterial.uniformsNeedUpdate = true;
   if (positionCharacter.value) {
-    grassMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
+    leavesMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
   }
 });
 </script>

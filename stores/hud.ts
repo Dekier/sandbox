@@ -9,6 +9,7 @@ interface State {
   isActiveOutline: boolean;
   colorOutline: string;
   isActiveGamepad: boolean;
+  isActiveFullSizeMap: boolean;
 }
 export const useHudStore = defineStore("HudStore", {
   state: (): State => {
@@ -23,6 +24,7 @@ export const useHudStore = defineStore("HudStore", {
       isActiveOutline: false,
       colorOutline: "#000000",
       isActiveGamepad: false,
+      isActiveFullSizeMap: false,
     };
   },
   getters: {},
@@ -56,6 +58,9 @@ export const useHudStore = defineStore("HudStore", {
     },
     setIsActiveGamepad(data: boolean) {
       this.isActiveGamepad = data;
+    },
+    setIsActiveFullSizeMap(data: boolean) {
+      this.isActiveFullSizeMap = data;
     },
   },
 });

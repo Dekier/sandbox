@@ -1,10 +1,15 @@
 .Menu {
   &__main-container {
     position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: $full-height;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba($color: $black, $alpha: 0.2);
   }
 
   &__button {
@@ -14,7 +19,8 @@
     border-radius: 12px;
     cursor: pointer;
     border: 2px solid $border;
-    letter-spacing: 1.2px;
-    @include text(22px, center, $black, 600);
+    letter-spacing: 2px;
+    @include text(22px, center, $black, 400);
+    margin: auto;
   }
 }

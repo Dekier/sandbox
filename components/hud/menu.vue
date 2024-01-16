@@ -1,19 +1,19 @@
 <script setup lang="ts">
 const storeGeneral = useGeneralStore();
-const { isStartedGame } = storeToRefs(storeGeneral);
+const { isActiveMenuGame } = storeToRefs(storeGeneral);
 const startGame = () => {
-  storeGeneral.setIsStartedGame(true);
+  storeGeneral.setIsActiveMenuGame(false);
+  // storeGeneral.setIsStartedGame(true);
 };
 </script>
 
 <template>
   <div
     id="button-start-game"
-    v-if="!isStartedGame"
+    v-if="isActiveMenuGame"
     class="Menu__main-container"
-    @click="startGame"
   >
-    <button type="button" class="Menu__button">START</button>
+    <button type="button" class="Menu__button" @click="startGame">START</button>
   </div>
 </template>
 <style lang="scss">

@@ -36,7 +36,7 @@ const modelLeaves = nodes.leaves1;
 const modelWood = nodes.wood1;
 modelWood.castShadow = true;
 modelWood.receiveShadow = true;
-console.log(modelLeaves);
+
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/leaves/leaves.png");
 

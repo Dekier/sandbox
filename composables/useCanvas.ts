@@ -52,7 +52,7 @@ export const useCanvas = () => {
     drawStartPos.set(x, y);
   };
 
-  const drawDots = async (positions, drawContext) => {
+  const drawDots = async (positions, context, hex) => {
     for (let i = 0; i < positions.length; i++) {
       const offsetX = 200 / 2;
       const offsetY = 200 / 2;
@@ -60,13 +60,46 @@ export const useCanvas = () => {
       for (let i = 0; i < positions.length; i++) {
         const x = positions[i].positionX + offsetX;
         const y = positions[i].positionZ + offsetY;
-        drawContext.fillStyle = "#000000";
+        console.log(x, y);
+        context.fillStyle = hex;
+        await context.beginPath();
+        await context.arc(x, y, 0 + positions[i].scale, 0, 2 * Math.PI);
+        await context.fill();
+      }
+    }
+  };
+
+  const drawRects = async (positions, drawContext) => {
+    for (let i = 0; i < positions.length; i++) {
+      const offsetX = 200 / 2;
+      const offsetY = 200 / 2;
+
+      for (let i = 0; i < positions.length; i++) {
+        const x = positions[i].positionX + offsetX;
+        const y = positions[i].positionZ + offsetY;
+        drawContext.fillStyle = "#ffffff";
         await drawContext.beginPath();
-        await drawContext.arc(x, y, 0 + positions[i].scale, 0, 2 * Math.PI);
+        await drawContext.rect(x - 15 / 2, y - 15 / 2, 15, 15);
         await drawContext.fill();
       }
     }
   };
 
-  return { calculatePixelPercentage, draw, drawDots };
+  const drawMoving = async (positions, drawContext, hex, scale) => {
+    for (let i = 0; i < positions.length; i++) {
+      const offsetX = 200 / 2;
+      const offsetY = 200 / 2;
+
+      for (let i = 0; i < positions.length; i++) {
+        const x = positions[i].positionX + offsetX;
+        const y = positions[i].positionZ + offsetY;
+        drawContext.fillStyle = hex;
+        await drawContext.beginPath();
+        await drawContext.arc(x, y, 1 * scale, 1 * scale, 2 * Math.PI);
+        await drawContext.fill();
+      }
+    }
+  };
+
+  return { calculatePixelPercentage, draw, drawDots, drawRects, drawMoving };
 };
