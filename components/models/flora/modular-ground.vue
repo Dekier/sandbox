@@ -467,7 +467,3 @@ watch(
 
 setIntancesMesh();
 </script>
-
-<!-- <template>
-  <primitive :object="model" />
-</template> -->
