@@ -20,7 +20,7 @@ const characterStore = useCharacterStore();
 const { positionCharacter, positionCharacterLookAt } =
   storeToRefs(characterStore);
 
-const { isMobile } = useDevice();
+// const { isMobile } = useDevice();
 const gl = {
   alfa: true,
   shadows: true,
@@ -65,7 +65,8 @@ watch(colorTrees, (value) => {
   // directionalLight.position.Z = value;
 });
 const isActiveAntialias = ref(false);
-isActiveAntialias.value = isMobile ? false : true;
+// isActiveAntialias.value = isMobile ? false : true;
+isActiveAntialias.value = true;
 </script>
 
 <template>

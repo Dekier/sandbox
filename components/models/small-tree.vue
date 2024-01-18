@@ -14,11 +14,11 @@ const models: Object3D[] = [];
 
 const instancesCount = ref(12);
 
-const { isMobile } = useDevice();
+// const { isMobile } = useDevice();
 
-if (isMobile) {
-  instancesCount.value = 6;
-}
+// if (isMobile) {
+//   instancesCount.value = 6;
+// }
 
 if (nodes.smallTree) {
   const createModelClone = () => {

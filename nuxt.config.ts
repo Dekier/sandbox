@@ -15,7 +15,7 @@ export default defineNuxtConfig({
         autoImports: ["defineStore", "definePiniaStore", "storeToRefs"],
       },
     ],
-    "@nuxtjs/device",
+    // "@nuxtjs/device",
   ],
   devtools: { enabled: true },
   tres: {

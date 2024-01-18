@@ -11,27 +11,23 @@
   },
   "devDependencies": {
     "@hypernym/nuxt-gsap": "^2.4.2",
-    "nuxt": "^3.7.4"
+    "nuxt": "^3.9.3"
   },
   "volta": {
-    "node": "21.5.0"
+    "node": "20.9.0"
   },
   "dependencies": {
-    "@dimforge/rapier3d": "^0.11.2",
     "@nuxt/devtools": "^1.0.8",
-    "@nuxtjs/device": "^3.1.1",
     "@pinia/nuxt": "^0.4.11",
-    "@tresjs/cientos": "3.7.0",
-    "@tresjs/core": "^3.6.0",
+    "@tresjs/cientos": "^3.7.0",
+    "@tresjs/core": "^3.6.1",
     "@tresjs/leches": "^0.15.0-next.3",
-    "@tresjs/nuxt": "^2.0.1",
+    "@tresjs/nuxt": "^2.0.2",
     "@tresjs/post-processing": "^0.7.0",
     "eslint": "^8.56.0",
-    "mersenne-twister": "^1.1.0",
-    "n8ao": "^1.7.4",
     "nipplejs": "^0.10.1",
     "postprocessing": "^7.0.0-alpha-1",
-    "sass": "^1.69.7",
+    "sass": "^1.70.0",
     "three": "^0.160.0",
     "tweakpane": "^4.0.3",
     "typescript": "^5.3.3",
