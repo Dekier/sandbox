@@ -11,13 +11,12 @@
   },
   "devDependencies": {
     "@hypernym/nuxt-gsap": "^2.4.2",
-    "nuxt": "^3.9.3"
+    "nuxt": "^3.7.4"
   },
   "volta": {
     "node": "20.9.0"
   },
   "dependencies": {
-    "@nuxt/devtools": "^1.0.8",
     "@pinia/nuxt": "^0.4.11",
     "@tresjs/cientos": "^3.7.0",
     "@tresjs/core": "^3.6.1",
