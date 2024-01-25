@@ -75,6 +75,18 @@ export const useControlsStore = defineStore("ControlsStore", {
       state.deltaX < -0.3 ||
       state.deltaY > 0.3 ||
       state.deltaY < -0.3,
+    characterState: (state) => {
+      if (state.upPressed && state.leftShiftPressed) {
+        return "run";
+      }
+      if (state.upPressed) {
+        return "walk";
+      }
+      if (state.downPressed) {
+        return "walk-back";
+      }
+      return "idle";
+    },
   },
   actions: {
     setKeysTrue(key: string) {
@@ -150,27 +162,27 @@ export const useControlsStore = defineStore("ControlsStore", {
     setSpeedCharacter() {
       if (this.upPressed) {
         if (this.leftShiftPressed) {
-          this.speed = 18;
+          this.speed = 10;
           // this.speed = 35;
         } else if (this.buttonRTValue) {
           const value = this.buttonRTValue * 3;
-          this.speed = 13 + value;
+          this.speed = 5 + value;
           // this.speed = 25;
         } else {
-          this.speed = 13;
+          this.speed = 5;
           // this.speed = 25;
         }
       }
       if (this.downPressed) {
         if (this.leftShiftPressed) {
-          this.speed = -18;
+          this.speed = -10;
           // this.speed = -35;
         } else if (this.buttonRTValue) {
           const value = this.buttonRTValue * 3;
-          this.speed = -13 - value;
+          this.speed = -5 - value;
           // this.speed = -25;
         } else {
-          this.speed = -13;
+          this.speed = -5;
           // this.speed = -25;
         }
       }

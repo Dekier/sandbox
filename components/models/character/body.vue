@@ -28,13 +28,21 @@ const {
   xAxis,
   leftShiftPressed,
   buttonRTValue,
+  characterState,
 } = storeToRefs(storeControl);
 const { jump } = useUtils();
-const { nodes } = await useGLTF("/models/body.glb", { draco: true });
-const modelCharacter = nodes.character;
-modelCharacter.material = new MeshLambertMaterial({
-  color: 0x7d7d7d,
-});
+const {
+  scene: modelScene,
+  nodes,
+  animations,
+} = await useGLTF("/models/character.glb", { draco: true });
+const { actions, mixer } = useAnimations(animations, modelScene);
+console.log(nodes);
+console.log(actions);
+const { onLoop } = useRenderLoop();
+// actions.walk2.play();
+const modelCharacter = nodes.wiking;
+
 // modelCharacter.traverse((child: any) => {
 //   if (child.isMesh) {
 //     child.castShadow = true;
@@ -50,65 +58,126 @@ characterStore.setCharacterModel(modelCharacter);
 // modelCamera.material.opacity = 0;
 // modelCamera.material.transparent = true;
 
-// watch(leftShiftPressed, () => {
-//   storeControl.setSpeedCharacter();
-// });
-
 watch(buttonRTValue, () => {
   storeControl.setSpeedCharacter();
 });
 
-const { onLoop } = useRenderLoop();
+const idleStart = () => {
+  actions.idle.play();
+};
 
-onLoop((data) => {
+idleStart();
+const isActiveForwardAnimation = ref(false);
+const isActiveBackAnimation = ref(false);
+const isActiveRunAnimation = ref(false);
+const oldState = ref("idle");
+watch(characterState, (newValue, oldValue) => {
+  oldState.value = oldValue;
+
+  if (newValue === "walk") {
+    walk();
+  }
+
+  if (newValue === "idle") {
+    idle();
+  }
+  console.log("newValue", newValue);
+  if (newValue === "run") {
+    mixer.timeScale = 0.8;
+    console.log("run");
+    run();
+  } else {
+    mixer.timeScale = 1.0;
+  }
+
+  if (newValue === "walk-back") {
+    walkBack();
+  }
+});
+const walk = () => {
+  let prevAction = setPrevAction();
+  actions.walk.enabled = true;
+  if (oldState.value === "run") {
+    const ratio =
+      actions.walk.getClip().duration / prevAction.getClip().duration;
+    actions.walk.time = prevAction.time * ratio;
+  } else {
+    actions.walk.time = 0.0;
+    actions.walk.setEffectiveTimeScale(1.0);
+    actions.walk.setEffectiveWeight(1.0);
+  }
+
+  actions.walk.crossFadeFrom(prevAction, 0.5, true);
+  actions.walk.play();
+};
+
+const walkBack = () => {
+  let prevAction = setPrevAction();
+  actions.walkBack.enabled = true;
+  if (oldState.value === "run") {
+    const ratio =
+      actions.walkBack.getClip().duration / prevAction.getClip().duration;
+    actions.walkBack.time = prevAction.time * ratio;
+  } else {
+    actions.walkBack.time = 0.0;
+    actions.walkBack.setEffectiveTimeScale(1.0);
+    actions.walkBack.setEffectiveWeight(1.0);
+  }
+
+  actions.walkBack.crossFadeFrom(prevAction, 0.5, true);
+  actions.walkBack.play();
+};
+
+const run = () => {
+  let prevAction = setPrevAction();
+  actions.run.enabled = true;
+  if (oldState.value === "run") {
+    const ratio =
+      actions.run.getClip().duration / prevAction.getClip().duration;
+    actions.run.time = prevAction.time * ratio;
+  } else {
+    actions.run.time = 0.0;
+    actions.run.setEffectiveTimeScale(1.0);
+    actions.run.setEffectiveWeight(1.0);
+  }
+
+  actions.run.crossFadeFrom(prevAction, 0.5, true);
+  actions.run.play();
+};
+
+const idle = () => {
+  let prevAction = setPrevAction();
+  actions.idle.time = 0.0;
+  actions.idle.enabled = true;
+  actions.idle.setEffectiveTimeScale(1.0);
+  actions.idle.setEffectiveWeight(1.0);
+  actions.idle.crossFadeFrom(prevAction, 0.5, true);
+  actions.idle.play();
+};
+const setPrevAction = () => {
+  switch (oldState.value) {
+    case "idle":
+      return actions.idle;
+
+    case "run":
+      return actions.run;
+
+    case "walk":
+      return actions.walk;
+
+    case "walk-back":
+      return actions.walkBack;
+  }
+};
+
+onLoop(({ delta }) => {
+  // mixer.timeScale = 130 * delta;
+  if (mixer) {
+    mixer.update(0.01);
+  }
+
   storeControl.setSpeedCharacter();
   characterStore.setPositionCharacter(modelCharacter.position);
-  // if (keys.value.space && !isJumping.value) {
-  //   jump(modelCharacter);
-  // }
-  // if (storeControl.isMovingCharacter && modelCharacter) {
-  //   changeModelRotation(modelCharacter);
-  // const moveDirection = new Vector3();
-  // moveDirection.z = Number(downPressed.value) - Number(upPressed.value);
-  // moveDirection.x = Number(rightPressed.value) - Number(leftPressed.value);
-  // moveDirection.normalize();
-  // if (moveDirection.length() > 0) {
-  //   const angle = Math.atan2(moveDirection.x, moveDirection.z);
-  //   storeControl.setAngle(angle);
-  // }
-  // if ((modelCharacter && zAxis.value) || (modelCharacter && xAxis.value)) {
-  //   modelCharacter.position.z += speed.value * zAxis.value * data.delta;
-  //   modelCharacter.position.x += speed.value * xAxis.value * data.delta;
-  // }
-  //   if ((modelCharacter && deltaY.value) || (modelCharacter && deltaX.value)) {
-  //     modelCharacter.position.z -=
-  //       speed.value * deltaY.value * 1.5 * data.delta;
-  //     modelCharacter.position.x +=
-  //       speed.value * deltaX.value * 1.5 * data.delta;
-  //   }
-  //   if (upPressed.value) {
-  //     if (!isBlockW.value) {
-  //       modelCharacter.position.z -= speed.value * data.delta;
-  //     }
-  //   }
-  //   if (downPressed.value) {
-  //     if (!isBlockS.value) {
-  //       modelCharacter.position.z += speed.value * data.delta;
-  //     }
-  //   }
-  //   if (leftPressed.value) {
-  //     if (!isBlockA.value) {
-  //       modelCharacter.position.x -= speed.value * data.delta;
-  //     }
-  //   }
-  //   if (rightPressed.value) {
-  //     if (!isBlockD.value) {
-  //       modelCharacter.position.x += speed.value * data.delta;
-  //     }
-  //   }
-  // }
-  // modelCamera.position.x = modelCharacter.position.x;
-  // modelCamera.position.z = modelCharacter.position.z;
 });
 const defaultKeys = {
   a: false,

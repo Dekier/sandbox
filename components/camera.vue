@@ -67,7 +67,6 @@ const cameraSettings = () => {
       if (angleToRotate < -Math.PI) {
         sanitisedAngle = angleToRotate + 2 * Math.PI;
       }
-
       characterModel.value.rotateY(
         Math.max(-0.05, Math.min(sanitisedAngle, 0.05))
       );
