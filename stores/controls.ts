@@ -150,27 +150,27 @@ export const useControlsStore = defineStore("ControlsStore", {
     setSpeedCharacter() {
       if (this.upPressed) {
         if (this.leftShiftPressed) {
-          this.speed = 18;
+          this.speed = 12;
           // this.speed = 35;
         } else if (this.buttonRTValue) {
           const value = this.buttonRTValue * 3;
-          this.speed = 13 + value;
+          this.speed = 4 + value;
           // this.speed = 25;
         } else {
-          this.speed = 13;
+          this.speed = 4;
           // this.speed = 25;
         }
       }
       if (this.downPressed) {
         if (this.leftShiftPressed) {
-          this.speed = -18;
+          this.speed = -12;
           // this.speed = -35;
         } else if (this.buttonRTValue) {
           const value = this.buttonRTValue * 3;
-          this.speed = -13 - value;
+          this.speed = -4 - value;
           // this.speed = -25;
         } else {
-          this.speed = -13;
+          this.speed = -4;
           // this.speed = -25;
         }
       }
