@@ -28,6 +28,7 @@ const {
   xAxis,
   leftShiftPressed,
   buttonRTValue,
+  characterState,
 } = storeToRefs(storeControl);
 const { jump } = useUtils();
 const {
@@ -57,107 +58,123 @@ characterStore.setCharacterModel(modelCharacter);
 // modelCamera.material.opacity = 0;
 // modelCamera.material.transparent = true;
 
-// watch(leftShiftPressed, () => {
-//   storeControl.setSpeedCharacter();
-// });
-
 watch(buttonRTValue, () => {
   storeControl.setSpeedCharacter();
 });
 
-const walk = () => {
-  if (
-    upPressed.value &&
-    !downPressed.value &&
-    !isActiveForwardAnimation.value &&
-    !leftShiftPressed.value
-  ) {
-    actions.walk.reset();
-    actions.walk.play();
-    idleStop();
-    isActiveForwardAnimation.value = true;
-  } else if (
-    !upPressed.value &&
-    isActiveForwardAnimation.value &&
-    !leftShiftPressed.value
-  ) {
-    // mixer.stopAllAction();
-    idleStart();
-    actions.walk.stop();
-    isActiveForwardAnimation.value = false;
-    // actions.walk2.reset();
-  }
-};
-
-const walkBack = () => {
-  if (
-    downPressed.value &&
-    !upPressed.value &&
-    !isActiveBackAnimation.value &&
-    !leftShiftPressed.value
-  ) {
-    actions.walkBack.reset();
-    actions.walkBack.play();
-    idleStop();
-    isActiveBackAnimation.value = true;
-  } else if (
-    !downPressed.value &&
-    isActiveBackAnimation.value &&
-    !leftShiftPressed.value
-  ) {
-    // mixer.stopAllAction();
-    idleStart();
-    actions.walkBack.stop();
-    isActiveBackAnimation.value = false;
-  }
-};
-
-const run = () => {
-  if (
-    !downPressed.value &&
-    upPressed.value &&
-    !isActiveRunAnimation.value &&
-    leftShiftPressed.value
-  ) {
-    console.log("run");
-    actions.run.reset();
-    actions.run.play();
-    actions.walk.stop();
-    isActiveBackAnimation.value = false;
-    idleStop();
-    isActiveRunAnimation.value = true;
-  } else if (isActiveRunAnimation.value && !leftShiftPressed.value) {
-    // mixer.stopAllAction();
-    if (upPressed.value) {
-      actions.walk.reset();
-      actions.walk.play();
-    } else {
-      idleStart();
-    }
-    actions.run.stop();
-    isActiveRunAnimation.value = false;
-  }
-};
-
 const idleStart = () => {
   actions.idle.play();
 };
-const idleStop = () => {
-  actions.idle.stop();
-};
 
-// idleStart();
+idleStart();
 const isActiveForwardAnimation = ref(false);
 const isActiveBackAnimation = ref(false);
 const isActiveRunAnimation = ref(false);
+const oldState = ref("idle");
+watch(characterState, (newValue, oldValue) => {
+  oldState.value = oldValue;
+
+  if (newValue === "walk") {
+    walk();
+  }
+
+  if (newValue === "idle") {
+    idle();
+  }
+  console.log("newValue", newValue);
+  if (newValue === "run") {
+    mixer.timeScale = 0.8;
+    console.log("run");
+    run();
+  } else {
+    mixer.timeScale = 1.0;
+  }
+
+  if (newValue === "walk-back") {
+    walkBack();
+  }
+});
+const walk = () => {
+  let prevAction = setPrevAction();
+  actions.walk.enabled = true;
+  if (oldState.value === "run") {
+    const ratio =
+      actions.walk.getClip().duration / prevAction.getClip().duration;
+    actions.walk.time = prevAction.time * ratio;
+  } else {
+    actions.walk.time = 0.0;
+    actions.walk.setEffectiveTimeScale(1.0);
+    actions.walk.setEffectiveWeight(1.0);
+  }
+
+  actions.walk.crossFadeFrom(prevAction, 0.5, true);
+  actions.walk.play();
+};
+
+const walkBack = () => {
+  let prevAction = setPrevAction();
+  actions.walkBack.enabled = true;
+  if (oldState.value === "run") {
+    const ratio =
+      actions.walkBack.getClip().duration / prevAction.getClip().duration;
+    actions.walkBack.time = prevAction.time * ratio;
+  } else {
+    actions.walkBack.time = 0.0;
+    actions.walkBack.setEffectiveTimeScale(1.0);
+    actions.walkBack.setEffectiveWeight(1.0);
+  }
+
+  actions.walkBack.crossFadeFrom(prevAction, 0.5, true);
+  actions.walkBack.play();
+};
+
+const run = () => {
+  let prevAction = setPrevAction();
+  actions.run.enabled = true;
+  if (oldState.value === "run") {
+    const ratio =
+      actions.run.getClip().duration / prevAction.getClip().duration;
+    actions.run.time = prevAction.time * ratio;
+  } else {
+    actions.run.time = 0.0;
+    actions.run.setEffectiveTimeScale(1.0);
+    actions.run.setEffectiveWeight(1.0);
+  }
+
+  actions.run.crossFadeFrom(prevAction, 0.5, true);
+  actions.run.play();
+};
+
+const idle = () => {
+  let prevAction = setPrevAction();
+  actions.idle.time = 0.0;
+  actions.idle.enabled = true;
+  actions.idle.setEffectiveTimeScale(1.0);
+  actions.idle.setEffectiveWeight(1.0);
+  actions.idle.crossFadeFrom(prevAction, 0.5, true);
+  actions.idle.play();
+};
+const setPrevAction = () => {
+  switch (oldState.value) {
+    case "idle":
+      return actions.idle;
+
+    case "run":
+      return actions.run;
+
+    case "walk":
+      return actions.walk;
+
+    case "walk-back":
+      return actions.walkBack;
+  }
+};
+
 onLoop(({ delta }) => {
-  mixer.timeScale = 130 * delta;
+  // mixer.timeScale = 130 * delta;
   if (mixer) {
     mixer.update(0.01);
   }
-  walk();
-  walkBack();
-  run();
 
   storeControl.setSpeedCharacter();
   characterStore.setPositionCharacter(modelCharacter.position);
