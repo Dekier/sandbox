@@ -1,3 +1,9 @@
+interface EquipmentData {
+  id: string;
+  title: string;
+  count: number;
+  src: string;
+}
 interface State {
   isSettingsHud: boolean;
   isActiveShadows: boolean;
@@ -10,6 +16,7 @@ interface State {
   colorOutline: string;
   isActiveGamepad: boolean;
   isActiveFullSizeMap: boolean;
+  addedElementToEquipmentList: EquipmentData[];
 }
 export const useHudStore = defineStore("HudStore", {
   state: (): State => {
@@ -25,6 +32,7 @@ export const useHudStore = defineStore("HudStore", {
       colorOutline: "#000000",
       isActiveGamepad: false,
       isActiveFullSizeMap: false,
+      addedElementToEquipmentList: [],
     };
   },
   getters: {},
@@ -61,6 +69,18 @@ export const useHudStore = defineStore("HudStore", {
     },
     setIsActiveFullSizeMap(data: boolean) {
       this.isActiveFullSizeMap = data;
+    },
+    setElementToEquipmentList(data: EquipmentData) {
+      this.addedElementToEquipmentList.unshift(data);
+
+      setTimeout(() => {
+        const indexToRemove = this.addedElementToEquipmentList.findIndex(
+          (value) => value.id === data.id
+        );
+        if (indexToRemove !== -1) {
+          this.addedElementToEquipmentList.splice(indexToRemove, 1);
+        }
+      }, 2500);
     },
   },
 });

@@ -48,65 +48,85 @@ const treeMaterial = new MeshLambertMaterial({
   color: modelTree.material.color,
   side: DoubleSide,
 });
-
 let dummy = new Object3D();
-const instancedMesh = new InstancedMesh(
-  modelTree.geometry,
-  treeMaterial,
-  props.treesData.length
-);
+let instancedMesh = null;
 
 let dummyLeaves = new Object3D();
-const instancedMeshLeaves = new InstancedMesh(
-  modelLeaves.geometry,
-  leavesMaterial,
-  props.treesData.length
-);
-instancedMeshLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
-instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
-for (let i = 0; i < props.treesData.length; i++) {
-  dummy.position.set(
-    props.treesData[i].positionX,
-    modelTree.position.y,
-    props.treesData[i].positionZ
+let instancedMeshLeaves = null;
+let oldModelWood = null;
+let oldModelLeaves = null;
+const setIntancesMesh = () => {
+  if (oldModelWood) {
+    oldModelWood.geometry.dispose();
+    oldModelWood.material.dispose();
+    scene.value.remove(oldModelWood);
+  }
+  if (oldModelLeaves) {
+    oldModelLeaves.geometry.dispose();
+    oldModelLeaves.material.dispose();
+    scene.value.remove(oldModelLeaves);
+  }
+  dummy = new Object3D();
+  instancedMesh = new InstancedMesh(
+    modelTree.geometry,
+    treeMaterial,
+    props.treesData.length
   );
-  dummyLeaves.position.set(
-    props.treesData[i].positionX,
-    modelLeaves.position.y,
-    props.treesData[i].positionZ
+
+  dummyLeaves = new Object3D();
+  instancedMeshLeaves = new InstancedMesh(
+    modelLeaves.geometry,
+    leavesMaterial,
+    props.treesData.length
   );
-  const randomRotationY = Math.random() * 184;
-  // dummy.scale.y = props.treesData[i].scale;
-  dummy.scale.x = props.treesData[i].scale;
-  dummy.scale.z = props.treesData[i].scale;
-  dummy.rotation.y = randomRotationY;
-  dummy.updateMatrix();
+  instancedMeshLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
+  instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
+  for (let i = 0; i < props.treesData.length; i++) {
+    dummy.position.set(
+      props.treesData[i].positionX,
+      modelTree.position.y,
+      props.treesData[i].positionZ
+    );
+    dummyLeaves.position.set(
+      props.treesData[i].positionX,
+      modelLeaves.position.y,
+      props.treesData[i].positionZ
+    );
+    // dummy.scale.y = props.treesData[i].scale;
+    // dummy.scale.x = props.treesData[i].scale;
+    // dummy.scale.z = props.treesData[i].scale;
+    // dummy.rotation.y = randomRotationY;
+    dummy.updateMatrix();
 
-  // dummyLeaves.scale.y =  props.treesData[i].scale;
-  dummyLeaves.scale.x = props.treesData[i].scale;
-  dummyLeaves.scale.z = props.treesData[i].scale;
-  dummy.rotation.y = randomRotationY;
-  dummyLeaves.updateMatrix();
+    // dummyLeaves.scale.y =  props.treesData[i].scale;
+    // dummyLeaves.scale.x = props.treesData[i].scale;
+    // dummyLeaves.scale.z = props.treesData[i].scale;
+    // dummy.rotation.y = randomRotationY;
+    dummyLeaves.updateMatrix();
 
-  instancedMesh.setMatrixAt(i, dummy.matrix);
-  instancedMeshLeaves.setMatrixAt(i, dummyLeaves.matrix);
-}
-
-instancedMesh.castShadow = true;
-instancedMesh.receiveShadow = true;
-instancedMeshLeaves.castShadow = true;
-instancedMeshLeaves.receiveShadow = true;
-scene.value.add(instancedMesh);
-scene.value.add(instancedMeshLeaves);
-
+    instancedMesh.setMatrixAt(i, dummy.matrix);
+    instancedMeshLeaves.setMatrixAt(i, dummyLeaves.matrix);
+  }
+  instancedMesh.castShadow = true;
+  instancedMesh.receiveShadow = true;
+  instancedMeshLeaves.castShadow = true;
+  instancedMeshLeaves.receiveShadow = true;
+  oldModelWood = instancedMesh;
+  oldModelLeaves = instancedMeshLeaves;
+  scene.value.add(instancedMesh);
+  scene.value.add(instancedMeshLeaves);
+};
+setIntancesMesh();
 watch(colorTrees, (value) => {
   leavesMaterial.color = new Color(value);
 });
 
-const drawingCanvas = document.getElementById("drawing-canvas");
-const drawStartPos = new Vector2();
-const drawingContext = drawingCanvas?.getContext("2d");
-
+watch(
+  () => props.treesData,
+  () => {
+    setIntancesMesh();
+  }
+);
 // const snowflakeMap = loader.load("/materials/leaves/leaf.png");
 </script>
 <!-- <template>

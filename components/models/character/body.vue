@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { Vector3, Quaternion, MeshLambertMaterial } from "three";
-import { useModelSettings } from "~/composables/useModel";
 import { useControls } from "~/composables/useControls";
 import { useGLTF } from "@tresjs/cientos";
 import { useUtils } from "~/composables/useUtils";
 const { newSetModel } = useModelSettings();
 const { changeModelRotation } = useControls();
+const storeGeneral = useGeneralStore();
 const storeControl = useControlsStore();
 const characterStore = useCharacterStore();
 const { $gsap } = useNuxtApp();
+const { isActiveMenuGame } = storeToRefs(storeGeneral);
 const {
   keys,
+  keyE,
   speed,
   isJumping,
   isMovingCharacter,
@@ -37,12 +38,10 @@ const {
   animations,
 } = await useGLTF("/models/character.glb", { draco: true });
 const { actions, mixer } = useAnimations(animations, modelScene);
-console.log(nodes);
-console.log(actions);
+console.log(animations);
 const { onLoop } = useRenderLoop();
 // actions.walk2.play();
 const modelCharacter = nodes.wiking;
-
 // modelCharacter.traverse((child: any) => {
 //   if (child.isMesh) {
 //     child.castShadow = true;
@@ -74,24 +73,31 @@ const oldState = ref("idle");
 watch(characterState, (newValue, oldValue) => {
   oldState.value = oldValue;
 
-  if (newValue === "walk") {
-    walk();
-  }
+  switch (newValue) {
+    case "walk":
+      walk();
+      break;
+    case "collect":
+      collect();
+      break;
+    case "attack":
+      attack();
+      break;
+    case "idle":
+      idle();
+      break;
+    case "walk-back":
+      walkBack();
+      break;
 
-  if (newValue === "idle") {
-    idle();
+    default:
+      break;
   }
-  console.log("newValue", newValue);
   if (newValue === "run") {
     mixer.timeScale = 0.8;
-    console.log("run");
     run();
   } else {
     mixer.timeScale = 1.0;
-  }
-
-  if (newValue === "walk-back") {
-    walkBack();
   }
 });
 const walk = () => {
@@ -145,6 +151,40 @@ const run = () => {
   actions.run.play();
 };
 
+const attack = () => {
+  let prevAction = setPrevAction();
+  actions.attack.enabled = true;
+  if (oldState.value === "attack") {
+    const ratio =
+      actions.attack.getClip().duration / prevAction.getClip().duration;
+    actions.attack.time = prevAction.time * ratio;
+  } else {
+    actions.attack.time = 0.0;
+    actions.attack.setEffectiveTimeScale(1.0);
+    actions.attack.setEffectiveWeight(1.0);
+  }
+
+  actions.attack.crossFadeFrom(prevAction, 0.5, true);
+  actions.attack.play();
+};
+
+const collect = () => {
+  let prevAction = setPrevAction();
+  actions.collect.enabled = true;
+  if (oldState.value === "collect") {
+    const ratio =
+      actions.collect.getClip().duration / prevAction.getClip().duration;
+    actions.collect.time = prevAction.time * ratio;
+  } else {
+    actions.collect.time = 0.0;
+    actions.collect.setEffectiveTimeScale(1.0);
+    actions.collect.setEffectiveWeight(1.0);
+  }
+
+  actions.collect.crossFadeFrom(prevAction, 0.5, true);
+  actions.collect.play();
+};
+
 const idle = () => {
   let prevAction = setPrevAction();
   actions.idle.time = 0.0;
@@ -167,6 +207,10 @@ const setPrevAction = () => {
 
     case "walk-back":
       return actions.walkBack;
+    case "attack":
+      return actions.attack;
+    case "collect":
+      return actions.collect;
   }
 };
 
@@ -209,6 +253,15 @@ document.body.addEventListener("keyup", (e) => {
   const key = e.code.replace("Key", "").toLowerCase();
   if (defaultKeys[key] !== undefined) {
     storeControl.setKeysFalse(key);
+  }
+});
+document.body.addEventListener("click", (event) => {
+  if (
+    event.button === 0 &&
+    characterState.value !== "attack" &&
+    !isActiveMenuGame.value
+  ) {
+    storeControl.setMouseEvent("left");
   }
 });
 </script>

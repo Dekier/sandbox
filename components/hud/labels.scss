@@ -1,0 +1,39 @@
+.Label {
+  &__main-container {
+    display: flex;
+    flex-direction: row;
+    margin: 4px;
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.1) 60%,
+      transparent 95%,
+      transparent 100%
+    );
+    padding: 5px;
+    border-radius: 12px;
+    backdrop-filter: blur(1px);
+    opacity: 0;
+  }
+
+  &__text-event {
+    display: flex;
+    justify-content: center;
+    background-color: rgba($color: $white, $alpha: 1);
+    border: 2px solid $border;
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    @include text(22px, center, $border, 600);
+    align-items: center;
+    margin-right: 8px;
+    &--gamepad {
+      border-radius: 50%;
+    }
+  }
+
+  &__text {
+    @include text(18px, center, $white, 400);
+    margin: auto 0;
+  }
+}

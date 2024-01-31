@@ -18,6 +18,7 @@ body {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   overflow: hidden;
+  user-select: none;
   // cursor: url("svg/cursor.svg"), auto;
 }
 

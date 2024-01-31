@@ -57,50 +57,68 @@ watch(colorTrees, (value) => {
   bushMaterial.color = new Color(value);
 });
 let dummyWood = new Object3D();
-const instancesWood = new InstancedMesh(
-  modelWood.geometry,
-  modelWood.material,
-  props.bushData.length
-);
-
-instancesWood.castShadow = true;
-instancesWood.receiveShadow = true;
-
+let instancesWood = null;
 let dummyLeaves = new Object3D();
-const instancesLeaves = new InstancedMesh(
-  modelLeaves.geometry,
-  modelLeaves.material,
-  props.bushData.length
-);
-instancesLeaves.castShadow = true;
-instancesLeaves.receiveShadow = true;
+let instancesLeaves = null;
 // Ustawienie morph targetów dla instancji liści (leaves)
-instancesLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
-instancesLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
+
 const { scene } = useTresContext();
-
-for (let i = 0; i < props.bushData.length; i++) {
-  const randomY = Math.random() * 184;
-  dummyWood.position.set(
-    props.bushData[i].positionX,
-    modelWood.position.y,
-    props.bushData[i].positionZ
+let oldModelWood = null;
+let oldModelLeaves = null;
+const setIntancesMesh = () => {
+  if (oldModelWood) {
+    oldModelWood.geometry.dispose();
+    oldModelWood.material.dispose();
+    scene.value.remove(oldModelWood);
+  }
+  if (oldModelLeaves) {
+    oldModelLeaves.geometry.dispose();
+    oldModelLeaves.material.dispose();
+    scene.value.remove(oldModelLeaves);
+  }
+  dummyLeaves = new Object3D();
+  dummyWood = new Object3D();
+  instancesLeaves = new InstancedMesh(
+    modelLeaves.geometry,
+    modelLeaves.material,
+    props.bushData.length
   );
-  // dummyWood.rotation.y = randomY;
-  dummyWood.updateMatrix();
-  dummyLeaves.position.set(
-    props.bushData[i].positionX,
-    modelLeaves.position.y,
-    props.bushData[i].positionZ
-  );
-  // dummyLeaves.rotation.y = randomY;
-  dummyLeaves.updateMatrix();
-  instancesWood.setMatrixAt(i, dummyWood.matrix);
-  instancesLeaves.setMatrixAt(i, dummyLeaves.matrix);
-}
-scene.value.add(instancesWood);
-scene.value.add(instancesLeaves);
+  instancesLeaves.castShadow = true;
+  instancesLeaves.receiveShadow = true;
+  instancesLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
+  instancesLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 
+  instancesWood = new InstancedMesh(
+    modelWood.geometry,
+    modelWood.material,
+    props.bushData.length
+  );
+  instancesWood.castShadow = true;
+  instancesWood.receiveShadow = true;
+  for (let i = 0; i < props.bushData.length; i++) {
+    dummyWood.position.set(
+      props.bushData[i].positionX,
+      modelWood.position.y,
+      props.bushData[i].positionZ
+    );
+    // dummyWood.rotation.y = randomY;
+    dummyWood.updateMatrix();
+    dummyLeaves.position.set(
+      props.bushData[i].positionX,
+      modelLeaves.position.y,
+      props.bushData[i].positionZ
+    );
+    // dummyLeaves.rotation.y = randomY;
+    dummyLeaves.updateMatrix();
+    instancesWood.setMatrixAt(i, dummyWood.matrix);
+    instancesLeaves.setMatrixAt(i, dummyLeaves.matrix);
+  }
+  oldModelWood = instancesWood;
+  oldModelLeaves = instancesLeaves;
+
+  scene.value.add(instancesWood);
+  scene.value.add(instancesLeaves);
+};
 const { onBeforeLoop } = useRenderLoop();
 let mat4Wood = new Matrix4();
 let mat4Leaves = new Matrix4();
@@ -122,7 +140,7 @@ onBeforeLoop(() => {
     );
 
     currentDistance.value = calculateDistance(dummyWood.position);
-    if (currentDistance.value < 4) {
+    if (currentDistance.value < 7) {
       const { x, z } = bendModel(dummyWood.position);
       dummyWood.rotation.x = lerp(dummyWood.rotation.x, x, 0.04);
       dummyWood.rotation.z = lerp(dummyWood.rotation.z, z, 0.04);
@@ -142,6 +160,14 @@ onBeforeLoop(() => {
 const lerp = (start: number, end: number, alpha: number): number => {
   return start * (1 - alpha) + end * alpha;
 };
+setIntancesMesh();
+
+watch(
+  () => props.bushData,
+  () => {
+    setIntancesMesh();
+  }
+);
 </script>
 
 <!-- <template>

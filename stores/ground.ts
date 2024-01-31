@@ -1,3 +1,10 @@
+interface ModelData {
+  positionType?: string;
+  type?: string;
+  positionX?: number;
+  positionZ?: number;
+  rotationY?: number;
+}
 interface GroundData {
   id: number;
   positionX: number;
@@ -5,13 +12,213 @@ interface GroundData {
   positionY: number;
   isActive: boolean;
   isWall: boolean;
+  topLeft?: ModelData;
+  topRight?: ModelData;
+  center?: ModelData;
+  bottomLeft?: ModelData;
+  bottomRight?: ModelData;
+}
+interface ModuleFlora {
+  topLeft?: ModelData;
+  topRight?: ModelData;
+  center?: ModelData;
+  bottomLeft?: ModelData;
+  bottomRight?: ModelData;
 }
 interface State {
   groundDataList: GroundData[];
+  randomModuleFlora: ModuleFlora[];
 }
 export const useModularGroundStore = defineStore("ModuleStore", {
   state: (): State => {
     return {
+      randomModuleFlora: [
+        {
+          topLeft: {
+            positionType: "topLeft",
+            type: "",
+            positionX: 0,
+            positionZ: 2,
+            rotationY: -1,
+          },
+          topRight: {
+            positionType: "topRight",
+            type: "fern",
+            positionX: 3,
+            positionZ: -1,
+            rotationY: 2,
+          },
+          center: {
+            positionType: "center",
+            type: "tree",
+            positionX: -3,
+            positionZ: 0,
+            rotationY: -3,
+          },
+          bottomLeft: {
+            positionType: "bottomLeft",
+            type: "",
+            positionX: 0,
+            positionZ: 2,
+            rotationY: 3,
+          },
+          bottomRight: {
+            positionType: "bottomRight",
+            type: "bush",
+            positionX: 3,
+            positionZ: -3,
+            rotationY: 3,
+          },
+        },
+        {
+          topLeft: {
+            positionType: "topLeft",
+            type: "",
+            positionX: -1,
+            positionZ: -3,
+            rotationY: 0,
+          },
+          topRight: {
+            positionType: "topRight",
+            type: "fern",
+            positionX: -2,
+            positionZ: 2,
+            rotationY: -1,
+          },
+          center: {
+            positionType: "center",
+            type: "",
+            positionX: -1,
+            positionZ: -1,
+            rotationY: 0,
+          },
+          bottomLeft: {
+            positionType: "bottomLeft",
+            type: "tree",
+            positionX: -2,
+            positionZ: 3,
+            rotationY: 0,
+          },
+          bottomRight: {
+            positionType: "bottomRight",
+            type: "bush",
+            positionX: 0,
+            positionZ: 2,
+            rotationY: 0,
+          },
+        },
+        {
+          topLeft: {
+            positionType: "topLeft",
+            type: "",
+            positionX: 3,
+            positionZ: -1,
+            rotationY: 0,
+          },
+          topRight: {
+            positionType: "topRight",
+            type: "bush-stick",
+            positionX: -1,
+            positionZ: 3,
+            rotationY: 0,
+          },
+          center: {
+            positionType: "center",
+            type: "bush",
+            positionX: 3,
+            positionZ: 3,
+            rotationY: 0,
+          },
+          bottomLeft: {
+            positionType: "bottomLeft",
+            type: "fern",
+            positionX: 2,
+            positionZ: 1,
+            rotationY: 0,
+          },
+          bottomRight: {
+            positionType: "bottomRight",
+            type: "",
+            positionX: 2,
+            positionZ: -2,
+            rotationY: 0,
+          },
+        },
+        {
+          topLeft: {
+            positionType: "topLeft",
+            type: "",
+            positionX: 2,
+            positionZ: -2,
+            rotationY: 0,
+          },
+          topRight: {
+            positionType: "topRight",
+            type: "tree-second",
+            positionX: 1,
+            positionZ: 1,
+            rotationY: 0,
+          },
+          center: {
+            positionType: "center",
+            type: "",
+            positionX: -1,
+            positionZ: -1,
+            rotationY: 0,
+          },
+          bottomLeft: {
+            positionType: "bottomLeft",
+            type: "bush",
+            positionX: 1,
+            positionZ: 3,
+            rotationY: 0,
+          },
+          bottomRight: {
+            positionType: "bottomRight",
+            type: "fern",
+            positionX: -1,
+            positionZ: -3,
+            rotationY: 0,
+          },
+        },
+        {
+          topLeft: {
+            positionType: "topLeft",
+            type: "bush",
+            positionX: 3,
+            positionZ: -2,
+            rotationY: 0,
+          },
+          topRight: {
+            positionType: "topRight",
+            type: "",
+            positionX: -1,
+            positionZ: 2,
+            rotationY: 0,
+          },
+          center: {
+            positionType: "center",
+            type: "fern",
+            positionX: -2,
+            positionZ: 1,
+            rotationY: 0,
+          },
+          bottomLeft: {
+            positionType: "bottomLeft",
+            type: "",
+            positionX: 2,
+            positionZ: 0,
+            rotationY: 0,
+          },
+          bottomRight: {
+            positionType: "bottomRight",
+            type: "",
+            positionX: -3,
+            positionZ: 2,
+            rotationY: 0,
+          },
+        },
+      ],
       groundDataList: [
         {
           id: 1,
@@ -1825,12 +2032,161 @@ export const useModularGroundStore = defineStore("ModuleStore", {
   getters: {
     activeModularList: (state) =>
       state.groundDataList.filter((data) => data.isActive && !data.isWall),
+    topLeftList: (state) => {
+      return (type: string) =>
+        state.groundDataList
+          .filter((data) => data.topLeft && data.topLeft.type === type)
+          .map((data) => {
+            return {
+              positionX: data.positionX - 3.5,
+              positionZ: data.positionZ - 3.5,
+              rotationY: data.topLeft?.rotationY,
+              positionType: data.topLeft?.positionType,
+              id: data.id,
+            };
+          });
+    },
+    topRightList: (state) => {
+      return (type: string) =>
+        state.groundDataList
+          .filter((data) => data.topRight && data.topRight.type === type)
+          .map((data) => {
+            return {
+              positionX: data.positionX + 3.5,
+              positionZ: data.positionZ - 3.5,
+              rotationY: data.topRight?.rotationY,
+              positionType: data.topRight?.positionType,
+              id: data.id,
+            };
+          });
+    },
+    centerList: (state) => {
+      return (type: string) =>
+        state.groundDataList
+          .filter((data) => data.center && data.center.type === type)
+          .map((data) => {
+            return {
+              positionX: data.positionX,
+              positionZ: data.positionZ,
+              rotationY: data.center?.rotationY,
+              positionType: data.center?.positionType,
+              id: data.id,
+            };
+          });
+    },
+    bottomRightList: (state) => {
+      return (type: string) =>
+        state.groundDataList
+          .filter((data) => data.bottomRight && data.bottomRight.type === type)
+          .map((data) => {
+            return {
+              positionX: data.positionX - 3.5,
+              positionZ: data.positionZ + 3.5,
+              rotationY: data.bottomRight?.rotationY,
+              positionType: data.bottomRight?.positionType,
+              id: data.id,
+            };
+          });
+    },
+    bottomLeftList: (state) => {
+      return (type: string) =>
+        state.groundDataList
+          .filter((data) => data.bottomLeft && data.bottomLeft.type === type)
+          .map((data) => {
+            return {
+              positionX: data.positionX + 3.5,
+              positionZ: data.positionZ + 3.5,
+              rotationY: data.bottomLeft?.rotationY,
+              positionType: data.bottomLeft?.positionType,
+              id: data.id,
+            };
+          });
+    },
+    bushList: (getters) =>
+      [].concat(
+        getters.topLeftList("bush"),
+        getters.topRightList("bush"),
+        getters.centerList("bush"),
+        getters.bottomRightList("bush"),
+        getters.bottomLeftList("bush")
+      ),
+    bushStickList: (getters) =>
+      [].concat(
+        getters.topLeftList("bush-stick"),
+        getters.topRightList("bush-stick"),
+        getters.centerList("bush-stick"),
+        getters.bottomRightList("bush-stick"),
+        getters.bottomLeftList("bush-stick")
+      ),
+    treeList: (getters) =>
+      [].concat(
+        getters.topLeftList("tree"),
+        getters.topRightList("tree"),
+        getters.centerList("tree"),
+        getters.bottomRightList("tree"),
+        getters.bottomLeftList("tree")
+      ),
+    treeSecondList: (getters) =>
+      [].concat(
+        getters.topLeftList("tree-second"),
+        getters.topRightList("tree-second"),
+        getters.centerList("tree-second"),
+        getters.bottomRightList("tree-second"),
+        getters.bottomLeftList("tree-second")
+      ),
+    fernList: (getters) =>
+      [].concat(
+        getters.topLeftList("fern"),
+        getters.topRightList("fern"),
+        getters.centerList("fern"),
+        getters.bottomRightList("fern"),
+        getters.bottomLeftList("fern")
+      ),
   },
   actions: {
     updatePieces(data: GroundData[]) {
       data.forEach((element: GroundData) => {
         this.groundDataList[element.id - 1].isActive = true;
+        const random = Math.floor(Math.random() * 5);
+        this.groundDataList[element.id - 1] = {
+          ...this.groundDataList[element.id - 1],
+          ...this.randomModuleFlora[random],
+        };
       });
+    },
+    setRandomModular() {
+      this.groundDataList.forEach((data, index) => {
+        if (data.isActive && data.id !== 113) {
+          const random = Math.floor(Math.random() * 5);
+          this.groundDataList[index] = {
+            ...data,
+            ...this.randomModuleFlora[random],
+          };
+        }
+      });
+    },
+    removeElementFromModule(data) {
+      switch (data.positionType) {
+        case "topRight":
+          this.groundDataList[data.id - 1].topRight = {};
+          break;
+        case "topLeft":
+          this.groundDataList[data.id - 1].topLeft = {};
+          break;
+        case "center":
+          this.groundDataList[data.id - 1].center = {};
+          break;
+        case "bottomLeft":
+          this.groundDataList[data.id - 1].bottomLeft = {};
+          break;
+        case "bottomRight":
+          this.groundDataList[data.id - 1].bottomRight = {};
+          break;
+
+        default:
+          break;
+      }
+      // const index  = this.groundDataList.findIndex((data) => data.)
     },
   },
 });

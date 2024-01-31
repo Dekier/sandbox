@@ -1,34 +1,28 @@
 <script setup lang="ts">
 import {
-  Mesh,
-  MeshStandardMaterial,
   TextureLoader,
-  RepeatWrapping,
-  Vector2,
   Vector3,
-  PlaneGeometry,
   DoubleSide,
   ShaderMaterial,
-  BufferGeometry,
   Matrix4,
   Object3D,
   InstancedMesh,
   Color,
-  MeshDepthMaterial,
-  RGBADepthPacking,
   UniformsLib,
-  CanvasTexture,
-  MeshBasicMaterial,
-  BoxGeometry,
-  SphereGeometry,
 } from "three";
+import { Html } from "@tresjs/cientos";
+const hudStore = useHudStore();
+import {
+  CSS2DRenderer,
+  CSS2DObject,
+} from "three/examples/jsm/renderers/CSS2DRenderer";
+const { bendModel, calculateDistance } = useUtils();
+const storeModularGround = useModularGroundStore();
+const storeControl = useControlsStore();
+const { keyE } = storeToRefs(storeControl);
 const props = defineProps({
-  drawingCanvas: {
+  fernList: {
     type: Object,
-    required: true,
-  },
-  isActiveUpdateCanvas: {
-    type: Boolean,
     required: true,
   },
 });
@@ -68,94 +62,38 @@ const fernMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 70;
 let dummy = new Object3D();
 const { nodes } = await useGLTF("/models/fern.glb", { draco: true });
-let instancedMesh = new InstancedMesh(
-  nodes.fern.geometry,
-  fernMaterial,
-  instanceNumber
-);
-instancedMesh.castShadow = false;
-instancedMesh.receiveShadow = false;
-
+let instancedMesh = null;
 const drawingContext = props.drawingCanvas?.getContext("2d");
-
-const calculatePixelPercentage = (pixelData, targetColor) => {
-  let totalPixels = 0;
-  let targetPixels = 0;
-  for (let i = 0; i < pixelData.length; i += 4) {
-    // Pixel data is stored in RGBA format (4 values per pixel)
-    const red = pixelData[i];
-    const green = pixelData[i + 1];
-    const blue = pixelData[i + 2];
-    const alpha = pixelData[i + 3];
-
-    // Check if the pixel is not fully transparent
-    if (alpha > 0) {
-      // Assuming targetColor is either "#000000" (black) or "#FFFFFF" (white)
-      const isTargetColor =
-        (targetColor === "#000000" && red === 0 && green === 0 && blue === 0) ||
-        (targetColor === "#FFFFFF" &&
-          red === 255 &&
-          green === 255 &&
-          blue === 255);
-
-      if (isTargetColor) {
-        targetPixels++;
-      }
-    }
-
-    totalPixels++;
-  }
-
-  return (targetPixels / totalPixels) * 100;
-};
-
 let oldModel = null;
 const setIntancesMesh = () => {
-  const imageData = drawingContext.getImageData(0, 0, 200, 200);
-  const pixels = imageData.data;
-  const whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
-  const newPercentInstanceNumber = Math.round(
-    instanceNumber * (whitePercentage / 100)
-  );
   if (oldModel) {
     oldModel.geometry.dispose();
     oldModel.material.dispose();
     scene.value.remove(oldModel);
-
-    dummy = new Object3D();
-    instancedMesh = new InstancedMesh(
-      nodes.fern.geometry,
-      fernMaterial,
-      newPercentInstanceNumber
-    );
   }
 
-  const threshold = 0.3;
-  const validPositions = [];
-  for (let i = 0; i < pixels.length; i += 4) {
-    const pixelValue = (pixels[i] / 255.0 - 0.5) * 2.0;
+  dummy = new Object3D();
+  instancedMesh = new InstancedMesh(
+    nodes.fern.geometry,
+    fernMaterial,
+    props.fernList.length
+  );
 
-    if (pixelValue > threshold) {
-      const x = (i / 4) % 200;
-      const z = Math.floor(i / 4 / 200);
-      validPositions.push({ x, z });
-    }
-  }
-  for (let i = 0; i < newPercentInstanceNumber; i++) {
-    const randomIndex = Math.floor(Math.random() * validPositions.length);
-    const randomPosition = validPositions[randomIndex];
+  for (let i = 0; i < props.fernList.length; i++) {
     dummy.position.set(
-      randomPosition.x + Math.random() * 1.2 - 200 / 2,
+      props.fernList[i].positionX,
       0.0,
-      randomPosition.z - 200 / 2 + Math.random() * 1.2
+      props.fernList[i].positionZ
     );
-    dummy.rotation.y = Math.random() * 184;
-    dummy.scale.y = 1.2 + Math.random() * 0.7;
-    dummy.scale.x = 1.2 + Math.random() * 0.4;
-    dummy.scale.z = 1.2 + Math.random() * 0.4;
+    // dummy.rotation.y = props.fernList[i].rotationX;
+    // dummy.scale.y = 1.2 + Math.random() * 0.7;
+    // dummy.scale.x = 1.2 + Math.random() * 0.4;
+    // dummy.scale.z = 1.2 + Math.random() * 0.4;
+    dummy.scale.y = 1.5;
+    dummy.scale.x = 1.5;
+    dummy.scale.z = 1.5;
 
     dummy.updateMatrix();
     instancedMesh.setMatrixAt(i, dummy.matrix);
@@ -176,35 +114,85 @@ watch(color, (value) => {
 });
 
 watch(
-  () => props.isActiveUpdateCanvas,
-  (value) => {
-    if (!value) {
-      setIntancesMesh();
-    }
+  () => props.fernList,
+  () => {
+    setIntancesMesh();
   }
 );
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(window.innerWidth, window.innerHeight);
+labelRenderer.domElement.style.position = "absolute";
+labelRenderer.domElement.style.top = "0px";
+document.body.appendChild(labelRenderer.domElement);
 
+// for (let index = 0; index < props.fernList.length; index++) {
+const div = document.getElementById("collect-e");
+
+const earthLabel = new CSS2DObject(div);
+scene.value.add(earthLabel);
+// }
+
+window.addEventListener("resize", () => {
+  labelRenderer.setSize(window.innerWidth, window.innerHeight);
+});
+const matrix = new Matrix4();
+const currentDistance = ref(0);
+let oldPositions = null;
+let oldIndex = null;
 onLoop(({ _delta, elapsed }) => {
   fernMaterial.uniforms.time.value = elapsed;
   fernMaterial.uniformsNeedUpdate = true;
   if (positionCharacter.value) {
     fernMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
   }
+  labelRenderer.render(scene.value, camera.value);
+
+  if (storeControl.isMovingCharacter) {
+    for (let i = 0; i < props.fernList.length; i++) {
+      instancedMesh.getMatrixAt(i, matrix);
+      matrix.decompose(dummy.position, dummy.quaternion, dummy.scale);
+
+      currentDistance.value = calculateDistance(dummy.position);
+      if (currentDistance.value < 3 && div) {
+        earthLabel.position.set(dummy.position.x, 2, dummy.position.z);
+        div.style.opacity = "1";
+        oldPositions = earthLabel.position;
+        oldIndex = i;
+      }
+    }
+  }
+
+  if (oldPositions) {
+    const oldDistance = calculateDistance(oldPositions);
+    if (oldDistance > 3 && div) {
+      div.style.opacity = "0";
+      oldIndex = null;
+    }
+    if (
+      oldDistance < 3 &&
+      keyE.value &&
+      oldIndex >= 0 &&
+      !storeControl.isMovingCharacter &&
+      div
+    ) {
+      hudStore.setElementToEquipmentList({
+        title: "large leaf",
+        id: `${hudStore.addedElementToEquipmentList.length + 1}`,
+        count: 1,
+        src: "",
+      });
+      oldPositions = null;
+      div.style.opacity = "0";
+
+      setTimeout(() => {
+        storeModularGround.removeElementFromModule({
+          name: "fern",
+          positions: dummy.position,
+          id: props.fernList[oldIndex].id,
+          positionType: props.fernList[oldIndex].positionType,
+        });
+      }, 500);
+    }
+  }
 });
-
-// :class="{
-//           'Label__main-container--active': isActiveLabel,
-//           'Label__main-container--gamepad': isActiveGamepad,
-//           'Label__main-container--hide': isHideLabel,
-//         }"
 </script>
-
-<!-- <template> -->
-<!-- <primitive :object="instancedMesh"> -->
-<!-- <Html center transform :distance-factor="5" :position="[0, 1, 0]" portal="">
-      <div class="Label__main-container--active">
-        <div class="Label__content">E</div>
-      </div>
-    </Html> -->
-<!-- </primitive> -->
-<!-- </template> -->

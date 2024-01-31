@@ -57,12 +57,6 @@ const treeMaterial = new MeshLambertMaterial({
   side: DoubleSide,
 });
 
-let dummy = new Object3D();
-const instancedMesh = new InstancedMesh(
-  modelTree.geometry,
-  treeMaterial,
-  props.treesData.length
-);
 // let dummyCut1 = new Object3D();
 // let instancedMeshCut1 = new InstancedMesh(
 //   cutList[0].geometry,
@@ -95,16 +89,6 @@ const instancedMesh = new InstancedMesh(
 //   treeMaterial,
 //   props.treesData.length
 // );
-
-let dummyLeaves = new Object3D();
-const instancedMeshLeaves = new InstancedMesh(
-  modelLeaves.geometry,
-  leavesMaterial,
-  props.treesData.length
-);
-
-instancedMeshLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
-instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 
 // const setInstacedMeshCut1 = () => {
 //   scene.value.remove(instancedMeshCut1);
@@ -242,43 +226,82 @@ instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
 //   instancedMeshCut5.receiveShadow = true;
 //   scene.value.add(instancedMeshCut5);
 // };
-for (let i = 0; i < props.treesData.length; i++) {
-  dummy.position.set(
-    props.treesData[i].positionX,
-    modelTree.position.y * props.treesData[i].scale,
-    props.treesData[i].positionZ
+let dummy = new Object3D();
+let instancedMesh = null;
+
+let dummyLeaves = new Object3D();
+let instancedMeshLeaves = null;
+let oldModelWood = null;
+let oldModelLeaves = null;
+const setIntancesMesh = () => {
+  if (oldModelWood) {
+    oldModelWood.geometry.dispose();
+    oldModelWood.material.dispose();
+    scene.value.remove(oldModelWood);
+  }
+  if (oldModelLeaves) {
+    oldModelLeaves.geometry.dispose();
+    oldModelLeaves.material.dispose();
+    scene.value.remove(oldModelLeaves);
+  }
+
+  dummyLeaves = new Object3D();
+  instancedMeshLeaves = new InstancedMesh(
+    modelLeaves.geometry,
+    leavesMaterial,
+    props.treesData.length
   );
 
-  dummyLeaves.position.set(
-    props.treesData[i].positionX,
-    modelLeaves.position.y * props.treesData[i].scale,
-    props.treesData[i].positionZ
+  dummy = new Object3D();
+  instancedMesh = new InstancedMesh(
+    modelTree.geometry,
+    treeMaterial,
+    props.treesData.length
   );
 
-  // dummy.scale.y = props.treesData[i].scale;
-  dummy.scale.x = props.treesData[i].scale;
-  dummy.scale.z = props.treesData[i].scale;
-  dummy.rotation.y = props.treesData[i].rotationY;
-  dummy.updateMatrix();
+  instancedMeshLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
+  instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
+  for (let i = 0; i < props.treesData.length; i++) {
+    dummy.position.set(
+      props.treesData[i].positionX,
+      // modelTree.position.y * props.treesData[i].scale,
+      modelLeaves.position.y,
+      props.treesData[i].positionZ
+    );
 
-  // dummyLeaves.scale.y = props.treesData[i].scale;
-  dummyLeaves.scale.x = props.treesData[i].scale;
-  dummyLeaves.scale.z = props.treesData[i].scale;
-  dummyLeaves.rotation.y = props.treesData[i].rotationY;
-  dummyLeaves.updateMatrix();
+    dummyLeaves.position.set(
+      props.treesData[i].positionX,
+      // modelLeaves.position.y * props.treesData[i].scale,
+      modelLeaves.position.y,
+      props.treesData[i].positionZ
+    );
 
-  instancedMesh.setMatrixAt(i, dummy.matrix);
-  instancedMeshLeaves.setMatrixAt(i, dummyLeaves.matrix);
-}
+    // dummy.scale.y = props.treesData[i].scale;
+    // dummy.scale.x = props.treesData[i].scale;
+    // dummy.scale.z = props.treesData[i].scale;
+    // dummy.rotation.y = props.treesData[i].rotationY;
+    dummy.updateMatrix();
 
-instancedMesh.castShadow = true;
-instancedMesh.receiveShadow = true;
-instancedMeshLeaves.castShadow = true;
-instancedMeshLeaves.receiveShadow = true;
+    // dummyLeaves.scale.y = props.treesData[i].scale;
+    // dummyLeaves.scale.x = props.treesData[i].scale;
+    // dummyLeaves.scale.z = props.treesData[i].scale;
+    // dummyLeaves.rotation.y = props.treesData[i].rotationY;
+    dummyLeaves.updateMatrix();
 
-scene.value.add(instancedMesh);
-scene.value.add(instancedMeshLeaves);
+    oldModelWood = instancedMesh;
+    oldModelLeaves = instancedMeshLeaves;
+    instancedMesh.setMatrixAt(i, dummy.matrix);
+    instancedMeshLeaves.setMatrixAt(i, dummyLeaves.matrix);
+  }
 
+  instancedMesh.castShadow = true;
+  instancedMesh.receiveShadow = true;
+  instancedMeshLeaves.castShadow = true;
+  instancedMeshLeaves.receiveShadow = true;
+
+  scene.value.add(instancedMesh);
+  scene.value.add(instancedMeshLeaves);
+};
 watch(colorTrees, (value) => {
   leavesMaterial.color = new Color(value);
 });
@@ -315,6 +338,13 @@ onLoop(() => {
   }
 });
 
+setIntancesMesh();
+watch(
+  () => props.treesData,
+  () => {
+    setIntancesMesh();
+  }
+);
 document.addEventListener("mousedown", (event) => {
   // Sprawdź, czy naciśnięty został lewy przycisk myszy (button === 0)
   // if (indexActive.value !== null) {

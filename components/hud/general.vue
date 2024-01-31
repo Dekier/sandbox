@@ -3,8 +3,10 @@
   <HudMapHome />
   <HudButtons />
   <HudMouseControl />
+  <HudEquipmentList />
   <!-- <HudSettings /> -->
   <!-- <HudControls /> -->
   <HudCenterInformation />
   <HudMenu />
+  <HudLabels />
 </template>

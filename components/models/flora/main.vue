@@ -3,10 +3,18 @@ const { drawDots, drawRects } = useCanvas();
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
 const floraStore = useFloraStore();
-const { treeData, treeSecondData, bushData, bushStickData } =
-  storeToRefs(floraStore);
+// const { treeData, treeSecondData, bushData, bushStickData } =
+//   storeToRefs(floraStore);
 const storeModularGround = useModularGroundStore();
-const { activeModularList } = storeToRefs(storeModularGround);
+const {
+  activeModularList,
+  bushList,
+  bushStickList,
+  treeList,
+  treeSecondList,
+  fernList,
+} = storeToRefs(storeModularGround);
+storeModularGround.setRandomModular();
 const isActiveUpdateCanvas = ref(false);
 
 const loadedCanvas = ref(false);
@@ -30,6 +38,8 @@ watch(activeModularList, async () => {
   // await drawDots(treeSecondData.value, drawingContext, "#000000");
   isActiveUpdateCanvas.value = false;
 });
+
+// console.log(treeList.value);
 
 const groundPositions = ref({ x: 0, z: 0 });
 </script>
@@ -70,34 +80,22 @@ const groundPositions = ref({ x: 0, z: 0 });
       :is-active-update-canvas="isActiveUpdateCanvas"
     />
   </Suspense>
-  <!-- <Suspense>
-    <ModelsFloraNewGrass
-      v-if="loadedCanvas"
-      :drawing-canvas="drawingCanvas"
-      :positions="groundPositions"
-      :is-active-update-canvas="isActiveUpdateCanvas"
-    />
-  </Suspense> -->
-  <!-- <Suspense>
-    <ModelsFloraTree v-if="loadedCanvas" :trees-data="treeData" />
+  <Suspense>
+    <ModelsFloraTree :trees-data="treeList" />
   </Suspense>
   <Suspense>
-    <ModelsFloraTreeSecond :trees-data="treeSecondData" />
+    <ModelsFloraTreeSecond :trees-data="treeSecondList" />
   </Suspense>
   <Suspense>
-    <ModelsFloraBush v-if="loadedCanvas" :bush-data="bushData" />
+    <ModelsFloraBush :bush-data="bushList" />
   </Suspense>
   <Suspense>
-    <ModelsFloraFern
-      v-if="loadedCanvas"
-      :drawing-canvas="drawingCanvas"
-      :is-active-update-canvas="isActiveUpdateCanvas"
-    />
+    <ModelsFloraFern :fern-list="fernList" />
   </Suspense>
   <Suspense>
     <ModelsFloraBushStick
       v-if="positionCharacter"
-      :bush-stick-data="bushStickData"
+      :bush-stick-data="bushStickList"
     />
-  </Suspense> -->
+  </Suspense>
 </template>

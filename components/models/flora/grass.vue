@@ -89,9 +89,9 @@ const grassMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 160000;
+const instanceNumber = 150000;
 let dummy = new Object3D();
-const geometry = new PlaneGeometry(0.1, 1, 1, 4);
+const geometry = new PlaneGeometry(0.1, 1, 1, 2);
 geometry.translate(0, 0.5, 0);
 let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
 const drawingContext = props.drawingCanvas?.getContext("2d");
@@ -181,7 +181,6 @@ setTimeout(() => {
 }, 100);
 
 watch(color, (value) => {
-  console.log("sdfsdf", value);
   grassMaterial.uniforms.hexColor.value = new Vector3(
     new Color(value).r / darkerFactor,
     new Color(value).g / darkerFactor,

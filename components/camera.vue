@@ -32,7 +32,7 @@ watch(positionCharacterLookAt, () => {
 const xAxis = new Vector3(1, 0, 0);
 const tempCameraVector = new Vector3();
 const tempModelVector = new Vector3();
-const cameraOrigin = new Vector3(0, 3, 0);
+const cameraOrigin = new Vector3(0, 4, 0);
 const container = new Group();
 scene.value.add(container);
 let cameraDirection = null;
@@ -135,7 +135,7 @@ window.addEventListener("pointermove", (e) => {
 <template>
   <TresPerspectiveCamera
     :position="[cameraX, cameraY, cameraZ]"
-    :fov="55"
+    :fov="40"
     :aspect="1"
     :near="0.1"
     :far="300"

@@ -27,6 +27,7 @@ interface State {
   gamepadButtonXPressed: boolean;
   gamepadButtonAPressed: boolean;
   sanitisedAngle: number;
+  mouseLeftClick: boolean;
 }
 export const useControlsStore = defineStore("ControlsStore", {
   state: (): State => {
@@ -58,6 +59,7 @@ export const useControlsStore = defineStore("ControlsStore", {
       gamepadButtonXPressed: false,
       gamepadButtonAPressed: false,
       sanitisedAngle: 0,
+      mouseLeftClick: false,
     };
   },
   getters: {
@@ -76,6 +78,12 @@ export const useControlsStore = defineStore("ControlsStore", {
       state.deltaY > 0.3 ||
       state.deltaY < -0.3,
     characterState: (state) => {
+      if (state.mouseLeftClick) {
+        return "attack";
+      }
+      if (state.keys.e) {
+        return "collect";
+      }
       if (state.upPressed && state.leftShiftPressed) {
         return "run";
       }
@@ -110,7 +118,22 @@ export const useControlsStore = defineStore("ControlsStore", {
         this.leftShiftPressed = true;
       }
     },
+    setMouseEvent(key: string) {
+      if (key === "left") {
+        this.mouseLeftClick = true;
+      }
+
+      setTimeout(() => {
+        this.mouseLeftClick = false;
+      }, 1000);
+    },
     setKeysFalse(key: string) {
+      if (key === "e") {
+        setTimeout(() => {
+          this.keys[key] = false;
+        }, 700);
+        return;
+      }
       this.keys[key] = false;
       if (key === "w") {
         this.setUpPressed(false);
@@ -175,7 +198,7 @@ export const useControlsStore = defineStore("ControlsStore", {
       }
       if (this.downPressed) {
         if (this.leftShiftPressed) {
-          this.speed = -10;
+          // this.speed = -10;
           // this.speed = -35;
         } else if (this.buttonRTValue) {
           const value = this.buttonRTValue * 3;

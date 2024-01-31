@@ -120,7 +120,7 @@ onBeforeLoop(() => {
     );
 
     currentDistance.value = calculateDistance(dummyWood.position);
-    if (currentDistance.value < 4) {
+    if (currentDistance.value < 7) {
       const { x, z } = bendModel(dummyWood.position);
       dummyWood.rotation.x = lerp(dummyWood.rotation.x, x, 0.04);
       dummyWood.rotation.z = lerp(dummyWood.rotation.z, z, 0.04);

@@ -184,7 +184,7 @@ isActiveAntialias.value = true;
   right: 0px;
   margin: 0 auto;
   z-index: 2;
-  opacity: 1;
+  opacity: 0;
   cursor: crosshair;
   touch-action: none;
   width: 50px;
