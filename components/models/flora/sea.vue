@@ -19,14 +19,14 @@ import {
   Mesh,
   GLSL3,
   PerspectiveCamera,
+  MeshStandardMaterial,
 } from "three";
-const { camera, renderer, scene } = useTresContext();
+const { scene } = useTresContext();
 import vertexShader from "@/src/shaders/sea/vertex2.glsl";
 import fragmentShader from "@/src/shaders/sea/fragment2.glsl";
 
 const water = ref();
-
-let uniforms = {
+const uniforms = {
   uTime: { value: 0 },
 
   uBigWavesElevation: { value: 0.5 },
@@ -35,7 +35,7 @@ let uniforms = {
 
   uSmallWavesElevation: { value: 0.3 },
   uSmallWavesFrequency: { value: 0.5 },
-  uSmallWavesSpeed: { value: 0.05 },
+  uSmallWavesSpeed: { value: 0.20 },
   uSmallIterations: { value: 2 },
 
   uDepthColor: { value: new Color("#368baf") },
@@ -44,7 +44,7 @@ let uniforms = {
   uColorMultiplier: { value: 2.5 },
 };
 
-var waterMaterial = new ShaderMaterial({
+const waterMaterial = new ShaderMaterial({
   uniforms: uniforms,
   vertexShader: vertexShader,
   fragmentShader: fragmentShader,
@@ -62,10 +62,50 @@ onLoop(({ _delta, elapsed }) => {
 seaModel.rotation.x = -Math.PI / 2;
 seaModel.position.y = -1.0;
 scene.value.add(seaModel);
-</script>
 
-<!-- <template>
-  <Suspense>
-    <GLTFModel path="/models/sea.glb" ref="modelSea" :position-y="0" />
-  </Suspense>
-</template> -->
+// const materialProps = {
+//   baseMaterial: MeshStandardMaterial,
+//   color: 0x00ffff,
+//   wireframe: false,
+//   vertexShader,
+//   fragmentShader,
+//   uniforms: {
+//     uTime: { value: 0 },
+
+//     uBigWavesElevation: { value: 0.5 },
+//     uBigWavesFrequency: { value: new Vector2(0.1, 0.05) },
+//     uBigWavesSpeed: { value: 0.75 },
+
+//     uSmallWavesElevation: { value: 0.3 },
+//     uSmallWavesFrequency: { value: 0.5 },
+//     uSmallWavesSpeed: { value: 0.05 },
+//     uSmallIterations: { value: 2 },
+
+//     uDepthColor: { value: new Color("#368baf") },
+//     uSurfaceColor: { value: new Color("#4097bc") },
+//     uColorOffset: { value: 0.18 },
+//     uColorMultiplier: { value: 2.5 },
+//   }
+// }
+//   const { onLoop } = useRenderLoop()
+//   onMounted(async () => {
+//   await nextTick()
+
+//   onLoop((_delta, elapsed) => {
+//     materialProps.uniforms.uTime.value = elapsed
+//   })
+// })
+  
+  </script>
+  
+  <!-- <template> -->
+    <!-- <TresMesh>
+      <TresTorusKnotGeometry :args="[1, 0.3, 512, 32]" />
+      <CustomShaderMaterial v-bind="materialProps" />
+    </TresMesh> -->
+    <!-- <TresMesh  :position="[0, -1.0, 0]" :rotation="[-Math.PI / 2,0,0]">
+        <TresPlaneGeometry :args="[500, 500, 800, 800]"></TresPlaneGeometry>
+       <CustomShaderMaterial v-bind="materialProps" />
+    </TresMesh>
+  </template>
+   -->

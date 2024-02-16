@@ -1,16 +1,9 @@
 .Buttons {
-  &__main-container-right-top {
+  &__left-top-Container {
     position: fixed;
-    right: 24px;
-    top: 24px;
-    z-index: 1;
-  }
-
-  &__main-container-left-bottom {
-    position: fixed;
-    left: 24px;
-    top: 24px;
-    z-index: 1;
+    left: 12px;
+    top: 10px;
+    z-index: 20;
   }
 
   &__button {
@@ -36,7 +29,34 @@
   }
 
   &__fps {
-    @include text(22px, left, rgba(0, 0, 0, 0.5), 400);
-    letter-spacing: 1px;
+    @include text(12px, left, rgba(0, 0, 0, 0.5), 600);
+  }
+
+  &__icon-map-container {
+    position: fixed;
+    z-index: 2;
+    right: 24px;
+    bottom: 24px;
+    display: flex;
+  }
+
+  &__icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  &__keyboard-button {
+    display: flex;
+    height: 24px;
+    width: 24px;
+    background-color: #ccc;
+    border: 2px solid $border;
+    border-radius: 4px;
+    margin: auto 12px auto 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.9;
+    @include text(14px, center, $border, 600);
   }
 }

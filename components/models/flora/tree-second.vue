@@ -304,6 +304,13 @@ const setIntancesMesh = () => {
 };
 watch(colorTrees, (value) => {
   leavesMaterial.color = new Color(value);
+  console.log("value", value);
+});
+
+const floraStore = useFloraStore();
+const { fernList } = storeToRefs(floraStore);
+watch(fernList, (value) => {
+  console.log("value", value);
 });
 
 const drawingCanvas = document.getElementById("drawing-canvas");

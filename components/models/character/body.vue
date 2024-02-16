@@ -38,7 +38,6 @@ const {
   animations,
 } = await useGLTF("/models/character.glb", { draco: true });
 const { actions, mixer } = useAnimations(animations, modelScene);
-console.log(animations);
 const { onLoop } = useRenderLoop();
 // actions.walk2.play();
 const modelCharacter = nodes.wiking;
@@ -255,15 +254,15 @@ document.body.addEventListener("keyup", (e) => {
     storeControl.setKeysFalse(key);
   }
 });
-document.body.addEventListener("click", (event) => {
-  if (
-    event.button === 0 &&
-    characterState.value !== "attack" &&
-    !isActiveMenuGame.value
-  ) {
-    storeControl.setMouseEvent("left");
-  }
-});
+// document.body.addEventListener("click", (event) => {
+//   if (
+//     event.button === 0 &&
+//     characterState.value !== "attack" &&
+//     !isActiveMenuGame.value
+//   ) {
+//     storeControl.setMouseEvent("left");
+//   }
+// });
 </script>
 
 <template>

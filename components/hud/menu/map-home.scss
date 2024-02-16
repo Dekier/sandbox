@@ -1,0 +1,227 @@
+.MapHome {
+  &__main-container {
+    border-radius: 8px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: $full-height;
+  }
+
+  &__center-box {
+    width: 100%;
+  }
+
+  &__map-container {
+    position: relative;
+    overflow: hidden;
+    padding: 30px 0;
+    width: 100%;
+    height: calc($full-height - 300px);
+    cursor: grab;
+
+    // background-color: rgba($color: #fff, $alpha: 0.4);
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__list-of-modulars {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 585px;
+    margin: 0 24px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transform-origin: center center;
+    border-radius: 12px;
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__background {
+    position: absolute;
+    width: 100%;
+    height: 90%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    object-fit: cover;
+    background-color: rgba($color: #c0aa8f, $alpha: 0.7);
+    box-shadow: 0px 0px 20px 30px rgba($color: #c0aa8f, $alpha: 0.6);
+    // filter: blur(1px);
+    opacity: 0.8;
+  }
+
+  &__modular {
+    width: 45px;
+    height: 45px;
+    position: relative;
+    z-index: 2;
+
+    &--purchased-module {
+      &:hover {
+        cursor: grab;
+
+        &:active {
+          cursor: grabbing;
+        }
+      }
+    }
+
+    &--can-select {
+      cursor: pointer;
+    }
+
+    &--wall {
+      display: none;
+    }
+
+    &--info {
+      margin-right: 12px;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  &__button-buy {
+    width: max-content;
+    height: 36px;
+    letter-spacing: 1.5px;
+    @include text(20px, center, $text-white, 400);
+    background-color: transparent;
+    border: unset;
+    cursor: pointer;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 34px;
+
+    background: radial-gradient(
+      circle at center,
+      rgba($color: $text-white, $alpha: 0.1) 0%,
+      rgba($color: $text-white, $alpha: 0) 100%
+    );
+
+    &:hover {
+      background: radial-gradient(
+        circle at center,
+        rgba($color: $text-white, $alpha: 0.3) 0%,
+        rgba($color: $text-white, $alpha: 0) 100%
+      );
+    }
+  }
+
+  &__header-title {
+    @include text(20px, center, $white, 600);
+  }
+
+  &__text {
+    @include text(20px, center, $black, 400);
+    display: flex;
+    align-items: center;
+  }
+  &__modular-hover-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid $border;
+    border-radius: 4px;
+    display: none;
+    transition: width 300ms, height 300ms;
+  }
+
+  &__modular--can-select:hover &__modular-hover-icon {
+    display: flex;
+
+    width: 70%;
+    height: 70%;
+    background-color: rgba($color: $border-dark-green, $alpha: 0.1);
+  }
+
+  &__modular--can-select &__modular-hover-icon {
+    display: flex;
+
+    width: 70%;
+    height: 70%;
+  }
+
+  &__modular--can-select:hover &__modular-hover-icon {
+    display: flex;
+
+    width: 80%;
+    height: 80%;
+  }
+  &__modular--selected &__modular-hover-icon {
+    background-color: rgba($color: $border-dark-green, $alpha: 0.4);
+    width: 80%;
+    height: 80%;
+  }
+
+  &__modular--selected:hover &__modular-hover-icon {
+    background-color: rgba($color: $border-dark-green, $alpha: 0.4);
+    width: 80%;
+    height: 80%;
+  }
+
+  &__modular--wall &__modular-hover-icon {
+    display: flex;
+    opacity: 0;
+    &:hover {
+      opacity: 0;
+    }
+  }
+
+  &__modular-sea-icon {
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__modular--can-select &__modular-sea-icon {
+    display: none;
+  }
+
+  &__button-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 11;
+    right: 24px;
+    bottom: 24px;
+  }
+
+  &__button {
+    margin-top: 12px;
+    background-color: transparent;
+    border: 2px solid #9b7a49;
+    border-radius: 4px;
+    padding: 0;
+    width: 30px;
+    @include text(22px, center, #9b7a49, 600);
+    transition: scale 300ms;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      scale: 1.1;
+    }
+  }
+}

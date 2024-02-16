@@ -3,18 +3,12 @@ const { drawDots, drawRects } = useCanvas();
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
 const floraStore = useFloraStore();
-// const { treeData, treeSecondData, bushData, bushStickData } =
-//   storeToRefs(floraStore);
 const storeModularGround = useModularGroundStore();
-const {
-  activeModularList,
-  bushList,
-  bushStickList,
-  treeList,
-  treeSecondList,
-  fernList,
-} = storeToRefs(storeModularGround);
+const { activeModularList, bushList, bushStickList, treeList, treeSecondList } =
+  storeToRefs(storeModularGround);
+const { fernList, hehe } = storeToRefs(floraStore);
 storeModularGround.setRandomModular();
+
 const isActiveUpdateCanvas = ref(false);
 
 const loadedCanvas = ref(false);
@@ -26,22 +20,38 @@ const setupCanvasDrawing = async () => {
   drawingContext.fillRect(0, 0, 200, 200);
   // drawingContext.drawImage(texture, 0, 0, 200, 200);
   await drawRects(activeModularList.value, drawingContext);
-  // await drawDots(treeData.value, drawingContext, "#000000");
-  // await drawDots(treeSecondData.value, drawingContext, "#000000");
+  // await drawDots(treeList.value, drawingContext, "#000000");
+  // await drawDots(treeSecondList.value, drawingContext, "#000000");
   loadedCanvas.value = true;
 };
 setupCanvasDrawing();
 watch(activeModularList, async () => {
   isActiveUpdateCanvas.value = true;
   await drawRects(activeModularList.value, drawingContext);
-  // await drawDots(treeData.value, drawingContext, "#000000");
-  // await drawDots(treeSecondData.value, drawingContext, "#000000");
+  // await drawDots(treeList.value, drawingContext, "#000000");
+  // await drawDots(treeSecondList.value, drawingContext, "#000000");
   isActiveUpdateCanvas.value = false;
 });
 
-// console.log(treeList.value);
-
 const groundPositions = ref({ x: 0, z: 0 });
+
+floraStore.setFloraLists(activeModularList.value);
+// watch(
+//   () => floraStore.fernList,
+//   () => {
+//     console.log("zmiana, fernList");
+//   },
+//   { deep: false }
+// );
+
+// watch(
+//   () => floraStore.hehe.length,
+//   () => {
+//     console.log(floraStore.fernList);
+//     console.log(floraStore.hehe);
+//     console.log("zmiana, hehe");
+//   }
+// );
 </script>
 
 <template>
@@ -53,15 +63,8 @@ const groundPositions = ref({ x: 0, z: 0 });
     />
   </Suspense> -->
   <Suspense>
-    <ModelsFloraModularGround
-      v-if="loadedCanvas"
-      :drawing-canvas="drawingCanvas"
-      :is-active-update-canvas="isActiveUpdateCanvas"
-    />
+    <ModelsFloraModularGround v-if="loadedCanvas" />
   </Suspense>
-  <!-- <Suspense>
-    <Seaa />
-  </Suspense> -->
   <Suspense>
     <ModelsFloraSea />
   </Suspense>
@@ -69,7 +72,6 @@ const groundPositions = ref({ x: 0, z: 0 });
     <ModelsFloraGrass
       v-if="loadedCanvas"
       :drawing-canvas="drawingCanvas"
-      :positions="groundPositions"
       :is-active-update-canvas="isActiveUpdateCanvas"
     />
   </Suspense>
@@ -80,22 +82,25 @@ const groundPositions = ref({ x: 0, z: 0 });
       :is-active-update-canvas="isActiveUpdateCanvas"
     />
   </Suspense>
-  <Suspense>
-    <ModelsFloraTree :trees-data="treeList" />
+  <!-- <Suspense>
+    <ModelsFloraTree v-if="treeList.length" :trees-data="treeList" />
   </Suspense>
   <Suspense>
-    <ModelsFloraTreeSecond :trees-data="treeSecondList" />
-  </Suspense>
-  <Suspense>
-    <ModelsFloraBush :bush-data="bushList" />
-  </Suspense>
-  <Suspense>
-    <ModelsFloraFern :fern-list="fernList" />
-  </Suspense>
-  <Suspense>
-    <ModelsFloraBushStick
-      v-if="positionCharacter"
-      :bush-stick-data="bushStickList"
+    <ModelsFloraTreeSecond
+      v-if="treeSecondList.length"
+      :trees-data="treeSecondList"
     />
   </Suspense>
+  <Suspense>
+    <ModelsFloraBush v-if="bushList.length" :bush-list="bushList" />
+  </Suspense> -->
+  <Suspense>
+    <ModelsFloraFern v-if="fernList.length" :fern-list="fernList" />
+  </Suspense>
+  <!-- <Suspense>
+    <ModelsFloraBushStick
+      v-if="bushStickList.length"
+      :bush-stick-list="bushStickList"
+    />
+  </Suspense> -->
 </template>

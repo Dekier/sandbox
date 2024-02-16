@@ -3,6 +3,7 @@ interface State {
   positionCharacterLookAt: any;
   isActiveHolding: boolean;
   characterModel: any;
+  characterAngle: number;
 }
 export const useCharacterStore = defineStore("CharacterStore", {
   state: (): State => {
@@ -11,9 +12,13 @@ export const useCharacterStore = defineStore("CharacterStore", {
       positionCharacterLookAt: null,
       isActiveHolding: false,
       characterModel: null,
+      characterAngle: 0,
     };
   },
-  getters: {},
+  getters: {
+    characterPosition: (state) => state.characterModel.position,
+    // characterRotationY: (state) => state.characterModel.rotation
+  },
   actions: {
     setPositionCharacter(data: any) {
       this.positionCharacter = data;
@@ -26,6 +31,9 @@ export const useCharacterStore = defineStore("CharacterStore", {
     },
     setCharacterModel(data: any) {
       this.characterModel = data;
+    },
+    setCharacterAngle(data: any) {
+      this.characterAngle = data;
     },
   },
 });

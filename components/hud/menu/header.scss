@@ -1,0 +1,45 @@
+.MenuInGameHeader {
+  &__main-container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px; /* Ustaw wysokość równą padding-bottom */
+      background-image: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 60%
+      );
+      z-index: 1;
+    }
+  }
+
+  &__button {
+    margin: 20px 12px 4px 12px;
+    background-color: unset;
+    border: unset;
+    @include text(18px, center, rgba($color: $text-white, $alpha: 0.6), 400);
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+      @include text(18px, center, $text-white, 400);
+    }
+
+    &--active {
+      @include text(18px, center, $text-white, 400);
+    }
+  }
+}

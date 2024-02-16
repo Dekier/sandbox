@@ -9,6 +9,12 @@ import {
   InstancedMesh,
   Color,
   UniformsLib,
+  DynamicDrawUsage,
+  BoxGeometry,
+  InstancedBufferGeometry,
+  MeshStandardMaterial,
+  Mesh,
+  InstancedBufferAttribute,
 } from "three";
 import { Html } from "@tresjs/cientos";
 const hudStore = useHudStore();
@@ -16,8 +22,10 @@ import {
   CSS2DRenderer,
   CSS2DObject,
 } from "three/examples/jsm/renderers/CSS2DRenderer";
+const floraStore = useFloraStore();
 const { bendModel, calculateDistance } = useUtils();
 const storeModularGround = useModularGroundStore();
+const storeEquipmentGround = useEquipmentStore();
 const storeControl = useControlsStore();
 const { keyE } = storeToRefs(storeControl);
 const props = defineProps({
@@ -62,48 +70,8 @@ const fernMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-let dummy = new Object3D();
+
 const { nodes } = await useGLTF("/models/fern.glb", { draco: true });
-let instancedMesh = null;
-const drawingContext = props.drawingCanvas?.getContext("2d");
-let oldModel = null;
-const setIntancesMesh = () => {
-  if (oldModel) {
-    oldModel.geometry.dispose();
-    oldModel.material.dispose();
-    scene.value.remove(oldModel);
-  }
-
-  dummy = new Object3D();
-  instancedMesh = new InstancedMesh(
-    nodes.fern.geometry,
-    fernMaterial,
-    props.fernList.length
-  );
-
-  for (let i = 0; i < props.fernList.length; i++) {
-    dummy.position.set(
-      props.fernList[i].positionX,
-      0.0,
-      props.fernList[i].positionZ
-    );
-    // dummy.rotation.y = props.fernList[i].rotationX;
-    // dummy.scale.y = 1.2 + Math.random() * 0.7;
-    // dummy.scale.x = 1.2 + Math.random() * 0.4;
-    // dummy.scale.z = 1.2 + Math.random() * 0.4;
-    dummy.scale.y = 1.5;
-    dummy.scale.x = 1.5;
-    dummy.scale.z = 1.5;
-
-    dummy.updateMatrix();
-    instancedMesh.setMatrixAt(i, dummy.matrix);
-  }
-  oldModel = instancedMesh;
-  scene.value.add(instancedMesh);
-  instancedMesh.instanceMatrix.needsUpdate = true;
-};
-
-setIntancesMesh();
 
 watch(color, (value) => {
   fernMaterial.uniforms.hexColor.value = new Vector3(
@@ -113,32 +81,27 @@ watch(color, (value) => {
   );
 });
 
-watch(
-  () => props.fernList,
-  () => {
-    setIntancesMesh();
-  }
-);
 const labelRenderer = new CSS2DRenderer();
 labelRenderer.setSize(window.innerWidth, window.innerHeight);
 labelRenderer.domElement.style.position = "absolute";
-labelRenderer.domElement.style.top = "0px";
+
 document.body.appendChild(labelRenderer.domElement);
 
-// for (let index = 0; index < props.fernList.length; index++) {
 const div = document.getElementById("collect-e");
 
 const earthLabel = new CSS2DObject(div);
 scene.value.add(earthLabel);
-// }
 
 window.addEventListener("resize", () => {
   labelRenderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+const dummy = new Object3D();
 const matrix = new Matrix4();
+const instanceMeshRef = shallowRef(null);
+let oldPositions = null as null | { x: number; y: number; z: number };
+let oldIndex = -1 as number;
 const currentDistance = ref(0);
-let oldPositions = null;
-let oldIndex = null;
 onLoop(({ _delta, elapsed }) => {
   fernMaterial.uniforms.time.value = elapsed;
   fernMaterial.uniformsNeedUpdate = true;
@@ -147,9 +110,9 @@ onLoop(({ _delta, elapsed }) => {
   }
   labelRenderer.render(scene.value, camera.value);
 
-  if (storeControl.isMovingCharacter) {
+  if (storeControl.isMovingCharacter && instanceMeshRef.value) {
     for (let i = 0; i < props.fernList.length; i++) {
-      instancedMesh.getMatrixAt(i, matrix);
+      instanceMeshRef.value.getMatrixAt(i, matrix);
       matrix.decompose(dummy.position, dummy.quaternion, dummy.scale);
 
       currentDistance.value = calculateDistance(dummy.position);
@@ -164,12 +127,12 @@ onLoop(({ _delta, elapsed }) => {
 
   if (oldPositions) {
     const oldDistance = calculateDistance(oldPositions);
-    if (oldDistance > 3 && div) {
+    if (oldDistance > 5 && div) {
       div.style.opacity = "0";
-      oldIndex = null;
+      oldIndex = -1;
     }
     if (
-      oldDistance < 3 &&
+      oldDistance < 5 &&
       keyE.value &&
       oldIndex >= 0 &&
       !storeControl.isMovingCharacter &&
@@ -185,14 +148,57 @@ onLoop(({ _delta, elapsed }) => {
       div.style.opacity = "0";
 
       setTimeout(() => {
-        storeModularGround.removeElementFromModule({
-          name: "fern",
-          positions: dummy.position,
+        floraStore.removeElementFromList({
+          type: "fern",
+          index: oldIndex,
           id: props.fernList[oldIndex].id,
           positionType: props.fernList[oldIndex].positionType,
+        });
+        storeEquipmentGround.addToEquipmentHudList({
+          title: "large leaf",
+          count: 1,
+          src: "",
         });
       }, 500);
     }
   }
 });
+
+watch(instanceMeshRef, (value) => {
+  if (!value) return;
+  setMesh();
+});
+
+watch(
+  () => props.fernList.length,
+  () => {
+    setMesh();
+  }
+);
+
+const setMesh = () => {
+  instanceMeshRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
+  instanceMeshRef.value.count = props.fernList.length;
+  for (let i = 0; i < props.fernList.length; i++) {
+    dummy.position.set(
+      props.fernList[i].positionX,
+      0.0,
+      props.fernList[i].positionZ
+    );
+    dummy.scale.y = 1.5;
+    dummy.scale.x = 1.5;
+    dummy.scale.z = 1.5;
+
+    dummy.updateMatrix();
+    instanceMeshRef.value.setMatrixAt(i, dummy.matrix);
+  }
+  instanceMeshRef.value.instanceMatrix.needsUpdate = true;
+  instanceMeshRef.value.computeBoundingSphere();
+};
 </script>
+<template>
+  <TresInstancedMesh
+    ref="instanceMeshRef"
+    :args="[nodes.fern.geometry, fernMaterial, 1000]"
+  />
+</template>

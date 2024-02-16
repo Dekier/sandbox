@@ -1,13 +1,13 @@
 <template>
-  <div class="EquipmentList__main-container">
+  <div class="EquipmentLeftList__main-container">
     <TransitionGroup name="list">
       <div
         v-for="data in addedElementToEquipmentList"
         :key="data.id"
-        class="EquipmentList__element"
+        class="EquipmentLeftList__element"
       >
-        <div class="EquipmentList__image">soon</div>
-        <p class="EquipmentList__text">{{ data.title }} (x{{ data.count }})</p>
+        <div class="EquipmentLeftList__image">soon</div>
+        <p class="EquipmentLeftList__text">{{ data.title }} (x{{ data.count }})</p>
       </div>
     </TransitionGroup>
   </div>
@@ -18,5 +18,5 @@ const hudStore = useHudStore();
 const { addedElementToEquipmentList } = storeToRefs(hudStore);
 </script>
 <style lang="scss">
-@import "equipment-list";
+@import "left-list";
 </style>

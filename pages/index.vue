@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PCFSoftShadowMap, SRGBColorSpace, CineonToneMapping } from "three";
+import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
 const storeControl = useControlsStore();
 const storeGeneral = useGeneralStore();
 const { isStartedGame } = storeToRefs(storeGeneral);
@@ -28,9 +28,9 @@ const gl = {
   gammaFactor: 2.2,
   gammaOutput: true,
   outputColorSpace: SRGBColorSpace,
-  toneMapping: CineonToneMapping,
+  toneMapping: ACESFilmicToneMapping,
   toneMappingExposure: 2.2,
-  shadowMap: { enabled: true, type: PCFSoftShadowMap },
+  shadowMapType: PCFSoftShadowMap,
   powerPreference: "high-performance",
   stencil: false,
 };
@@ -61,6 +61,7 @@ watch(colorSand, (value) => {
 // });
 
 watch(colorTrees, (value) => {
+  console.log("value", value);
   storeGeneral.setColorTrees(value);
   // directionalLight.position.Z = value;
 });
@@ -92,6 +93,8 @@ isActiveAntialias.value = true;
   >
     <Perf />
     <Camera />
+
+    <!-- <PostProcessing v-if="positionCharacter" /> -->
     <Light v-if="positionCharacter" />
     <!-- <Suspense>
       <Fog />
@@ -127,9 +130,6 @@ isActiveAntialias.value = true;
     <Suspense>
       <ModelsFloraMain v-if="positionCharacter" />
     </Suspense>
-    <!-- <Suspense>
-      <PostProcessing v-if="positionCharacter" />
-    </Suspense> -->
 
     <!-- <Suspense>
       <Telescope />bush
@@ -187,13 +187,9 @@ isActiveAntialias.value = true;
   opacity: 0;
   cursor: crosshair;
   touch-action: none;
-  width: 50px;
-  height: 50px;
+  width: 200px;
+  height: 200px;
   transition: width 300ms, height 300ms;
-  &:hover {
-    width: 200px;
-    height: 200px;
-  }
 }
 
 #drawing-canvas-moving {

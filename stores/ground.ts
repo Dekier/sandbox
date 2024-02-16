@@ -1,9 +1,11 @@
+import { useFloraStore as floraStore } from "./flora";
 interface ModelData {
   positionType?: string;
   type?: string;
   positionX?: number;
   positionZ?: number;
   rotationY?: number;
+  id?: number;
 }
 interface GroundData {
   id: number;
@@ -17,6 +19,7 @@ interface GroundData {
   center?: ModelData;
   bottomLeft?: ModelData;
   bottomRight?: ModelData;
+  side?: string;
 }
 interface ModuleFlora {
   topLeft?: ModelData;
@@ -28,10 +31,20 @@ interface ModuleFlora {
 interface State {
   groundDataList: GroundData[];
   randomModuleFlora: ModuleFlora[];
+  groundZeroList: GroundData[];
+  groundOneSideList: GroundData[];
+  groundCornerList: GroundData[];
+  groundTwoSideList: GroundData[];
+  groundThreeSideList: GroundData[];
 }
 export const useModularGroundStore = defineStore("ModuleStore", {
   state: (): State => {
     return {
+      groundZeroList: [],
+      groundOneSideList: [],
+      groundCornerList: [],
+      groundTwoSideList: [],
+      groundThreeSideList: [],
       randomModuleFlora: [
         {
           topLeft: {
@@ -220,134 +233,134 @@ export const useModularGroundStore = defineStore("ModuleStore", {
         },
       ],
       groundDataList: [
-        {
-          id: 1,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 2,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 3,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 4,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 5,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 6,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 7,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 8,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 9,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 10,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 11,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 12,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 13,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 14,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 15,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 16,
-          positionX: -105,
-          positionZ: -90,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 1,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 2,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 3,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 4,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 5,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 6,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 7,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 8,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 9,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 10,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 11,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 12,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 13,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 14,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 15,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 16,
+        //   positionX: -105,
+        //   positionZ: -90,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 17,
           positionX: -90,
@@ -454,22 +467,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 30,
-          positionX: 105,
-          positionZ: -90,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 31,
-          positionX: -105,
-          positionZ: -75,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 30,
+        //   positionX: 105,
+        //   positionZ: -90,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 31,
+        //   positionX: -105,
+        //   positionZ: -75,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 32,
           positionX: -90,
@@ -574,22 +587,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 45,
-          positionX: 105,
-          positionZ: -75,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 46,
-          positionX: -105,
-          positionZ: -60,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 45,
+        //   positionX: 105,
+        //   positionZ: -75,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 46,
+        //   positionX: -105,
+        //   positionZ: -60,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 47,
           positionX: -90,
@@ -694,22 +707,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 60,
-          positionX: 105,
-          positionZ: -60,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 61,
-          positionX: -105,
-          positionZ: -45,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 60,
+        //   positionX: 105,
+        //   positionZ: -60,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 61,
+        //   positionX: -105,
+        //   positionZ: -45,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 62,
           positionX: -90,
@@ -814,22 +827,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 75,
-          positionX: 105,
-          positionZ: -45,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 76,
-          positionX: -105,
-          positionZ: -30,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 75,
+        //   positionX: 105,
+        //   positionZ: -45,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 76,
+        //   positionX: -105,
+        //   positionZ: -30,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 77,
           positionX: -90,
@@ -934,22 +947,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 90,
-          positionX: 105,
-          positionZ: -30,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 91,
-          positionX: -105,
-          positionZ: -15,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 90,
+        //   positionX: 105,
+        //   positionZ: -30,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 91,
+        //   positionX: -105,
+        //   positionZ: -15,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 92,
           positionX: -90,
@@ -1054,22 +1067,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 105,
-          positionX: 105,
-          positionZ: -15,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 106,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 105,
+        //   positionX: 105,
+        //   positionZ: -15,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 106,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 107,
           positionX: -90,
@@ -1176,22 +1189,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isWall: false,
         },
 
-        {
-          id: 120,
-          positionX: 105,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 121,
-          positionX: -105,
-          positionZ: 15,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 120,
+        //   positionX: 105,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 121,
+        //   positionX: -105,
+        //   positionZ: 15,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 122,
           positionX: -90,
@@ -1296,22 +1309,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 135,
-          positionX: 105,
-          positionZ: 15,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 136,
-          positionX: -105,
-          positionZ: 30,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 135,
+        //   positionX: 105,
+        //   positionZ: 15,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 136,
+        //   positionX: -105,
+        //   positionZ: 30,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 137,
           positionX: -90,
@@ -1416,22 +1429,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 150,
-          positionX: 105,
-          positionZ: 30,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 151,
-          positionX: -105,
-          positionZ: 45,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 150,
+        //   positionX: 105,
+        //   positionZ: 30,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 151,
+        //   positionX: -105,
+        //   positionZ: 45,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 152,
           positionX: -90,
@@ -1536,22 +1549,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 165,
-          positionX: 105,
-          positionZ: 45,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 166,
-          positionX: -105,
-          positionZ: 60,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 165,
+        //   positionX: 105,
+        //   positionZ: 45,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 166,
+        //   positionX: -105,
+        //   positionZ: 60,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 167,
           positionX: -90,
@@ -1656,22 +1669,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 180,
-          positionX: 105,
-          positionZ: 60,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 181,
-          positionX: -105,
-          positionZ: 75,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 180,
+        //   positionX: 105,
+        //   positionZ: 60,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 181,
+        //   positionX: -105,
+        //   positionZ: 75,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 182,
           positionX: -90,
@@ -1776,22 +1789,22 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 195,
-          positionX: 105,
-          positionZ: 75,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 196,
-          positionX: -105,
-          positionZ: 90,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 195,
+        //   positionX: 105,
+        //   positionZ: 75,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 196,
+        //   positionX: -105,
+        //   positionZ: 90,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
         {
           id: 197,
           positionX: -90,
@@ -1896,263 +1909,291 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           isActive: false,
           isWall: false,
         },
-        {
-          id: 210,
-          positionX: 105,
-          positionZ: 90,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 211,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 212,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 213,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 214,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 215,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 216,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 217,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 218,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 210,
+        //   positionX: 105,
+        //   positionZ: 90,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 211,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 212,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 213,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 214,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 215,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 216,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 217,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 218,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
 
-        {
-          id: 219,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 219,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
 
-        {
-          id: 220,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 221,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 222,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 223,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 224,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
-        {
-          id: 225,
-          positionX: 0,
-          positionZ: 0,
-          positionY: 0,
-          isActive: false,
-          isWall: true,
-        },
+        // {
+        //   id: 220,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 221,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 222,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 223,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 224,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
+        // {
+        //   id: 225,
+        //   positionX: 0,
+        //   positionZ: 0,
+        //   positionY: 0,
+        //   isActive: false,
+        //   isWall: true,
+        // },
       ],
     };
   },
   getters: {
     activeModularList: (state) =>
-      state.groundDataList.filter((data) => data.isActive && !data.isWall),
-    topLeftList: (state) => {
-      return (type: string) =>
-        state.groundDataList
-          .filter((data) => data.topLeft && data.topLeft.type === type)
-          .map((data) => {
-            return {
-              positionX: data.positionX - 3.5,
-              positionZ: data.positionZ - 3.5,
-              rotationY: data.topLeft?.rotationY,
-              positionType: data.topLeft?.positionType,
-              id: data.id,
-            };
-          });
-    },
-    topRightList: (state) => {
-      return (type: string) =>
-        state.groundDataList
-          .filter((data) => data.topRight && data.topRight.type === type)
-          .map((data) => {
-            return {
-              positionX: data.positionX + 3.5,
-              positionZ: data.positionZ - 3.5,
-              rotationY: data.topRight?.rotationY,
-              positionType: data.topRight?.positionType,
-              id: data.id,
-            };
-          });
-    },
-    centerList: (state) => {
-      return (type: string) =>
-        state.groundDataList
-          .filter((data) => data.center && data.center.type === type)
-          .map((data) => {
-            return {
-              positionX: data.positionX,
-              positionZ: data.positionZ,
-              rotationY: data.center?.rotationY,
-              positionType: data.center?.positionType,
-              id: data.id,
-            };
-          });
-    },
-    bottomRightList: (state) => {
-      return (type: string) =>
-        state.groundDataList
-          .filter((data) => data.bottomRight && data.bottomRight.type === type)
-          .map((data) => {
-            return {
-              positionX: data.positionX - 3.5,
-              positionZ: data.positionZ + 3.5,
-              rotationY: data.bottomRight?.rotationY,
-              positionType: data.bottomRight?.positionType,
-              id: data.id,
-            };
-          });
-    },
-    bottomLeftList: (state) => {
-      return (type: string) =>
-        state.groundDataList
-          .filter((data) => data.bottomLeft && data.bottomLeft.type === type)
-          .map((data) => {
-            return {
-              positionX: data.positionX + 3.5,
-              positionZ: data.positionZ + 3.5,
-              rotationY: data.bottomLeft?.rotationY,
-              positionType: data.bottomLeft?.positionType,
-              id: data.id,
-            };
-          });
-    },
-    bushList: (getters) =>
-      [].concat(
-        getters.topLeftList("bush"),
-        getters.topRightList("bush"),
-        getters.centerList("bush"),
-        getters.bottomRightList("bush"),
-        getters.bottomLeftList("bush")
+      state.groundDataList.filter(
+        (data: GroundData) => data.isActive && !data.isWall
       ),
-    bushStickList: (getters) =>
-      [].concat(
-        getters.topLeftList("bush-stick"),
-        getters.topRightList("bush-stick"),
-        getters.centerList("bush-stick"),
-        getters.bottomRightList("bush-stick"),
-        getters.bottomLeftList("bush-stick")
-      ),
-    treeList: (getters) =>
-      [].concat(
-        getters.topLeftList("tree"),
-        getters.topRightList("tree"),
-        getters.centerList("tree"),
-        getters.bottomRightList("tree"),
-        getters.bottomLeftList("tree")
-      ),
-    treeSecondList: (getters) =>
-      [].concat(
-        getters.topLeftList("tree-second"),
-        getters.topRightList("tree-second"),
-        getters.centerList("tree-second"),
-        getters.bottomRightList("tree-second"),
-        getters.bottomLeftList("tree-second")
-      ),
-    fernList: (getters) =>
-      [].concat(
-        getters.topLeftList("fern"),
-        getters.topRightList("fern"),
-        getters.centerList("fern"),
-        getters.bottomRightList("fern"),
-        getters.bottomLeftList("fern")
-      ),
+    // topLeftList: (getters) => {
+    //   return (type: string) =>
+    //     getters.activeModularList
+    //       .filter(
+    //         (data: GroundData) => data.topLeft && data.topLeft.type === type
+    //       )
+    //       .map((data: GroundData) => {
+    //         return {
+    //           positionX: data.positionX - 3.5,
+    //           positionZ: data.positionZ - 3.5,
+    //           rotationY: data.topLeft?.rotationY,
+    //           positionType: data.topLeft?.positionType,
+    //           id: data.id,
+    //         };
+    //       });
+    // },
+    // topRightList: (getters) => {
+    //   return (type: string) =>
+    //     getters.activeModularList
+    //       .filter(
+    //         (data: GroundData) => data.topRight && data.topRight.type === type
+    //       )
+    //       .map((data: GroundData) => {
+    //         return {
+    //           positionX: data.positionX + 3.5,
+    //           positionZ: data.positionZ - 3.5,
+    //           rotationY: data.topRight?.rotationY,
+    //           positionType: data.topRight?.positionType,
+    //           id: data.id,
+    //         };
+    //       });
+    // },
+    // centerList: (getters) => {
+    //   return (type: string) =>
+    //     getters.activeModularList
+    //       .filter(
+    //         (data: GroundData) => data.center && data.center.type === type
+    //       )
+    //       .map((data: GroundData) => {
+    //         return {
+    //           positionX: data.positionX,
+    //           positionZ: data.positionZ,
+    //           rotationY: data.center?.rotationY,
+    //           positionType: data.center?.positionType,
+    //           id: data.id,
+    //         };
+    //       });
+    // },
+    // bottomRightList: (getters) => {
+    //   return (type: string) =>
+    //     getters.activeModularList
+    //       .filter(
+    //         (data: GroundData) =>
+    //           data.bottomRight && data.bottomRight.type === type
+    //       )
+    //       .map((data: GroundData) => {
+    //         return {
+    //           positionX: data.positionX - 3.5,
+    //           positionZ: data.positionZ + 3.5,
+    //           rotationY: data.bottomRight?.rotationY,
+    //           positionType: data.bottomRight?.positionType,
+    //           id: data.id,
+    //         };
+    //       });
+    // },
+    // bottomLeftList: (getters) => {
+    //   return (type: string) =>
+    //     getters.activeModularList
+    //       .filter(
+    //         (data: GroundData) =>
+    //           data.bottomLeft && data.bottomLeft.type === type
+    //       )
+    //       .map((data: GroundData) => {
+    //         return {
+    //           positionX: data.positionX + 3.5,
+    //           positionZ: data.positionZ + 3.5,
+    //           rotationY: data.bottomLeft?.rotationY,
+    //           positionType: data.bottomLeft?.positionType,
+    //           id: data.id,
+    //         };
+    //       });
+    // },
+    // bushList: (getters) =>
+    //   [].concat(
+    //     getters.topLeftList("bush"),
+    //     getters.topRightList("bush"),
+    //     getters.centerList("bush"),
+    //     getters.bottomRightList("bush"),
+    //     getters.bottomLeftList("bush")
+    //   ),
+    // bushStickList: (getters) =>
+    //   [].concat(
+    //     getters.topLeftList("bush-stick"),
+    //     getters.topRightList("bush-stick"),
+    //     getters.centerList("bush-stick"),
+    //     getters.bottomRightList("bush-stick"),
+    //     getters.bottomLeftList("bush-stick")
+    //   ),
+    // treeList: (getters) =>
+    //   [].concat(
+    //     getters.topLeftList("tree"),
+    //     getters.topRightList("tree"),
+    //     getters.centerList("tree"),
+    //     getters.bottomRightList("tree"),
+    //     getters.bottomLeftList("tree")
+    //   ),
+    // treeSecondList: (getters) =>
+    //   [].concat(
+    //     getters.topLeftList("tree-second"),
+    //     getters.topRightList("tree-second"),
+    //     getters.centerList("tree-second"),
+    //     getters.bottomRightList("tree-second"),
+    //     getters.bottomLeftList("tree-second")
+    //   ),
+    // fernList: (getters) =>
+    //   [].concat(
+    //     getters.topLeftList("fern"),
+    //     getters.topRightList("fern"),
+    //     getters.centerList("fern"),
+    //     getters.bottomRightList("fern"),
+    //     getters.bottomLeftList("fern")
+    //   ),
   },
   actions: {
     updatePieces(data: GroundData[]) {
-      data.forEach((element: GroundData) => {
-        this.groundDataList[element.id - 1].isActive = true;
-        const random = Math.floor(Math.random() * 5);
-        this.groundDataList[element.id - 1] = {
-          ...this.groundDataList[element.id - 1],
-          ...this.randomModuleFlora[random],
-        };
-      });
+      const newList = [] as GroundData[];
+      this.groundDataList = this.groundDataList.map(
+        (groundData: GroundData) => {
+          const element = data.find(
+            (el: GroundData) => el.id === groundData.id
+          );
+
+          if (element) {
+            const random = Math.floor(Math.random() * 5);
+            const newData = {
+              ...groundData,
+              isActive: true,
+              ...this.randomModuleFlora[random],
+            };
+            newList.push(newData);
+            return newData;
+          }
+
+          return groundData;
+        }
+      );
+      floraStore().setFloraLists(newList);
     },
     setRandomModular() {
       this.groundDataList.forEach((data, index) => {
@@ -2166,27 +2207,156 @@ export const useModularGroundStore = defineStore("ModuleStore", {
       });
     },
     removeElementFromModule(data) {
+      const index = this.groundDataList.findIndex(
+        (element) => element.id === data.id
+      );
+      console.log(index);
+      if (index === -1) return;
       switch (data.positionType) {
         case "topRight":
-          this.groundDataList[data.id - 1].topRight = {};
+          this.groundDataList[index].topRight = {};
           break;
         case "topLeft":
-          this.groundDataList[data.id - 1].topLeft = {};
+          this.groundDataList[index].topLeft = {};
           break;
         case "center":
-          this.groundDataList[data.id - 1].center = {};
+          this.groundDataList[index].center = {};
           break;
         case "bottomLeft":
-          this.groundDataList[data.id - 1].bottomLeft = {};
+          this.groundDataList[index].bottomLeft = {};
           break;
         case "bottomRight":
-          this.groundDataList[data.id - 1].bottomRight = {};
+          this.groundDataList[index].bottomRight = {};
           break;
 
         default:
           break;
       }
-      // const index  = this.groundDataList.findIndex((data) => data.)
+    },
+    setGroundPiecesListsClear() {
+      this.groundZeroList = [];
+      this.groundOneSideList = [];
+      this.groundCornerList = [];
+      this.groundTwoSideList = [];
+      this.groundThreeSideList = [];
+    },
+    setGroundPiecesLists() {
+      this.activeModularList.forEach((element) => {
+        const isLeftActive = this.activeModularList.find(
+          (data) => data.id === element.id - 1
+        );
+        const isRightActive = this.activeModularList.find(
+          (data) => data.id === element.id + 1
+        );
+
+        const isTopActive = this.activeModularList.find(
+          (data) => data.id === element.id - 15
+        );
+        const isBottomActive = this.activeModularList.find(
+          (data) => data.id === element.id + 15
+        );
+        if (isLeftActive && isRightActive && isTopActive && isBottomActive) {
+          this.groundZeroList.push(element);
+        } else if (
+          isLeftActive &&
+          isRightActive &&
+          isTopActive &&
+          !isBottomActive
+        ) {
+          this.groundOneSideList.push({ ...element, side: "bottom" });
+        } else if (
+          !isLeftActive &&
+          isRightActive &&
+          isTopActive &&
+          isBottomActive
+        ) {
+          this.groundOneSideList.push({ ...element, side: "left" });
+        } else if (
+          isLeftActive &&
+          !isRightActive &&
+          isTopActive &&
+          isBottomActive
+        ) {
+          this.groundOneSideList.push({ ...element, side: "right" });
+        } else if (
+          isLeftActive &&
+          isRightActive &&
+          !isTopActive &&
+          isBottomActive
+        ) {
+          this.groundOneSideList.push({ ...element, side: "top" });
+        } else if (
+          !isLeftActive &&
+          isRightActive &&
+          !isTopActive &&
+          isBottomActive
+        ) {
+          this.groundCornerList.push({ ...element, side: "bottom-right" });
+        } else if (
+          !isLeftActive &&
+          isRightActive &&
+          isTopActive &&
+          !isBottomActive
+        ) {
+          this.groundCornerList.push({ ...element, side: "top-right" });
+        } else if (
+          isLeftActive &&
+          !isRightActive &&
+          isTopActive &&
+          !isBottomActive
+        ) {
+          this.groundCornerList.push({ ...element, side: "top-left" });
+        } else if (
+          isLeftActive &&
+          !isRightActive &&
+          !isTopActive &&
+          isBottomActive
+        ) {
+          this.groundCornerList.push({ ...element, side: "bottom-left" });
+        } else if (
+          !isLeftActive &&
+          isRightActive &&
+          !isTopActive &&
+          !isBottomActive
+        ) {
+          this.groundThreeSideList.push({ ...element, side: "right" });
+        } else if (
+          isLeftActive &&
+          !isRightActive &&
+          !isTopActive &&
+          !isBottomActive
+        ) {
+          this.groundThreeSideList.push({ ...element, side: "left" });
+        } else if (
+          !isLeftActive &&
+          !isRightActive &&
+          !isTopActive &&
+          isBottomActive
+        ) {
+          this.groundThreeSideList.push({ ...element, side: "bottom" });
+        } else if (
+          !isLeftActive &&
+          !isRightActive &&
+          isTopActive &&
+          !isBottomActive
+        ) {
+          this.groundThreeSideList.push({ ...element, side: "top" });
+        } else if (
+          !isLeftActive &&
+          !isRightActive &&
+          isTopActive &&
+          isBottomActive
+        ) {
+          this.groundTwoSideList.push({ ...element, side: "top-bottom" });
+        } else if (
+          isLeftActive &&
+          isRightActive &&
+          !isTopActive &&
+          !isBottomActive
+        ) {
+          this.groundTwoSideList.push({ ...element, side: "left-right" });
+        }
+      });
     },
   },
 });

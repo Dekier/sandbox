@@ -34,7 +34,7 @@ void main() {
     vec3 finalColor = baseColor * (ambientLightColor + directionalLight) + shadowColor;
 
     float minDarken = 0.2; 
-    finalColor = mix(finalColor, finalColor * mix(0.5, clarity, 1.5), minDarken);
+    finalColor = mix(finalColor, finalColor * mix(0.5, clarity, 0.7), minDarken);
 
     if (texture2D(alphaMap, vUv).r < 0.15) {
         discard;

@@ -11,8 +11,7 @@
 //   ChromaticAberrationEffect,
 //   SMAAPreset,
 // } from "postprocessing";
-import { EffectComposer, Bloom, Pixelation } from "@tresjs/post-processing";
-import { Color } from "three";
+import { EffectComposer, DepthOfField, Bloom } from "@tresjs/post-processing";
 // import { useWindowSize } from "@vueuse/core";
 // import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass.js";
 // import { DotScreenPass } from "three/examples/jsm/postprocessing/DotScreenPass.js";
@@ -87,7 +86,7 @@ import { Color } from "three";
 </script>
 
 <template>
-  <!-- <EffectComposer :depth-buffer="true">
+  <EffectComposer :depth-buffer="true">
     <Bloom
       :radius="4.85"
       :intensity="1.0"
@@ -95,8 +94,9 @@ import { Color } from "three";
       :luminance-smoothing="0.0"
       mipmap-blur
     />
-  </EffectComposer> -->
-  <EffectComposer>
-    <Pixelation :granularity="3" />
   </EffectComposer>
+  <!-- <EffectComposer>
+      <DepthOfField />
+      <Bloom />
+    </EffectComposer> -->
 </template>

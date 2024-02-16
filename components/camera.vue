@@ -6,8 +6,8 @@ const characterStore = useCharacterStore();
 const storeControl = useControlsStore();
 const { positionCharacterLookAt, characterModel } = storeToRefs(characterStore);
 const { isStartedGame, isMouseLocked } = storeToRefs(storeGeneral);
-const storeHud = useHudStore();
-const { isActiveFullSizeMap } = storeToRefs(storeHud);
+const menuInGameStore = useMenuInGameStore();
+const { tabType } = storeToRefs(menuInGameStore);
 
 const { scene } = useTresContext();
 const cameraTheta = ref(0);
@@ -47,7 +47,7 @@ const cameraSettings = () => {
       return;
     }
 
-    if (storeControl.isMovingCharacter && !isActiveFullSizeMap.value) {
+    if (storeControl.isMovingCharacter && !tabType.value) {
       perspectiveCamera.value.getWorldDirection(tempCameraVector);
       cameraDirection = tempCameraVector.setY(0).normalize();
 
@@ -59,7 +59,9 @@ const cameraSettings = () => {
       playerAngle =
         playerDirection.angleTo(xAxis) * (playerDirection.z > 0 ? 1 : -1);
       angleToRotate = playerAngle - cameraAngle;
-
+      // console.log("cameraAngle", cameraAngle * Math.PI);
+      // console.log("playerAngle", playerAngle * Math.PI);
+      characterStore.setCharacterAngle(playerAngle);
       sanitisedAngle = angleToRotate;
       if (angleToRotate > Math.PI) {
         sanitisedAngle = angleToRotate - 2 * Math.PI;
@@ -89,7 +91,7 @@ cameraSettings();
 let movementX = 0;
 let movementY = 0;
 window.addEventListener("pointermove", (e) => {
-  if (isMouseLocked.value && !isActiveFullSizeMap.value) {
+  if (isMouseLocked.value && !tabType.value) {
     movementX = 0;
 
     if (e.movementX > 20) {
