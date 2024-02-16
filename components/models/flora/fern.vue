@@ -16,12 +16,12 @@ import {
   Mesh,
   InstancedBufferAttribute,
 } from "three";
-import { Html } from "@tresjs/cientos";
-const hudStore = useHudStore();
 import {
   CSS2DRenderer,
   CSS2DObject,
-} from "three/examples/jsm/renderers/CSS2DRenderer";
+} from "three/examples/jsm/renderers/CSS2DRenderer.js";
+import { Html } from "@tresjs/cientos";
+const hudStore = useHudStore();
 const floraStore = useFloraStore();
 const { bendModel, calculateDistance } = useUtils();
 const storeModularGround = useModularGroundStore();
@@ -178,6 +178,7 @@ watch(
 
 const setMesh = () => {
   instanceMeshRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
+  console.log(props.fernList.length);
   instanceMeshRef.value.count = props.fernList.length;
   for (let i = 0; i < props.fernList.length; i++) {
     dummy.position.set(
