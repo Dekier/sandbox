@@ -178,7 +178,6 @@ watch(
 
 const setMesh = () => {
   instanceMeshRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
-  console.log(props.fernList.length);
   instanceMeshRef.value.count = props.fernList.length;
   for (let i = 0; i < props.fernList.length; i++) {
     dummy.position.set(
@@ -199,6 +198,7 @@ const setMesh = () => {
 </script>
 <template>
   <TresInstancedMesh
+    :castShadow="true"
     ref="instanceMeshRef"
     :args="[nodes.fern.geometry, fernMaterial, 1000]"
   />

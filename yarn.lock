@@ -6504,10 +6504,10 @@ postprocessing@^6.33.3:
   resolved "https://registry.npmjs.org/postprocessing/-/postprocessing-6.34.1.tgz"
   integrity sha512-xae6A2XNs61V3ohGHR+i9sQDvB4dWaoG/AICw0hg8sOYQWAYDlf+esWMRmO4hixMaYo3AJBJ9WAA7JF7OiGakw==
 
-postprocessing@^7.0.0-alpha-1:
-  version "7.0.0-alpha-1"
-  resolved "https://registry.npmjs.org/postprocessing/-/postprocessing-7.0.0-alpha-1.tgz"
-  integrity sha512-+qHQykCpAfeRzasNHPrRZhjJo5ZFVF+uKTqFxN/0+r62Omm7HEos0HUAN73UMhchn9h7pZyi5JcfcjY5PZwYCA==
+postprocessing@^6.34.3:
+  version "6.34.3"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.34.3.tgz#3d51bace743ddfe12ab5befac0f63f8a66be9a7c"
+  integrity sha512-AjsxAGWeHMKlCTuWLeahNnPyFwR0c/pEmveq5mBz767lFBc1+HHYzk0aRGBCE9PZIjiA27oRL7lATd+fVOscRA==
 
 potpack@^1.0.1:
   version "1.0.2"
@@ -6820,10 +6820,10 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sass@^1.70.0:
-  version "1.70.0"
-  resolved "https://registry.npmjs.org/sass/-/sass-1.70.0.tgz"
-  integrity sha512-uUxNQ3zAHeAx5nRFskBnrWzDUJrrvpCPD5FNAoRvTi0WwremlheES3tg+56PaVtCs5QDRX5CBLxxKMDJMEa1WQ==
+sass@^1.71.0:
+  version "1.71.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.71.0.tgz#b3085759b9b2ab503a977aecb7e91153bf941117"
+  integrity sha512-HKKIKf49Vkxlrav3F/w6qRuPcmImGVbIXJ2I3Kg0VMA+3Bav+8yE9G5XmP5lMj6nl4OlqbPftGAscNaNu28b8w==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"

@@ -127,7 +127,6 @@ watch(instanceMeshGrassRef, (value) => {
   setMesh();
 });
 const setMesh = () => {
-  console.log("działa");
   instanceMeshGrassRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
   instanceMeshGrassRef.value.count = newPercentInstanceNumber;
   validPositions = [];

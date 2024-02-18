@@ -1,9 +1,9 @@
 interface ModelData {
-  positionType: string;
+  positionType: string | undefined;
   id: string | number;
   positionX: number;
   positionZ: number;
-  rotationY: number;
+  rotationY: number | undefined;
   type?: string;
 }
 interface GroundData {
@@ -22,11 +22,15 @@ interface GroundData {
 }
 interface State {
   fernList: ModelData[];
+  bushList: ModelData[];
+  bushStickList: ModelData[];
 }
 export const useFloraStore = defineStore("FloraStore", {
   state: (): State => {
     return {
       fernList: [],
+      bushList: [],
+      bushStickList: [],
     };
   },
   getters: {},
@@ -45,50 +49,49 @@ export const useFloraStore = defineStore("FloraStore", {
       }
     },
     setFloraLists(data: GroundData[]) {
-      const setPositions = (data: GroundData): ModelData => {
-        if (data.bottomLeft && data.bottomLeft.type === "fern") {
+      const setPositions = (data: {
+        groundData: GroundData;
+        type: string;
+      }): ModelData => {
+        if (data.type === "bottomLeft") {
           return {
-            positionX: data.positionX + 3.5,
-            positionZ: data.positionZ + 3.5,
-            rotationY: data.bottomLeft?.rotationY,
-            positionType: data.bottomLeft?.positionType,
-            id: data.id,
+            positionX: data.groundData.positionX + 3.5,
+            positionZ: data.groundData.positionZ + 3.5,
+            rotationY: data.groundData.bottomLeft?.rotationY,
+            positionType: data.groundData.bottomLeft?.positionType,
+            id: data.groundData.id,
           };
-        }
-        if (data.bottomRight && data.bottomRight.type === "fern") {
+        } else if (data.type === "bottomRight") {
           return {
-            positionX: data.positionX - 3.5,
-            positionZ: data.positionZ + 3.5,
-            rotationY: data.bottomRight?.rotationY,
-            positionType: data.bottomRight?.positionType,
-            id: data.id,
+            positionX: data.groundData.positionX - 3.5,
+            positionZ: data.groundData.positionZ + 3.5,
+            rotationY: data.groundData.bottomRight?.rotationY,
+            positionType: data.groundData.bottomRight?.positionType,
+            id: data.groundData.id,
           };
-        }
-        if (data.center && data.center.type === "fern") {
+        } else if (data.type === "center") {
           return {
-            positionX: data.positionX,
-            positionZ: data.positionZ,
-            rotationY: data.center?.rotationY,
-            positionType: data.center?.positionType,
-            id: data.id,
+            positionX: data.groundData.positionX,
+            positionZ: data.groundData.positionZ,
+            rotationY: data.groundData.center?.rotationY,
+            positionType: data.groundData.center?.positionType,
+            id: data.groundData.id,
           };
-        }
-        if (data.topLeft && data.topLeft.type === "fern") {
+        } else if (data.type === "topLeft") {
           return {
-            positionX: data.positionX - 3.5,
-            positionZ: data.positionZ - 3.5,
-            rotationY: data.topLeft?.rotationY,
-            positionType: data.topLeft?.positionType,
-            id: data.id,
+            positionX: data.groundData.positionX - 3.5,
+            positionZ: data.groundData.positionZ - 3.5,
+            rotationY: data.groundData.topLeft?.rotationY,
+            positionType: data.groundData.topLeft?.positionType,
+            id: data.groundData.id,
           };
-        }
-        if (data.topRight && data.topRight.type === "fern") {
+        } else if (data.type === "topRight") {
           return {
-            positionX: data.positionX + 3.5,
-            positionZ: data.positionZ - 3.5,
-            rotationY: data.topRight?.rotationY,
-            positionType: data.topRight?.positionType,
-            id: data.id,
+            positionX: data.groundData.positionX + 3.5,
+            positionZ: data.groundData.positionZ - 3.5,
+            rotationY: data.groundData.topRight?.rotationY,
+            positionType: data.groundData.topRight?.positionType,
+            id: data.groundData.id,
           };
         }
         return {
@@ -100,25 +103,90 @@ export const useFloraStore = defineStore("FloraStore", {
         };
       };
       const fernList: ModelData[] = [];
+      const bushList: ModelData[] = [];
+      const bushStickList: ModelData[] = [];
 
       data.forEach((groundData: GroundData) => {
-        if (groundData.bottomLeft && groundData.bottomLeft.type === "fern") {
-          fernList.push(setPositions(groundData));
+        if (groundData.bottomLeft) {
+          switch (groundData.bottomLeft.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "bottomLeft" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "bottomLeft" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(
+                setPositions({ groundData, type: "bottomLeft" })
+              );
+            default:
+              break;
+          }
         }
-        if (groundData.bottomRight && groundData.bottomRight.type === "fern") {
-          fernList.push(setPositions(groundData));
+        if (groundData.bottomRight) {
+          switch (groundData.bottomRight.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "bottomRight" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "bottomRight" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(
+                setPositions({ groundData, type: "bottomRight" })
+              );
+            default:
+              break;
+          }
         }
-        if (groundData.center && groundData.center.type === "fern") {
-          fernList.push(setPositions(groundData));
+        if (groundData.center) {
+          switch (groundData.center.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "center" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "center" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(setPositions({ groundData, type: "center" }));
+            default:
+              break;
+          }
         }
-        if (groundData.topLeft && groundData.topLeft.type === "fern") {
-          fernList.push(setPositions(groundData));
+        if (groundData.topLeft) {
+          switch (groundData.topLeft.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "topLeft" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "topLeft" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(setPositions({ groundData, type: "topLeft" }));
+            default:
+              break;
+          }
         }
-        if (groundData.topRight && groundData.topRight.type === "fern") {
-          fernList.push(setPositions(groundData));
+        if (groundData.topRight) {
+          switch (groundData.topRight.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "topRight" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "topRight" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(
+                setPositions({ groundData, type: "topRight" })
+              );
+            default:
+              break;
+          }
         }
       });
-      this.fernList = fernList;
+      this.fernList = this.fernList.concat(fernList);
+      this.bushList = this.bushList.concat(bushList);
+      this.bushStickList = this.bushStickList.concat(bushStickList);
     },
   },
 });

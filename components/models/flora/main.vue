@@ -4,9 +4,9 @@ const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
 const floraStore = useFloraStore();
 const storeModularGround = useModularGroundStore();
-const { activeModularList, bushList, bushStickList, treeList, treeSecondList } =
+const { activeModularList, treeList, treeSecondList } =
   storeToRefs(storeModularGround);
-const { fernList, hehe } = storeToRefs(floraStore);
+const { fernList, bushList, bushStickList } = storeToRefs(floraStore);
 storeModularGround.setRandomModular();
 
 const isActiveUpdateCanvas = ref(false);
@@ -36,22 +36,12 @@ watch(activeModularList, async () => {
 const groundPositions = ref({ x: 0, z: 0 });
 
 floraStore.setFloraLists(activeModularList.value);
-// watch(
-//   () => floraStore.fernList,
-//   () => {
-//     console.log("zmiana, fernList");
-//   },
-//   { deep: false }
-// );
-
-// watch(
-//   () => floraStore.hehe.length,
-//   () => {
-//     console.log(floraStore.fernList);
-//     console.log(floraStore.hehe);
-//     console.log("zmiana, hehe");
-//   }
-// );
+watch(
+  () => floraStore.bushList.length,
+  () => {
+    console.log("zmiana, bushList");
+  }
+);
 </script>
 
 <template>
@@ -84,23 +74,23 @@ floraStore.setFloraLists(activeModularList.value);
   </Suspense>
   <!-- <Suspense>
     <ModelsFloraTree v-if="treeList.length" :trees-data="treeList" />
-  </Suspense>
-  <Suspense>
+  </Suspense> -->
+  <!-- <Suspense>
     <ModelsFloraTreeSecond
       v-if="treeSecondList.length"
       :trees-data="treeSecondList"
     />
-  </Suspense>
+  </Suspense> -->
   <Suspense>
     <ModelsFloraBush v-if="bushList.length" :bush-list="bushList" />
-  </Suspense> -->
+  </Suspense>
   <Suspense>
     <ModelsFloraFern v-if="fernList.length" :fern-list="fernList" />
   </Suspense>
-  <!-- <Suspense>
+  <Suspense>
     <ModelsFloraBushStick
       v-if="bushStickList.length"
       :bush-stick-list="bushStickList"
     />
-  </Suspense> -->
+  </Suspense>
 </template>
