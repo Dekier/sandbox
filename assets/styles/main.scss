@@ -1,11 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Bangers&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap");
 html {
   box-sizing: border-box;
-  font-family: "Bangers", system-ui;
+  font-family: "Montserrat", sans-serif;
   // font-family: "Inter", sans-serif;
   // font-family: "Londrina Outline", cursive;
   font-size: 16px;
-  letter-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
@@ -18,6 +17,7 @@ body {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   overflow: hidden;
+
   // cursor: url("svg/cursor.svg"), auto;
 }
 
@@ -26,6 +26,13 @@ body {
 *::after {
   box-sizing: border-box;
   margin: 0;
+  letter-spacing: 0.8px;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  user-select: none;
 }
 
 input {
@@ -34,9 +41,7 @@ input {
   appearance: none;
 }
 
-// .cursor-grabbing {
-//   display: none !important;
-// }
-// .rounded {
-//   margin-top: 8px !important;
-// }
+.tl-z-24 {
+  z-index: 9 !important;
+  opacity: 0;
+}

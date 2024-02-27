@@ -17,33 +17,21 @@ const characterStore = useCharacterStore();
 const { scene, camera } = useTresContext();
 // const { isMobile } = useDevice();
 
-// const cameraShadowSize = ref({ left: -60, right: 60, top: 30, bottom: -10 });
-const directionalLight = new DirectionalLight(0xffffff, 2.5);
-// directionalLight.position.set(lightX.value, lightY.value, lightZ.value);
-directionalLight.position.set(-100, 55, 100);
-// directionalLight.rotation.set(-0.8, 100.7, 100.7);
+const directionalLight = new DirectionalLight(0xffffff, 3.0);
+
+directionalLight.position.set(0, 100, 100);
 directionalLight.castShadow = true;
 directionalLight.shadow.bias = -0.001;
-// directionalLight.shadow.radius = 2;
-// directionalLight.shadow.mapSize.width = isMobile ? 1024 : 4048;
-// directionalLight.shadow.mapSize.height = isMobile ? 1024 : 4048;
-directionalLight.shadow.mapSize.width = 4048;
-directionalLight.shadow.mapSize.height = 4048;
-directionalLight.shadow.camera.near = 0.0;
-directionalLight.shadow.camera.far = 300;
-// directionalLight.target = characterModel.value;
-// directionalLight.lookAt = new Vector3(0, 0, 0);
-// directionalLight.lookAt = positionCharacter.value;
+directionalLight.shadow.mapSize.width = 1024 * 2 * 2;
+directionalLight.shadow.mapSize.height = 1024 * 2 * 2;
+// directionalLight.shadow.mapSize.width = 1024;
+// directionalLight.shadow.mapSize.height = 1024;
+directionalLight.shadow.camera.near = 0.5;
+directionalLight.shadow.camera.far = 225;
+directionalLight.shadow.bias = -0.002;
+
 scene.value.add(directionalLight);
 
-// watch(isActiveShadows, (value) => {
-//   directionalLight.castShadow = value;
-// });
-
-// watch(shadowSize, (value) => {
-//   directionalLight.shadow.mapSize.set(value, value);
-//   directionalLight.shadow.map.setSize(value, value);
-// });
 const setShadowCameraSize = ({
   left,
   right,
@@ -70,8 +58,7 @@ const setShadowCameraSize = ({
 if (directionalLight) {
   // const helper = new DirectionalLightHelper(directionalLight, 5);
   // scene.value.add(helper);
-
-  setShadowCameraSize({ left: -150, right: 150, top: 100, bottom: -50 });
+  setShadowCameraSize({ left: -120, right: 120, top: 100, bottom: -83 });
 }
 const { onLoop } = useRenderLoop();
 onLoop(({ _delta, elapsed }) => {
@@ -111,7 +98,7 @@ onLoop(({ _delta, elapsed }) => {
   <TresDirectionalLight
     :intensity="0.6"
     :position="[20, -20, -20]"
-    ref="TresDirectionalLight"
+    ref="dupa"
   />
   <TresHemisphereLight
     :intensity="2.0"

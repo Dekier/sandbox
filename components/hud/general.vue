@@ -1,10 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const menuInGameStore = useMenuInGameStore();
+const { tabType } = storeToRefs(menuInGameStore);
+</script>
 <template>
-  <HudMapHome />
+  <HudMenuGeneral v-if="tabType" />
   <HudButtons />
   <HudMouseControl />
+  <HudEquipmentLeftList />
+  <HudEquipmentMenu />
   <!-- <HudSettings /> -->
   <!-- <HudControls /> -->
   <HudCenterInformation />
   <HudMenu />
+  <HudLabels />
 </template>

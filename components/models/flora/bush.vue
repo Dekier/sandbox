@@ -1,140 +1,66 @@
 <script setup lang="ts">
 import {
   TextureLoader,
+  ShaderMaterial,
+  Vector3,
   Color,
+  UniformsLib,
+  Matrix4,
   DoubleSide,
   MeshLambertMaterial,
-  InstancedMesh,
   Object3D,
-  Matrix4,
+  InstancedMesh,
+  DynamicDrawUsage,
+  MeshDepthMaterial,
 } from "three";
 import { useGLTF } from "@tresjs/cientos";
+const storeGeneral = useGeneralStore();
+const controlsStore = useControlsStore();
+const { isMovingCharacter } = storeToRefs(controlsStore);
+const { $gsap } = useNuxtApp();
+const { colorTrees } = storeToRefs(storeGeneral);
+const { bendModel, calculateDistance } = useUtils();
 const props = defineProps({
-  bushData: {
+  bushList: {
     type: Array,
     required: true,
   },
 });
-const storeGeneral = useGeneralStore();
-const controlsStore = useControlsStore();
-const characterStore = useCharacterStore();
-const { isMovingCharacter } = storeToRefs(controlsStore);
-const { positionCharacter } = storeToRefs(characterStore);
-const { colorTrees } = storeToRefs(storeGeneral);
-const { bendModel, calculateDistance } = useUtils();
-
-const {
-  scene: modelScene,
-  nodes,
-  animations,
-} = await useGLTF("/models/bush.glb", {
+const { scene: modelScene, nodes } = await useGLTF("/models/bush-test.glb", {
   draco: true,
 });
-const { actions } = useAnimations(animations, modelScene);
-actions.bush.play();
-const modelLeaves = nodes.leaves1;
-const modelWood = nodes.wood1;
-modelWood.castShadow = true;
-modelWood.receiveShadow = true;
-
+const { scene } = useTresContext();
+const { onBeforeLoop } = useRenderLoop();
+const modelLeaves = nodes.leaves003;
+const modelWood = nodes.wood;
+import vertexShader from "@/src/shaders/leaves-small/vertex.glsl";
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/leaves/leaves.png");
 
-const bushMaterial = new MeshLambertMaterial({
-  color: new Color(colorTrees.value),
-  alphaMap: alphaMap,
-  alphaTest: 0.3,
-  side: DoubleSide,
-});
-
-modelLeaves.material?.dispose();
-modelLeaves.material = bushMaterial;
-
-modelLeaves.castShadow = true;
-modelLeaves.receiveShadow = true;
+const instanceMeshWoodRef = shallowRef(null);
+const instanceMeshLeavesRef = shallowRef(null);
 
 watch(colorTrees, (value) => {
-  bushMaterial.color = new Color(value);
+  instanceMeshLeavesRef.value.material.color = new Color(value);
 });
-let dummyWood = new Object3D();
-const instancesWood = new InstancedMesh(
-  modelWood.geometry,
-  modelWood.material,
-  props.bushData.length
-);
-
-instancesWood.castShadow = true;
-instancesWood.receiveShadow = true;
-
-let dummyLeaves = new Object3D();
-const instancesLeaves = new InstancedMesh(
-  modelLeaves.geometry,
-  modelLeaves.material,
-  props.bushData.length
-);
-instancesLeaves.castShadow = true;
-instancesLeaves.receiveShadow = true;
-// Ustawienie morph targetów dla instancji liści (leaves)
-instancesLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
-instancesLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
-const { scene } = useTresContext();
-
-for (let i = 0; i < props.bushData.length; i++) {
-  const randomY = Math.random() * 184;
-  dummyWood.position.set(
-    props.bushData[i].positionX,
-    modelWood.position.y,
-    props.bushData[i].positionZ
-  );
-  // dummyWood.rotation.y = randomY;
-  dummyWood.updateMatrix();
-  dummyLeaves.position.set(
-    props.bushData[i].positionX,
-    modelLeaves.position.y,
-    props.bushData[i].positionZ
-  );
-  // dummyLeaves.rotation.y = randomY;
-  dummyLeaves.updateMatrix();
-  instancesWood.setMatrixAt(i, dummyWood.matrix);
-  instancesLeaves.setMatrixAt(i, dummyLeaves.matrix);
-}
-scene.value.add(instancesWood);
-scene.value.add(instancesLeaves);
-
-const { onBeforeLoop } = useRenderLoop();
-let mat4Wood = new Matrix4();
-let mat4Leaves = new Matrix4();
+const dummy = new Object3D();
+const matrix = new Matrix4();
 const currentDistance = ref(0);
 onBeforeLoop(() => {
-  for (let i = 0; i < props.bushData.length; i++) {
-    instancesWood.getMatrixAt(i, mat4Wood);
-    mat4Wood.decompose(
-      dummyWood.position,
-      dummyWood.quaternion,
-      dummyWood.scale
-    );
-
-    instancesLeaves.getMatrixAt(i, mat4Leaves);
-    mat4Leaves.decompose(
-      dummyLeaves.position,
-      dummyLeaves.quaternion,
-      dummyLeaves.scale
-    );
-
-    currentDistance.value = calculateDistance(dummyWood.position);
-    if (currentDistance.value < 4) {
-      const { x, z } = bendModel(dummyWood.position);
-      dummyWood.rotation.x = lerp(dummyWood.rotation.x, x, 0.04);
-      dummyWood.rotation.z = lerp(dummyWood.rotation.z, z, 0.04);
-      dummyWood.updateMatrix();
-      instancesWood.setMatrixAt(i, dummyWood.matrix);
-      instancesWood.instanceMatrix.needsUpdate = true;
-
-      dummyLeaves.rotation.x = lerp(dummyLeaves.rotation.x, x, 0.04);
-      dummyLeaves.rotation.z = lerp(dummyLeaves.rotation.z, z, 0.04);
-      dummyLeaves.updateMatrix();
-      instancesLeaves.setMatrixAt(i, dummyLeaves.matrix);
-      instancesLeaves.instanceMatrix.needsUpdate = true;
+  for (let i = 0; i < props.bushList.length; i++) {
+    instanceMeshWoodRef.value.getMatrixAt(i, matrix);
+    instanceMeshLeavesRef.value.getMatrixAt(i, matrix);
+    matrix.decompose(dummy.position, dummy.quaternion, dummy.scale);
+    currentDistance.value = calculateDistance(dummy.position);
+    if (currentDistance.value < 3) {
+      const { x, z } = bendModel(dummy.position);
+      dummy.rotation.x = lerp(dummy.rotation.x, x, 0.04);
+      dummy.rotation.z = lerp(dummy.rotation.z, z, 0.04);
+      dummy.updateMatrix();
+      instanceMeshWoodRef.value.setMatrixAt(i, dummy.matrix);
+      instanceMeshWoodRef.value.instanceMatrix.needsUpdate = true;
+      instanceMeshLeavesRef.value.setMatrixAt(i, dummy.matrix);
+      instanceMeshLeavesRef.value.instanceMatrix.needsUpdate = true;
     }
   }
 });
@@ -142,9 +68,105 @@ onBeforeLoop(() => {
 const lerp = (start: number, end: number, alpha: number): number => {
   return start * (1 - alpha) + end * alpha;
 };
+
+watch(instanceMeshWoodRef, (value) => {
+  if (!value) return;
+  setMesh();
+});
+
+watch(instanceMeshLeavesRef, (value) => {
+  if (!value) return;
+  setMeshLeaves();
+});
+
+watch(
+  () => props.bushList.length,
+  () => {
+    setMesh();
+    setMeshLeaves();
+  }
+);
+
+const setMesh = () => {
+  instanceMeshWoodRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
+  instanceMeshWoodRef.value.count = props.bushList.length;
+  for (let i = 0; i < props.bushList.length; i++) {
+    dummy.position.set(
+      props.bushList[i].positionX,
+      0.0,
+      props.bushList[i].positionZ
+    );
+
+    dummy.updateMatrix();
+    instanceMeshWoodRef.value.setMatrixAt(i, dummy.matrix);
+  }
+  instanceMeshWoodRef.value.instanceMatrix.needsUpdate = true;
+  instanceMeshWoodRef.value.computeBoundingSphere();
+};
+
+const setMeshLeaves = () => {
+  instanceMeshLeavesRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
+  instanceMeshLeavesRef.value.count = props.bushList.length;
+  for (let i = 0; i < props.bushList.length; i++) {
+    dummy.position.set(
+      props.bushList[i].positionX,
+      0.0,
+      props.bushList[i].positionZ
+    );
+
+    dummy.updateMatrix();
+    instanceMeshLeavesRef.value.setMatrixAt(i, dummy.matrix);
+  }
+  instanceMeshLeavesRef.value.instanceMatrix.needsUpdate = true;
+  instanceMeshLeavesRef.value.computeBoundingSphere();
+  instanceMeshLeavesRef.value.material.alphaMap = alphaMap;
+  instanceMeshLeavesRef.value.material.alphaTest = 0.3;
+  instanceMeshLeavesRef.value.material.side = DoubleSide;
+  instanceMeshLeavesRef.value.material.color = new Color(colorTrees.value);
+};
+
+const materialProps = {
+  baseMaterial: MeshLambertMaterial,
+  vertexShader,
+  uniforms: {
+    time: {
+      value: 0,
+    },
+    u_WobbleAmplitude: { value: 0.07 },
+    alphaMap: { value: alphaMap },
+    alphaMapMoving: { value: null },
+    hexColor: {
+      value: new Vector3(
+        new Color(colorTrees.value).r,
+        new Color(colorTrees.value).g,
+        new Color(colorTrees.value).b
+      ),
+    },
+    ...UniformsLib.lights,
+  },
+};
+
+const { onLoop } = useRenderLoop();
+onMounted(async () => {
+  await nextTick();
+
+  onLoop(({ elapsed }) => {
+    materialProps.uniforms.time.value = elapsed;
+  });
+});
 </script>
 
-<!-- <template>
-  <primitive :object="modelLeaves" />
-  <primitive :object="modelWood" />
-</template> -->
+<template>
+  <TresInstancedMesh
+    ref="instanceMeshWoodRef"
+    :args="[modelWood.geometry, modelWood.material, 1000]"
+  />
+  <TresInstancedMesh
+    :castShadow="true"
+    :receiveShadow="true"
+    ref="instanceMeshLeavesRef"
+    :args="[modelLeaves.geometry, null, 1000]"
+  >
+    <CustomShaderMaterial v-bind="materialProps" />
+  </TresInstancedMesh>
+</template>

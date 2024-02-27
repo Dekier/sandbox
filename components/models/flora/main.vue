@@ -3,10 +3,12 @@ const { drawDots, drawRects } = useCanvas();
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
 const floraStore = useFloraStore();
-const { treeData, treeSecondData, bushData, bushStickData } =
-  storeToRefs(floraStore);
 const storeModularGround = useModularGroundStore();
 const { activeModularList } = storeToRefs(storeModularGround);
+const { fernList, bushList, treeList, bushStickList, treeSecondList } =
+  storeToRefs(floraStore);
+storeModularGround.setRandomModular();
+
 const isActiveUpdateCanvas = ref(false);
 
 const loadedCanvas = ref(false);
@@ -18,20 +20,22 @@ const setupCanvasDrawing = async () => {
   drawingContext.fillRect(0, 0, 200, 200);
   // drawingContext.drawImage(texture, 0, 0, 200, 200);
   await drawRects(activeModularList.value, drawingContext);
-  // await drawDots(treeData.value, drawingContext, "#000000");
-  // await drawDots(treeSecondData.value, drawingContext, "#000000");
+  await drawDots(treeList.value, drawingContext, "#000000");
+  await drawDots(treeSecondList.value, drawingContext, "#000000");
   loadedCanvas.value = true;
 };
 setupCanvasDrawing();
 watch(activeModularList, async () => {
   isActiveUpdateCanvas.value = true;
   await drawRects(activeModularList.value, drawingContext);
-  // await drawDots(treeData.value, drawingContext, "#000000");
-  // await drawDots(treeSecondData.value, drawingContext, "#000000");
+  await drawDots(treeList.value, drawingContext, "#000000");
+  await drawDots(treeSecondList.value, drawingContext, "#000000");
   isActiveUpdateCanvas.value = false;
 });
 
 const groundPositions = ref({ x: 0, z: 0 });
+
+floraStore.setFloraLists(activeModularList.value);
 </script>
 
 <template>
@@ -43,15 +47,8 @@ const groundPositions = ref({ x: 0, z: 0 });
     />
   </Suspense> -->
   <Suspense>
-    <ModelsFloraModularGround
-      v-if="loadedCanvas"
-      :drawing-canvas="drawingCanvas"
-      :is-active-update-canvas="isActiveUpdateCanvas"
-    />
+    <ModelsFloraModularGround v-if="loadedCanvas" />
   </Suspense>
-  <!-- <Suspense>
-    <Seaa />
-  </Suspense> -->
   <Suspense>
     <ModelsFloraSea />
   </Suspense>
@@ -59,7 +56,6 @@ const groundPositions = ref({ x: 0, z: 0 });
     <ModelsFloraGrass
       v-if="loadedCanvas"
       :drawing-canvas="drawingCanvas"
-      :positions="groundPositions"
       :is-active-update-canvas="isActiveUpdateCanvas"
     />
   </Suspense>
@@ -70,34 +66,25 @@ const groundPositions = ref({ x: 0, z: 0 });
       :is-active-update-canvas="isActiveUpdateCanvas"
     />
   </Suspense>
-  <!-- <Suspense>
-    <ModelsFloraNewGrass
-      v-if="loadedCanvas"
-      :drawing-canvas="drawingCanvas"
-      :positions="groundPositions"
-      :is-active-update-canvas="isActiveUpdateCanvas"
+  <Suspense>
+    <ModelsFloraTree v-if="treeList.length" :tree-list="treeList" />
+  </Suspense>
+  <Suspense>
+    <ModelsFloraTreeSecond
+      v-if="treeSecondList.length"
+      :tree-list="treeSecondList"
     />
-  </Suspense> -->
-  <!-- <Suspense>
-    <ModelsFloraTree v-if="loadedCanvas" :trees-data="treeData" />
   </Suspense>
   <Suspense>
-    <ModelsFloraTreeSecond :trees-data="treeSecondData" />
+    <ModelsFloraBush v-if="bushList.length" :bush-list="bushList" />
   </Suspense>
   <Suspense>
-    <ModelsFloraBush v-if="loadedCanvas" :bush-data="bushData" />
-  </Suspense>
-  <Suspense>
-    <ModelsFloraFern
-      v-if="loadedCanvas"
-      :drawing-canvas="drawingCanvas"
-      :is-active-update-canvas="isActiveUpdateCanvas"
-    />
+    <ModelsFloraFern v-if="fernList.length" :fern-list="fernList" />
   </Suspense>
   <Suspense>
     <ModelsFloraBushStick
-      v-if="positionCharacter"
-      :bush-stick-data="bushStickData"
+      v-if="bushStickList.length"
+      :bush-stick-list="bushStickList"
     />
-  </Suspense> -->
+  </Suspense>
 </template>

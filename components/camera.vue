@@ -6,8 +6,8 @@ const characterStore = useCharacterStore();
 const storeControl = useControlsStore();
 const { positionCharacterLookAt, characterModel } = storeToRefs(characterStore);
 const { isStartedGame, isMouseLocked } = storeToRefs(storeGeneral);
-const storeHud = useHudStore();
-const { isActiveFullSizeMap } = storeToRefs(storeHud);
+const menuInGameStore = useMenuInGameStore();
+const { tabType } = storeToRefs(menuInGameStore);
 
 const { scene } = useTresContext();
 const cameraTheta = ref(0);
@@ -32,7 +32,7 @@ watch(positionCharacterLookAt, () => {
 const xAxis = new Vector3(1, 0, 0);
 const tempCameraVector = new Vector3();
 const tempModelVector = new Vector3();
-const cameraOrigin = new Vector3(0, 3, 0);
+const cameraOrigin = new Vector3(0, 4, 0);
 const container = new Group();
 scene.value.add(container);
 let cameraDirection = null;
@@ -47,7 +47,7 @@ const cameraSettings = () => {
       return;
     }
 
-    if (storeControl.isMovingCharacter && !isActiveFullSizeMap.value) {
+    if (storeControl.isMovingCharacter && !tabType.value) {
       perspectiveCamera.value.getWorldDirection(tempCameraVector);
       cameraDirection = tempCameraVector.setY(0).normalize();
 
@@ -59,7 +59,7 @@ const cameraSettings = () => {
       playerAngle =
         playerDirection.angleTo(xAxis) * (playerDirection.z > 0 ? 1 : -1);
       angleToRotate = playerAngle - cameraAngle;
-
+      characterStore.setCharacterAngle(playerAngle);
       sanitisedAngle = angleToRotate;
       if (angleToRotate > Math.PI) {
         sanitisedAngle = angleToRotate - 2 * Math.PI;
@@ -89,7 +89,7 @@ cameraSettings();
 let movementX = 0;
 let movementY = 0;
 window.addEventListener("pointermove", (e) => {
-  if (isMouseLocked.value && !isActiveFullSizeMap.value) {
+  if (isMouseLocked.value && !tabType.value) {
     movementX = 0;
 
     if (e.movementX > 20) {
@@ -135,7 +135,7 @@ window.addEventListener("pointermove", (e) => {
 <template>
   <TresPerspectiveCamera
     :position="[cameraX, cameraY, cameraZ]"
-    :fov="55"
+    :fov="40"
     :aspect="1"
     :near="0.1"
     :far="300"

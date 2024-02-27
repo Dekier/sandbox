@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import {
-  Mesh,
-  MeshStandardMaterial,
   TextureLoader,
-  RepeatWrapping,
-  Vector2,
   Vector3,
   PlaneGeometry,
   DoubleSide,
   ShaderMaterial,
-  BufferGeometry,
-  Matrix4,
   Object3D,
   InstancedMesh,
   Color,
@@ -27,10 +21,6 @@ import {
   Fog,
 } from "three";
 const props = defineProps({
-  positions: {
-    type: Object,
-    required: true,
-  },
   drawingCanvas: {
     type: Object,
     required: true,
@@ -40,21 +30,15 @@ const props = defineProps({
     required: true,
   },
 });
-const { drawDots, drawMoving } = useCanvas();
 
 import { useCanvas } from "~/composables/useCanvas";
 const { calculatePixelPercentage, draw } = useCanvas();
-import vertexShaderShadow from "@/src/shaders/shadow/vertex.glsl";
-import fragmentShaderShadow from "@/src/shaders/shadow/fragment.glsl";
 const characterStore = useCharacterStore();
 const { positionCharacter, positionCharacterLookAt } =
   storeToRefs(characterStore);
 const storeGeneral = useGeneralStore();
 const { color } = storeToRefs(storeGeneral);
-const { scene, renderer, camera } = useTresContext();
 const { onLoop } = useRenderLoop();
-// const storeModularGround = useModularGroundStore();
-// const { activeModularList } = storeToRefs(storeModularGround);
 
 import vertexShader from "@/src/shaders/vertex3.glsl";
 import fragmentShader from "@/src/shaders/fragment3.glsl";
@@ -89,59 +73,62 @@ const grassMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 160000;
+const instanceNumber = 150000;
 let dummy = new Object3D();
-const geometry = new PlaneGeometry(0.1, 1, 1, 4);
+const geometry = new PlaneGeometry(0.1, 1, 1, 2);
 geometry.translate(0, 0.5, 0);
-let instancedMesh = new InstancedMesh(geometry, grassMaterial, instanceNumber);
 const drawingContext = props.drawingCanvas?.getContext("2d");
 
-// const setupCanvasDrawing = () => {
-//   let paint = false;
-//   props.drawingCanvas?.addEventListener("pointerdown", (e) => {
-//     paint = true;
-//     drawStartPos.set(e.offsetX, e.offsetY);
-//   });
-
-//   props.drawingCanvas?.addEventListener("pointermove", (e) => {
-//     if (paint) draw(drawingContext, e.offsetX, e.offsetY, drawStartPos);
-//   });
-
-//   props.drawingCanvas?.addEventListener("pointerup", () => {
-//     paint = false;
-//     setIntancesMesh();
-//   });
-
-//   setIntancesMesh();
-// };
-let oldModel = null;
-let oldPercentInstanceNumber = instanceNumber;
 const threshold = 0.3;
 let validPositions = [];
 let imageData = null;
 let pixels = null;
 let whitePercentage = null;
-let newPercentInstanceNumber = null;
-const setIntancesMesh = () => {
+let newPercentInstanceNumber = 0 as number;
+const setPercentNumber = () => {
   imageData = drawingContext.getImageData(0, 0, 200, 200);
   pixels = imageData.data;
   whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
   newPercentInstanceNumber = Math.round(
     instanceNumber * (whitePercentage / 100)
   );
-  if (oldModel) {
-    oldModel.geometry.dispose();
-    oldModel.material.dispose();
-    scene.value.remove(oldModel);
+};
 
-    dummy = new Object3D();
-    instancedMesh = new InstancedMesh(
-      geometry,
-      grassMaterial,
-      newPercentInstanceNumber
-    );
+watch(color, (value) => {
+  grassMaterial.uniforms.hexColor.value = new Vector3(
+    new Color(value).r / darkerFactor,
+    new Color(value).g / darkerFactor,
+    new Color(value).b / darkerFactor
+  );
+});
+
+watch(
+  () => props.isActiveUpdateCanvas,
+  (value) => {
+    if (!value) {
+      setPercentNumber();
+      setMesh();
+    }
   }
+);
 
+onLoop(({ _delta, elapsed }) => {
+  grassMaterial.uniforms.time.value = elapsed;
+  // grassMaterial.uniformsNeedUpdate = true;
+  if (positionCharacter.value) {
+    grassMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
+  }
+});
+const instanceMeshGrassRef = shallowRef(null);
+
+watch(instanceMeshGrassRef, (value) => {
+  if (!value) return;
+  setPercentNumber();
+  setMesh();
+});
+const setMesh = () => {
+  instanceMeshGrassRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
+  instanceMeshGrassRef.value.count = newPercentInstanceNumber;
   validPositions = [];
   for (let i = 0; i < pixels.length; i += 4) {
     const pixelValue = (pixels[i] / 255.0 - 0.5) * 2.0;
@@ -156,55 +143,27 @@ const setIntancesMesh = () => {
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
     dummy.position.set(
-      randomPosition.x + Math.random() * 1.2 - 200 / 2 + props.positions.x,
+      randomPosition.x + Math.random() * 1.2 - 200 / 2,
       0,
-      randomPosition.z - 200 / 2 + Math.random() * 1.2 + props.positions.z
+      randomPosition.z - 200 / 2 + Math.random() * 1.2
     );
 
     dummy.scale.y = 0.6 + Math.random() * 0.7;
     dummy.scale.x = 8.0 + Math.random() * 0.4;
     dummy.scale.z = 8.0 + Math.random() * 0.4;
     dummy.rotation.y = Math.random() * 184;
-    // dummy.rotation.x = (Math.random() - 0.3) * 1.0;
-    // dummy.rotation.z = (Math.random() - 0.3) * 1.0;
 
     dummy.updateMatrix();
-    instancedMesh.setMatrixAt(i, dummy.matrix);
+    instanceMeshGrassRef.value.setMatrixAt(i, dummy.matrix);
   }
-  oldModel = instancedMesh;
-  scene.value.add(instancedMesh);
+  instanceMeshGrassRef.value.instanceMatrix.needsUpdate = true;
+  instanceMeshGrassRef.value.computeBoundingSphere();
 };
-
-setIntancesMesh();
-setTimeout(() => {
-  setIntancesMesh();
-}, 100);
-
-watch(color, (value) => {
-  console.log("sdfsdf", value);
-  grassMaterial.uniforms.hexColor.value = new Vector3(
-    new Color(value).r / darkerFactor,
-    new Color(value).g / darkerFactor,
-    new Color(value).b / darkerFactor
-  );
-});
-
-watch(
-  () => props.isActiveUpdateCanvas,
-  (value) => {
-    if (!value) {
-      setIntancesMesh();
-    }
-  }
-);
-
-onLoop(({ _delta, elapsed }) => {
-  grassMaterial.uniforms.time.value = elapsed;
-  // grassMaterial.uniformsNeedUpdate = true;
-  if (positionCharacter.value) {
-    grassMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
-  }
-});
 </script>
 
-<template></template>
+<template>
+  <TresInstancedMesh
+    ref="instanceMeshGrassRef"
+    :args="[geometry, grassMaterial, instanceNumber]"
+  />
+</template>

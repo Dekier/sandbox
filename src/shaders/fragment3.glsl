@@ -24,7 +24,6 @@ void main() {
         vDirectionalShadowCoord[0]
     );
 
-    // directional light
     float NdotL = dot(vNormal, directionalLights[0].direction);
     float lightIntensity = smoothstep(0.0, 0.61, NdotL * shadow);
     vec3 directionalLight = directionalLights[0].color * lightIntensity;
@@ -32,18 +31,15 @@ void main() {
     vec3 baseColor = hexColor * 0.2;
     vec3 shadowColor = hexColor * 1.3;
 
-    // Adjust clarity to control the brightness of the shadow
     vec3 finalColor = baseColor * (ambientLightColor + directionalLight) + shadowColor;
 
-    // Ograniczenie minimalnego przyciemniania na samym dole
-    float minDarken = 0.2; // Możesz dostosować minimalne przyciemnianie według potrzeb
-    finalColor = mix(finalColor, finalColor * mix(0.5, clarity, 1.5), minDarken);
+    float minDarken = 0.2; 
+    finalColor = mix(finalColor, finalColor * mix(0.5, clarity, 0.7), minDarken);
 
     if (texture2D(alphaMap, vUv).r < 0.15) {
         discard;
     }
 
-    // Tonemapping
     vec3 toneMappedColor = toneMapping(finalColor);
 
     gl_FragColor = vec4(toneMappedColor, 1.0);

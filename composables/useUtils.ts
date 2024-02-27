@@ -34,7 +34,7 @@ export const useUtils = () => {
   };
 
   const maxRotation = ref(0.4);
-  const maxDistance = ref(1.8);
+  const maxDistance = ref(2.6);
   const direction = ref(new Vector3());
   const currentDistance = ref(0);
   const factor = ref(0);

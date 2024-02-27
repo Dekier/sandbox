@@ -14,6 +14,7 @@ import {
   InstancedMesh,
   Color,
   UniformsLib,
+  DynamicDrawUsage,
 } from "three";
 const props = defineProps({
   drawingCanvas: {
@@ -26,6 +27,7 @@ const props = defineProps({
   },
 });
 
+const { calculatePixelPercentage, draw } = useCanvas();
 const storeGeneral = useGeneralStore();
 const { color } = storeToRefs(storeGeneral);
 const { scene, renderer, camera } = useTresContext();
@@ -39,7 +41,7 @@ import fragmentShader from "@/src/shaders/flowers/fragment.glsl";
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/flowers/alpha3.webp");
 
-const darkerFactor = 1.4;
+const darkerFactor = 1.6;
 const uniforms = {
   time: {
     value: 0,
@@ -68,66 +70,60 @@ let dummy = new Object3D();
 const geometry = new PlaneGeometry(0.2, 0.8, 1, 2);
 geometry.translate(0, 0.5, 0);
 
-let instancedMesh = new InstancedMesh(geometry, leavesMaterial, instanceNumber);
-instancedMesh.castShadow = false;
-instancedMesh.receiveShadow = false;
-
-const calculatePixelPercentage = (pixelData, targetColor) => {
-  let totalPixels = 0;
-  let targetPixels = 0;
-  for (let i = 0; i < pixelData.length; i += 4) {
-    // Pixel data is stored in RGBA format (4 values per pixel)
-    const red = pixelData[i];
-    const green = pixelData[i + 1];
-    const blue = pixelData[i + 2];
-    const alpha = pixelData[i + 3];
-
-    // Check if the pixel is not fully transparent
-    if (alpha > 0) {
-      // Assuming targetColor is either "#000000" (black) or "#FFFFFF" (white)
-      const isTargetColor =
-        (targetColor === "#000000" && red === 0 && green === 0 && blue === 0) ||
-        (targetColor === "#FFFFFF" &&
-          red === 255 &&
-          green === 255 &&
-          blue === 255);
-
-      if (isTargetColor) {
-        targetPixels++;
-      }
-    }
-
-    totalPixels++;
-  }
-
-  return (targetPixels / totalPixels) * 100;
-};
-
-let oldModel = null;
-
+const threshold = 0.3;
+let validPositions = [];
+let imageData = null;
+let pixels = null;
+let whitePercentage = null;
+let newPercentInstanceNumber = 0;
 const drawingContext = props.drawingCanvas?.getContext("2d");
-const setIntancesMesh = () => {
-  const imageData = drawingContext.getImageData(0, 0, 200, 200);
-  const pixels = imageData.data;
-  const whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
-  const newPercentInstanceNumber = Math.round(
+const setPercentNumber = () => {
+  imageData = drawingContext.getImageData(0, 0, 200, 200);
+  pixels = imageData.data;
+  whitePercentage = calculatePixelPercentage(pixels, "#FFFFFF");
+  newPercentInstanceNumber = Math.round(
     instanceNumber * (whitePercentage / 100)
   );
-  if (oldModel) {
-    oldModel.geometry.dispose();
-    oldModel.material.dispose();
-    scene.value.remove(oldModel);
+};
 
-    dummy = new Object3D();
-    instancedMesh = new InstancedMesh(
-      geometry,
-      leavesMaterial,
-      newPercentInstanceNumber
-    );
+watch(color, (value) => {
+  leavesMaterial.uniforms.hexColor.value = new Vector3(
+    new Color(value).r / darkerFactor,
+    new Color(value).g / darkerFactor,
+    new Color(value).b / darkerFactor
+  );
+});
+
+watch(
+  () => props.isActiveUpdateCanvas,
+  (value) => {
+    if (!value) {
+      setPercentNumber();
+      setMesh();
+    }
   }
+);
 
-  const threshold = 0.3;
-  const validPositions = [];
+onLoop(({ _delta, elapsed }) => {
+  leavesMaterial.uniforms.time.value = elapsed;
+  leavesMaterial.uniformsNeedUpdate = true;
+  if (positionCharacter.value) {
+    leavesMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
+  }
+});
+
+const instanceMeshSmallLeavesRef = shallowRef(null);
+watch(instanceMeshSmallLeavesRef, (value) => {
+  if (!value) return;
+
+  setPercentNumber();
+  setMesh();
+});
+
+const setMesh = () => {
+  instanceMeshSmallLeavesRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
+  instanceMeshSmallLeavesRef.value.count = newPercentInstanceNumber;
+  validPositions = [];
   for (let i = 0; i < pixels.length; i += 4) {
     const pixelValue = (pixels[i] / 255.0 - 0.5) * 2.0;
 
@@ -137,7 +133,6 @@ const setIntancesMesh = () => {
       validPositions.push({ x, z });
     }
   }
-
   for (let i = 0; i < newPercentInstanceNumber; i++) {
     const randomIndex = Math.floor(Math.random() * validPositions.length);
     const randomPosition = validPositions[randomIndex];
@@ -153,36 +148,16 @@ const setIntancesMesh = () => {
     dummy.rotation.y = Math.random() * 184;
 
     dummy.updateMatrix();
-    instancedMesh.setMatrixAt(i, dummy.matrix);
+    instanceMeshSmallLeavesRef.value.setMatrixAt(i, dummy.matrix);
   }
-  oldModel = instancedMesh;
-  scene.value.add(instancedMesh);
+  instanceMeshSmallLeavesRef.value.instanceMatrix.needsUpdate = true;
+  instanceMeshSmallLeavesRef.value.computeBoundingSphere();
 };
-
-setIntancesMesh();
-
-watch(color, (value) => {
-  leavesMaterial.uniforms.hexColor.value = new Vector3(
-    new Color(value).r / darkerFactor,
-    new Color(value).g / darkerFactor,
-    new Color(value).b / darkerFactor
-  );
-});
-
-watch(
-  () => props.isActiveUpdateCanvas,
-  (value) => {
-    if (!value) {
-      setIntancesMesh();
-    }
-  }
-);
-
-onLoop(({ _delta, elapsed }) => {
-  leavesMaterial.uniforms.time.value = elapsed;
-  leavesMaterial.uniformsNeedUpdate = true;
-  if (positionCharacter.value) {
-    leavesMaterial.uniforms.uCharacterPosition.value = positionCharacter.value;
-  }
-});
 </script>
+
+<template>
+  <TresInstancedMesh
+    ref="instanceMeshSmallLeavesRef"
+    :args="[geometry, leavesMaterial, instanceNumber]"
+  />
+</template>

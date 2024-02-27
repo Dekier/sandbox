@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { PCFSoftShadowMap, SRGBColorSpace, CineonToneMapping } from "three";
+import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
 const storeControl = useControlsStore();
 const storeGeneral = useGeneralStore();
 const { isStartedGame } = storeToRefs(storeGeneral);
 const title = ref("Marcin Dekier");
 import { useControls, TresLeches, Perf } from "@tresjs/leches";
+import { StatsGl, Stats } from "@tresjs/cientos";
 
 const description = ref("Marcin Dekier Sandbox (Portfolio)");
 useHead({
@@ -28,9 +29,9 @@ const gl = {
   gammaFactor: 2.2,
   gammaOutput: true,
   outputColorSpace: SRGBColorSpace,
-  toneMapping: CineonToneMapping,
+  toneMapping: ACESFilmicToneMapping,
   toneMappingExposure: 2.2,
-  shadowMap: { enabled: true, type: PCFSoftShadowMap },
+  shadowMapType: PCFSoftShadowMap,
   powerPreference: "high-performance",
   stencil: false,
 };
@@ -55,17 +56,10 @@ watch(colorSand, (value) => {
   storeGeneral.setColorSand(value);
 });
 
-// watch(colorStone, (value) => {
-//   storeGeneral.setColorStone(value);
-//   // directionalLight.position.Z = value;
-// });
-
 watch(colorTrees, (value) => {
   storeGeneral.setColorTrees(value);
-  // directionalLight.position.Z = value;
 });
 const isActiveAntialias = ref(false);
-// isActiveAntialias.value = isMobile ? false : true;
 isActiveAntialias.value = true;
 </script>
 
@@ -90,8 +84,12 @@ isActiveAntialias.value = true;
     v-bind="gl"
     :antialias="isActiveAntialias"
   >
+    <!-- <Stats /> -->
+    <!-- <StatsGl /> -->
     <Perf />
     <Camera />
+
+    <!-- <PostProcessing v-if="positionCharacter" /> -->
     <Light v-if="positionCharacter" />
     <!-- <Suspense>
       <Fog />
@@ -127,9 +125,6 @@ isActiveAntialias.value = true;
     <Suspense>
       <ModelsFloraMain v-if="positionCharacter" />
     </Suspense>
-    <!-- <Suspense>
-      <PostProcessing v-if="positionCharacter" />
-    </Suspense> -->
 
     <!-- <Suspense>
       <Telescope />bush
@@ -184,16 +179,12 @@ isActiveAntialias.value = true;
   right: 0px;
   margin: 0 auto;
   z-index: 2;
-  opacity: 1;
+  opacity: 0;
   cursor: crosshair;
   touch-action: none;
-  width: 50px;
-  height: 50px;
+  width: 200px;
+  height: 200px;
   transition: width 300ms, height 300ms;
-  &:hover {
-    width: 200px;
-    height: 200px;
-  }
 }
 
 #drawing-canvas-moving {

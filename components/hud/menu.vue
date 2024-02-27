@@ -13,7 +13,7 @@ const startGame = () => {
     v-if="isActiveMenuGame"
     class="Menu__main-container"
   >
-    <button type="button" class="Menu__button" @click="startGame">START</button>
+    <button type="button" class="Menu__button" @click="startGame">PLAY</button>
   </div>
 </template>
 <style lang="scss">

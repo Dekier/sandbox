@@ -1,0 +1,16 @@
+.MenuInGame {
+  &__main-container {
+    border-radius: 8px;
+    border: 2px solid $black;
+    background-color: rgba($color: #707070, $alpha: 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 11;
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+    height: $full-height;
+    transform-origin: center center;
+    display: flex;
+    flex-direction: column;
+  }
+}

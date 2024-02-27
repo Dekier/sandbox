@@ -1,38 +1,35 @@
-.Label {
-  &__main-container {
-    width: 16px;
-    height: 16px;
-    border: 2px solid $border;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 4px;
-    background-color: rgba($color: $white, $alpha: 1);
-    @include text(24px, center, $border, 600);
-    border-radius: 50%;
-    transition: border-radius 300ms, width 300ms, height 300ms;
+// .Label {
+//   &__main-container {
+//     width: 16px;
+//     height: 16px;
+//     border: 2px solid $border;
+//     border-radius: 8px;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     margin: 4px;
+//     background-color: rgba($color: $white, $alpha: 1);
+//     @include text(22px, center, $border, 600);
+//     border-radius: 50%;
+//     transition: border-radius 300ms, width 300ms, height 300ms;
+//     width: 32px;
+//     height: 32px;
+//     border-radius: 8px;
 
-    &--active {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-    }
+//     &--gamepad {
+//       border-radius: 50%;
+//     }
 
-    &--gamepad {
-      border-radius: 50%;
-    }
+//     &--hide {
+//       // display: none;
+//     }
+//   }
 
-    &--hide {
-      // display: none;
-    }
-  }
-
-  &__content {
-    // display: none;
-    &--active {
-      margin: auto;
-      display: flex;
-    }
-  }
-}
+//   &__content {
+//     // display: none;
+//     &--active {
+//       margin: auto;
+//       display: flex;
+//     }
+//   }
+// }

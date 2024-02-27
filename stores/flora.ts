@@ -1,279 +1,238 @@
-interface TreeSecondData {
-  positionX: Number;
-  positionZ: Number;
-  cutStep: Number;
-  scale: Number;
-  rotationY: Number;
+interface ModelData {
+  positionType: string | undefined;
+  id: string | number;
+  positionX: number;
+  positionZ: number;
+  rotationY: number | undefined;
+  type?: string;
 }
-interface TreeData {
-  positionX: Number;
-  positionZ: Number;
-  scale: Number;
-  rotationY: Number;
-}
-interface BushData {
-  positionX: Number;
-  positionZ: Number;
-  positionY: Number;
+interface GroundData {
+  id: number;
+  positionX: number;
+  positionZ: number;
+  positionY: number;
+  isActive: boolean;
+  isWall: boolean;
+  topLeft?: ModelData;
+  topRight?: ModelData;
+  center?: ModelData;
+  bottomLeft?: ModelData;
+  bottomRight?: ModelData;
+  side?: string;
 }
 interface State {
-  treeData: TreeData[];
-  treeSecondData: TreeSecondData[];
-  bushData: BushData[];
-  bushStickData: BushData[];
+  fernList: ModelData[];
+  bushList: ModelData[];
+  bushStickList: ModelData[];
+  treeList: ModelData[];
+  treeSecondList: ModelData[];
 }
 export const useFloraStore = defineStore("FloraStore", {
   state: (): State => {
     return {
-      bushData: [
-        { positionX: 10, positionZ: 16, positionY: 0 },
-        { positionX: 22, positionZ: 1, positionY: 0 },
-        { positionX: -30, positionZ: 23, positionY: 0 },
-        { positionX: -23, positionZ: -7, positionY: 0 },
-        { positionX: 50, positionZ: 56, positionY: 0 },
-        { positionX: -44, positionZ: -36, positionY: 0 },
-        { positionX: 30, positionZ: -24, positionY: 0 },
-        { positionX: 3, positionZ: -50, positionY: 0 },
-        { positionX: 53, positionZ: 4, positionY: 0 },
-        { positionX: 32, positionZ: 40, positionY: 0 },
-        { positionX: -50, positionZ: 60, positionY: 0 },
-        { positionX: -47, positionZ: -3, positionY: 0 },
-        { positionX: -10, positionZ: 53, positionY: 0 },
-        { positionX: 65, positionZ: 80, positionY: 0 },
-        { positionX: 10, positionZ: 76, positionY: 0 },
-        { positionX: -62, positionZ: 26, positionY: 0 },
-        { positionX: -78, positionZ: -46, positionY: 0 },
-        { positionX: 78, positionZ: -46, positionY: 0 },
-        { positionX: 53, positionZ: -80, positionY: 0 },
-        { positionX: 13, positionZ: -76, positionY: 0 },
-        { positionX: -33, positionZ: -73, positionY: 0 },
-      ],
-      bushStickData: [
-        { positionX: 50, positionZ: 56, positionY: 0 },
-        { positionX: 22, positionZ: 10, positionY: 0 },
-        { positionX: -39, positionZ: 28, positionY: 0 },
-        { positionX: -23, positionZ: -1, positionY: 0 },
-        { positionX: 50, positionZ: 3, positionY: 0 },
-        { positionX: -34, positionZ: -36, positionY: 0 },
-        { positionX: 10, positionZ: -34, positionY: 0 },
-        { positionX: 5, positionZ: -13, positionY: 0 },
-        { positionX: 34, positionZ: 6, positionY: 0 },
-      ],
-      treeData: [
-        {
-          positionX: -30,
-          positionZ: 10,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -62,
-          positionZ: 56,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -57,
-          positionZ: -53,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 18,
-          positionZ: 53,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -20,
-          positionZ: 65,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 30,
-          positionZ: -30,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 10,
-          positionZ: -50,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 60,
-          positionZ: 3,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -50,
-          positionZ: 82,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -50,
-          positionZ: 31,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -55,
-          positionZ: -35,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -35,
-          positionZ: -65,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -4,
-          positionZ: -79,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 57,
-          positionZ: -73,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -80,
-          positionZ: -80,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-      ],
-      treeSecondData: [
-        {
-          positionX: 50,
-          positionZ: 40,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 30,
-          positionZ: 10,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -30,
-          positionZ: -30,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -34,
-          positionZ: 45,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 0,
-          positionZ: 50,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -70,
-          positionZ: 10,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 60,
-          positionZ: -50,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 4,
-          positionZ: -30,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-
-        {
-          positionX: 90,
-          positionZ: -30,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 92,
-          positionZ: -83,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -92,
-          positionZ: 83,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -94,
-          positionZ: -13,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: 97,
-          positionZ: 46,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-
-        {
-          positionX: 50,
-          positionZ: 68,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-
-        {
-          positionX: 20,
-          positionZ: 78,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-        {
-          positionX: -26,
-          positionZ: 84,
-          cutStep: 1,
-          scale: 0.6 + Math.random() * 0.7,
-          rotationY: Math.random() * 360,
-        },
-      ],
+      fernList: [],
+      bushList: [],
+      bushStickList: [],
+      treeList: [],
+      treeSecondList: [],
     };
   },
   getters: {},
   actions: {
-    //   setCharacterModel(data: any) {
-    //     this.characterModel = data;
-    //   },
+    removeElementFromList(data: {
+      id: string;
+      index: number;
+      positionType: string;
+      type: string;
+    }) {
+      if (data.type === "fern") {
+        // this.fernList = this.fernList.filter(
+        //   (element, index) => index !== data.index
+        // );
+        this.fernList.splice(data.index, 1);
+      }
+    },
+    setFloraLists(data: GroundData[]) {
+      const setPositions = (data: {
+        groundData: GroundData;
+        type: string;
+      }): ModelData => {
+        if (data.type === "bottomLeft") {
+          return {
+            positionX: data.groundData.positionX + 3.5,
+            positionZ: data.groundData.positionZ + 3.5,
+            rotationY: data.groundData.bottomLeft?.rotationY,
+            positionType: data.groundData.bottomLeft?.positionType,
+            id: data.groundData.id,
+          };
+        } else if (data.type === "bottomRight") {
+          return {
+            positionX: data.groundData.positionX - 3.5,
+            positionZ: data.groundData.positionZ + 3.5,
+            rotationY: data.groundData.bottomRight?.rotationY,
+            positionType: data.groundData.bottomRight?.positionType,
+            id: data.groundData.id,
+          };
+        } else if (data.type === "center") {
+          return {
+            positionX: data.groundData.positionX,
+            positionZ: data.groundData.positionZ,
+            rotationY: data.groundData.center?.rotationY,
+            positionType: data.groundData.center?.positionType,
+            id: data.groundData.id,
+          };
+        } else if (data.type === "topLeft") {
+          return {
+            positionX: data.groundData.positionX - 3.5,
+            positionZ: data.groundData.positionZ - 3.5,
+            rotationY: data.groundData.topLeft?.rotationY,
+            positionType: data.groundData.topLeft?.positionType,
+            id: data.groundData.id,
+          };
+        } else if (data.type === "topRight") {
+          return {
+            positionX: data.groundData.positionX + 3.5,
+            positionZ: data.groundData.positionZ - 3.5,
+            rotationY: data.groundData.topRight?.rotationY,
+            positionType: data.groundData.topRight?.positionType,
+            id: data.groundData.id,
+          };
+        }
+        return {
+          positionX: 0,
+          positionZ: 0,
+          rotationY: 0,
+          positionType: "",
+          id: "",
+        };
+      };
+      const fernList: ModelData[] = [];
+      const bushList: ModelData[] = [];
+      const bushStickList: ModelData[] = [];
+      const treeList: ModelData[] = [];
+      const treeSecondList: ModelData[] = [];
+
+      data.forEach((groundData: GroundData) => {
+        if (groundData.bottomLeft) {
+          switch (groundData.bottomLeft.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "bottomLeft" }));
+              break;
+            case "tree-second":
+              treeSecondList.push(
+                setPositions({ groundData, type: "bottomLeft" })
+              );
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "bottomLeft" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "bottomLeft" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(
+                setPositions({ groundData, type: "bottomLeft" })
+              );
+            default:
+              break;
+          }
+        }
+        if (groundData.bottomRight) {
+          switch (groundData.bottomRight.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "bottomRight" }));
+              break;
+            case "tree-second":
+              treeSecondList.push(
+                setPositions({ groundData, type: "bottomRight" })
+              );
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "bottomRight" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "bottomRight" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(
+                setPositions({ groundData, type: "bottomRight" })
+              );
+            default:
+              break;
+          }
+        }
+        if (groundData.center) {
+          switch (groundData.center.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "center" }));
+              break;
+            case "tree-second":
+              treeSecondList.push(setPositions({ groundData, type: "center" }));
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "center" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "center" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(setPositions({ groundData, type: "center" }));
+            default:
+              break;
+          }
+        }
+        if (groundData.topLeft) {
+          switch (groundData.topLeft.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "topLeft" }));
+              break;
+            case "tree-second":
+              treeSecondList.push(
+                setPositions({ groundData, type: "topLeft" })
+              );
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "topLeft" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "topLeft" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(setPositions({ groundData, type: "topLeft" }));
+            default:
+              break;
+          }
+        }
+        if (groundData.topRight) {
+          switch (groundData.topRight.type) {
+            case "fern":
+              fernList.push(setPositions({ groundData, type: "topRight" }));
+              break;
+            case "tree-second":
+              treeSecondList.push(
+                setPositions({ groundData, type: "topRight" })
+              );
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "topRight" }));
+              break;
+            case "bush":
+              bushList.push(setPositions({ groundData, type: "topRight" }));
+              break;
+            case "bush-stick":
+              bushStickList.push(
+                setPositions({ groundData, type: "topRight" })
+              );
+            default:
+              break;
+          }
+        }
+      });
+      this.fernList = this.fernList.concat(fernList);
+      this.bushList = this.bushList.concat(bushList);
+      this.bushStickList = this.bushStickList.concat(bushStickList);
+      this.treeList = this.treeList.concat(treeList);
+      this.treeSecondList = this.treeSecondList.concat(treeSecondList);
+    },
   },
 });

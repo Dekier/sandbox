@@ -62,12 +62,9 @@ void main() {
     mvPosition.x += displacement;
     mvPosition.z += displacement;
 
-    // Check if the vertex position is less than 2 units from the character position
     float distance = calculateDistance(mvPosition.xyz, uCharacterPosition);
     if (distance < 2.0) {
-        // Use smoothstep to determine the amount of bending based on distance
         float bendingFactor = smoothstep(0.0, 2.0, distance);
-        // Use bendingFactor to bend the grass more as the character gets closer
         float newPositionY = mix(-0.6, 0.0, bendingFactor);
         mvPosition.y += newPositionY;
     }

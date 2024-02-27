@@ -12,7 +12,7 @@ varying vec3 vNormal;
 
 void main() {
     float clarity = vUv.y / 1.0;
-    
+
     DirectionalLightShadow directionalShadow = directionalLightShadows[0];
     float shadow = getShadow(
         directionalShadowMap[0],
@@ -29,13 +29,17 @@ void main() {
 
     vec3 baseColor = hexColor * 0.6 ;
     vec3 shadowColor = hexColor * 1.5 ;
-    
+
     // Adjust clarity to control the brightness of the shadow
     vec3 finalColor = baseColor * (ambientLightColor + directionalLight) + shadowColor ;
 
-    if(texture2D(alphaMap, vUv).r < 0.15){
-        discard;
-    }
+    // Sample alpha map
+    float alphaValue = texture2D(alphaMap, vUv).r;
 
-    gl_FragColor = vec4(finalColor, 1.0);
+    // Apply shadow only for pixels with alpha below a certain threshold
+    if (alphaValue < 0.15) {
+        discard;
+    } else {
+        gl_FragColor = vec4(finalColor, 1.0);
+    }
 }

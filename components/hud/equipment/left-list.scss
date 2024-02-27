@@ -1,0 +1,69 @@
+.EquipmentLeftList {
+  &__main-container {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+
+  &__element {
+    // background: linear-gradient(
+    //   to right,
+    //   rgba(0, 0, 0, 0.4) 0%,
+    //   rgba(0, 0, 0, 0.1) 50%,
+    //   transparent 95%,
+    //   transparent 100%
+    // );
+    height: 48px;
+    padding: 5px;
+    margin-bottom: 12px;
+    display: flex;
+    border-radius: 12px;
+    backdrop-filter: blur(1px);
+  }
+
+  &__background {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    width: 110%;
+    height: 120%;
+    z-index: 0;
+    opacity: 0.3;
+  }
+
+  &__text {
+    margin: auto 12px auto;
+    @include text(16px, left, $white, 400);
+    z-index: 1;
+  }
+
+  &__image {
+    height: 38px;
+    width: 38px;
+    // background-color: white;
+    transform: rotate(-30deg);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    @include text(11px, center, $black, 400);
+  }
+}
+.list-move {
+  transition: all 0.5s ease;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}

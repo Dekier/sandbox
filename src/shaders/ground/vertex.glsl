@@ -4,7 +4,6 @@ varying vec2 vUv;
 uniform float time;
 attribute vec3 offset;
 uniform vec3 uCharacterPosition;
-uniform sampler2D alphaMap;
 varying vec3 vNormal;
 varying vec3 vViewDir;
 
