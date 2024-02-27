@@ -9,6 +9,7 @@ const { positionCharacter } = storeToRefs(characterStore);
   <div class="MenuInGame__main-container">
     <HudMenuHeader />
     <HudMenuMapHome v-if="positionCharacter && tabType === 'island'" />
+    <HudMenuEquipment v-if="positionCharacter && tabType === 'equipment'" />
   </div>
 </template>
 <style lang="scss">

@@ -24,6 +24,8 @@ interface State {
   fernList: ModelData[];
   bushList: ModelData[];
   bushStickList: ModelData[];
+  treeList: ModelData[];
+  treeSecondList: ModelData[];
 }
 export const useFloraStore = defineStore("FloraStore", {
   state: (): State => {
@@ -31,6 +33,8 @@ export const useFloraStore = defineStore("FloraStore", {
       fernList: [],
       bushList: [],
       bushStickList: [],
+      treeList: [],
+      treeSecondList: [],
     };
   },
   getters: {},
@@ -105,12 +109,22 @@ export const useFloraStore = defineStore("FloraStore", {
       const fernList: ModelData[] = [];
       const bushList: ModelData[] = [];
       const bushStickList: ModelData[] = [];
+      const treeList: ModelData[] = [];
+      const treeSecondList: ModelData[] = [];
 
       data.forEach((groundData: GroundData) => {
         if (groundData.bottomLeft) {
           switch (groundData.bottomLeft.type) {
             case "fern":
               fernList.push(setPositions({ groundData, type: "bottomLeft" }));
+              break;
+            case "tree-second":
+              treeSecondList.push(
+                setPositions({ groundData, type: "bottomLeft" })
+              );
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "bottomLeft" }));
               break;
             case "bush":
               bushList.push(setPositions({ groundData, type: "bottomLeft" }));
@@ -128,6 +142,14 @@ export const useFloraStore = defineStore("FloraStore", {
             case "fern":
               fernList.push(setPositions({ groundData, type: "bottomRight" }));
               break;
+            case "tree-second":
+              treeSecondList.push(
+                setPositions({ groundData, type: "bottomRight" })
+              );
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "bottomRight" }));
+              break;
             case "bush":
               bushList.push(setPositions({ groundData, type: "bottomRight" }));
               break;
@@ -144,6 +166,12 @@ export const useFloraStore = defineStore("FloraStore", {
             case "fern":
               fernList.push(setPositions({ groundData, type: "center" }));
               break;
+            case "tree-second":
+              treeSecondList.push(setPositions({ groundData, type: "center" }));
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "center" }));
+              break;
             case "bush":
               bushList.push(setPositions({ groundData, type: "center" }));
               break;
@@ -158,6 +186,14 @@ export const useFloraStore = defineStore("FloraStore", {
             case "fern":
               fernList.push(setPositions({ groundData, type: "topLeft" }));
               break;
+            case "tree-second":
+              treeSecondList.push(
+                setPositions({ groundData, type: "topLeft" })
+              );
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "topLeft" }));
+              break;
             case "bush":
               bushList.push(setPositions({ groundData, type: "topLeft" }));
               break;
@@ -171,6 +207,14 @@ export const useFloraStore = defineStore("FloraStore", {
           switch (groundData.topRight.type) {
             case "fern":
               fernList.push(setPositions({ groundData, type: "topRight" }));
+              break;
+            case "tree-second":
+              treeSecondList.push(
+                setPositions({ groundData, type: "topRight" })
+              );
+              break;
+            case "tree":
+              treeList.push(setPositions({ groundData, type: "topRight" }));
               break;
             case "bush":
               bushList.push(setPositions({ groundData, type: "topRight" }));
@@ -187,6 +231,8 @@ export const useFloraStore = defineStore("FloraStore", {
       this.fernList = this.fernList.concat(fernList);
       this.bushList = this.bushList.concat(bushList);
       this.bushStickList = this.bushStickList.concat(bushStickList);
+      this.treeList = this.treeList.concat(treeList);
+      this.treeSecondList = this.treeSecondList.concat(treeSecondList);
     },
   },
 });

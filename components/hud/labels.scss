@@ -27,14 +27,25 @@
     z-index: 1;
   }
 
+  &__image {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    width: 120%;
+    height: calc(100% + 12px);
+    z-index: 1;
+    opacity: 0.3;
+  }
+
   &__text-event {
     display: flex;
     justify-content: center;
-    background-color: rgba($color: $white, $alpha: 0.9);
-    border: 2px solid $border;
-    border-radius: 6px;
-    width: 28px;
-    height: 28px;
+    background-color: rgba($color: $text-white, $alpha: 1);
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
     @include text(18px, center, $border, 600);
     align-items: center;
     margin-right: 8px;
@@ -46,7 +57,7 @@
   }
 
   &__text {
-    @include text(16px, center, $white, 400);
+    @include text(16px, center, $text-white, 400);
     margin: auto 0;
     z-index: 2;
   }

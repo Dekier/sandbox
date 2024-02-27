@@ -3,8 +3,8 @@ import { MeshBasicMaterial } from "three";
 import { useModelSettings } from "~/composables/useModel";
 import { useGLTF } from "@tresjs/cientos";
 import { useUtils } from "~/composables/useUtils";
-import { useControls } from "~/composables/useControls";
-const { changeModelRotation } = useControls();
+import { useCharacterControls } from "~/composables/useControls";
+const { changeModelRotation } = useCharacterControls();
 const { $gsap } = useNuxtApp();
 const { setModel } = useModelSettings();
 const { jump } = useUtils();
@@ -19,7 +19,6 @@ const { onLoop } = useRenderLoop();
 
 watchEffect(() => {
   if (isActiveHolding.value) {
-    // console.log(isActiveHolding.value);
     // $gsap.to(model.rotation, {
     //   duration: 0.3,
     //   z: 2,

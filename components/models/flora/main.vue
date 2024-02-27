@@ -4,9 +4,9 @@ const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
 const floraStore = useFloraStore();
 const storeModularGround = useModularGroundStore();
-const { activeModularList, treeList, treeSecondList } =
-  storeToRefs(storeModularGround);
-const { fernList, bushList, bushStickList } = storeToRefs(floraStore);
+const { activeModularList } = storeToRefs(storeModularGround);
+const { fernList, bushList, treeList, bushStickList, treeSecondList } =
+  storeToRefs(floraStore);
 storeModularGround.setRandomModular();
 
 const isActiveUpdateCanvas = ref(false);
@@ -20,28 +20,22 @@ const setupCanvasDrawing = async () => {
   drawingContext.fillRect(0, 0, 200, 200);
   // drawingContext.drawImage(texture, 0, 0, 200, 200);
   await drawRects(activeModularList.value, drawingContext);
-  // await drawDots(treeList.value, drawingContext, "#000000");
-  // await drawDots(treeSecondList.value, drawingContext, "#000000");
+  await drawDots(treeList.value, drawingContext, "#000000");
+  await drawDots(treeSecondList.value, drawingContext, "#000000");
   loadedCanvas.value = true;
 };
 setupCanvasDrawing();
 watch(activeModularList, async () => {
   isActiveUpdateCanvas.value = true;
   await drawRects(activeModularList.value, drawingContext);
-  // await drawDots(treeList.value, drawingContext, "#000000");
-  // await drawDots(treeSecondList.value, drawingContext, "#000000");
+  await drawDots(treeList.value, drawingContext, "#000000");
+  await drawDots(treeSecondList.value, drawingContext, "#000000");
   isActiveUpdateCanvas.value = false;
 });
 
 const groundPositions = ref({ x: 0, z: 0 });
 
 floraStore.setFloraLists(activeModularList.value);
-watch(
-  () => floraStore.bushList.length,
-  () => {
-    console.log("zmiana, bushList");
-  }
-);
 </script>
 
 <template>
@@ -72,15 +66,15 @@ watch(
       :is-active-update-canvas="isActiveUpdateCanvas"
     />
   </Suspense>
-  <!-- <Suspense>
-    <ModelsFloraTree v-if="treeList.length" :trees-data="treeList" />
-  </Suspense> -->
-  <!-- <Suspense>
+  <Suspense>
+    <ModelsFloraTree v-if="treeList.length" :tree-list="treeList" />
+  </Suspense>
+  <Suspense>
     <ModelsFloraTreeSecond
       v-if="treeSecondList.length"
-      :trees-data="treeSecondList"
+      :tree-list="treeSecondList"
     />
-  </Suspense> -->
+  </Suspense>
   <Suspense>
     <ModelsFloraBush v-if="bushList.length" :bush-list="bushList" />
   </Suspense>

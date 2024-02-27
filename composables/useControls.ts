@@ -1,7 +1,7 @@
 import { useCharacterStore } from "~/stores/character";
 import { useControlsStore } from "~/stores/controls";
 import { Object3D, Vector3 } from "three";
-export const useControls = () => {
+export const useCharacterControls = () => {
   const { $gsap } = useNuxtApp();
   const characterStore = useCharacterStore();
   const storeControl = useControlsStore();

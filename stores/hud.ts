@@ -35,7 +35,7 @@ export const useHudStore = defineStore("HudStore", {
         if (indexToRemove !== -1) {
           this.addedElementToEquipmentList.splice(indexToRemove, 1);
         }
-      }, 2500);
+      }, 3000);
     },
   },
 });

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 const hudStore = useHudStore();
 const storeEquipmentGround = useEquipmentStore();
-const { equipmentHudList } = storeToRefs(storeEquipmentGround);
+const { equipmentItemsHandList, itemMaxCountList } =
+  storeToRefs(storeEquipmentGround);
 
-const isActive = ref(2);
+const isActive = ref(1);
 
 document.addEventListener(
   "keydown",
@@ -16,29 +17,43 @@ document.addEventListener(
   },
   false
 );
+
+const getMaxCount = (title: string) => {
+  return itemMaxCountList.value.find((data) => data.title === title)?.maxCount;
+};
 </script>
 
 <template>
   <div class="EquipmentMenu__main-container">
-    <div
-      class="EquipmentMenu__element-container"
-      :class="{ 'EquipmentMenu__element-container--active': data === isActive }"
-      v-for="data in 8"
-      :key="data"
-    >
-      <div class="EquipmentMenu__content">
-        <div v-if="equipmentHudList[data - 1]">
-          <div class="EquipmentMenu__count">
-            {{ equipmentHudList[data - 1].count }}
-          </div>
-          <div class="EquipmentMenu__image">soon</div>
-        </div>
+    <img
+      src="/image/backgrounds/background.png"
+      class="EquipmentMenu__background"
+    />
+    <div class="EquipmentMenu__element-container" v-for="data in 8" :key="data">
+      <div
+        class="EquipmentMenu__content"
+        v-if="equipmentItemsHandList[data - 1].title"
+        :class="{ 'EquipmentMenu__content--active': data === isActive }"
+      >
         <div
-          class="EquipmentMenu__info-numbers"
-          :class="{ 'EquipmentMenu__info-numbers--active': data === isActive }"
+          class="EquipmentMenu__count"
+          :class="{ 'EquipmentMenu__count--active': data === isActive }"
         >
-          {{ data }}
+          {{ equipmentItemsHandList[data - 1].count }} /
+          {{ getMaxCount(equipmentItemsHandList[data - 1].title) }}
         </div>
+        <img
+          class="EquipmentMenu__image"
+          :class="{ 'EquipmentMenu__image--active': data === isActive }"
+          :src="equipmentItemsHandList[data - 1].src"
+        />
+      </div>
+
+      <div
+        class="EquipmentMenu__info-numbers"
+        :class="{ 'EquipmentMenu__info-numbers--active': data === isActive }"
+      >
+        {{ data }}
       </div>
     </div>
   </div>

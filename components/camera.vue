@@ -59,8 +59,6 @@ const cameraSettings = () => {
       playerAngle =
         playerDirection.angleTo(xAxis) * (playerDirection.z > 0 ? 1 : -1);
       angleToRotate = playerAngle - cameraAngle;
-      // console.log("cameraAngle", cameraAngle * Math.PI);
-      // console.log("playerAngle", playerAngle * Math.PI);
       characterStore.setCharacterAngle(playerAngle);
       sanitisedAngle = angleToRotate;
       if (angleToRotate > Math.PI) {

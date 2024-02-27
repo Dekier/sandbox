@@ -32,31 +32,78 @@
     @include text(12px, left, rgba(0, 0, 0, 0.5), 600);
   }
 
-  &__icon-map-container {
+  &__right-bottom-container {
     position: fixed;
     z-index: 2;
-    right: 24px;
-    bottom: 24px;
+    right: 36px;
+    bottom: 28px;
     display: flex;
+    flex-direction: column;
+  }
+
+  &__row {
+    display: flex;
+    margin-top: 32px;
+    position: relative;
+    justify-content: space-between;
   }
 
   &__icon {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
+    z-index: 1;
   }
 
   &__keyboard-button {
+    z-index: 1;
     display: flex;
     height: 24px;
     width: 24px;
-    background-color: #ccc;
-    border: 2px solid $border;
+    background-color: $text-white;
     border-radius: 4px;
-    margin: auto 12px auto 0;
+    margin: auto 6px auto 0;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    opacity: 0.9;
     @include text(14px, center, $border, 600);
+  }
+
+  &__background {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(calc(-50% + 17px), -50%);
+    width: 100%;
+    height: calc(100% + 30px);
+    z-index: 0;
+    opacity: 0.3;
+  }
+
+  &__icon-tree {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(calc(-50% + 10px), -70%);
+    scale: 0.7;
+  }
+
+  &__rect-background {
+    width: 36px;
+    height: 35px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    z-index: 1;
+  }
+
+  &__rect {
+    width: 10px;
+    height: 10px;
+    border: 1px solid $white;
+    border-radius: 2px;
+    margin: 1px;
+    &--active {
+      background-color: rgba($color: $white, $alpha: 0.6);
+    }
   }
 }

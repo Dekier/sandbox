@@ -26,13 +26,36 @@ onLoop(({ _delta, elapsed }) => {
     <span class="Buttons__fps">{{ hudStore.fps }} FPS</span>
   </div>
 
-  <div class="Buttons__icon-map-container">
-    <span class="Buttons__keyboard-button">M</span>
-    <img
-      src="/svg/map-slices.svg"
-      class="Buttons__icon"
-      @click="changeSizeMap"
-    />
+  <div class="Buttons__right-bottom-container">
+    <div class="Buttons__row">
+      <img
+        src="/image/backgrounds/background-rect-2.png"
+        class="Buttons__background"
+      />
+      <span class="Buttons__keyboard-button">I</span>
+      <img
+        src="/image/icons/backpack.png"
+        class="Buttons__icon"
+        @click="changeSizeMap"
+      />
+    </div>
+    <div class="Buttons__row">
+      <img
+        src="/image/backgrounds/background-rect-2.png"
+        class="Buttons__background"
+      />
+      <span class="Buttons__keyboard-button">M</span>
+      <!-- <img src="/svg/map.svg" class="Buttons__icon" @click="changeSizeMap" /> -->
+      <div class="Buttons__rect-background">
+        <div
+          class="Buttons__rect"
+          v-for="data in 9"
+          :key="data"
+          :class="{ 'Buttons__rect--active': data === 5 }"
+        ></div>
+      </div>
+      <!-- <img src="/svg/tree.svg" class="Buttons__icon-tree" /> -->
+    </div>
   </div>
 </template>
 <style lang="scss">

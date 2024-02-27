@@ -32,13 +32,13 @@ document.addEventListener("pointerlockchange", (event) => {
   if (
     !isMouseLocked.value &&
     !isActiveMenuGame.value &&
-    tabType.value !== "island"
+    !["island", "equipment"].includes(tabType.value)
   ) {
     storeGeneral.setIsActiveMenuGame(true);
   }
 });
 document.addEventListener("mozpointerlockchange", () => {
-  if (tabType.value !== "island") {
+  if (!["island", "equipment"].includes(tabType.value)) {
     storeGeneral.setIsMouseLocked(
       document.pointerLockElement === document.body ||
         document.mozPointerLockElement === document.body
@@ -70,6 +70,13 @@ document.body.addEventListener("keyup", (e) => {
     document.exitPointerLock();
     menuInGameStore.setTabType("island");
   } else if (
+    key === "i" &&
+    tabType.value !== "equipment" &&
+    !isActiveMenuGame.value
+  ) {
+    document.exitPointerLock();
+    menuInGameStore.setTabType("equipment");
+  } else if (
     key === "m" &&
     tabType.value === "island" &&
     !isActiveMenuGame.value
@@ -77,8 +84,7 @@ document.body.addEventListener("keyup", (e) => {
     element.requestPointerLock();
     menuInGameStore.setTabType("");
   }
-
-  if (key === "escape" && tabType.value === "island") {
+  if (key === "escape" && ["island", "equipment"].includes(tabType.value)) {
     element.requestPointerLock();
     menuInGameStore.setTabType("");
   }

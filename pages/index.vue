@@ -5,6 +5,7 @@ const storeGeneral = useGeneralStore();
 const { isStartedGame } = storeToRefs(storeGeneral);
 const title = ref("Marcin Dekier");
 import { useControls, TresLeches, Perf } from "@tresjs/leches";
+import { StatsGl, Stats } from "@tresjs/cientos";
 
 const description = ref("Marcin Dekier Sandbox (Portfolio)");
 useHead({
@@ -55,18 +56,10 @@ watch(colorSand, (value) => {
   storeGeneral.setColorSand(value);
 });
 
-// watch(colorStone, (value) => {
-//   storeGeneral.setColorStone(value);
-//   // directionalLight.position.Z = value;
-// });
-
 watch(colorTrees, (value) => {
-  console.log("value", value);
   storeGeneral.setColorTrees(value);
-  // directionalLight.position.Z = value;
 });
 const isActiveAntialias = ref(false);
-// isActiveAntialias.value = isMobile ? false : true;
 isActiveAntialias.value = true;
 </script>
 
@@ -91,6 +84,8 @@ isActiveAntialias.value = true;
     v-bind="gl"
     :antialias="isActiveAntialias"
   >
+    <!-- <Stats /> -->
+    <!-- <StatsGl /> -->
     <Perf />
     <Camera />
 

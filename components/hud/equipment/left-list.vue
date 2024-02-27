@@ -6,8 +6,14 @@
         :key="data.id"
         class="EquipmentLeftList__element"
       >
-        <div class="EquipmentLeftList__image">soon</div>
-        <p class="EquipmentLeftList__text">{{ data.title }} (x{{ data.count }})</p>
+        <img
+          src="/image/backgrounds/background-2.png"
+          class="EquipmentLeftList__background"
+        />
+        <img :src="data.src" class="EquipmentLeftList__image" />
+        <p class="EquipmentLeftList__text">
+          {{ data.title }} (x{{ data.count }})
+        </p>
       </div>
     </TransitionGroup>
   </div>

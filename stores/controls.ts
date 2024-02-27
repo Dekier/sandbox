@@ -108,11 +108,11 @@ export const useControlsStore = defineStore("ControlsStore", {
       }
 
       if (key === "a" && !this.leftPressed) {
-        this.setLeftPressed(true);
+        // this.setLeftPressed(true);
       }
 
       if (key === "d" && !this.rightPressed) {
-        this.setRightPressed(true);
+        // this.setRightPressed(true);
       }
       if (key === "shiftleft" && !this.leftShiftPressed) {
         this.leftShiftPressed = true;
@@ -144,11 +144,11 @@ export const useControlsStore = defineStore("ControlsStore", {
       }
 
       if (key === "a") {
-        this.setLeftPressed(false);
+        // this.setLeftPressed(false);
       }
 
       if (key === "d") {
-        this.setRightPressed(false);
+        // this.setRightPressed(false);
       }
       if (key === "shiftleft") {
         this.leftShiftPressed = false;

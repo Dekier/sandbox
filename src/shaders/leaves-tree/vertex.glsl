@@ -84,11 +84,11 @@ float smoothNoise(vec2 ip) {
     void main() {
         vUv = uv;
         float t = time * 2.;
-        float noise = smoothNoise(csm_Position.xz * 0.2 + vec2(-0., t));
-        float dispPower = 1. - cos(uv.y * 3.1416 * 0.7);
-        float displacement = noise * (0.3 * dispPower);
-        csm_Position.x += displacement;
-        csm_Position.z += displacement;
+        float noise = smoothNoise(csm_Position.xz * 2.5 + vec2(-0., t));
+        float dispPower = 1. - cos(uv.y * 3.1416 * 0.9);
+        float displacement = noise * (2.6 * dispPower);
+        // csm_Position.x += displacement;
+        // csm_Position.z += displacement;
         // float wobble = sin(csm_Position.z * u_WobbleFrequency + time * u_WobbleSpeed);
         csm_Position += normal * displacement * u_WobbleAmplitude;
 

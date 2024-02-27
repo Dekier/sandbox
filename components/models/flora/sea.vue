@@ -22,6 +22,9 @@ import {
   MeshStandardMaterial,
 } from "three";
 const { scene } = useTresContext();
+const storeControl = useControlsStore();
+const characterStore = useCharacterStore();
+const { characterModel } = storeToRefs(characterStore);
 import vertexShader from "@/src/shaders/sea/vertex2.glsl";
 import fragmentShader from "@/src/shaders/sea/fragment2.glsl";
 
@@ -35,7 +38,7 @@ const uniforms = {
 
   uSmallWavesElevation: { value: 0.3 },
   uSmallWavesFrequency: { value: 0.5 },
-  uSmallWavesSpeed: { value: 0.20 },
+  uSmallWavesSpeed: { value: 0.2 },
   uSmallIterations: { value: 2 },
 
   uDepthColor: { value: new Color("#368baf") },
@@ -53,10 +56,14 @@ const waterMaterial = new ShaderMaterial({
 
 const { onLoop, resume } = useRenderLoop();
 resume();
-const geometry = new PlaneGeometry(500, 500, 800, 800);
+const geometry = new PlaneGeometry(400, 400, 100, 100);
 const seaModel = new Mesh(geometry, waterMaterial);
 onLoop(({ _delta, elapsed }) => {
   waterMaterial.uniforms.uTime.value = elapsed;
+  // if (storeControl.isMovingCharacter) {
+  //   seaModel.position.x = characterModel.value.position.x;
+  //   seaModel.position.z = characterModel.value.position.z;
+  // }
 });
 
 seaModel.rotation.x = -Math.PI / 2;
@@ -95,15 +102,14 @@ scene.value.add(seaModel);
 //     materialProps.uniforms.uTime.value = elapsed
 //   })
 // })
-  
-  </script>
-  
-  <!-- <template> -->
-    <!-- <TresMesh>
+</script>
+
+<!-- <template> -->
+<!-- <TresMesh>
       <TresTorusKnotGeometry :args="[1, 0.3, 512, 32]" />
       <CustomShaderMaterial v-bind="materialProps" />
     </TresMesh> -->
-    <!-- <TresMesh  :position="[0, -1.0, 0]" :rotation="[-Math.PI / 2,0,0]">
+<!-- <TresMesh  :position="[0, -1.0, 0]" :rotation="[-Math.PI / 2,0,0]">
         <TresPlaneGeometry :args="[500, 500, 800, 800]"></TresPlaneGeometry>
        <CustomShaderMaterial v-bind="materialProps" />
     </TresMesh>

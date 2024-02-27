@@ -1,14 +1,15 @@
 <script setup lang="ts">
 const storeModularGround = useModularGroundStore();
 const {
-  treeList,
-  treeSecondList,
   groundOneSideList,
   groundCornerList,
   groundTwoSideList,
   groundThreeSideList,
   groundZeroList,
 } = storeToRefs(storeModularGround);
+
+const floraStore = useFloraStore();
+const { treeList, treeSecondList } = storeToRefs(floraStore);
 const characterStore = useCharacterStore();
 const { characterPosition, characterAngle } = storeToRefs(characterStore);
 

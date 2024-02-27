@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useControls } from "~/composables/useControls";
+import { useCharacterControls } from "~/composables/useControls";
 import { useGLTF } from "@tresjs/cientos";
 import { useUtils } from "~/composables/useUtils";
 const { newSetModel } = useModelSettings();
-const { changeModelRotation } = useControls();
+const { changeModelRotation } = useCharacterControls();
 const storeGeneral = useGeneralStore();
 const storeControl = useControlsStore();
 const characterStore = useCharacterStore();
@@ -169,19 +169,19 @@ const attack = () => {
 
 const collect = () => {
   let prevAction = setPrevAction();
-  actions.collect.enabled = true;
+  actions.collect2.enabled = true;
   if (oldState.value === "collect") {
     const ratio =
-      actions.collect.getClip().duration / prevAction.getClip().duration;
-    actions.collect.time = prevAction.time * ratio;
+      actions.collect2.getClip().duration / prevAction.getClip().duration;
+    actions.collect2.time = prevAction.time * ratio;
   } else {
-    actions.collect.time = 0.0;
-    actions.collect.setEffectiveTimeScale(1.0);
-    actions.collect.setEffectiveWeight(1.0);
+    actions.collect2.time = 0.0;
+    actions.collect2.setEffectiveTimeScale(1.0);
+    actions.collect2.setEffectiveWeight(1.0);
   }
 
-  actions.collect.crossFadeFrom(prevAction, 0.5, true);
-  actions.collect.play();
+  actions.collect2.crossFadeFrom(prevAction, 0.5, true);
+  actions.collect2.play();
 };
 
 const idle = () => {
@@ -209,7 +209,7 @@ const setPrevAction = () => {
     case "attack":
       return actions.attack;
     case "collect":
-      return actions.collect;
+      return actions.collect2;
   }
 };
 

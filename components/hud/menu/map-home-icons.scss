@@ -35,8 +35,8 @@
     transform: translate(-50%, -50%);
     width: 45px;
     height: 45px;
-    border-left: 2px solid rgba($color: $border-dark-green, $alpha: 0.5);
-    background-color: rgba($color: $border-dark-green, $alpha: 0.4);
+    border-left: 2px solid rgba($color: $white, $alpha: 0.5);
+    background-color: rgba($color: $white, $alpha: 0.4);
   }
 
   &__module-corner {
@@ -47,10 +47,10 @@
     transform: translate(-50%, -50%);
     width: 45px;
     height: 45px;
-    border-left: 2px solid rgba($color: $border-dark-green, $alpha: 0.5);
-    border-top: 2px solid rgba($color: $border-dark-green, $alpha: 0.5);
+    border-left: 2px solid rgba($color: $white, $alpha: 0.5);
+    border-top: 2px solid rgba($color: $white, $alpha: 0.5);
     border-top-left-radius: 8px;
-    background-color: rgba($color: $border-dark-green, $alpha: 0.4);
+    background-color: rgba($color: $white, $alpha: 0.4);
   }
 
   &__module-two-side {
@@ -61,9 +61,9 @@
     transform: translate(-50%, -50%);
     width: 45px;
     height: 45px;
-    border-left: 2px solid rgba($color: $border-dark-green, $alpha: 0.5);
-    border-right: 2px solid rgba($color: $border-dark-green, $alpha: 0.5);
-    background-color: rgba($color: $border-dark-green, $alpha: 0.4);
+    border-left: 2px solid rgba($color: $white, $alpha: 0.5);
+    border-right: 2px solid rgba($color: $white, $alpha: 0.5);
+    background-color: rgba($color: $white, $alpha: 0.4);
   }
 
   &__module-three-side {
@@ -74,12 +74,12 @@
     transform: translate(-50%, -50%);
     width: 45px;
     height: 45px;
-    border-left: 2px solid rgba($color: $border-dark-green, $alpha: 0.5);
-    border-right: 2px solid rgba($color: $border-dark-green, $alpha: 0.5);
-    border-top: 2px solid rgba($color: $border-dark-green, $alpha: 0.5);
+    border-left: 2px solid rgba($color: $white, $alpha: 0.5);
+    border-right: 2px solid rgba($color: $white, $alpha: 0.5);
+    border-top: 2px solid rgba($color: $white, $alpha: 0.5);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    background-color: rgba($color: $border-dark-green, $alpha: 0.4);
+    background-color: rgba($color: $white, $alpha: 0.4);
   }
 
   &__module-zero {
@@ -90,6 +90,6 @@
     transform: translate(-50%, -50%);
     width: 45px;
     height: 45px;
-    background-color: rgba($color: $border-dark-green, $alpha: 0.4);
+    background-color: rgba($color: $white, $alpha: 0.4);
   }
 }

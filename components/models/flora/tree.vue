@@ -10,25 +10,25 @@ import {
   InstancedMesh,
   Object3D,
   Vector2,
+  Matrix4,
+  DynamicDrawUsage,
 } from "three";
 import { Precipitation } from "@tresjs/cientos";
 import { useGLTF } from "@tresjs/cientos";
+import vertexShader from "@/src/shaders/leaves-tree/vertex.glsl";
 const storeGeneral = useGeneralStore();
 const { colorTrees } = storeToRefs(storeGeneral);
 const { scene } = useTresContext();
 
-const {
-  scene: modelScene,
-  nodes,
-  animations,
-} = await useGLTF("/models/tree.glb", { draco: true });
-const { actions } = useAnimations(animations, modelScene);
-actions.leaves2.play();
-const modelTree = nodes.treeAnim2;
-const modelLeaves = nodes.leavesAnim2;
+const { scene: modelScene, nodes } = await useGLTF("/models/tree-test.glb", {
+  draco: true,
+});
+
+const modelWood = nodes.tree;
+const modelLeaves = nodes.leaves;
 
 const props = defineProps({
-  treesData: {
+  treeList: {
     type: Array,
     required: true,
   },
@@ -36,111 +36,114 @@ const props = defineProps({
 
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/leaves/leaves.png");
+const instanceMeshWoodRef = shallowRef(null);
+const instanceMeshLeavesRef = shallowRef(null);
 
-const leavesMaterial = new MeshLambertMaterial({
-  color: new Color(colorTrees.value),
-  alphaMap: alphaMap,
-  alphaTest: 0.3,
-  side: DoubleSide,
-});
-
-const treeMaterial = new MeshLambertMaterial({
-  color: modelTree.material.color,
-  side: DoubleSide,
-});
-let dummy = new Object3D();
-let instancedMesh = null;
-
-let dummyLeaves = new Object3D();
-let instancedMeshLeaves = null;
-let oldModelWood = null;
-let oldModelLeaves = null;
-const setIntancesMesh = () => {
-  if (oldModelWood) {
-    oldModelWood.geometry.dispose();
-    oldModelWood.material.dispose();
-    scene.value.remove(oldModelWood);
-  }
-  if (oldModelLeaves) {
-    oldModelLeaves.geometry.dispose();
-    oldModelLeaves.material.dispose();
-    scene.value.remove(oldModelLeaves);
-  }
-  dummy = new Object3D();
-  instancedMesh = new InstancedMesh(
-    modelTree.geometry,
-    treeMaterial,
-    props.treesData.length
-  );
-
-  dummyLeaves = new Object3D();
-  instancedMeshLeaves = new InstancedMesh(
-    modelLeaves.geometry,
-    leavesMaterial,
-    props.treesData.length
-  );
-  instancedMeshLeaves.morphTargetInfluences = modelLeaves.morphTargetInfluences;
-  instancedMeshLeaves.morphTargetDictionary = modelLeaves.morphTargetDictionary;
-  for (let i = 0; i < props.treesData.length; i++) {
-    dummy.position.set(
-      props.treesData[i].positionX,
-      modelTree.position.y,
-      props.treesData[i].positionZ
-    );
-    dummyLeaves.position.set(
-      props.treesData[i].positionX,
-      modelLeaves.position.y,
-      props.treesData[i].positionZ
-    );
-    // dummy.scale.y = props.treesData[i].scale;
-    // dummy.scale.x = props.treesData[i].scale;
-    // dummy.scale.z = props.treesData[i].scale;
-    // dummy.rotation.y = randomRotationY;
-    dummy.updateMatrix();
-
-    // dummyLeaves.scale.y =  props.treesData[i].scale;
-    // dummyLeaves.scale.x = props.treesData[i].scale;
-    // dummyLeaves.scale.z = props.treesData[i].scale;
-    // dummy.rotation.y = randomRotationY;
-    dummyLeaves.updateMatrix();
-
-    instancedMesh.setMatrixAt(i, dummy.matrix);
-    instancedMeshLeaves.setMatrixAt(i, dummyLeaves.matrix);
-  }
-  instancedMesh.castShadow = true;
-  instancedMesh.receiveShadow = true;
-  instancedMeshLeaves.castShadow = true;
-  instancedMeshLeaves.receiveShadow = true;
-  oldModelWood = instancedMesh;
-  oldModelLeaves = instancedMeshLeaves;
-  scene.value.add(instancedMesh);
-  scene.value.add(instancedMeshLeaves);
-};
-setIntancesMesh();
 watch(colorTrees, (value) => {
-  leavesMaterial.color = new Color(value);
+  instanceMeshLeavesRef.value.material.color = new Color(value);
+});
+const dummy = new Object3D();
+const matrix = new Matrix4();
+const currentDistance = ref(0);
+
+watch(instanceMeshWoodRef, (value) => {
+  if (!value) return;
+  setMeshWood();
+});
+
+watch(instanceMeshLeavesRef, (value) => {
+  if (!value) return;
+  setMeshLeaves();
 });
 
 watch(
-  () => props.treesData,
+  () => props.treeList.length,
   () => {
-    setIntancesMesh();
+    setMeshWood();
+    setMeshLeaves();
   }
 );
-// const snowflakeMap = loader.load("/materials/leaves/leaf.png");
+
+const setMeshWood = () => {
+  instanceMeshWoodRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
+  instanceMeshWoodRef.value.count = props.treeList.length;
+  for (let i = 0; i < props.treeList.length; i++) {
+    dummy.position.set(
+      props.treeList[i].positionX,
+      0.0,
+      props.treeList[i].positionZ
+    );
+
+    dummy.updateMatrix();
+    instanceMeshWoodRef.value.setMatrixAt(i, dummy.matrix);
+  }
+  instanceMeshWoodRef.value.instanceMatrix.needsUpdate = true;
+  instanceMeshWoodRef.value.computeBoundingSphere();
+};
+
+const setMeshLeaves = () => {
+  instanceMeshLeavesRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
+  instanceMeshLeavesRef.value.count = props.treeList.length;
+  for (let i = 0; i < props.treeList.length; i++) {
+    dummy.position.set(
+      props.treeList[i].positionX,
+      0.0,
+      props.treeList[i].positionZ
+    );
+
+    dummy.updateMatrix();
+    instanceMeshLeavesRef.value.setMatrixAt(i, dummy.matrix);
+  }
+  instanceMeshLeavesRef.value.instanceMatrix.needsUpdate = true;
+  instanceMeshLeavesRef.value.computeBoundingSphere();
+  instanceMeshLeavesRef.value.material.alphaMap = alphaMap;
+  instanceMeshLeavesRef.value.material.alphaTest = 0.3;
+  instanceMeshLeavesRef.value.material.side = DoubleSide;
+  instanceMeshLeavesRef.value.material.color = new Color(colorTrees.value);
+};
+
+const materialProps = {
+  baseMaterial: MeshLambertMaterial,
+  vertexShader,
+  uniforms: {
+    time: {
+      value: 0,
+    },
+    u_WobbleAmplitude: { value: 0.07 },
+    alphaMap: { value: alphaMap },
+    alphaMapMoving: { value: null },
+    hexColor: {
+      value: new Vector3(
+        new Color(colorTrees.value).r,
+        new Color(colorTrees.value).g,
+        new Color(colorTrees.value).b
+      ),
+    },
+    ...UniformsLib.lights,
+  },
+};
+
+const { onLoop } = useRenderLoop();
+onMounted(async () => {
+  await nextTick();
+
+  onLoop(({ elapsed }) => {
+    materialProps.uniforms.time.value = elapsed;
+  });
+});
 </script>
-<!-- <template>
-  <Suspense v-for="data in positions" :key="data.x + data.z">
-    <Precipitation
-      :color="colorTrees"
-      :alpha-map="snowflakeMap"
-      :position="[data.x, 5, data.z]"
-      :area="[15, 10, 15]"
-      :count="10"
-      :speed="0.1"
-      :size="0.7"
-      :opacity="1"
-      :randomness="1"
-    />
-  </Suspense>
-</template> -->
+
+<template>
+  <TresInstancedMesh
+    ref="instanceMeshWoodRef"
+    :args="[modelWood.geometry, modelWood.material, 1000]"
+  />
+  <TresInstancedMesh
+    :castShadow="true"
+    :receiveShadow="true"
+    ref="instanceMeshLeavesRef"
+    :args="[modelLeaves.geometry, null, 1000]"
+  >
+    <CustomShaderMaterial v-bind="materialProps" />
+  </TresInstancedMesh>
+</template>

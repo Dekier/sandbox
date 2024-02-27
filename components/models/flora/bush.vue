@@ -26,36 +26,22 @@ const props = defineProps({
     required: true,
   },
 });
-const {
-  scene: modelScene,
-  nodes,
-  animations,
-} = await useGLTF("/models/bush-test.glb", { draco: true });
-console.log(nodes);
+const { scene: modelScene, nodes } = await useGLTF("/models/bush-test.glb", {
+  draco: true,
+});
 const { scene } = useTresContext();
 const { onBeforeLoop } = useRenderLoop();
 const modelLeaves = nodes.leaves003;
 const modelWood = nodes.wood;
-import vertexShader from "@/src/shaders/leaves-tree/vertex.glsl";
-import fragmentShader from "@/src/shaders/leaves-tree/fragment.glsl";
+import vertexShader from "@/src/shaders/leaves-small/vertex.glsl";
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/leaves/leaves.png");
 
 const instanceMeshWoodRef = shallowRef(null);
 const instanceMeshLeavesRef = shallowRef(null);
 
-const leavesMaterial = new MeshLambertMaterial({
-  color: new Color(colorTrees.value),
-  alphaMap: alphaMap,
-  alphaTest: 0.3,
-  side: DoubleSide,
-});
-
-modelLeaves.material?.dispose();
-modelLeaves.material = leavesMaterial;
-
 watch(colorTrees, (value) => {
-  leavesMaterial.color = new Color(value);
+  instanceMeshLeavesRef.value.material.color = new Color(value);
 });
 const dummy = new Object3D();
 const matrix = new Matrix4();
@@ -65,9 +51,8 @@ onBeforeLoop(() => {
     instanceMeshWoodRef.value.getMatrixAt(i, matrix);
     instanceMeshLeavesRef.value.getMatrixAt(i, matrix);
     matrix.decompose(dummy.position, dummy.quaternion, dummy.scale);
-
     currentDistance.value = calculateDistance(dummy.position);
-    if (currentDistance.value < 7) {
+    if (currentDistance.value < 3) {
       const { x, z } = bendModel(dummy.position);
       dummy.rotation.x = lerp(dummy.rotation.x, x, 0.04);
       dummy.rotation.z = lerp(dummy.rotation.z, z, 0.04);
@@ -105,7 +90,6 @@ watch(
 const setMesh = () => {
   instanceMeshWoodRef.value.instanceMatrix.setUsage(DynamicDrawUsage);
   instanceMeshWoodRef.value.count = props.bushList.length;
-  console.log(props.bushList);
   for (let i = 0; i < props.bushList.length; i++) {
     dummy.position.set(
       props.bushList[i].positionX,
@@ -141,7 +125,6 @@ const setMeshLeaves = () => {
   instanceMeshLeavesRef.value.material.color = new Color(colorTrees.value);
 };
 
-const darkerFactor = 1.0;
 const materialProps = {
   baseMaterial: MeshLambertMaterial,
   vertexShader,
@@ -178,18 +161,11 @@ onMounted(async () => {
     ref="instanceMeshWoodRef"
     :args="[modelWood.geometry, modelWood.material, 1000]"
   />
-  <!-- <TresInstancedMesh
-    :castShadow="true"
-    :receiveShadow="false"
-    ref="instanceMeshLeavesRef"
-    :args="[modelLeaves.geometry, grassMaterial, 1000]"
-  >
-  </TresInstancedMesh> -->
   <TresInstancedMesh
     :castShadow="true"
     :receiveShadow="true"
     ref="instanceMeshLeavesRef"
-    :args="[modelLeaves.geometry, modelLeaves.material, 1000]"
+    :args="[modelLeaves.geometry, null, 1000]"
   >
     <CustomShaderMaterial v-bind="materialProps" />
   </TresInstancedMesh>

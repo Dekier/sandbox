@@ -8,8 +8,8 @@ import { HalfFloatType } from "three";
 const { renderer, scene, camera } = useTresContext();
 import { useModelSettings } from "~/composables/useModel";
 import { useGLTF } from "@tresjs/cientos";
-import { useControls } from "~/composables/useControls";
-const { changeModelRotation } = useControls();
+import { useCharacterControls } from "~/composables/useControls";
+const { changeModelRotation } = useCharacterControls();
 const { nodes } = await useGLTF("/models/head.glb", { draco: true });
 const model = nodes.head1;
 model.traverse((child: any) => {

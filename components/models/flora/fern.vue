@@ -131,35 +131,31 @@ onLoop(({ _delta, elapsed }) => {
       div.style.opacity = "0";
       oldIndex = -1;
     }
-    if (
-      oldDistance < 5 &&
-      keyE.value &&
-      oldIndex >= 0 &&
-      !storeControl.isMovingCharacter &&
-      div
-    ) {
-      hudStore.setElementToEquipmentList({
-        title: "large leaf",
-        id: `${hudStore.addedElementToEquipmentList.length + 1}`,
-        count: 1,
-        src: "",
-      });
+    if (oldDistance < 5 && keyE.value && oldIndex >= 0 && div) {
       oldPositions = null;
       div.style.opacity = "0";
-
-      setTimeout(() => {
-        floraStore.removeElementFromList({
-          type: "fern",
-          index: oldIndex,
-          id: props.fernList[oldIndex].id,
-          positionType: props.fernList[oldIndex].positionType,
-        });
-        storeEquipmentGround.addToEquipmentHudList({
-          title: "large leaf",
+      if (!storeControl.isMovingCharacter) {
+        hudStore.setElementToEquipmentList({
+          title: "Large leaf",
+          id: `${hudStore.addedElementToEquipmentList.length + 1}`,
           count: 1,
-          src: "",
+          src: "/image/equipment/big-leaf.png",
         });
-      }, 500);
+
+        setTimeout(() => {
+          floraStore.removeElementFromList({
+            type: "fern",
+            index: oldIndex,
+            id: props.fernList[oldIndex].id,
+            positionType: props.fernList[oldIndex].positionType,
+          });
+          storeEquipmentGround.addToequipmentItemsList({
+            title: "Large leaf",
+            count: 1,
+            src: "/image/equipment/big-leaf.png",
+          });
+        }, 500);
+      }
     }
   }
 });

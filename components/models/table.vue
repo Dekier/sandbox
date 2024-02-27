@@ -3,8 +3,8 @@ import { useGLTF } from "@tresjs/cientos";
 import { useModelSettings } from "~/composables/useModel";
 const { setModel } = useModelSettings();
 const characterStore = useCharacterStore();
-import { useControls } from "~/composables/useControls";
-const { setBorders } = useControls();
+import { useCharacterControls } from "~/composables/useControls";
+const { setBorders } = useCharacterControls();
 const { nodes } = await useGLTF("/models/table.glb", { draco: true });
 const { isCharacterOnModel } = useUtils();
 

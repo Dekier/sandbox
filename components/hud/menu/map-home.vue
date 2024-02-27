@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const storeModularGround = useModularGroundStore();
 const {
+  groundIds,
   groundDataList,
   activeModularList,
-  treeList,
   groundOneSideList,
   groundCornerList,
   groundTwoSideList,
@@ -133,6 +133,10 @@ const mapScaleMinus = () => {
     listOfModulars.value.style.transform = `translate(-50%, -50%) scale(${scale.value})`;
   }
 };
+
+const checkIsActive = (id: number) => {
+  return activeModularList.value.findIndex((data) => data.id === id) !== -1;
+};
 </script>
 
 <template>
@@ -157,19 +161,22 @@ const mapScaleMinus = () => {
         <div ref="listOfModulars" class="MapHome__list-of-modulars">
           <HudMenuMapHomeIcons />
           <div
-            v-for="data in groundDataList"
-            :key="data.id"
+            v-for="data in groundIds"
+            :key="data"
             class="MapHome__modular"
             :class="{
-              'MapHome__modular--purchased-module': data.isActive,
-              'MapHome__modular--selected': isSelected(data.id),
-              'MapHome__modular--can-select': checkModular(data.id),
+              'MapHome__modular--purchased-module': checkIsActive(data),
+              'MapHome__modular--selected': isSelected(data),
+              'MapHome__modular--can-select': checkModular(data),
             }"
-            @click="setSlice(data.id)"
+            @click="setSlice(data)"
           >
-            <div v-if="!data.isActive" class="MapHome__modular-hover-icon" />
+            <div
+              v-if="!checkIsActive(data)"
+              class="MapHome__modular-hover-icon"
+            />
             <img
-              v-if="!data.isActive"
+              v-if="!checkIsActive(data)"
               class="MapHome__modular-sea-icon"
               src="/svg/waves.svg"
             />

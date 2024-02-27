@@ -22,9 +22,7 @@ const { setModel } = useModelSettings();
 // modelScene.traverse((lol) => {
 //   heh.push({ x: lol.position.x, y: lol.position.y });
 // });
-// console.log(heh);
 // for (let index = 0; index < nodes.length; index++) {
-//   console.log(nodes);
 // }
 // const model = nodes.Plane002;
 // setModel(model);
