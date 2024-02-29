@@ -6,21 +6,110 @@
     width: 100%;
     height: $full-height;
     z-index: 10;
+    background-color: rgba($color: $black, $alpha: 0.6);
+    backdrop-filter: blur(5px);
+  }
+
+  &__center-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    position: relative;
+    width: max-content;
+    margin-left: 200px;
+  }
+
+  &__left-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    background-color: rgba($color: $black, $alpha: 0.2);
+    width: 300px;
+    height: 100%;
+    padding: 100px 0 50px;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  &__right-container {
+    z-index: 2;
+    width: 450px;
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__background {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    opacity: 1;
+    background-color: #000;
+  }
+
+  &__background-left {
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 300px;
+    z-index: 0;
+    opacity: 1;
+  }
+
+  &__background-right {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translate(50%, -50%) rotate(180deg);
+    height: 100%;
+    width: 300px;
+    z-index: 0;
+    opacity: 1;
+  }
+
+  &__buttons-container {
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
   }
 
   &__button {
-    width: 140px;
-    height: 60px;
-    background-color: $background-white;
-    border-radius: 12px;
+    // width: 140px;
+    // height: 60px;
+    // background-color: $background-white;
+    // border-radius: 12px;
+    // cursor: pointer;
+    // border: 2px solid $border;
+    // letter-spacing: 2px;
+    // @include text(22px, center, $black, 400);
+    // margin: auto;
+
+    height: 46px;
+    letter-spacing: 1.5px;
+    @include text(20px, center, rgba($color: $text-white, $alpha: 0.7), 600);
+    background-color: transparent;
+    border: unset;
     cursor: pointer;
-    border: 2px solid $border;
-    letter-spacing: 2px;
-    @include text(22px, center, $black, 400);
-    margin: auto;
+    margin: 0 auto 24px;
+    position: relative;
+    padding: 0 34px;
+    border: 1px solid rgba($color: $text-white, $alpha: 0.7);
+    border-radius: 8px;
+    width: 200px;
+
+    &:hover {
+      transition: unset;
+      @include text(20px, center, rgba($color: $text-white, $alpha: 1), 600);
+      border: 2px solid rgba($color: $text-white, $alpha: 1);
+    }
+  }
+
+  &__text {
+    z-index: 1;
+    @include text(16px, center, $text-white, 400);
   }
 }

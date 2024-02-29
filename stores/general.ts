@@ -6,6 +6,8 @@ interface State {
   isStartedGame: boolean;
   isActiveMenuGame: boolean;
   isMouseLocked: boolean;
+  settingsShadow: number;
+  settingsGraphics: string;
 }
 export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
@@ -19,6 +21,8 @@ export const useGeneralStore = defineStore("GeneralStore", {
       isStartedGame: false,
       isActiveMenuGame: true,
       isMouseLocked: false,
+      settingsShadow: 1024,
+      settingsGraphics: "Medium",
     };
   },
   getters: {},
@@ -43,6 +47,12 @@ export const useGeneralStore = defineStore("GeneralStore", {
     },
     setIsMouseLocked(data: boolean) {
       this.isMouseLocked = data;
+    },
+    setSettingsShadow(data: number) {
+      this.settingsShadow = data;
+    },
+    setSettingsGraphics(data: string) {
+      this.settingsGraphics = data;
     },
   },
 });

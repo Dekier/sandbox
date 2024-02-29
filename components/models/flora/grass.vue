@@ -37,7 +37,7 @@ const characterStore = useCharacterStore();
 const { positionCharacter, positionCharacterLookAt } =
   storeToRefs(characterStore);
 const storeGeneral = useGeneralStore();
-const { color } = storeToRefs(storeGeneral);
+const { color, settingsGraphics } = storeToRefs(storeGeneral);
 const { onLoop } = useRenderLoop();
 
 import vertexShader from "@/src/shaders/vertex3.glsl";
@@ -73,7 +73,37 @@ const grassMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 150000;
+
+let instanceNumber = 150000;
+
+const setGrassInstaceNumber = () => {
+  switch (settingsGraphics.value) {
+    case "Low":
+      instanceNumber = 50000;
+      break;
+
+    case "Medium":
+      instanceNumber = 100000;
+
+      break;
+
+    case "High":
+      instanceNumber = 150000;
+
+      break;
+
+    default:
+      break;
+  }
+};
+setGrassInstaceNumber();
+
+watch(settingsGraphics, () => {
+  setGrassInstaceNumber();
+  setPercentNumber();
+  setMesh();
+});
+
 let dummy = new Object3D();
 const geometry = new PlaneGeometry(0.1, 1, 1, 2);
 geometry.translate(0, 0.5, 0);
