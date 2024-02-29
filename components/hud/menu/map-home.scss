@@ -19,11 +19,11 @@
     padding: 30px 0;
     width: 100%;
     height: calc($full-height - 300px);
-    cursor: grab;
+    // cursor: grab;
 
-    &:active {
-      cursor: grabbing;
-    }
+    // &:active {
+    //   cursor: grabbing;
+    // }
   }
 
   &__list-of-modulars {
@@ -38,25 +38,22 @@
     transform: translate(-50%, -50%) scale(1);
     transform-origin: center center;
     border-radius: 12px;
-    cursor: grab;
-    &:active {
-      cursor: grabbing;
-    }
+    // cursor: grab;
+    // &:active {
+    //   cursor: grabbing;
+    // }
   }
 
   &__background {
     position: absolute;
-    width: 100%;
-    height: 90%;
+    width: calc(100% + 150px);
+    height: calc(100% + 150px);
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 0;
     object-fit: cover;
-    background-color: rgba($color: $black, $alpha: 0.7);
-    box-shadow: 0px 0px 20px 30px rgba($color: $black, $alpha: 0.6);
-    // filter: blur(1px);
-    opacity: 0.8;
+    opacity: 0.3;
   }
 
   &__modular {

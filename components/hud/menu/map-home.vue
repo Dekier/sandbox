@@ -80,59 +80,56 @@ const checkModular = (id: number) => {
 };
 
 let isDragging = false;
-let startX, startY, offsetX, offsetY;
+// let startX, startY, offsetX, offsetY;
 
 const dragElement = ref(null);
 const listOfModulars = ref(null);
 
 watch(dragElement, () => {
-  dragElement.value.addEventListener("mousedown", (e) => {
-    if (e.srcElement.offsetParent.classList) {
-      if (
-        !e.srcElement.offsetParent.classList.contains(
-          "MapHome__modular--can-select"
-        ) &&
-        !e.target.classList.contains("MapHome__modular--can-select")
-      ) {
-        isDragging = true;
-        startX = e.clientX + 23;
-        startY = e.clientY;
-        offsetX = listOfModulars.value.offsetLeft;
-        offsetY = listOfModulars.value.offsetTop;
-      }
-    }
-  });
-
-  document.addEventListener("mousemove", (e) => {
-    if (isDragging) {
-      const x = e.clientX - startX + offsetX;
-      const y = e.clientY - startY + offsetY;
-
-      listOfModulars.value.style.left = `${x}px`;
-      listOfModulars.value.style.top = `${y}px`;
-    }
-  });
-
-  document.addEventListener("mouseup", () => {
-    if (isDragging) {
-      isDragging = false;
-    }
-  });
+  // dragElement.value.addEventListener("mousedown", (e) => {
+  //   if (e.srcElement.offsetParent.classList) {
+  //     if (
+  //       !e.srcElement.offsetParent.classList.contains(
+  //         "MapHome__modular--can-select"
+  //       ) &&
+  //       !e.target.classList.contains("MapHome__modular--can-select")
+  //     ) {
+  //       isDragging = true;
+  //       startX = e.clientX + 23;
+  //       startY = e.clientY;
+  //       offsetX = listOfModulars.value.offsetLeft;
+  //       offsetY = listOfModulars.value.offsetTop;
+  //     }
+  //   }
+  // });
+  // document.addEventListener("mousemove", (e) => {
+  //   if (isDragging) {
+  //     const x = e.clientX - startX + offsetX;
+  //     const y = e.clientY - startY + offsetY;
+  //     listOfModulars.value.style.left = `${x}px`;
+  //     listOfModulars.value.style.top = `${y}px`;
+  //   }
+  // });
+  // document.addEventListener("mouseup", () => {
+  //   if (isDragging) {
+  //     isDragging = false;
+  //   }
+  // });
 });
 const scale = ref(1.0);
-const mapScalePlus = () => {
-  if (scale.value < 1.4) {
-    scale.value += 0.2;
-    listOfModulars.value.style.transform = `translate(-50%, -50%) scale(${scale.value})`;
-  }
-};
+// const mapScalePlus = () => {
+//   if (scale.value < 1.4) {
+//     scale.value += 0.2;
+//     listOfModulars.value.style.transform = `translate(-50%, -50%) scale(${scale.value})`;
+//   }
+// };
 
-const mapScaleMinus = () => {
-  if (scale.value > 0.8) {
-    scale.value -= 0.2;
-    listOfModulars.value.style.transform = `translate(-50%, -50%) scale(${scale.value})`;
-  }
-};
+// const mapScaleMinus = () => {
+//   if (scale.value > 0.8) {
+//     scale.value -= 0.2;
+//     listOfModulars.value.style.transform = `translate(-50%, -50%) scale(${scale.value})`;
+//   }
+// };
 
 const checkIsActive = (id: number) => {
   return activeModularList.value.findIndex((data) => data.id === id) !== -1;
@@ -143,7 +140,7 @@ const checkIsActive = (id: number) => {
   <div class="MapHome__main-container">
     <div class="MapHome__center-box">
       <div ref="dragElement" class="MapHome__map-container">
-        <div class="MapHome__button-container">
+        <!-- <div class="MapHome__button-container">
           <button type="button" class="MapHome__button" @click="mapScalePlus()">
             +
           </button>
@@ -154,11 +151,15 @@ const checkIsActive = (id: number) => {
           >
             -
           </button>
-        </div>
+        </div> -->
 
         <!-- <img class="MapHome__background" src="/image/map/paper.jpg" /> -->
-        <div class="MapHome__background" />
+
         <div ref="listOfModulars" class="MapHome__list-of-modulars">
+          <img
+            src="/image/backgrounds/background-big.png"
+            class="MapHome__background"
+          />
           <HudMenuMapHomeIcons />
           <div
             v-for="data in groundIds"

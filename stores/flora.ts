@@ -57,6 +57,7 @@ export const useFloraStore = defineStore("FloraStore", {
         groundData: GroundData;
         type: string;
       }): ModelData => {
+        console.log(data.groundData);
         if (data.type === "bottomLeft") {
           return {
             positionX: data.groundData.positionX + 3.5,

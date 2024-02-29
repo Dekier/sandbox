@@ -84,7 +84,6 @@ watch(color, (value) => {
 const labelRenderer = new CSS2DRenderer();
 labelRenderer.setSize(window.innerWidth, window.innerHeight);
 labelRenderer.domElement.style.position = "absolute";
-
 document.body.appendChild(labelRenderer.domElement);
 
 const div = document.getElementById("collect-e");
@@ -127,7 +126,7 @@ onLoop(({ _delta, elapsed }) => {
 
   if (oldPositions) {
     const oldDistance = calculateDistance(oldPositions);
-    if (oldDistance > 5 && div) {
+    if (oldDistance > 3 && div) {
       div.style.opacity = "0";
       oldIndex = -1;
     }
