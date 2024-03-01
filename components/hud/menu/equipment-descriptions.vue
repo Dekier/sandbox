@@ -47,11 +47,6 @@ const src = (): string => {
       src="/image/backgrounds/background-big.png"
       class="EquipmentDescriptions__background"
     />
-    <!-- <img
-      v-if="src()"
-      :src="src()"
-      class="EquipmentDescriptions__background-icon"
-    /> -->
     <h1 class="EquipmentDescriptions__title">
       <img
         v-if="src()"

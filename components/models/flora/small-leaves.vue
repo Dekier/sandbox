@@ -29,7 +29,7 @@ const props = defineProps({
 
 const { calculatePixelPercentage, draw } = useCanvas();
 const storeGeneral = useGeneralStore();
-const { color } = storeToRefs(storeGeneral);
+const { color, settingsGraphics } = storeToRefs(storeGeneral);
 const { scene, renderer, camera } = useTresContext();
 const { onLoop, resume } = useRenderLoop();
 
@@ -65,7 +65,35 @@ const leavesMaterial = new ShaderMaterial({
   side: DoubleSide,
   lights: true,
 });
-const instanceNumber = 600;
+let instanceNumber = 600;
+
+const setSmallLeavesInstaceNumber = () => {
+  switch (settingsGraphics.value) {
+    case "Low":
+      instanceNumber = 100;
+      break;
+
+    case "Medium":
+      instanceNumber = 300;
+
+      break;
+
+    case "High":
+      instanceNumber = 600;
+
+      break;
+
+    default:
+      break;
+  }
+};
+setSmallLeavesInstaceNumber();
+watch(settingsGraphics, () => {
+  setSmallLeavesInstaceNumber();
+  setPercentNumber();
+  setMesh();
+});
+
 let dummy = new Object3D();
 const geometry = new PlaneGeometry(0.2, 0.8, 1, 2);
 geometry.translate(0, 0.5, 0);

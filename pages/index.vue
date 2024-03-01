@@ -85,7 +85,7 @@ isActiveAntialias.value = true;
     :antialias="isActiveAntialias"
   >
     <!-- <Stats /> -->
-    <!-- <StatsGl /> -->
+    <StatsGl />
     <Perf />
     <Camera />
 

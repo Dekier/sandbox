@@ -6,6 +6,7 @@
     padding: 5px;
     opacity: 0;
     transition: opacity 300ms;
+    gap: 6px;
   }
 
   &__background {
@@ -48,7 +49,7 @@
     height: 24px;
     @include text(18px, center, $border, 600);
     align-items: center;
-    margin-right: 8px;
+    margin-right: 4px;
     z-index: 2;
 
     &--gamepad {
@@ -60,5 +61,20 @@
     @include text(16px, center, $text-white, 400);
     margin: auto 0;
     z-index: 2;
+  }
+
+  &__health {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    background-color: $white;
+    z-index: 2;
+  }
+
+  &__main-container--one-health &__health-2,
+  &__main-container--zero-health &__health-2,
+  &__main-container--zero-health &__health-1 {
+    background-color: transparent;
+    border: 2px solid $white;
   }
 }

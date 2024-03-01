@@ -6,7 +6,8 @@ import {
   Vector3,
 } from "three";
 import { Lensflare } from "@tresjs/cientos";
-
+const storeGeneral = useGeneralStore();
+const { settingsShadow } = storeToRefs(storeGeneral);
 const hudStore = useHudStore();
 const { isActiveShadows, shadowSize, lightX, lightY, lightZ } =
   storeToRefs(hudStore);
@@ -22,8 +23,8 @@ const directionalLight = new DirectionalLight(0xffffff, 3.0);
 directionalLight.position.set(0, 100, 100);
 directionalLight.castShadow = true;
 directionalLight.shadow.bias = -0.001;
-directionalLight.shadow.mapSize.width = 1024 * 2 * 2;
-directionalLight.shadow.mapSize.height = 1024 * 2 * 2;
+// directionalLight.shadow.mapSize.width = 1024 * 2 * 2;
+// directionalLight.shadow.mapSize.height = 1024 * 2 * 2;
 // directionalLight.shadow.mapSize.width = 1024;
 // directionalLight.shadow.mapSize.height = 1024;
 directionalLight.shadow.camera.near = 0.5;
@@ -31,6 +32,41 @@ directionalLight.shadow.camera.far = 225;
 directionalLight.shadow.bias = -0.002;
 
 scene.value.add(directionalLight);
+
+const setShadpwMapSize = () => {
+  // directionalLight.shadow.map.dispose();
+  directionalLight.shadow.map = null;
+  switch (settingsShadow.value) {
+    case 256:
+      directionalLight.shadow.mapSize.width = 256;
+      directionalLight.shadow.mapSize.height = 256;
+      break;
+
+    case 512:
+      directionalLight.shadow.mapSize.width = 512;
+      directionalLight.shadow.mapSize.height = 512;
+
+      break;
+
+    case 1024:
+      directionalLight.shadow.mapSize.width = 1024;
+      directionalLight.shadow.mapSize.height = 1024;
+
+      break;
+    case 2048:
+      directionalLight.shadow.mapSize.width = 2048;
+      directionalLight.shadow.mapSize.height = 2048;
+
+      break;
+
+    default:
+      break;
+  }
+};
+setShadpwMapSize();
+watch(settingsShadow, () => {
+  setShadpwMapSize();
+});
 
 const setShadowCameraSize = ({
   left,

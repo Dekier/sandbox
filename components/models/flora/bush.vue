@@ -13,6 +13,10 @@ import {
   DynamicDrawUsage,
   MeshDepthMaterial,
 } from "three";
+import {
+  CSS2DRenderer,
+  CSS2DObject,
+} from "three/examples/jsm/renderers/CSS2DRenderer.js";
 import { useGLTF } from "@tresjs/cientos";
 const storeGeneral = useGeneralStore();
 const controlsStore = useControlsStore();
@@ -37,6 +41,16 @@ import vertexShader from "@/src/shaders/leaves-small/vertex.glsl";
 const loader = new TextureLoader();
 const alphaMap = loader.load("/materials/leaves/leaves.png");
 
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(window.innerWidth, window.innerHeight);
+labelRenderer.domElement.style.position = "absolute";
+document.body.appendChild(labelRenderer.domElement);
+
+const div = document.getElementById("item-health-2");
+
+const earthLabel = new CSS2DObject(div);
+scene.value.add(earthLabel);
+
 const instanceMeshWoodRef = shallowRef(null);
 const instanceMeshLeavesRef = shallowRef(null);
 
@@ -46,6 +60,8 @@ watch(colorTrees, (value) => {
 const dummy = new Object3D();
 const matrix = new Matrix4();
 const currentDistance = ref(0);
+let oldPositions = null as null | { x: number; y: number; z: number };
+let oldIndex = -1 as number;
 onBeforeLoop(() => {
   for (let i = 0; i < props.bushList.length; i++) {
     instanceMeshWoodRef.value.getMatrixAt(i, matrix);
@@ -61,8 +77,21 @@ onBeforeLoop(() => {
       instanceMeshWoodRef.value.instanceMatrix.needsUpdate = true;
       instanceMeshLeavesRef.value.setMatrixAt(i, dummy.matrix);
       instanceMeshLeavesRef.value.instanceMatrix.needsUpdate = true;
+      // if (div) {
+      //   earthLabel.position.set(dummy.position.x, 3.5, dummy.position.z);
+      //   div.style.opacity = "1";
+      //   oldPositions = earthLabel.position;
+      //   oldIndex = i;
+      // }
     }
   }
+  // if (oldPositions) {
+  //   const oldDistance = calculateDistance(oldPositions);
+  //   if (oldDistance > 3 && div) {
+  //     div.style.opacity = "0";
+  //     oldIndex = -1;
+  //   }
+  // }
 });
 
 const lerp = (start: number, end: number, alpha: number): number => {
