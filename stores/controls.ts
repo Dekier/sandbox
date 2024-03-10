@@ -185,7 +185,7 @@ export const useControlsStore = defineStore("ControlsStore", {
     setSpeedCharacter() {
       if (this.upPressed) {
         if (this.leftShiftPressed) {
-          this.speed = 10;
+          this.speed = 8;
           // this.speed = 35;
         } else if (this.buttonRTValue) {
           const value = this.buttonRTValue * 3;

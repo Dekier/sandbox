@@ -209,7 +209,9 @@ onLoop(({ delta }) => {
   } else if (characterState.value === "collect") {
     mixer.update(2.0 * delta);
   } else if (characterState.value === "run") {
-    mixer.update(0.8 * delta);
+    mixer.update(0.6 * delta);
+  } else if (characterState.value === "walk") {
+    mixer.update(1.5 * delta);
   } else {
     mixer.update(delta);
   }

@@ -113,7 +113,7 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        console.log("right");
+        // console.log("right");
         if (isActiveShake) {
           animationModelShake({
             number: -0.12,
@@ -136,7 +136,7 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        console.log("left");
+        // console.log("left");
         if (isActiveShake) {
           animationModelShake({
             number: 0.12,
@@ -160,7 +160,7 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        console.log("up");
+        // console.log("up");
         if (isActiveShake) {
           animationModelShake({
             number: -0.12,
@@ -184,7 +184,7 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        console.log("down");
+        // console.log("down");
         if (isActiveShake) {
           animationModelShake({
             number: 0.12,
