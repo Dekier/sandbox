@@ -3,6 +3,9 @@ const storeGeneral = useGeneralStore();
 const { isActiveMenuGame } = storeToRefs(storeGeneral);
 const startGame = () => {
   storeGeneral.setIsActiveMenuGame(false);
+  setTimeout(() => {
+    storeGeneral.setIsActiveBlockAnimation(false);
+  }, 100);
   // storeGeneral.setIsStartedGame(true);
   isActiveSettings.value = false;
 };

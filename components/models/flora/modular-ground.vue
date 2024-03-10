@@ -9,7 +9,6 @@ import {
   Vector3,
   DynamicDrawUsage,
 } from "three";
-import { useGLTF } from "@tresjs/cientos";
 const { nodes } = await useGLTF("/models/ground.glb", { draco: true });
 const storeGeneral = useGeneralStore();
 const { color, colorSand } = storeToRefs(storeGeneral);
@@ -24,8 +23,6 @@ const {
 } = storeToRefs(storeModularGround);
 const { newSetModel } = useModelSettings();
 const { scene } = useTresContext();
-import { useModelSettings } from "~/composables/useModel";
-const { setModel } = useModelSettings();
 import vertexShader from "@/src/shaders/ground/vertex.glsl";
 import fragmentShader from "@/src/shaders/ground/fragment.glsl";
 
@@ -35,15 +32,15 @@ watch(activeModularList, () => {
   storeModularGround.setGroundPiecesListsClear();
   storeModularGround.setGroundPiecesLists();
 });
-const loader = new TextureLoader();
-const rough = loader.load("/materials/grass/color.webp");
+// const loader = new TextureLoader();
+// const rough = loader.load("/materials/grass/color.webp");
 const darkerFactor = 2.1;
 
 const uniforms = {
   time: {
     value: 0,
   },
-  roughMap: { value: rough },
+  // roughMap: { value: rough },
   hexColor: {
     value: new Vector3(
       new Color(color.value).r / darkerFactor,

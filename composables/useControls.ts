@@ -6,7 +6,7 @@ export const useCharacterControls = () => {
   const characterStore = useCharacterStore();
   const storeControl = useControlsStore();
   const { angle } = storeToRefs(storeControl);
-  const { positionCharacter } = storeToRefs(characterStore);
+  const { positionCharacter, characterAngle } = storeToRefs(characterStore);
 
   const targetRotationNormalized = ref();
   const rotationDiff = ref();
@@ -115,5 +115,54 @@ export const useCharacterControls = () => {
     }
   };
 
-  return { changeModelRotation, setBorders };
+  const characterSeeModelType = (modelPosition: Vector3): string => {
+    const directionVector = new Vector3()
+      .subVectors(modelPosition, positionCharacter.value)
+      .normalize();
+
+    const directionX = directionVector.x;
+    const directionZ = directionVector.z;
+
+    if (Math.abs(directionX) > Math.abs(directionZ)) {
+      if (directionX > 0) {
+        if (characterAngle.value > -0.8 && characterAngle.value < 1.1) {
+          // console.log(characterAngle.value);
+          // console.log("Character jest po prawej stronie modelu.");
+          return "Model right";
+        } else {
+          // console.log(characterAngle.value);
+          // console.log("Character jest po prawej stronie modelu.");
+        }
+      } else {
+        if (characterAngle.value > 2.1 || characterAngle.value < -2.2) {
+          // console.log("Character jest po lewej stronie modelu.");
+          return "Model left";
+        } else {
+          // console.log(characterAngle.value);
+          // console.log("Character jest po lewej stronie modelu.");
+        }
+      }
+    } else {
+      if (directionZ > 0) {
+        if (characterAngle.value < 2.3 && characterAngle.value > 0.9) {
+          // console.log("Character jest u góry modelu.");
+          return "Model up";
+        } else {
+          // console.log(characterAngle.value);
+          // console.log("Character jest u góry modelu.");
+        }
+      } else {
+        if (characterAngle.value > -2.3 && characterAngle.value < -0.5) {
+          // console.log("Character jest na dole modelu.");
+          return "Model down";
+        } else {
+          // console.log(characterAngle.value);
+          // console.log("Character jest na dole modelu.");
+        }
+      }
+    }
+    return "";
+  };
+
+  return { changeModelRotation, setBorders, characterSeeModelType };
 };

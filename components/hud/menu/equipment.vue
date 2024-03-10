@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const characterStore = useCharacterStore();
+const { getSrcItem } = useEquipmentUtils();
 const storeEquipmentGround = useEquipmentStore();
 const {
   equipmentItemsHandList,
@@ -96,10 +97,10 @@ onBeforeUnmount(() => {
               {{ data.count }} / {{ getMaxCount(data.title) }}
             </div>
             <img
-              v-if="data.src"
+              v-if="data.title"
               class="Equipment__image"
               :class="{ 'Equipment__image--active': data.id === isActive }"
-              :src="data.src"
+              :src="getSrcItem(data.title)"
             />
           </div>
         </div>
@@ -143,10 +144,10 @@ onBeforeUnmount(() => {
               {{ data.count }} / {{ getMaxCount(data.title) }}
             </div>
             <img
-              v-if="data.src"
+              v-if="data.title"
               class="Equipment__image"
               :class="{ 'Equipment__image--active': data.id === isActive }"
-              :src="data.src"
+              :src="getSrcItem(data.title)"
             />
           </div>
         </div>

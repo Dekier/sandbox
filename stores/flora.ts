@@ -5,6 +5,7 @@ interface ModelData {
   positionZ: number;
   rotationY: number | undefined;
   type?: string;
+  health?: number;
 }
 interface GroundData {
   id: number;
@@ -20,12 +21,17 @@ interface GroundData {
   bottomRight?: ModelData;
   side?: string;
 }
+interface ItemHealth {
+  type: string;
+  health: number;
+}
 interface State {
   fernList: ModelData[];
   bushList: ModelData[];
   bushStickList: ModelData[];
   treeList: ModelData[];
   treeSecondList: ModelData[];
+  floraItemHealth: ItemHealth[];
 }
 export const useFloraStore = defineStore("FloraStore", {
   state: (): State => {
@@ -35,21 +41,51 @@ export const useFloraStore = defineStore("FloraStore", {
       bushStickList: [],
       treeList: [],
       treeSecondList: [],
+      floraItemHealth: [
+        {
+          type: "bush",
+          health: 2,
+        },
+        {
+          type: "bush-stick",
+          health: 1,
+        },
+        {
+          type: "tree",
+          health: 5,
+        },
+        {
+          type: "tree-second",
+          health: 5,
+        },
+      ],
     };
   },
   getters: {},
   actions: {
-    removeElementFromList(data: {
-      id: string;
-      index: number;
-      positionType: string;
+    removeElementFromList(data: { index: number; type: string }) {
+      switch (data.type) {
+        case "fern":
+          this.fernList.splice(data.index, 1);
+          break;
+        case "bush":
+          this.bushList.splice(data.index, 1);
+          break;
+        case "bush-stick":
+          this.bushStickList.splice(data.index, 1);
+          break;
+
+        default:
+          break;
+      }
+    },
+    updateHealthElementFromList(data: {
       type: string;
+      index: number;
+      minusHealth: number;
     }) {
-      if (data.type === "fern") {
-        // this.fernList = this.fernList.filter(
-        //   (element, index) => index !== data.index
-        // );
-        this.fernList.splice(data.index, 1);
+      if (data.type === "bush") {
+        this.bushList[data.index].health -= data.minusHealth;
       }
     },
     setFloraLists(data: GroundData[]) {
@@ -58,44 +94,64 @@ export const useFloraStore = defineStore("FloraStore", {
         type: string;
       }): ModelData => {
         if (data.type === "bottomLeft") {
+          const itemHealthData = this.floraItemHealth.find(
+            (element) => element.type === data.groundData.bottomLeft.type
+          );
           return {
             positionX: data.groundData.positionX + 3.5,
             positionZ: data.groundData.positionZ + 3.5,
             rotationY: data.groundData.bottomLeft?.rotationY,
             positionType: data.groundData.bottomLeft?.positionType,
             id: data.groundData.id,
+            health: itemHealthData ? itemHealthData.health : 0,
           };
         } else if (data.type === "bottomRight") {
+          const itemHealthData = this.floraItemHealth.find(
+            (element) => element.type === data.groundData.bottomRight.type
+          );
           return {
             positionX: data.groundData.positionX - 3.5,
             positionZ: data.groundData.positionZ + 3.5,
             rotationY: data.groundData.bottomRight?.rotationY,
             positionType: data.groundData.bottomRight?.positionType,
             id: data.groundData.id,
+            health: itemHealthData ? itemHealthData.health : 0,
           };
         } else if (data.type === "center") {
+          const itemHealthData = this.floraItemHealth.find(
+            (element) => element.type === data.groundData.center.type
+          );
           return {
             positionX: data.groundData.positionX,
             positionZ: data.groundData.positionZ,
             rotationY: data.groundData.center?.rotationY,
             positionType: data.groundData.center?.positionType,
             id: data.groundData.id,
+            health: itemHealthData ? itemHealthData.health : 0,
           };
         } else if (data.type === "topLeft") {
+          const itemHealthData = this.floraItemHealth.find(
+            (element) => element.type === data.groundData.topLeft.type
+          );
           return {
             positionX: data.groundData.positionX - 3.5,
             positionZ: data.groundData.positionZ - 3.5,
             rotationY: data.groundData.topLeft?.rotationY,
             positionType: data.groundData.topLeft?.positionType,
             id: data.groundData.id,
+            health: itemHealthData ? itemHealthData.health : 0,
           };
         } else if (data.type === "topRight") {
+          const itemHealthData = this.floraItemHealth.find(
+            (element) => element.type === data.groundData.topRight.type
+          );
           return {
             positionX: data.groundData.positionX + 3.5,
             positionZ: data.groundData.positionZ - 3.5,
             rotationY: data.groundData.topRight?.rotationY,
             positionType: data.groundData.topRight?.positionType,
             id: data.groundData.id,
+            health: itemHealthData ? itemHealthData.health : 0,
           };
         }
         return {
@@ -116,22 +172,43 @@ export const useFloraStore = defineStore("FloraStore", {
         if (groundData.bottomLeft) {
           switch (groundData.bottomLeft.type) {
             case "fern":
-              fernList.push(setPositions({ groundData, type: "bottomLeft" }));
+              fernList.push(
+                setPositions({
+                  groundData,
+                  type: "bottomLeft",
+                })
+              );
               break;
             case "tree-second":
               treeSecondList.push(
-                setPositions({ groundData, type: "bottomLeft" })
+                setPositions({
+                  groundData,
+                  type: "bottomLeft",
+                })
               );
               break;
             case "tree":
-              treeList.push(setPositions({ groundData, type: "bottomLeft" }));
+              treeList.push(
+                setPositions({
+                  groundData,
+                  type: "bottomLeft",
+                })
+              );
               break;
             case "bush":
-              bushList.push(setPositions({ groundData, type: "bottomLeft" }));
+              bushList.push(
+                setPositions({
+                  groundData,
+                  type: "bottomLeft",
+                })
+              );
               break;
             case "bush-stick":
               bushStickList.push(
-                setPositions({ groundData, type: "bottomLeft" })
+                setPositions({
+                  groundData,
+                  type: "bottomLeft",
+                })
               );
             default:
               break;
@@ -140,22 +217,43 @@ export const useFloraStore = defineStore("FloraStore", {
         if (groundData.bottomRight) {
           switch (groundData.bottomRight.type) {
             case "fern":
-              fernList.push(setPositions({ groundData, type: "bottomRight" }));
+              fernList.push(
+                setPositions({
+                  groundData,
+                  type: "bottomRight",
+                })
+              );
               break;
             case "tree-second":
               treeSecondList.push(
-                setPositions({ groundData, type: "bottomRight" })
+                setPositions({
+                  groundData,
+                  type: "bottomRight",
+                })
               );
               break;
             case "tree":
-              treeList.push(setPositions({ groundData, type: "bottomRight" }));
+              treeList.push(
+                setPositions({
+                  groundData,
+                  type: "bottomRight",
+                })
+              );
               break;
             case "bush":
-              bushList.push(setPositions({ groundData, type: "bottomRight" }));
+              bushList.push(
+                setPositions({
+                  groundData,
+                  type: "bottomRight",
+                })
+              );
               break;
             case "bush-stick":
               bushStickList.push(
-                setPositions({ groundData, type: "bottomRight" })
+                setPositions({
+                  groundData,
+                  type: "bottomRight",
+                })
               );
             default:
               break;
@@ -164,19 +262,44 @@ export const useFloraStore = defineStore("FloraStore", {
         if (groundData.center) {
           switch (groundData.center.type) {
             case "fern":
-              fernList.push(setPositions({ groundData, type: "center" }));
+              fernList.push(
+                setPositions({
+                  groundData,
+                  type: "center",
+                })
+              );
               break;
             case "tree-second":
-              treeSecondList.push(setPositions({ groundData, type: "center" }));
+              treeSecondList.push(
+                setPositions({
+                  groundData,
+                  type: "center",
+                })
+              );
               break;
             case "tree":
-              treeList.push(setPositions({ groundData, type: "center" }));
+              treeList.push(
+                setPositions({
+                  groundData,
+                  type: "center",
+                })
+              );
               break;
             case "bush":
-              bushList.push(setPositions({ groundData, type: "center" }));
+              bushList.push(
+                setPositions({
+                  groundData,
+                  type: "center",
+                })
+              );
               break;
             case "bush-stick":
-              bushStickList.push(setPositions({ groundData, type: "center" }));
+              bushStickList.push(
+                setPositions({
+                  groundData,
+                  type: "center",
+                })
+              );
             default:
               break;
           }
@@ -184,21 +307,44 @@ export const useFloraStore = defineStore("FloraStore", {
         if (groundData.topLeft) {
           switch (groundData.topLeft.type) {
             case "fern":
-              fernList.push(setPositions({ groundData, type: "topLeft" }));
+              fernList.push(
+                setPositions({
+                  groundData,
+                  type: "topLeft",
+                })
+              );
               break;
             case "tree-second":
               treeSecondList.push(
-                setPositions({ groundData, type: "topLeft" })
+                setPositions({
+                  groundData,
+                  type: "topLeft",
+                })
               );
               break;
             case "tree":
-              treeList.push(setPositions({ groundData, type: "topLeft" }));
+              treeList.push(
+                setPositions({
+                  groundData,
+                  type: "topLeft",
+                })
+              );
               break;
             case "bush":
-              bushList.push(setPositions({ groundData, type: "topLeft" }));
+              bushList.push(
+                setPositions({
+                  groundData,
+                  type: "topLeft",
+                })
+              );
               break;
             case "bush-stick":
-              bushStickList.push(setPositions({ groundData, type: "topLeft" }));
+              bushStickList.push(
+                setPositions({
+                  groundData,
+                  type: "topLeft",
+                })
+              );
             default:
               break;
           }
@@ -206,22 +352,43 @@ export const useFloraStore = defineStore("FloraStore", {
         if (groundData.topRight) {
           switch (groundData.topRight.type) {
             case "fern":
-              fernList.push(setPositions({ groundData, type: "topRight" }));
+              fernList.push(
+                setPositions({
+                  groundData,
+                  type: "topRight",
+                })
+              );
               break;
             case "tree-second":
               treeSecondList.push(
-                setPositions({ groundData, type: "topRight" })
+                setPositions({
+                  groundData,
+                  type: "topRight",
+                })
               );
               break;
             case "tree":
-              treeList.push(setPositions({ groundData, type: "topRight" }));
+              treeList.push(
+                setPositions({
+                  groundData,
+                  type: "topRight",
+                })
+              );
               break;
             case "bush":
-              bushList.push(setPositions({ groundData, type: "topRight" }));
+              bushList.push(
+                setPositions({
+                  groundData,
+                  type: "topRight",
+                })
+              );
               break;
             case "bush-stick":
               bushStickList.push(
-                setPositions({ groundData, type: "topRight" })
+                setPositions({
+                  groundData,
+                  type: "topRight",
+                })
               );
             default:
               break;

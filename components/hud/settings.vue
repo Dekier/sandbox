@@ -9,6 +9,13 @@ const { settingsShadow, settingsGraphics } = storeToRefs(storeGeneral);
     <div class="Settings__row">
       <div
         class="Settings__button"
+        :class="{ 'Settings__button--active': settingsGraphics === 'Very Low' }"
+        @click="storeGeneral.setSettingsGraphics('Very Low')"
+      >
+        Very Low
+      </div>
+      <div
+        class="Settings__button"
         :class="{ 'Settings__button--active': settingsGraphics === 'Low' }"
         @click="storeGeneral.setSettingsGraphics('Low')"
       >
@@ -27,6 +34,13 @@ const { settingsShadow, settingsGraphics } = storeToRefs(storeGeneral);
         @click="storeGeneral.setSettingsGraphics('High')"
       >
         High
+      </div>
+      <div
+        class="Settings__button"
+        :class="{ 'Settings__button--active': settingsGraphics === 'Ultra' }"
+        @click="storeGeneral.setSettingsGraphics('Ultra')"
+      >
+        Ultra
       </div>
     </div>
     <p class="Settings__title">Shadows</p>

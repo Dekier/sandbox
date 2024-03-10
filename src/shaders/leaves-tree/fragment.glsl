@@ -5,6 +5,7 @@
 // #include <shadowmask_pars_fragment>
 
 
+precision lowp float;
 varying vec2 vUv;
 // varying vec3 vNormal;
 // uniform sampler2D alphaMap;

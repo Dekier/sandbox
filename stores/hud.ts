@@ -2,7 +2,6 @@ interface EquipmentData {
   id: string;
   title: string;
   count: number;
-  src: string;
 }
 interface State {
   fps: number;
@@ -27,6 +26,12 @@ export const useHudStore = defineStore("HudStore", {
     },
     setElementToEquipmentList(data: EquipmentData) {
       this.addedElementToEquipmentList.unshift(data);
+
+      const storeEquipment = useEquipmentStore();
+      storeEquipment.addToequipmentItemsList({
+        title: data.title,
+        count: data.count,
+      });
 
       setTimeout(() => {
         const indexToRemove = this.addedElementToEquipmentList.findIndex(

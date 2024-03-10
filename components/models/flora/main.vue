@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { drawDots, drawRects } = useCanvas();
 const characterStore = useCharacterStore();
+const downloadedModels = useDownloadedModels();
 const { positionCharacter } = storeToRefs(characterStore);
 const floraStore = useFloraStore();
 const storeModularGround = useModularGroundStore();
@@ -36,6 +37,10 @@ watch(activeModularList, async () => {
 const groundPositions = ref({ x: 0, z: 0 });
 
 floraStore.setFloraLists(activeModularList.value);
+const { nodes } = await useGLTF("/models/smallSticks.glb", {
+  draco: true,
+});
+downloadedModels.setSmallStick(nodes);
 </script>
 
 <template>
@@ -52,6 +57,10 @@ floraStore.setFloraLists(activeModularList.value);
   <Suspense>
     <ModelsFloraSea />
   </Suspense>
+  <!-- <Suspense>
+    <TestLol />
+  </Suspense> -->
+
   <Suspense>
     <ModelsFloraGrass
       v-if="loadedCanvas"

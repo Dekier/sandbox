@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { useProgress } from "@tresjs/cientos";
+// import { useProgress } from "@tresjs/cientos";
 
-const { hasFinishLoading, progress } = await useProgress();
+// const { hasFinishLoading, progress } = await useProgress();
+// watch(progress, () => {
+//   console.log(progress.value);
+// });
 </script>
 
-<template>
+<!-- <template>
   <transition name="fade">
     <div v-show="!hasFinishLoading" class="Loading__main-container">
       <div
@@ -15,7 +18,7 @@ const { hasFinishLoading, progress } = await useProgress();
       </div>
     </div>
   </transition>
-</template>
+</template> -->
 <style lang="scss">
 @import "loading-screen";
 </style>

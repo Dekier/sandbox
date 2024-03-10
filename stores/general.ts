@@ -5,6 +5,7 @@ interface State {
   colorSand: string;
   isStartedGame: boolean;
   isActiveMenuGame: boolean;
+  isActiveBlockAnimation: boolean;
   isMouseLocked: boolean;
   settingsShadow: number;
   settingsGraphics: string;
@@ -20,6 +21,7 @@ export const useGeneralStore = defineStore("GeneralStore", {
       colorSand: "#5e563b",
       isStartedGame: false,
       isActiveMenuGame: true,
+      isActiveBlockAnimation: true,
       isMouseLocked: false,
       settingsShadow: 1024,
       settingsGraphics: "Medium",
@@ -44,6 +46,9 @@ export const useGeneralStore = defineStore("GeneralStore", {
     },
     setIsActiveMenuGame(data: boolean) {
       this.isActiveMenuGame = data;
+    },
+    setIsActiveBlockAnimation(data: boolean) {
+      this.isActiveBlockAnimation = data;
     },
     setIsMouseLocked(data: boolean) {
       this.isMouseLocked = data;

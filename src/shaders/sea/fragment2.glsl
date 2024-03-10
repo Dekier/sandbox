@@ -2,6 +2,7 @@ uniform vec3 uDepthColor;
 uniform vec3 uSurfaceColor;
 uniform float uColorOffset;
 uniform float uColorMultiplier;
+precision lowp float;
 
 varying float vElevation;
 

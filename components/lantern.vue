@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useModelSettings } from "~/composables/useModel";
 const { newSetModel } = useModelSettings();
 const {
   scene: modelScene,

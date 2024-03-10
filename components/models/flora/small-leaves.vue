@@ -69,17 +69,26 @@ let instanceNumber = 600;
 
 const setSmallLeavesInstaceNumber = () => {
   switch (settingsGraphics.value) {
+    case "Very Low":
+      instanceNumber = 50;
+
+      break;
     case "Low":
-      instanceNumber = 100;
+      instanceNumber = 250;
       break;
 
     case "Medium":
-      instanceNumber = 300;
+      instanceNumber = 500;
 
       break;
 
     case "High":
-      instanceNumber = 600;
+      instanceNumber = 1000;
+
+      break;
+
+    case "Ultra":
+      instanceNumber = 1500;
 
       break;
 

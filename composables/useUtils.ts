@@ -2,6 +2,7 @@ import { useCharacterStore } from "~/stores/character";
 import { Object3D, Vector3, Matrix4, Quaternion } from "three";
 export const useUtils = () => {
   const { $gsap } = useNuxtApp();
+
   const storeControls = useControlsStore();
   const characterStore = useCharacterStore();
   const { positionCharacter } = storeToRefs(characterStore);
