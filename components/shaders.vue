@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useModelSettings } from "~/composables/useModel";
 const { setModel } = useModelSettings();
 const characterStore = useCharacterStore();
 import {

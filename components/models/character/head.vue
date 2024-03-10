@@ -7,7 +7,6 @@ import { FXAAShader } from "three/addons/shaders/FXAAShader.js";
 import { HalfFloatType } from "three";
 const { renderer, scene, camera } = useTresContext();
 import { useModelSettings } from "~/composables/useModel";
-import { useGLTF } from "@tresjs/cientos";
 import { useCharacterControls } from "~/composables/useControls";
 const { changeModelRotation } = useCharacterControls();
 const { nodes } = await useGLTF("/models/head.glb", { draco: true });

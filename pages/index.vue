@@ -85,7 +85,7 @@ isActiveAntialias.value = true;
     :antialias="isActiveAntialias"
   >
     <!-- <Stats /> -->
-    <StatsGl />
+    <!-- <StatsGl /> -->
     <Perf />
     <Camera />
 
@@ -94,9 +94,9 @@ isActiveAntialias.value = true;
     <!-- <Suspense>
       <Fog />
     </Suspense> -->
-    <Suspense>
+    <!-- <Suspense>
       <Sky />
-    </Suspense>
+    </Suspense> -->
     <!-- <Space1Main v-if="positionCharacter" /> -->
     <!-- <Suspense>
       <Ground2 v-if="positionCharacter" />

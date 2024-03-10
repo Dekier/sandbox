@@ -98,7 +98,6 @@ export class CharacterControls {
       const cameraPositionOffset = this.camera.position.sub(
         this.model.position
       );
-      console.log(translation.y);
       // update model and camera
       this.model.position.x = translation.x;
       this.model.position.y = translation.y;

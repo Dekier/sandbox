@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { useCharacterControls } from "~/composables/useControls";
-import { useGLTF } from "@tresjs/cientos";
 import { useUtils } from "~/composables/useUtils";
+import { Mesh } from "three";
 const { newSetModel } = useModelSettings();
 const { changeModelRotation } = useCharacterControls();
+const storeEquipmentGround = useEquipmentStore();
 const storeGeneral = useGeneralStore();
 const storeControl = useControlsStore();
 const characterStore = useCharacterStore();
+const menuInGameStore = useMenuInGameStore();
+const { tabType } = storeToRefs(menuInGameStore);
 const { $gsap } = useNuxtApp();
-const { isActiveMenuGame } = storeToRefs(storeGeneral);
+const { isActiveMenuGame, isActiveBlockAnimation } = storeToRefs(storeGeneral);
 const {
   keys,
   keyE,
@@ -39,22 +42,11 @@ const {
 } = await useGLTF("/models/character.glb", { draco: true });
 const { actions, mixer } = useAnimations(animations, modelScene);
 const { onLoop } = useRenderLoop();
-// actions.walk2.play();
 const modelCharacter = nodes.wiking;
-// modelCharacter.traverse((child: any) => {
-//   if (child.isMesh) {
-//     child.castShadow = true;
-//     child.receiveShadow = true;
-//   }
-// });
-// modelCharacter.scale.set(1.2, 1.2, 1.2);
 newSetModel(modelCharacter);
-// const modelCamera = nodes.Cube031;
 characterStore.setPositionCharacter(modelCharacter.position);
 characterStore.setPositionCharacterLookAt(modelCharacter.position);
 characterStore.setCharacterModel(modelCharacter);
-// modelCamera.material.opacity = 0;
-// modelCamera.material.transparent = true;
 
 watch(buttonRTValue, () => {
   storeControl.setSpeedCharacter();
@@ -77,7 +69,9 @@ watch(characterState, (newValue, oldValue) => {
       walk();
       break;
     case "collect":
-      collect();
+      if (characterStore.characterIsCloseFern) {
+        collect();
+      }
       break;
     case "attack":
       attack();
@@ -88,15 +82,12 @@ watch(characterState, (newValue, oldValue) => {
     case "walk-back":
       walkBack();
       break;
+    case "run":
+      run();
+      break;
 
     default:
       break;
-  }
-  if (newValue === "run") {
-    mixer.timeScale = 0.8;
-    run();
-  } else {
-    mixer.timeScale = 1.0;
   }
 });
 const walk = () => {
@@ -108,10 +99,9 @@ const walk = () => {
     actions.walk.time = prevAction.time * ratio;
   } else {
     actions.walk.time = 0.0;
-    actions.walk.setEffectiveTimeScale(1.0);
-    actions.walk.setEffectiveWeight(1.0);
+    // actions.walk.setEffectiveTimeScale(1.0);
+    // actions.walk.setEffectiveWeight(1.0);
   }
-
   actions.walk.crossFadeFrom(prevAction, 0.5, true);
   actions.walk.play();
 };
@@ -125,8 +115,8 @@ const walkBack = () => {
     actions.walkBack.time = prevAction.time * ratio;
   } else {
     actions.walkBack.time = 0.0;
-    actions.walkBack.setEffectiveTimeScale(1.0);
-    actions.walkBack.setEffectiveWeight(1.0);
+    // actions.walkBack.setEffectiveTimeScale(1.0);
+    // actions.walkBack.setEffectiveWeight(1.0);
   }
 
   actions.walkBack.crossFadeFrom(prevAction, 0.5, true);
@@ -142,8 +132,8 @@ const run = () => {
     actions.run.time = prevAction.time * ratio;
   } else {
     actions.run.time = 0.0;
-    actions.run.setEffectiveTimeScale(1.0);
-    actions.run.setEffectiveWeight(1.0);
+    // actions.run.setEffectiveTimeScale(0.0);
+    // actions.run.setEffectiveWeight(1.0);
   }
 
   actions.run.crossFadeFrom(prevAction, 0.5, true);
@@ -159,8 +149,8 @@ const attack = () => {
     actions.attack.time = prevAction.time * ratio;
   } else {
     actions.attack.time = 0.0;
-    actions.attack.setEffectiveTimeScale(1.0);
-    actions.attack.setEffectiveWeight(1.0);
+    // actions.attack.setEffectiveTimeScale(1.0);
+    // actions.attack.setEffectiveWeight(1.0);
   }
 
   actions.attack.crossFadeFrom(prevAction, 0.5, true);
@@ -169,27 +159,27 @@ const attack = () => {
 
 const collect = () => {
   let prevAction = setPrevAction();
-  actions.collect2.enabled = true;
+  actions.collect.enabled = true;
   if (oldState.value === "collect") {
     const ratio =
-      actions.collect2.getClip().duration / prevAction.getClip().duration;
-    actions.collect2.time = prevAction.time * ratio;
+      actions.collect.getClip().duration / prevAction.getClip().duration;
+    actions.collect.time = prevAction.time * ratio;
   } else {
-    actions.collect2.time = 0.0;
-    actions.collect2.setEffectiveTimeScale(1.0);
-    actions.collect2.setEffectiveWeight(1.0);
+    actions.collect.time = 0.0;
+    // actions.collect.setEffectiveTimeScale(1.0);
+    // actions.collect.setEffectiveWeight(1.0);
   }
 
-  actions.collect2.crossFadeFrom(prevAction, 0.5, true);
-  actions.collect2.play();
+  actions.collect.crossFadeFrom(prevAction, 0.5, true);
+  actions.collect.play();
 };
 
 const idle = () => {
   let prevAction = setPrevAction();
   actions.idle.time = 0.0;
   actions.idle.enabled = true;
-  actions.idle.setEffectiveTimeScale(1.0);
-  actions.idle.setEffectiveWeight(1.0);
+  // actions.idle.setEffectiveTimeScale(1.0);
+  // actions.idle.setEffectiveWeight(1.0);
   actions.idle.crossFadeFrom(prevAction, 0.5, true);
   actions.idle.play();
 };
@@ -209,14 +199,19 @@ const setPrevAction = () => {
     case "attack":
       return actions.attack;
     case "collect":
-      return actions.collect2;
+      return actions.collect;
   }
 };
 
 onLoop(({ delta }) => {
-  // mixer.timeScale = 130 * delta;
-  if (mixer) {
-    mixer.update(0.01);
+  if (characterState.value === "attack") {
+    mixer.update(1.5 * delta);
+  } else if (characterState.value === "collect") {
+    mixer.update(2.0 * delta);
+  } else if (characterState.value === "run") {
+    mixer.update(0.8 * delta);
+  } else {
+    mixer.update(delta);
   }
 
   storeControl.setSpeedCharacter();
@@ -254,18 +249,22 @@ document.body.addEventListener("keyup", (e) => {
     storeControl.setKeysFalse(key);
   }
 });
-// document.body.addEventListener("click", (event) => {
-//   if (
-//     event.button === 0 &&
-//     characterState.value !== "attack" &&
-//     !isActiveMenuGame.value
-//   ) {
-//     storeControl.setMouseEvent("left");
-//   }
-// });
+document.body.addEventListener("click", (event) => {
+  if (
+    event.button === 0 &&
+    characterState.value !== "attack" &&
+    !isActiveMenuGame.value &&
+    storeEquipmentGround.isActiveHandItemTitle === "Small axe" &&
+    !tabType.value &&
+    !isActiveBlockAnimation.value
+  ) {
+    storeControl.setMouseEvent("left");
+  }
+});
 </script>
 
 <template>
-  <primitive :object="modelCharacter" />
-  <!-- <primitive :object="modelCamera" /> -->
+  <Suspense>
+    <primitive :object="modelCharacter" />
+  </Suspense>
 </template>

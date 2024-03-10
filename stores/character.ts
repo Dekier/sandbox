@@ -4,6 +4,7 @@ interface State {
   isActiveHolding: boolean;
   characterModel: any;
   characterAngle: number;
+  characterIsCloseFern: boolean;
 }
 export const useCharacterStore = defineStore("CharacterStore", {
   state: (): State => {
@@ -13,6 +14,7 @@ export const useCharacterStore = defineStore("CharacterStore", {
       isActiveHolding: false,
       characterModel: null,
       characterAngle: 0,
+      characterIsCloseFern: false,
     };
   },
   getters: {
@@ -34,6 +36,9 @@ export const useCharacterStore = defineStore("CharacterStore", {
     },
     setCharacterAngle(data: any) {
       this.characterAngle = data;
+    },
+    setCharacterIsCloseFern(data: boolean) {
+      this.characterIsCloseFern = data;
     },
   },
 });

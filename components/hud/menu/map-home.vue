@@ -10,8 +10,7 @@ const {
   groundThreeSideList,
 } = storeToRefs(storeModularGround);
 const characterStore = useCharacterStore();
-const { characterPosition, characterAngle, characterModel } =
-  storeToRefs(characterStore);
+const { characterPosition, characterModel } = storeToRefs(characterStore);
 const storeHud = useHudStore();
 
 const changeSizeMap = () => {

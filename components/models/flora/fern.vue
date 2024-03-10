@@ -25,7 +25,7 @@ const hudStore = useHudStore();
 const floraStore = useFloraStore();
 const { bendModel, calculateDistance } = useUtils();
 const storeModularGround = useModularGroundStore();
-const storeEquipmentGround = useEquipmentStore();
+const storeEquipment = useEquipmentStore();
 const storeControl = useControlsStore();
 const { keyE } = storeToRefs(storeControl);
 const props = defineProps({
@@ -116,6 +116,9 @@ onLoop(({ _delta, elapsed }) => {
 
       currentDistance.value = calculateDistance(dummy.position);
       if (currentDistance.value < 3 && div) {
+        if (!characterStore.characterIsCloseFern) {
+          characterStore.setCharacterIsCloseFern(true);
+        }
         earthLabel.position.set(dummy.position.x, 2, dummy.position.z);
         div.style.opacity = "1";
         oldPositions = earthLabel.position;
@@ -129,6 +132,9 @@ onLoop(({ _delta, elapsed }) => {
     if (oldDistance > 3 && div) {
       div.style.opacity = "0";
       oldIndex = -1;
+      if (characterStore.characterIsCloseFern) {
+        characterStore.setCharacterIsCloseFern(false);
+      }
     }
     if (oldDistance < 5 && keyE.value && oldIndex >= 0 && div) {
       oldPositions = null;
@@ -138,21 +144,14 @@ onLoop(({ _delta, elapsed }) => {
           title: "Large leaf",
           id: `${hudStore.addedElementToEquipmentList.length + 1}`,
           count: 1,
-          src: "/image/equipment/big-leaf.png",
         });
 
         setTimeout(() => {
           floraStore.removeElementFromList({
             type: "fern",
             index: oldIndex,
-            id: props.fernList[oldIndex].id,
-            positionType: props.fernList[oldIndex].positionType,
           });
-          storeEquipmentGround.addToequipmentItemsList({
-            title: "Large leaf",
-            count: 1,
-            src: "/image/equipment/big-leaf.png",
-          });
+          characterStore.setCharacterIsCloseFern(false);
         }, 500);
       }
     }

@@ -78,17 +78,26 @@ let instanceNumber = 150000;
 
 const setGrassInstaceNumber = () => {
   switch (settingsGraphics.value) {
+    case "Very Low":
+      instanceNumber = 10000;
+
+      break;
     case "Low":
       instanceNumber = 50000;
       break;
 
     case "Medium":
-      instanceNumber = 100000;
+      instanceNumber = 150000;
 
       break;
 
     case "High":
-      instanceNumber = 150000;
+      instanceNumber = 200000;
+
+      break;
+
+    case "Ultra":
+      instanceNumber = 300000;
 
       break;
 
@@ -105,7 +114,7 @@ watch(settingsGraphics, () => {
 });
 
 let dummy = new Object3D();
-const geometry = new PlaneGeometry(0.1, 1, 1, 2);
+const geometry = new PlaneGeometry(0.1, 1, 1, 1);
 geometry.translate(0, 0.5, 0);
 const drawingContext = props.drawingCanvas?.getContext("2d");
 

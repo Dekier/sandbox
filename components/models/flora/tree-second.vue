@@ -14,7 +14,6 @@ import {
   DynamicDrawUsage,
 } from "three";
 import { Precipitation } from "@tresjs/cientos";
-import { useGLTF } from "@tresjs/cientos";
 import vertexShader from "@/src/shaders/leaves-tree/vertex.glsl";
 const storeGeneral = useGeneralStore();
 const { colorTrees } = storeToRefs(storeGeneral);
@@ -135,6 +134,8 @@ onMounted(async () => {
 
 <template>
   <TresInstancedMesh
+    :castShadow="true"
+    :receiveShadow="true"
     ref="instanceMeshWoodRef"
     :args="[modelWood.geometry, modelWood.material, 1000]"
   />

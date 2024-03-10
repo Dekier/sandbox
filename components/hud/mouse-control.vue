@@ -14,14 +14,6 @@ watch(isActiveMenuGame, (value) => {
   if (!value) {
     startGame();
   }
-  //   const element = document.body;
-  //   if (element.requestPointerLock || element.mozRequestPointerLock) {
-  //     element.requestPointerLock =
-  //       element.requestPointerLock || element.mozRequestPointerLock;
-  //     if (!isMouseLocked.value) {
-  //       element.requestPointerLock();
-  //     }
-  //   }
 });
 
 document.addEventListener("pointerlockchange", (event) => {
@@ -35,6 +27,7 @@ document.addEventListener("pointerlockchange", (event) => {
     !["island", "equipment"].includes(tabType.value)
   ) {
     storeGeneral.setIsActiveMenuGame(true);
+    storeGeneral.setIsActiveBlockAnimation(true);
   }
 });
 document.addEventListener("mozpointerlockchange", () => {

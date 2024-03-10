@@ -9,6 +9,7 @@ varying vec2 vUv;
 // varying vec3 vNormal;
 // uniform sampler2D alphaMap;
 uniform vec3 hexColor;
+precision lowp float;
 
 // void main() {
 //     float clarity = pow(vUv.y, 1.0);

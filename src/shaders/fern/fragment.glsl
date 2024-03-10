@@ -3,6 +3,7 @@
 #include <lights_pars_begin>
 #include <shadowmap_pars_fragment>
 #include <shadowmask_pars_fragment>
+precision lowp float;
 
 varying vec2 vUv;
 uniform vec3 hexColor;

@@ -9,7 +9,6 @@ import {
   Vector3,
   DynamicDrawUsage,
 } from "three";
-import { useGLTF } from "@tresjs/cientos";
 const { nodes } = await useGLTF("/models/ground.glb", { draco: true });
 const storeModularGround = useModularGroundStore();
 const { groundCornerList } = storeToRefs(storeModularGround);

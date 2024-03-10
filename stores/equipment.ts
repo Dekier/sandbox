@@ -1,7 +1,6 @@
 interface EquipmentHudData {
   title: string;
   count: number;
-  src: string;
   id?: number;
   list?: "hand" | "backpack";
 }
@@ -9,13 +8,21 @@ interface MaxCountData {
   title: string;
   maxCount: number;
 }
+
+interface ItemSrcListData {
+  title: string;
+  src: string;
+}
 interface State {
+  isActiveHandItemTitle: string;
   itemMaxCountList: MaxCountData[];
+  itemSrcList: ItemSrcListData[];
   equipmentItemsList: EquipmentHudData[];
 }
 export const useEquipmentStore = defineStore("EquipmentStore", {
   state: (): State => {
     return {
+      isActiveHandItemTitle: "Small axe",
       itemMaxCountList: [
         {
           title: "Large leaf",
@@ -25,285 +32,267 @@ export const useEquipmentStore = defineStore("EquipmentStore", {
           title: "Stick",
           maxCount: 4,
         },
+        {
+          title: "Small leaves",
+          maxCount: 6,
+        },
+      ],
+      itemSrcList: [
+        {
+          title: "Large leaf",
+          src: "/image/equipment/big-leaf.png",
+        },
+        {
+          title: "Stick",
+          src: "/image/equipment/stick.png",
+        },
+        {
+          title: "Small axe",
+          src: "/image/equipment/axe-small.png",
+        },
+        {
+          title: "Small leaves",
+          src: "/image/equipment/small-leaves.png",
+        },
       ],
       equipmentItemsList: [
         {
-          title: "Stick",
-          count: 2,
-          src: "/image/equipment/stick.png",
+          title: "Small axe",
+          count: 0,
           id: 1,
           list: "hand",
         },
         {
           title: "Large leaf",
           count: 3,
-          src: "/image/equipment/big-leaf.png",
           id: 2,
           list: "hand",
         },
         {
           title: "Large leaf",
           count: 1,
-          src: "/image/equipment/big-leaf.png",
           id: 3,
           list: "hand",
         },
         {
           title: "Stick",
           count: 3,
-          src: "/image/equipment/stick.png",
           id: 4,
           list: "hand",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 5,
           list: "hand",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 6,
           list: "hand",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 7,
           list: "hand",
         },
         {
           title: "Large leaf",
           count: 2,
-          src: "/image/equipment/big-leaf.png",
           id: 8,
           list: "hand",
         },
         {
           title: "Large leaf",
           count: 2,
-          src: "/image/equipment/big-leaf.png",
           id: 9,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 10,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 11,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 12,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 13,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 14,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 15,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 16,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 17,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 18,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 19,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 20,
           list: "backpack",
         },
         {
           title: "Stick",
           count: 1,
-          src: "/image/equipment/stick.png",
           id: 21,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 22,
           list: "backpack",
         },
         {
           title: "Stick",
           count: 1,
-          src: "/image/equipment/stick.png",
           id: 23,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 24,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 25,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 26,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 27,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 28,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 29,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 30,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 31,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 32,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 33,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 34,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 35,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 36,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 37,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 38,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 39,
           list: "backpack",
         },
         {
           title: "",
           count: 0,
-          src: "",
           id: 40,
           list: "backpack",
         },
@@ -321,6 +310,9 @@ export const useEquipmentStore = defineStore("EquipmentStore", {
       ),
   },
   actions: {
+    setIsActiveHandItemTitle(data: string) {
+      this.isActiveHandItemTitle = data;
+    },
     addToequipmentItemsList(data: EquipmentHudData) {
       const itemMaxCount =
         this.itemMaxCountList.find(
@@ -441,7 +433,6 @@ export const useEquipmentStore = defineStore("EquipmentStore", {
               this.equipmentItemsList[newElementIndex].count +=
                 this.equipmentItemsList[oldElementIndex].count;
               this.equipmentItemsList[oldElementIndex].title = "";
-              this.equipmentItemsList[oldElementIndex].src = "";
               this.equipmentItemsList[oldElementIndex].count = 0;
             } else {
               const difference =

@@ -1,6 +1,7 @@
 #include <common>
 #include <packing>
 #include <fog_pars_fragment>
+precision lowp float;
 
 varying vec2 vUv;
 uniform sampler2D tDepth;
