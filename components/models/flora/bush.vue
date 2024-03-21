@@ -79,7 +79,7 @@ let isActiveSticksAndLeavesEffect = ref(false);
 let animationPlayed = false;
 
 onBeforeLoop(({ delta }) => {
-  // console.log(characterState.value);
+  // console.log(characterAngle.value);
   for (let i = 0; i < props.bushList.length; i++) {
     instanceMeshWoodRef.value.getMatrixAt(i, matrix);
     instanceMeshLeavesRef.value.getMatrixAt(i, matrix);
@@ -101,19 +101,19 @@ onBeforeLoop(({ delta }) => {
       }
 
       const sideType = characterSeeModelType(dummy.position);
-      // console.log(characterAngle.value < -2.3 && characterAngle.value > 2.3);
+      // console.log(sideType);
       if (
         (sideType === "Model right" &&
           characterAngle.value < 0 &&
           characterAngle.value > -1.6) ||
         (sideType === "Model right" &&
           characterAngle.value > 0 &&
-          characterAngle.value < 0.5)
+          characterAngle.value < 0.7)
       ) {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        // console.log("right");
+        console.log("right");
         if (isActiveShake) {
           animationModelShake({
             number: -0.12,

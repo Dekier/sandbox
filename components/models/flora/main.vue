@@ -54,13 +54,17 @@ downloadedModels.setSmallStick(nodes);
   <Suspense>
     <ModelsFloraModularGround v-if="loadedCanvas" />
   </Suspense>
-  <Suspense>
-    <ModelsFloraSea />
-  </Suspense>
   <!-- <Suspense>
     <TestLol />
   </Suspense> -->
 
+  <!-- <Suspense>
+    <ModelsFloraGrass
+      v-if="loadedCanvas"
+      :drawing-canvas="drawingCanvas"
+      :is-active-update-canvas="isActiveUpdateCanvas"
+    />
+  </Suspense> -->
   <Suspense>
     <ModelsFloraGrass
       v-if="loadedCanvas"

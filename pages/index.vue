@@ -94,9 +94,9 @@ isActiveAntialias.value = true;
     <!-- <Suspense>
       <Fog />
     </Suspense> -->
-    <!-- <Suspense>
+    <Suspense>
       <Sky />
-    </Suspense> -->
+    </Suspense>
     <!-- <Space1Main v-if="positionCharacter" /> -->
     <!-- <Suspense>
       <Ground2 v-if="positionCharacter" />
@@ -124,6 +124,9 @@ isActiveAntialias.value = true;
     </Suspense> -->
     <Suspense>
       <ModelsFloraMain v-if="positionCharacter" />
+    </Suspense>
+    <Suspense>
+      <ModelsSeaMain v-if="positionCharacter" />
     </Suspense>
 
     <!-- <Suspense>
