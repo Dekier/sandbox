@@ -18,6 +18,9 @@ seaStore.setSeaLists(seaModularList.value);
     <ModelsSeaWater />
   </Suspense>
   <!-- <Suspense>
+    <ModelsSeaAlgae2 />
+  </Suspense> -->
+  <!-- <Suspense>
     <ModelsSeaSeaa />
   </Suspense> -->
 </template>

@@ -26,7 +26,7 @@ const floraStore = useFloraStore();
 const hudStore = useHudStore();
 const { setMinusHealth } = useEquipmentUtils();
 const { isMovingCharacter, characterState } = storeToRefs(controlsStore);
-const { colorTrees } = storeToRefs(storeGeneral);
+const { colorTrees, settingsShadow } = storeToRefs(storeGeneral);
 const { bendModel, calculateDistance } = useUtils();
 const props = defineProps({
   bushStickList: {
@@ -328,6 +328,7 @@ const materialProps = {
   },
 };
 
+const isActiveCastShadow = ref();
 const { onLoop } = useRenderLoop();
 onMounted(async () => {
   await nextTick();
@@ -340,14 +341,14 @@ onMounted(async () => {
 
 <template>
   <TresInstancedMesh
-    :castShadow="true"
-    :receiveShadow="true"
+    :castShadow="settingsShadow.value > 512"
+    :receiveShadow="settingsShadow.value > 512"
     ref="instanceMeshWoodRef"
     :args="[modelWood.geometry, modelWood.material, 1000]"
   />
   <TresInstancedMesh
-    :castShadow="true"
-    :receiveShadow="true"
+    :castShadow="settingsShadow.value > 512"
+    :receiveShadow="settingsShadow.value > 512"
     ref="instanceMeshLeavesRef"
     :args="[modelLeaves.geometry, null, 1000]"
   >

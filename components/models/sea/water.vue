@@ -20,6 +20,7 @@ import {
   GLSL3,
   PerspectiveCamera,
   MeshStandardMaterial,
+  MeshPhysicalMaterial,
   Vector3,
 } from "three";
 const { scene } = useTresContext();
@@ -74,6 +75,21 @@ onLoop(({ _delta, elapsed }) => {
 seaModel.rotation.x = -Math.PI / 2;
 seaModel.position.y = -1.0;
 scene.value.add(seaModel);
+// const waterMaterial2 = new MeshPhysicalMaterial({
+//   color: new Color("#368baf"),
+//   transmission: 1,
+//   roughness: 0.2,
+//   metalness: 0,
+//   ior: 2,
+//   thickness: 1,
+//   specularIntensity: 0.2,
+// });
+// const geometry2 = new PlaneGeometry(10, 10, 100, 100);
+// const seaModel2 = new Mesh(geometry2, waterMaterial2);
+
+// seaModel2.rotation.x = -Math.PI / 2;
+// seaModel2.position.y = 1.5;
+// scene.value.add(seaModel2);
 
 // const materialProps = {
 //   baseMaterial: MeshStandardMaterial,

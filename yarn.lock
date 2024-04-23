@@ -1829,7 +1829,7 @@
     "@alvarosabu/utils" "^3.1.1"
     "@vueuse/core" "^10.5.0"
 
-"@tresjs/core@3.6.1", "@tresjs/core@^3.5.0":
+"@tresjs/core@3.6.1":
   version "3.6.1"
   resolved "https://registry.npmjs.org/@tresjs/core/-/core-3.6.1.tgz"
   integrity sha512-lNOghF3bMUbSTuPgC7z4s0D6j56vQzdpRFE20cXN3t0QehlGC8p9lri70TN1Sd2snP9ceewT1HXmCws6mkye1g==
@@ -1837,12 +1837,30 @@
     "@alvarosabu/utils" "^3.1.1"
     "@vueuse/core" "^10.7.0"
 
-"@tresjs/core@3.7.0", "@tresjs/core@^3.7.0":
+"@tresjs/core@3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@tresjs/core/-/core-3.7.0.tgz#1b4e76f08ce0e08cd63e002aae9bd33ea7b3f354"
   integrity sha512-Hg6VK7RQuGiXyLlbB+7FdPyS4KERxIpnU8EO/UzmN4/Bfr6I9Kuo1F0LF+5BBFyxBPqc7sD1Dcy7Epj8We9ETg==
   dependencies:
     "@alvarosabu/utils" "^3.1.1"
+    "@vueuse/core" "^10.7.0"
+
+"@tresjs/core@^3.5.1":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@tresjs/core/-/core-3.8.0.tgz#4d29ad6841afeaea8c2b9e79030b3794815cb5a7"
+  integrity sha512-jnCI8YkISieBi/bDacqwKLiVGJgLWT4gjQPpr/1EDSe03XSm3+vV5BhgVlRrzO3t+hVXoB1qrTRvuwiHbC7GgQ==
+  dependencies:
+    "@alvarosabu/utils" "^3.1.1"
+    "@vue/devtools-api" "^6.6.1"
+    "@vueuse/core" "^10.7.0"
+
+"@tresjs/core@^3.8.1":
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/@tresjs/core/-/core-3.8.1.tgz#26a71d8fb2074e3d142daee782aab97868207665"
+  integrity sha512-47Ps/Ae/3SkdIWVk1qxJlK773nH+6pNCZc7eHc/6tRdqM07i6tOCx60ukdO2VxtDDOCn+CopZddlP3n7VsP9EA==
+  dependencies:
+    "@alvarosabu/utils" "^3.1.1"
+    "@vue/devtools-api" "^6.6.1"
     "@vueuse/core" "^10.7.0"
 
 "@tresjs/leches@^0.15.0-next.3":
@@ -1950,16 +1968,16 @@
     typescript "^5.3.3"
     vite-plugin-glsl "^1.2.1"
 
-"@tresjs/post-processing@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.npmjs.org/@tresjs/post-processing/-/post-processing-0.7.0.tgz"
-  integrity sha512-HCLZLvextKBxZBRb09cfmKSmP3GQf/meeaBQoPrawX/mQw0tQMp2SP9jdo0nBCd/xotwudteygXp2PfRzpzzSA==
+"@tresjs/post-processing@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@tresjs/post-processing/-/post-processing-0.7.1.tgz#e4a44f11f4f3916f8029d601536f4b68481ae27a"
+  integrity sha512-MLrjxR4rJ55MOYFKMEZ8aqh5no2/sOG1fdYk2B49Ntx2p2etyuVpI6e9BBAvrc4M/wktRHkQ2JNDbgMaCiJoMg==
   dependencies:
-    "@tresjs/core" "^3.5.0"
-    "@unocss/core" "^0.57.3"
+    "@tresjs/core" "^3.5.1"
+    "@unocss/core" "^0.58.0"
     "@vueuse/core" "^10.6.1"
-    postprocessing "^6.33.3"
-    three-stdlib "^2.28.5"
+    postprocessing "^6.33.4"
+    three-stdlib "^2.28.7"
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
@@ -2186,10 +2204,15 @@
   resolved "https://registry.yarnpkg.com/@unocss/core/-/core-0.58.4.tgz#1f1096c40f785412df28d6420c8148fff375d5a9"
   integrity sha512-wh4pxXUCkhC+C/0ct74PMYeZgX+oWuHj2mnvr09nM0WmvOm1HeeISrDCCBGcxmKbErUk+D1v3JgzXF7b6j2l4g==
 
-"@unocss/core@^0.57.2", "@unocss/core@^0.57.3":
+"@unocss/core@^0.57.2":
   version "0.57.7"
   resolved "https://registry.npmjs.org/@unocss/core/-/core-0.57.7.tgz"
   integrity sha512-1d36M0CV3yC80J0pqOa5rH1BX6g2iZdtKmIb3oSBN4AWnMCSrrJEPBrUikyMq2TEQTrYWJIVDzv5A9hBUat3TA==
+
+"@unocss/core@^0.58.0":
+  version "0.58.9"
+  resolved "https://registry.yarnpkg.com/@unocss/core/-/core-0.58.9.tgz#a613e9d88160c5b260b1406082a9f73d789b9ea9"
+  integrity sha512-wYpPIPPsOIbIoMIDuH8ihehJk5pAZmyFKXIYO/Kro98GEOFhz6lJoLsy6/PZuitlgp2/TSlubUuWGjHWvp5osw==
 
 "@unocss/extractor-arbitrary-variants@0.58.3":
   version "0.58.3"
@@ -2712,6 +2735,11 @@
   version "6.5.1"
   resolved "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.5.1.tgz"
   integrity sha512-+KpckaAQyfbvshdDW5xQylLni1asvNSGme1JFs8I1+/H5pHEhqUKMEQD/qn3Nx5+/nycBq11qAEi8lk+LXI2dA==
+
+"@vue/devtools-api@^6.6.1":
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.6.1.tgz#7c14346383751d9f6ad4bea0963245b30220ef83"
+  integrity sha512-LgPscpE3Vs0x96PzSSB4IGVSZXZBZHpfxs+ZA1d+VEPwHdOXowy/Y2CsvCAIFrf+ssVU1pD1jidj505EpUnfbA==
 
 "@vue/reactivity@3.4.14":
   version "3.4.14"
@@ -5574,10 +5602,10 @@ negotiator@0.6.3, negotiator@^0.6.3:
   resolved "https://registry.npmjs.org/negotiator/-/negotiator-0.6.3.tgz"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
-nipplejs@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.npmjs.org/nipplejs/-/nipplejs-0.10.1.tgz"
-  integrity sha512-BuKBDfdd7BVK6E7sivHwrRPh9TETsHuHEwuT95nAjRz2uJu5roYngNs+BdRe8nYf8mP6OZ9aRqdgMlqVsDMRcw==
+nipplejs@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/nipplejs/-/nipplejs-0.10.2.tgz#0e8f5346bd60f7a0fe0d44c856bc1654cde2b70c"
+  integrity sha512-XGxFY8C2DOtobf1fK+MXINTzkkXJLjZDDpfQhOUZf4TSytbc9s4bmA0lB9eKKM8iDivdr9NQkO7DpIQfsST+9g==
 
 nitropack@^2.7.0:
   version "2.8.1"
@@ -6499,15 +6527,10 @@ postcss@^8.4.23, postcss@^8.4.27, postcss@^8.4.31, postcss@^8.4.32, postcss@^8.4
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postprocessing@^6.33.3:
-  version "6.34.1"
-  resolved "https://registry.npmjs.org/postprocessing/-/postprocessing-6.34.1.tgz"
-  integrity sha512-xae6A2XNs61V3ohGHR+i9sQDvB4dWaoG/AICw0hg8sOYQWAYDlf+esWMRmO4hixMaYo3AJBJ9WAA7JF7OiGakw==
-
-postprocessing@^6.35.1:
-  version "6.35.1"
-  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.35.1.tgz#23b061fa3c26bf35342309c25fd8f3c77019d5a7"
-  integrity sha512-qr6U0LfO1gZmbS52hTMvFdH6iQrcaNr9PsOyI2lTrCoG3+S8XTOMvZtgpBsN/WpRKSnA6x9KYmzMndFbcQEUaw==
+postprocessing@^6.33.4, postprocessing@^6.35.3:
+  version "6.35.3"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.35.3.tgz#98cc67a418487e66ec83ee124a090cc5db857b62"
+  integrity sha512-PH0/gqVYpp+vZjmSAohG/xH0u9FpbjfCGsFMsmsZVd8XXSmqJUR7b5C9ZFE/iMrWhe+tiTOFN9WvcEdjLI8LYQ==
 
 potpack@^1.0.1:
   version "1.0.2"
@@ -6820,10 +6843,10 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sass@^1.71.1:
-  version "1.71.1"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.71.1.tgz#dfb09c63ce63f89353777bbd4a88c0a38386ee54"
-  integrity sha512-wovtnV2PxzteLlfNzbgm1tFXPLoZILYAMJtvoXXkD7/+1uP41eKkIt1ypWq5/q2uT94qHjXehEYfmjKOvjL9sg==
+sass@^1.75.0:
+  version "1.75.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.75.0.tgz#91bbe87fb02dfcc34e052ddd6ab80f60d392be6c"
+  integrity sha512-ShMYi3WkrDWxExyxSZPst4/okE9ts46xZmJDSawJQrnte7M1V9fScVB+uNXOVKRBt0PggHOwoZcn8mYX4trnBw==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
@@ -7364,7 +7387,19 @@ three-custom-shader-material@^5.4.0:
     glsl-tokenizer "^2.1.5"
     object-hash "^3.0.0"
 
-three-stdlib@^2.28.5, three-stdlib@^2.29.4:
+three-stdlib@^2.28.7:
+  version "2.29.6"
+  resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.29.6.tgz#d1d17a7e5d48921ebb3aed9f5131bb85968e4d29"
+  integrity sha512-nj9bHkzhhwfmqQcM/keC2RDb0bHhbw6bRXTy81ehzi8F1rtp6pJ5eS0/vl1Eg5RMFqXOMyxJ6sDHPoLU+IrVZg==
+  dependencies:
+    "@types/draco3d" "^1.4.0"
+    "@types/offscreencanvas" "^2019.6.4"
+    "@types/webxr" "^0.5.2"
+    draco3d "^1.4.1"
+    fflate "^0.6.9"
+    potpack "^1.0.1"
+
+three-stdlib@^2.29.4:
   version "2.29.4"
   resolved "https://registry.npmjs.org/three-stdlib/-/three-stdlib-2.29.4.tgz"
   integrity sha512-XNzGCrz/uAk9XoLwd35eN7dQyI4ggXZTeqjcN034YdYBpBlNO9kmLHehl/0Nw9jCelblB7jla+unHAOIyLyV6Q==
@@ -7376,10 +7411,10 @@ three-stdlib@^2.28.5, three-stdlib@^2.29.4:
     fflate "^0.6.9"
     potpack "^1.0.1"
 
-three@^0.162.0:
-  version "0.162.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.162.0.tgz#b15a511f1498e0c42d4d00bbb411c7527b06097e"
-  integrity sha512-xfCYj4RnlozReCmUd+XQzj6/5OjDNHBy5nT6rVwrOKGENAvpXe2z1jL+DZYaMu4/9pNsjH/4Os/VvS9IrH7IOQ==
+three@^0.163.0:
+  version "0.163.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.163.0.tgz#cbfefbfd64a1353ab7cc8bf0fc396ddca1875a49"
+  integrity sha512-HlMgCb2TF/dTLRtknBnjUTsR8FsDqBY43itYop2+Zg822I+Kd0Ua2vs8CvfBVefXkBdNDrLMoRTGCIIpfCuDew==
 
 through2@^0.6.3:
   version "0.6.5"
@@ -7485,10 +7520,10 @@ typescript@^5.3.3:
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.3.3.tgz"
   integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
 
-typescript@^5.4.2:
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.2.tgz#0ae9cebcfae970718474fe0da2c090cad6577372"
-  integrity sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==
+typescript@^5.4.5:
+  version "5.4.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.5.tgz#42ccef2c571fdbd0f6718b1d1f5e6e5ef006f611"
+  integrity sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==
 
 ufo@^1.1.2, ufo@^1.2.0, ufo@^1.3.0, ufo@^1.3.1, ufo@^1.3.2:
   version "1.3.2"
@@ -7835,6 +7870,13 @@ vite-plugin-glsl@^1.2.1:
   integrity sha512-yBpBHWfdiRVMxN3yIKx4qmwuqMwoMAnEMipVI0NbdIieyRFO8hpW8VTFHYi3W75h7CkvsotteP9C4pln51OE0A==
   dependencies:
     "@rollup/pluginutils" "^5.0.2"
+
+vite-plugin-glsl@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/vite-plugin-glsl/-/vite-plugin-glsl-1.3.0.tgz#6138dc373afbd3891481b529779f76b3625c37ac"
+  integrity sha512-SzEoLet9Bp5VSozjrhUiSc3xX1+u7rCTjXAsq4qWM3u8UjilI76A9ucX/T+CRGQCe25j50GSY+9mKSGUVPET1w==
+  dependencies:
+    "@rollup/pluginutils" "^5.1.0"
 
 vite-plugin-inspect@^0.8.1:
   version "0.8.1"

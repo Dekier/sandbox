@@ -37,7 +37,7 @@ const props = defineProps({
 const storeGeneral = useGeneralStore();
 const { scene, renderer, camera } = useTresContext();
 const { onLoop, resume } = useRenderLoop();
-const { color } = storeToRefs(storeGeneral);
+const { color, settingsShadow } = storeToRefs(storeGeneral);
 
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);
@@ -192,7 +192,7 @@ const setMesh = () => {
 </script>
 <template>
   <TresInstancedMesh
-    :castShadow="true"
+    :castShadow="settingsShadow > 512"
     ref="instanceMeshRef"
     :args="[nodes.fern.geometry, fernMaterial, 1000]"
   />

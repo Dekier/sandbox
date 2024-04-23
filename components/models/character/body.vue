@@ -11,7 +11,8 @@ const characterStore = useCharacterStore();
 const menuInGameStore = useMenuInGameStore();
 const { tabType } = storeToRefs(menuInGameStore);
 const { $gsap } = useNuxtApp();
-const { isActiveMenuGame, isActiveBlockAnimation } = storeToRefs(storeGeneral);
+const { isActiveMenuGame, isActiveBlockAnimation, settingsShadow } =
+  storeToRefs(storeGeneral);
 const {
   keys,
   keyE,
@@ -44,6 +45,7 @@ const { actions, mixer } = useAnimations(animations, modelScene);
 const { onLoop } = useRenderLoop();
 const modelCharacter = nodes.wiking;
 newSetModel(modelCharacter);
+modelCharacter.position.y = 2.87;
 characterStore.setPositionCharacter(modelCharacter.position);
 characterStore.setPositionCharacterLookAt(modelCharacter.position);
 characterStore.setCharacterModel(modelCharacter);
@@ -267,6 +269,10 @@ document.body.addEventListener("click", (event) => {
 
 <template>
   <Suspense>
-    <primitive :object="modelCharacter" />
+    <primitive
+      :castShadow="settingsShadow > 512"
+      :receiveShadow="settingsShadow > 512"
+      :object="modelCharacter"
+    />
   </Suspense>
 </template>

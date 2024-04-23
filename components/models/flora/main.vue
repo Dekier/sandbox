@@ -57,14 +57,6 @@ downloadedModels.setSmallStick(nodes);
   <!-- <Suspense>
     <TestLol />
   </Suspense> -->
-
-  <!-- <Suspense>
-    <ModelsFloraGrass
-      v-if="loadedCanvas"
-      :drawing-canvas="drawingCanvas"
-      :is-active-update-canvas="isActiveUpdateCanvas"
-    />
-  </Suspense> -->
   <Suspense>
     <ModelsFloraGrass
       v-if="loadedCanvas"

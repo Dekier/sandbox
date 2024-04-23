@@ -33,7 +33,7 @@ const hudStore = useHudStore();
 const { isMovingCharacter, characterState } = storeToRefs(controlsStore);
 const { $gsap } = useNuxtApp();
 $gsap.registerPlugin(CustomEase);
-const { colorTrees } = storeToRefs(storeGeneral);
+const { colorTrees, settingsShadow } = storeToRefs(storeGeneral);
 const { bendModel, calculateDistance } = useUtils();
 
 const props = defineProps({
@@ -113,7 +113,7 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        console.log("right");
+        // console.log("right");
         if (isActiveShake) {
           animationModelShake({
             number: -0.12,
@@ -368,12 +368,14 @@ onMounted(async () => {
 
 <template>
   <TresInstancedMesh
+    :castShadow="settingsShadow > 0"
+    :receiveShadow="settingsShadow > 0"
     ref="instanceMeshWoodRef"
     :args="[modelWood.geometry, modelWood.material, 1000]"
   />
   <TresInstancedMesh
-    :castShadow="true"
-    :receiveShadow="true"
+    :castShadow="settingsShadow > 0"
+    :receiveShadow="settingsShadow > 0"
     ref="instanceMeshLeavesRef"
     :args="[modelLeaves.geometry, null, 1000]"
   >

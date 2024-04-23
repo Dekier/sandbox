@@ -30,7 +30,7 @@ const props = defineProps({
 const downloadedModels = useDownloadedModels();
 const { smallStick } = storeToRefs(downloadedModels);
 const storeGeneral = useGeneralStore();
-const { colorTrees } = storeToRefs(storeGeneral);
+const { colorTrees, settingsShadow } = storeToRefs(storeGeneral);
 const smallStickModel = { ...smallStick.value.smallStick };
 const smallStick2Model = { ...smallStick.value.smallStick2 };
 
@@ -159,24 +159,20 @@ watch(instanceMeshLeafRef, (value) => {
 <template>
   <TresInstancedMesh
     v-if="isActiveEffect"
-    :castShadow="true"
-    :receiveShadow="true"
     ref="instanceMeshWoodRef"
     :args="[smallStickModel.geometry, smallStickModel.material, 5]"
   >
   </TresInstancedMesh>
   <TresInstancedMesh
     v-if="isActiveEffect"
-    :castShadow="true"
-    :receiveShadow="true"
+    :castShadow="settingsShadow > 0"
     ref="instanceMeshWood2Ref"
     :args="[smallStick2Model.geometry, smallStick2Model.material, 5]"
   >
   </TresInstancedMesh>
   <TresInstancedMesh
     v-if="isActiveEffect"
-    :castShadow="true"
-    :receiveShadow="true"
+    :receiveShadow="settingsShadow > 0"
     ref="instanceMeshLeafRef"
     :args="[geometryLeaf, materialLeaf, 30]"
   >

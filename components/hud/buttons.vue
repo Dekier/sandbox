@@ -22,9 +22,9 @@ onLoop(({ _delta, elapsed }) => {
       <img src="/svg/settings.svg" class="Buttons__icon" />
     </button>
   </div> -->
-  <!-- <div class="Buttons__left-top-Container">
+  <div class="Buttons__left-top-Container">
     <span class="Buttons__fps">{{ hudStore.fps }} FPS</span>
-  </div> -->
+  </div>
 
   <div class="Buttons__right-bottom-container">
     <div class="Buttons__row">
