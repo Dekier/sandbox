@@ -80,12 +80,15 @@ const setMeshOneSide = () => {
 
 <template>
   <TresInstancedMesh
+    :castShadow="true"
+    :receiveShadow="true"
     ref="instanceMeshOneSideRef"
     :args="[props.groundGeometry, props.groundMaterial, 500]"
   />
 
   <TresInstancedMesh
     :receiveShadow="true"
+    :castShadow="true"
     ref="instanceMeshOneSide2Ref"
     :args="[props.sandGeometry, props.sandMaterial, 500]"
   />

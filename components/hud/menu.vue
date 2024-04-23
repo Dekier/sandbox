@@ -43,7 +43,7 @@ const isActiveSettings = ref(false);
             SETTINGS
           </button>
         </div>
-        <div class="Menu__text">v 0.01</div>
+        <div class="Menu__text">v 0.02</div>
       </div>
       <div v-if="isActiveSettings" class="Menu__right-container">
         <HudSettings />

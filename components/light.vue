@@ -28,32 +28,8 @@ scene.value.add(directionalLight);
 
 const setShadpwMapSize = () => {
   directionalLight.shadow.map = null;
-  switch (settingsShadow.value) {
-    case 256:
-      directionalLight.shadow.mapSize.width = 256;
-      directionalLight.shadow.mapSize.height = 256;
-      break;
-
-    case 512:
-      directionalLight.shadow.mapSize.width = 512;
-      directionalLight.shadow.mapSize.height = 512;
-
-      break;
-
-    case 1024:
-      directionalLight.shadow.mapSize.width = 1024;
-      directionalLight.shadow.mapSize.height = 1024;
-
-      break;
-    case 2048:
-      directionalLight.shadow.mapSize.width = 2048;
-      directionalLight.shadow.mapSize.height = 2048;
-
-      break;
-
-    default:
-      break;
-  }
+  directionalLight.shadow.mapSize.width = settingsShadow.value;
+  directionalLight.shadow.mapSize.height = settingsShadow.value;
 };
 setShadpwMapSize();
 watch(settingsShadow, () => {

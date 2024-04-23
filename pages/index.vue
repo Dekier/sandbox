@@ -2,7 +2,7 @@
 import { PCFSoftShadowMap, SRGBColorSpace, ACESFilmicToneMapping } from "three";
 const storeControl = useControlsStore();
 const storeGeneral = useGeneralStore();
-const { isStartedGame } = storeToRefs(storeGeneral);
+const { isStartedGame, settingsAntialias } = storeToRefs(storeGeneral);
 const title = ref("Marcin Dekier");
 import { useControls, TresLeches, Perf } from "@tresjs/leches";
 import { StatsGl, Stats } from "@tresjs/cientos";
@@ -25,7 +25,7 @@ const { positionCharacter, positionCharacterLookAt } =
 const gl = {
   alfa: true,
   shadows: true,
-  physicallyCorrectLights: true,
+  physicallyCorrectLights: false,
   gammaFactor: 2.2,
   gammaOutput: true,
   outputColorSpace: SRGBColorSpace,
@@ -59,8 +59,16 @@ watch(colorSand, (value) => {
 watch(colorTrees, (value) => {
   storeGeneral.setColorTrees(value);
 });
-const isActiveAntialias = ref(false);
-isActiveAntialias.value = true;
+
+const tresCanvasKey = ref("sdjkfbskjdfs");
+watch(settingsAntialias, () => {
+  // let wynik = "";
+  // let znaki = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  // for (var i = 0; i < 10; i++) {
+  //   wynik += znaki.charAt(Math.floor(Math.random() * znaki.length));
+  // }
+  // tresCanvasKey.value = wynik;
+});
 </script>
 
 <template>
@@ -77,37 +85,39 @@ isActiveAntialias.value = true;
       <ControllerGamepad v-if="positionCharacter" />
     </Suspense> -->
   </client-only>
-  <TresCanvas
-    :class="{ 'hide-cursor': isStartedGame }"
-    clear-color="#80CBF8"
-    window-size
-    v-bind="gl"
-    :antialias="isActiveAntialias"
-  >
-    <!-- <Stats /> -->
-    <!-- <StatsGl /> -->
-    <Perf />
-    <Camera />
+  <div :key="tresCanvasKey">
+    <TresCanvas
+      :class="{ 'hide-cursor': isStartedGame }"
+      clear-color="#80CBF8"
+      window-size
+      v-bind="gl"
+      :antialias="settingsAntialias"
+    >
+      <Resolution />
+      <!-- <Stats /> -->
+      <!-- <StatsGl /> -->
+      <Perf />
+      <Camera />
 
-    <!-- <PostProcessing v-if="positionCharacter" /> -->
-    <Light v-if="positionCharacter" />
-    <!-- <Suspense>
+      <!-- <PostProcessing v-if="positionCharacter" /> -->
+      <Light v-if="positionCharacter" />
+      <!-- <Suspense>
       <Fog />
     </Suspense> -->
-    <!-- <Suspense>
+      <!-- <Suspense>
       <Sky />
     </Suspense> -->
-    <!-- <Space1Main v-if="positionCharacter" /> -->
-    <!-- <Suspense>
+      <!-- <Space1Main v-if="positionCharacter" /> -->
+      <!-- <Suspense>
       <Ground2 v-if="positionCharacter" />
     </Suspense> -->
-    <!-- <Suspense>
+      <!-- <Suspense>
       <ModelsSnow v-if="positionCharacter" />
     </Suspense> -->
-    <!-- <Suspense>
+      <!-- <Suspense>
       <Rapier />
     </Suspense> -->
-    <!-- <Suspense>
+      <!-- <Suspense>
       <Hause v-if="positionCharacter" />
     </Suspense>
     <Suspense>
@@ -122,47 +132,51 @@ isActiveAntialias.value = true;
     <Suspense>
       <Baner v-if="positionCharacter" />
     </Suspense> -->
-    <Suspense>
-      <ModelsFloraMain v-if="positionCharacter" />
-    </Suspense>
+      <Suspense>
+        <ModelsFloraMain v-if="positionCharacter" />
+      </Suspense>
+      <Suspense>
+        <ModelsSeaMain v-if="positionCharacter" />
+      </Suspense>
 
-    <!-- <Suspense>
+      <!-- <Suspense>
       <Telescope />bush
     </Suspense> -->
 
-    <!-- <Suspense>
+      <!-- <Suspense>
       <ModelsStones v-if="positionCharacter" />
     </Suspense> -->
 
-    <!-- <Suspense>
+      <!-- <Suspense>
       <Rabbit />
     </Suspense> -->
-    <Suspense>
-      <ModelsCharacterAll />
-    </Suspense>
-    <!-- <Suspense>
+      <Suspense>
+        <ModelsCharacterAll />
+      </Suspense>
+      <!-- <Suspense>
       <ModelsWardrobeAll v-if="positionCharacter" />
     </Suspense> -->
-    <!-- <Suspense>
+      <!-- <Suspense>
       <ModelsRocks />
     </Suspense> -->
-    <!-- <Suspense>
+      <!-- <Suspense>
       <ModelsPlatesPlateSmallTree />
     </Suspense> -->
-    <!-- <Suspense>
+      <!-- <Suspense>
       <ModelsSmallTree v-if="positionCharacter" />
     </Suspense> -->
 
-    <!-- <Suspense>
+      <!-- <Suspense>
       <ModelsToolBox v-if="positionCharacter" />
     </Suspense> -->
-    <!-- <Suspense>
+      <!-- <Suspense>
       <ModelsTable v-if="positionCharacter" />
     </Suspense> -->
-    <!-- <Suspense>
+      <!-- <Suspense>
       <Shaders v-if="positionCharacter" />
     </Suspense> -->
-  </TresCanvas>
+    </TresCanvas>
+  </div>
 </template>
 
 <style lang="scss">

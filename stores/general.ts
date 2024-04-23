@@ -8,7 +8,10 @@ interface State {
   isActiveBlockAnimation: boolean;
   isMouseLocked: boolean;
   settingsShadow: number;
+  settingsFlora: string;
+  settingsPixelRatio: number;
   settingsGraphics: string;
+  settingsAntialias: boolean;
 }
 export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
@@ -24,7 +27,10 @@ export const useGeneralStore = defineStore("GeneralStore", {
       isActiveBlockAnimation: true,
       isMouseLocked: false,
       settingsShadow: 1024,
+      settingsPixelRatio: 1,
+      settingsFlora: "Medium",
       settingsGraphics: "Medium",
+      settingsAntialias: true,
     };
   },
   getters: {},
@@ -56,8 +62,17 @@ export const useGeneralStore = defineStore("GeneralStore", {
     setSettingsShadow(data: number) {
       this.settingsShadow = data;
     },
+    setSettingsFlora(data: string) {
+      this.settingsFlora = data;
+    },
     setSettingsGraphics(data: string) {
       this.settingsGraphics = data;
+    },
+    setSettingsAntialias(data: boolean) {
+      this.settingsAntialias = data;
+    },
+    setSettingsPixelRatio(data: number) {
+      this.settingsPixelRatio = data;
     },
   },
 });

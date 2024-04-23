@@ -8,8 +8,15 @@
   }
 
   &__title {
-    @include text(18px, left, $text-white, 600);
-    margin: 32px 0 12px;
+    @include text(18px, left, $text-white, 400);
+    margin: auto 0 auto;
+    display: flex;
+  }
+
+  &__title-big {
+    @include text(24px, left, $text-white, 400);
+    margin: 24px 12px 12px;
+    display: flex;
   }
 
   &__row {
@@ -17,13 +24,17 @@
     flex-direction: row;
   }
 
-  &__circle {
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-    border: 1px solid $text-white;
+  &__row-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 12px;
     border-radius: 8px;
-    cursor: pointer;
+    margin-bottom: 8px;
+    border: 1px solid transparent;
+    &:hover {
+      border: 1px solid rgba($color: $text-white, $alpha: 0.3);
+    }
   }
 
   &__button {
@@ -44,11 +55,132 @@
       &:hover {
         padding: 2px 6px;
         border: 2px solid $text-white;
-        @include text(13px, left, $text-white, 600);
+        @include text(13px, left, $text-white, 400);
       }
       padding: 2px 6px;
       border: 2px solid $text-white;
-      @include text(13px, left, $text-white, 600);
+      @include text(13px, left, $text-white, 400);
     }
+  }
+
+  &__radio {
+    margin-left: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 2px solid rgba($color: $text-white, $alpha: 0.6);
+    background-color: transparent;
+    position: relative;
+    top: 0;
+    cursor: pointer;
+    &:hover {
+      border: 2px solid $text-white;
+    }
+
+    &--active {
+      border: 2px solid $text-white;
+    }
+  }
+
+  &__radio-background {
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 65%;
+    height: 65%;
+    &:hover {
+      background-color: rgba($color: $text-white, $alpha: 0.6);
+    }
+
+    &--active {
+      background-color: $text-white;
+    }
+  }
+
+  &__button-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__button-left {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    margin: auto 4px;
+    border: 1px solid rgba($color: $text-white, $alpha: 1);
+    border-radius: 4px;
+    background-color: transparent;
+    @include text(16px, center, rgba($color: $text-white, $alpha: 1), 400);
+    cursor: pointer;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &--disable {
+      opacity: 0.3;
+      cursor: default;
+
+      &:hover {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  &__button-right {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    margin: auto 4px;
+    border: 1px solid rgba($color: $text-white, $alpha: 1);
+    border-radius: 4px;
+    background-color: transparent;
+    @include text(16px, center, rgba($color: $text-white, $alpha: 1), 400);
+    cursor: pointer;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &--disable {
+      opacity: 0.3;
+      cursor: default;
+
+      &:hover {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  &__selected {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    @include text(16px, center, rgba($color: $text-white, $alpha: 0.6), 400);
+    width: 150px;
+    // border: 2px solid rgba($color: $text-white, $alpha: 0.6);
+    // border-radius: 4px;
+  }
+
+  &__arrow-left {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 15px;
+    height: 15px;
+  }
+
+  &__arrow-right {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+    width: 15px;
+    height: 15px;
   }
 }

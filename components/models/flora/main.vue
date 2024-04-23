@@ -54,13 +54,9 @@ downloadedModels.setSmallStick(nodes);
   <Suspense>
     <ModelsFloraModularGround v-if="loadedCanvas" />
   </Suspense>
-  <Suspense>
-    <ModelsFloraSea />
-  </Suspense>
   <!-- <Suspense>
     <TestLol />
   </Suspense> -->
-
   <Suspense>
     <ModelsFloraGrass
       v-if="loadedCanvas"

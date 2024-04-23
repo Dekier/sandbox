@@ -29,7 +29,7 @@ const props = defineProps({
 
 const { calculatePixelPercentage, draw } = useCanvas();
 const storeGeneral = useGeneralStore();
-const { color, settingsGraphics } = storeToRefs(storeGeneral);
+const { color, settingsFlora } = storeToRefs(storeGeneral);
 const { scene, renderer, camera } = useTresContext();
 const { onLoop, resume } = useRenderLoop();
 
@@ -68,7 +68,7 @@ const leavesMaterial = new ShaderMaterial({
 let instanceNumber = 600;
 
 const setSmallLeavesInstaceNumber = () => {
-  switch (settingsGraphics.value) {
+  switch (settingsFlora.value) {
     case "Very Low":
       instanceNumber = 50;
 
@@ -97,7 +97,7 @@ const setSmallLeavesInstaceNumber = () => {
   }
 };
 setSmallLeavesInstaceNumber();
-watch(settingsGraphics, () => {
+watch(settingsFlora, () => {
   setSmallLeavesInstaceNumber();
   setPercentNumber();
   setMesh();

@@ -289,6 +289,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: -90,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 23,
@@ -352,6 +356,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: -75,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 34,
@@ -492,6 +500,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: -60,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 56,
@@ -604,6 +616,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: -45,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 74,
@@ -632,6 +648,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: -30,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 80,
@@ -793,6 +813,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: -15,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 107,
@@ -899,6 +923,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 15,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 124,
@@ -1053,6 +1081,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 30,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 148,
@@ -1186,6 +1218,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 60,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 171,
@@ -1256,6 +1292,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 75,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 183,
@@ -1305,6 +1345,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 75,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 190,
@@ -1333,6 +1377,10 @@ export const useModularGroundStore = defineStore("ModuleStore", {
           positionZ: 75,
           positionY: 0,
           isActive: false,
+          center: {
+            positionType: "center",
+            type: "big-rocks",
+          },
         },
         {
           id: 194,
@@ -1438,6 +1486,12 @@ export const useModularGroundStore = defineStore("ModuleStore", {
   getters: {
     activeModularList: (state) =>
       state.groundDataList.filter((data: GroundData) => data.isActive),
+    seaModularList: (state) =>
+      state.groundDataList.filter((data: GroundData) =>
+        [33, 55, 73, 104, 147, 189, 182, 123, 79, 22, 193, 170].includes(
+          data.id
+        )
+      ),
   },
   actions: {
     updatePieces(data: GroundData[]) {

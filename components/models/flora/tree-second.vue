@@ -16,7 +16,7 @@ import {
 import { Precipitation } from "@tresjs/cientos";
 import vertexShader from "@/src/shaders/leaves-tree/vertex.glsl";
 const storeGeneral = useGeneralStore();
-const { colorTrees } = storeToRefs(storeGeneral);
+const { colorTrees, settingsShadow } = storeToRefs(storeGeneral);
 const { scene } = useTresContext();
 
 const { scene: modelScene, nodes } = await useGLTF("/models/tree-2-test.glb", {
@@ -134,14 +134,14 @@ onMounted(async () => {
 
 <template>
   <TresInstancedMesh
-    :castShadow="true"
-    :receiveShadow="true"
+    :castShadow="settingsShadow > 0"
+    :receiveShadow="settingsShadow > 0"
     ref="instanceMeshWoodRef"
     :args="[modelWood.geometry, modelWood.material, 1000]"
   />
   <TresInstancedMesh
-    :castShadow="true"
-    :receiveShadow="true"
+    :castShadow="settingsShadow > 0"
+    :receiveShadow="settingsShadow > 0"
     ref="instanceMeshLeavesRef"
     :args="[modelLeaves.geometry, null, 1000]"
   >
