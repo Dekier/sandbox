@@ -1,8 +1,6 @@
 <script setup lang="ts">
 const { drawDots, drawRects } = useCanvas();
-const characterStore = useCharacterStore();
 const downloadedModels = useDownloadedModels();
-const { positionCharacter } = storeToRefs(characterStore);
 const floraStore = useFloraStore();
 const storeModularGround = useModularGroundStore();
 const { activeModularList } = storeToRefs(storeModularGround);
@@ -19,7 +17,6 @@ const drawingContext = drawingCanvas?.getContext("2d");
 const setupCanvasDrawing = async () => {
   drawingContext.fillStyle = "#000000";
   drawingContext.fillRect(0, 0, 200, 200);
-  // drawingContext.drawImage(texture, 0, 0, 200, 200);
   await drawRects(activeModularList.value, drawingContext);
   await drawDots(treeList.value, drawingContext, "#000000");
   await drawDots(treeSecondList.value, drawingContext, "#000000");
@@ -34,8 +31,6 @@ watch(activeModularList, async () => {
   isActiveUpdateCanvas.value = false;
 });
 
-const groundPositions = ref({ x: 0, z: 0 });
-
 floraStore.setFloraLists(activeModularList.value);
 const { nodes } = await useGLTF("/models/smallSticks.glb", {
   draco: true,
@@ -44,19 +39,9 @@ downloadedModels.setSmallStick(nodes);
 </script>
 
 <template>
-  <!-- <Suspense>
-    <Ground
-      v-if="loadedCanvas"
-      :positions="groundPositions"
-      :drawing-canvas="drawingCanvas"
-    />
-  </Suspense> -->
   <Suspense>
     <ModelsFloraModularGround v-if="loadedCanvas" />
   </Suspense>
-  <!-- <Suspense>
-    <TestLol />
-  </Suspense> -->
   <Suspense>
     <ModelsFloraGrass
       v-if="loadedCanvas"

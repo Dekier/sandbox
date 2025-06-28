@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
   TextureLoader,
-  ShaderMaterial,
   Vector3,
   Color,
   UniformsLib,
@@ -9,7 +8,6 @@ import {
   DoubleSide,
   MeshLambertMaterial,
   Object3D,
-  InstancedMesh,
   DynamicDrawUsage,
 } from "three";
 import vertexShader from "@/src/shaders/leaves-small/vertex.glsl";
@@ -34,12 +32,8 @@ const props = defineProps({
     required: true,
   },
 });
-const { scene } = useTresContext();
 const { onBeforeLoop } = useRenderLoop();
-const { scene: modelScene, nodes } = await useGLTF(
-  "/models/bush-stick-test.glb",
-  { draco: true }
-);
+const { nodes } = await useGLTF("/models/bush-stick-test.glb", { draco: true });
 const modelLeaves = nodes.leavesStick001;
 const modelWood = nodes.woodStick001;
 
@@ -93,7 +87,6 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        // console.log("right");
         if (isActiveShake) {
           animationModelShake({
             number: -0.12,
@@ -117,7 +110,6 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        // console.log("left");
         if (isActiveShake) {
           animationModelShake({
             number: 0.12,
@@ -142,7 +134,6 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        // console.log("up");
         if (isActiveShake) {
           animationModelShake({
             number: -0.12,
@@ -167,7 +158,6 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        // console.log("down");
         if (isActiveShake) {
           animationModelShake({
             number: 0.12,

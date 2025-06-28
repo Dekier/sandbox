@@ -8,8 +8,6 @@ const { tabType } = storeToRefs(menuInGameStore);
   <HudMouseControl />
   <HudEquipmentLeftList />
   <HudEquipmentMenu />
-  <!-- <HudSettings /> -->
-  <!-- <HudControls /> -->
   <HudCenterInformation />
   <HudMenu />
   <HudLabels />

@@ -1,11 +1,6 @@
 <script setup lang="ts">
-const { $gsap } = useNuxtApp();
 const storeGeneral = useGeneralStore();
-const characterStore = useCharacterStore();
-const storeControl = useControlsStore();
-const { isStartedGame, isActiveMenuGame, isMouseLocked } =
-  storeToRefs(storeGeneral);
-const storeHud = useHudStore();
+const { isActiveMenuGame, isMouseLocked } = storeToRefs(storeGeneral);
 const menuInGameStore = useMenuInGameStore();
 const { tabType } = storeToRefs(menuInGameStore);
 

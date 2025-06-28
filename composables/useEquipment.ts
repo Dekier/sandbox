@@ -1,4 +1,3 @@
-import { Object3D } from "three";
 export const useEquipmentUtils = () => {
   const equipmentStore = useEquipmentStore();
   const { isActiveHandItemTitle, itemSrcList } = storeToRefs(equipmentStore);

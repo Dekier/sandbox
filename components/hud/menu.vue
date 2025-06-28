@@ -6,7 +6,6 @@ const startGame = () => {
   setTimeout(() => {
     storeGeneral.setIsActiveBlockAnimation(false);
   }, 100);
-  // storeGeneral.setIsStartedGame(true);
   isActiveSettings.value = false;
 };
 

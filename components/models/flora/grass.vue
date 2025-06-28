@@ -6,19 +6,9 @@ import {
   DoubleSide,
   ShaderMaterial,
   Object3D,
-  InstancedMesh,
   Color,
-  MeshDepthMaterial,
-  RGBADepthPacking,
   UniformsLib,
   DynamicDrawUsage,
-  CanvasTexture,
-  Euler,
-  MeshPhongMaterial,
-  MeshDistanceMaterial,
-  BoxGeometry,
-  Quaternion,
-  Fog,
 } from "three";
 const props = defineProps({
   drawingCanvas: {
@@ -32,7 +22,7 @@ const props = defineProps({
 });
 
 import { useCanvas } from "~/composables/useCanvas";
-const { calculatePixelPercentage, draw } = useCanvas();
+const { calculatePixelPercentage } = useCanvas();
 const characterStore = useCharacterStore();
 const { positionCharacter, positionCharacterLookAt } =
   storeToRefs(characterStore);

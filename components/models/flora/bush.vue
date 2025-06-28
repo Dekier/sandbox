@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
   TextureLoader,
-  ShaderMaterial,
   Vector3,
   Color,
   UniformsLib,
@@ -9,11 +8,7 @@ import {
   DoubleSide,
   MeshLambertMaterial,
   Object3D,
-  InstancedMesh,
   DynamicDrawUsage,
-  MeshDepthMaterial,
-  MathUtils,
-  Vector2,
 } from "three";
 import {
   CSS2DRenderer,
@@ -27,7 +22,6 @@ const { characterAngle, positionCharacter, characterModel } =
   storeToRefs(characterStore);
 const storeGeneral = useGeneralStore();
 const controlsStore = useControlsStore();
-const storeEquipmentGround = useEquipmentStore();
 const floraStore = useFloraStore();
 const hudStore = useHudStore();
 const { isMovingCharacter, characterState } = storeToRefs(controlsStore);
@@ -79,7 +73,6 @@ let isActiveSticksAndLeavesEffect = ref(false);
 let animationPlayed = false;
 
 onBeforeLoop(({ delta }) => {
-  // console.log(characterAngle.value);
   for (let i = 0; i < props.bushList.length; i++) {
     instanceMeshWoodRef.value.getMatrixAt(i, matrix);
     instanceMeshLeavesRef.value.getMatrixAt(i, matrix);
@@ -101,7 +94,6 @@ onBeforeLoop(({ delta }) => {
       }
 
       const sideType = characterSeeModelType(dummy.position);
-      // console.log(sideType);
       if (
         (sideType === "Model right" &&
           characterAngle.value < 0 &&
@@ -113,7 +105,6 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        // console.log("right");
         if (isActiveShake) {
           animationModelShake({
             number: -0.12,
@@ -136,7 +127,6 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        // console.log("left");
         if (isActiveShake) {
           animationModelShake({
             number: 0.12,
@@ -160,7 +150,6 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        // console.log("up");
         if (isActiveShake) {
           animationModelShake({
             number: -0.12,
@@ -184,7 +173,6 @@ onBeforeLoop(({ delta }) => {
         if (characterState.value === "attack" && !timer) {
           isActiveShake = true;
         }
-        // console.log("down");
         if (isActiveShake) {
           animationModelShake({
             number: 0.12,

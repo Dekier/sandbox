@@ -17,8 +17,6 @@ export const useGeneralStore = defineStore("GeneralStore", {
   state: (): State => {
     return {
       color: "#5b6f58",
-      // '#225846'
-      // color: "#adadads",
       colorStone: "#6C7644",
       colorTrees: "#2d3e2e",
       colorSand: "#5e563b",

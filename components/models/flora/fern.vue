@@ -6,15 +6,9 @@ import {
   ShaderMaterial,
   Matrix4,
   Object3D,
-  InstancedMesh,
   Color,
   UniformsLib,
   DynamicDrawUsage,
-  BoxGeometry,
-  InstancedBufferGeometry,
-  MeshStandardMaterial,
-  Mesh,
-  InstancedBufferAttribute,
 } from "three";
 import {
   CSS2DRenderer,

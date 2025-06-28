@@ -2,11 +2,7 @@
 import {
   MeshLambertMaterial,
   Object3D,
-  Color,
-  TextureLoader,
-  UniformsLib,
   ShaderMaterial,
-  Vector3,
   DynamicDrawUsage,
 } from "three";
 const { nodes } = await useGLTF("/models/ground.glb", { draco: true });

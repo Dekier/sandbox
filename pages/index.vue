@@ -5,7 +5,7 @@ const storeGeneral = useGeneralStore();
 const { isStartedGame, settingsAntialias } = storeToRefs(storeGeneral);
 const title = ref("Marcin Dekier");
 import { useControls, TresLeches, Perf } from "@tresjs/leches";
-import { StatsGl, Stats } from "@tresjs/cientos";
+// import { StatsGl, Stats } from "@tresjs/cientos";
 
 const description = ref("Marcin Dekier Sandbox (Portfolio)");
 useHead({
@@ -21,7 +21,6 @@ const characterStore = useCharacterStore();
 const { positionCharacter, positionCharacterLookAt } =
   storeToRefs(characterStore);
 
-// const { isMobile } = useDevice();
 const gl = {
   alfa: true,
   shadows: true,
@@ -39,9 +38,6 @@ const { value: color } = useControls({
   grass: storeGeneral.color,
 });
 
-// const { value: colorStone } = useControls({
-//   stones: storeGeneral.colorStone,
-// });
 const { value: colorTrees } = useControls({
   trees: storeGeneral.colorTrees,
 });
@@ -61,29 +57,14 @@ watch(colorTrees, (value) => {
 });
 
 const tresCanvasKey = ref("sdjkfbskjdfs");
-watch(settingsAntialias, () => {
-  // let wynik = "";
-  // let znaki = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  // for (var i = 0; i < 10; i++) {
-  //   wynik += znaki.charAt(Math.floor(Math.random() * znaki.length));
-  // }
-  // tresCanvasKey.value = wynik;
-});
 </script>
 
 <template>
   <canvas id="drawing-canvas" height="200" width="200" />
-  <!-- <canvas id="drawing-canvas-moving" height="200" width="200" /> -->
-  <!-- <canvas id="drawing-canvas-snow" height="320" width="320" /> -->
 
-  <LoadingScreen />
   <client-only>
     <HudGeneral />
     <TresLeches />
-    <!-- <Joystick v-if="isMobile" /> -->
-    <!-- <Suspense>
-      <ControllerGamepad v-if="positionCharacter" />
-    </Suspense> -->
   </client-only>
   <div :key="tresCanvasKey">
     <TresCanvas
@@ -99,82 +80,16 @@ watch(settingsAntialias, () => {
       <Perf />
       <Camera />
 
-      <!-- <PostProcessing v-if="positionCharacter" /> -->
       <Light v-if="positionCharacter" />
-      <!-- <Suspense>
-      <Fog />
-    </Suspense> -->
-      <!-- <Suspense>
-      <Sky />
-    </Suspense> -->
-      <!-- <Space1Main v-if="positionCharacter" /> -->
-      <!-- <Suspense>
-      <Ground2 v-if="positionCharacter" />
-    </Suspense> -->
-      <!-- <Suspense>
-      <ModelsSnow v-if="positionCharacter" />
-    </Suspense> -->
-      <!-- <Suspense>
-      <Rapier />
-    </Suspense> -->
-      <!-- <Suspense>
-      <Hause v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
-      <HauseName v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
-      <Lantern v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
-      <Flag v-if="positionCharacter" />
-    </Suspense>
-    <Suspense>
-      <Baner v-if="positionCharacter" />
-    </Suspense> -->
       <Suspense>
         <ModelsFloraMain v-if="positionCharacter" />
       </Suspense>
       <Suspense>
         <ModelsSeaMain v-if="positionCharacter" />
       </Suspense>
-
-      <!-- <Suspense>
-      <Telescope />bush
-    </Suspense> -->
-
-      <!-- <Suspense>
-      <ModelsStones v-if="positionCharacter" />
-    </Suspense> -->
-
-      <!-- <Suspense>
-      <Rabbit />
-    </Suspense> -->
       <Suspense>
         <ModelsCharacterAll />
       </Suspense>
-      <!-- <Suspense>
-      <ModelsWardrobeAll v-if="positionCharacter" />
-    </Suspense> -->
-      <!-- <Suspense>
-      <ModelsRocks />
-    </Suspense> -->
-      <!-- <Suspense>
-      <ModelsPlatesPlateSmallTree />
-    </Suspense> -->
-      <!-- <Suspense>
-      <ModelsSmallTree v-if="positionCharacter" />
-    </Suspense> -->
-
-      <!-- <Suspense>
-      <ModelsToolBox v-if="positionCharacter" />
-    </Suspense> -->
-      <!-- <Suspense>
-      <ModelsTable v-if="positionCharacter" />
-    </Suspense> -->
-      <!-- <Suspense>
-      <Shaders v-if="positionCharacter" />
-    </Suspense> -->
     </TresCanvas>
   </div>
 </template>

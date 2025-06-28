@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { useCharacterControls } from "~/composables/useControls";
 import { useUtils } from "~/composables/useUtils";
-import { Mesh } from "three";
 const { newSetModel } = useModelSettings();
-const { changeModelRotation } = useCharacterControls();
 const storeEquipmentGround = useEquipmentStore();
 const storeGeneral = useGeneralStore();
 const storeControl = useControlsStore();
@@ -13,28 +10,7 @@ const { tabType } = storeToRefs(menuInGameStore);
 const { $gsap } = useNuxtApp();
 const { isActiveMenuGame, isActiveBlockAnimation, settingsShadow } =
   storeToRefs(storeGeneral);
-const {
-  keys,
-  keyE,
-  speed,
-  isJumping,
-  isMovingCharacter,
-  isBlockW,
-  isBlockA,
-  isBlockD,
-  isBlockS,
-  deltaX,
-  deltaY,
-  upPressed,
-  downPressed,
-  leftPressed,
-  rightPressed,
-  zAxis,
-  xAxis,
-  leftShiftPressed,
-  buttonRTValue,
-  characterState,
-} = storeToRefs(storeControl);
+const { buttonRTValue, characterState } = storeToRefs(storeControl);
 const { jump } = useUtils();
 const {
   scene: modelScene,
@@ -101,8 +77,6 @@ const walk = () => {
     actions.walk.time = prevAction.time * ratio;
   } else {
     actions.walk.time = 0.0;
-    // actions.walk.setEffectiveTimeScale(1.0);
-    // actions.walk.setEffectiveWeight(1.0);
   }
   actions.walk.crossFadeFrom(prevAction, 0.5, true);
   actions.walk.play();
@@ -117,8 +91,6 @@ const walkBack = () => {
     actions.walkBack.time = prevAction.time * ratio;
   } else {
     actions.walkBack.time = 0.0;
-    // actions.walkBack.setEffectiveTimeScale(1.0);
-    // actions.walkBack.setEffectiveWeight(1.0);
   }
 
   actions.walkBack.crossFadeFrom(prevAction, 0.5, true);
@@ -134,8 +106,6 @@ const run = () => {
     actions.run.time = prevAction.time * ratio;
   } else {
     actions.run.time = 0.0;
-    // actions.run.setEffectiveTimeScale(0.0);
-    // actions.run.setEffectiveWeight(1.0);
   }
 
   actions.run.crossFadeFrom(prevAction, 0.5, true);
@@ -151,8 +121,6 @@ const attack = () => {
     actions.attack.time = prevAction.time * ratio;
   } else {
     actions.attack.time = 0.0;
-    // actions.attack.setEffectiveTimeScale(1.0);
-    // actions.attack.setEffectiveWeight(1.0);
   }
 
   actions.attack.crossFadeFrom(prevAction, 0.5, true);
@@ -168,8 +136,6 @@ const collect = () => {
     actions.collect.time = prevAction.time * ratio;
   } else {
     actions.collect.time = 0.0;
-    // actions.collect.setEffectiveTimeScale(1.0);
-    // actions.collect.setEffectiveWeight(1.0);
   }
 
   actions.collect.crossFadeFrom(prevAction, 0.5, true);
@@ -180,8 +146,6 @@ const idle = () => {
   let prevAction = setPrevAction();
   actions.idle.time = 0.0;
   actions.idle.enabled = true;
-  // actions.idle.setEffectiveTimeScale(1.0);
-  // actions.idle.setEffectiveWeight(1.0);
   actions.idle.crossFadeFrom(prevAction, 0.5, true);
   actions.idle.play();
 };
