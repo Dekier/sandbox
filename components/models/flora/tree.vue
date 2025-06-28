@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import {
   TextureLoader,
-  ShaderMaterial,
   Vector3,
   Color,
   UniformsLib,
   DoubleSide,
   MeshLambertMaterial,
-  InstancedMesh,
   Object3D,
-  Vector2,
-  Matrix4,
   DynamicDrawUsage,
 } from "three";
-import { Precipitation } from "@tresjs/cientos";
 import vertexShader from "@/src/shaders/leaves-tree/vertex.glsl";
 const storeGeneral = useGeneralStore();
 const { colorTrees, settingsShadow } = storeToRefs(storeGeneral);
@@ -42,8 +37,6 @@ watch(colorTrees, (value) => {
   instanceMeshLeavesRef.value.material.color = new Color(value);
 });
 const dummy = new Object3D();
-const matrix = new Matrix4();
-const currentDistance = ref(0);
 
 watch(instanceMeshWoodRef, (value) => {
   if (!value) return;

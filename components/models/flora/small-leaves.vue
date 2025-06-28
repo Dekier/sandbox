@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import {
-  Mesh,
-  MeshStandardMaterial,
   TextureLoader,
-  RepeatWrapping,
-  Vector2,
   Vector3,
   PlaneGeometry,
   DoubleSide,
   ShaderMaterial,
-  Matrix4,
   Object3D,
-  InstancedMesh,
   Color,
   UniformsLib,
   DynamicDrawUsage,
@@ -30,8 +24,7 @@ const props = defineProps({
 const { calculatePixelPercentage, draw } = useCanvas();
 const storeGeneral = useGeneralStore();
 const { color, settingsFlora } = storeToRefs(storeGeneral);
-const { scene, renderer, camera } = useTresContext();
-const { onLoop, resume } = useRenderLoop();
+const { onLoop } = useRenderLoop();
 
 const characterStore = useCharacterStore();
 const { positionCharacter } = storeToRefs(characterStore);

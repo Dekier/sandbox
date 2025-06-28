@@ -2,18 +2,10 @@
 import {
   DoubleSide,
   Object3D,
-  InstancedMesh,
-  BoxGeometry,
   PlaneGeometry,
   MeshLambertMaterial,
-  BufferGeometry,
-  BufferAttribute,
-  Points,
-  PointsMaterial,
-  Mesh,
   TextureLoader,
   Color,
-  Vector3,
   Matrix4,
 } from "three";
 

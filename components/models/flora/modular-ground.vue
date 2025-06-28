@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import {
   MeshLambertMaterial,
-  Object3D,
   Color,
-  TextureLoader,
   UniformsLib,
   ShaderMaterial,
   Vector3,
-  DynamicDrawUsage,
 } from "three";
 const { nodes } = await useGLTF("/models/ground.glb", { draco: true });
 const storeGeneral = useGeneralStore();
@@ -21,8 +18,6 @@ const {
   groundTwoSideList,
   groundThreeSideList,
 } = storeToRefs(storeModularGround);
-const { newSetModel } = useModelSettings();
-const { scene } = useTresContext();
 import vertexShader from "@/src/shaders/ground/vertex.glsl";
 import fragmentShader from "@/src/shaders/ground/fragment.glsl";
 
@@ -32,15 +27,12 @@ watch(activeModularList, () => {
   storeModularGround.setGroundPiecesListsClear();
   storeModularGround.setGroundPiecesLists();
 });
-// const loader = new TextureLoader();
-// const rough = loader.load("/materials/grass/color.webp");
 const darkerFactor = 2.1;
 
 const uniforms = {
   time: {
     value: 0,
   },
-  // roughMap: { value: rough },
   hexColor: {
     value: new Vector3(
       new Color(color.value).r / darkerFactor,

@@ -17,11 +17,6 @@ onLoop(({ _delta, elapsed }) => {
 </script>
 
 <template>
-  <!-- <div class="Buttons__main-container-right-top" @click="openSettingsHud">
-    <button type="button" class="Buttons__button">
-      <img src="/svg/settings.svg" class="Buttons__icon" />
-    </button>
-  </div> -->
   <div class="Buttons__left-top-Container">
     <span class="Buttons__fps">{{ hudStore.fps }} FPS</span>
   </div>
@@ -45,7 +40,6 @@ onLoop(({ _delta, elapsed }) => {
         class="Buttons__background"
       />
       <span class="Buttons__keyboard-button">M</span>
-      <!-- <img src="/svg/map.svg" class="Buttons__icon" @click="changeSizeMap" /> -->
       <div class="Buttons__rect-background">
         <div
           class="Buttons__rect"
@@ -54,7 +48,6 @@ onLoop(({ _delta, elapsed }) => {
           :class="{ 'Buttons__rect--active': data === 5 }"
         ></div>
       </div>
-      <!-- <img src="/svg/tree.svg" class="Buttons__icon-tree" /> -->
     </div>
   </div>
 </template>

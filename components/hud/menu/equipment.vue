@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const characterStore = useCharacterStore();
 const { getSrcItem } = useEquipmentUtils();
 const storeEquipmentGround = useEquipmentStore();
 const {
@@ -33,7 +32,6 @@ const onDrop = (event, list) => {
     newId: newId,
   });
   hoverElemntId.value = null;
-  //   const item = equipmentItemsList.value.find((item) => item.id === itemID);
 };
 let hoverElemntId = ref();
 const setHoverElement = (id: number) => {
