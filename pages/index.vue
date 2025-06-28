@@ -82,9 +82,6 @@ const tresCanvasKey = ref("sdjkfbskjdfs");
 
       <Light v-if="positionCharacter" />
       <Suspense>
-        <ModelsSnow v-if="positionCharacter" />
-      </Suspense>
-      <Suspense>
         <ModelsFloraMain v-if="positionCharacter" />
       </Suspense>
       <Suspense>
